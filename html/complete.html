@@ -41,11 +41,11 @@
                 <div class="form-description">Đơn đăng ký đã được hoàn tất. INSEE sẽ tiến hành kiểm tra và gửi tin nhắn xác nhận trong vòng 24 giờ</div>
              
                 <div class="container-contact100-form-btn">
-                    <button style="margin-bottom: 20px;" class="contact100-form-btn btn-default">
+                    <button id="btn-to-zalo" style="margin-bottom: 20px;" class="contact100-form-btn btn-default">
                         Quay lại Zalo
                     </button>
 
-                    <button class="contact100-form-btn">
+                    <button id="btn-click-to-insee-page" class="contact100-form-btn">
                         Tới trang nhà thầu ngoại hạng
                     </button>
                 </div>
@@ -67,6 +67,12 @@
 
     <script src="js/select2.min.js"></script>
     <script>
+        $("#btn-to-zalo").click(function() {
+            window.location.href = "https://zalo.me/428332895304538762";
+        })
+        $("#btn-click-to-insee-page").click(function() {
+            window.location.href = "http://insee.g-sid.com/index.html";
+        });
         $(".js-select2").each(function () {
             $(this).select2({
                 minimumResultsForSearch: 10,

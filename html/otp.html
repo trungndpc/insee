@@ -58,7 +58,7 @@
                     <button class="contact100-form-btn contact30-form-btn btn-default">
                         Gửi lại mã
                     </button>
-                    <button class="contact100-form-btn contact30-form-btn">
+                    <button id="btn-register" class="contact100-form-btn contact30-form-btn">
                         Đăng ký
                     </button>
                 </div>
@@ -80,6 +80,9 @@
 
     <script src="js/select2.min.js"></script>
     <script>
+        $("#btn-register").click(function() {
+            window.location.href = "/register_2.html"
+        })
         $(".js-select2").each(function () {
             $(this).select2({
                 minimumResultsForSearch: 10,
