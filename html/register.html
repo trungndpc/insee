@@ -43,7 +43,7 @@
                     <span class="focus-input100"></span>
                 </div>
                 <div class="container-contact100-form-btn">
-                    <button class="contact100-form-btn">
+                    <button id="btn-register-phone" class="contact100-form-btn">
                         Đăng ký
                     </button>
                 </div>
@@ -65,6 +65,9 @@
 
     <script src="js/select2.min.js"></script>
     <script>
+        $("#btn-register-phone").click(function() {
+            window.location.href = "otp.html";
+        })
         $(".js-select2").each(function () {
             $(this).select2({
                 minimumResultsForSearch: 10,
