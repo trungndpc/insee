@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Contact V18</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" type="image/png" href="images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/icon-font.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+
+    <link rel="stylesheet" type="text/css" href="css/hamburgers.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/animsition.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/select2.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
+
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/me.css">
+
+</head>
+
+<body>
+    <div class="container-contact100 register_step3">
+        <div class="wrap-contact100">
+            <form class="contact100-form validate-form">
+                <span class="contact100-form-title">
+                    Đăng ký
+                    <div class="line-bt"></div>
+                </span>
+                <div class="form-description">Vui lòng nhập thông tin để tạo tài khoản</div>
+                <div class="wrap-input100 validate-input" data-validate="Name is required">
+                    <input id="name" class="input100" type="text" name="name" placeholder="Họ và tên">
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="wrap-input100 wrap-input50">
+                    <div>
+                        <select class="js-select2 m-select" name="service">
+                            <option>Ngày sinh</option>
+                        </select>
+                        <div class="dropDownSelect2"></div>
+                    </div>
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="wrap-input100 wrap-input50">
+                    <div>
+                        <select class="js-select2 m-select" name="service">
+                            <option>Tháng</option>
+                        </select>
+                        <div class="dropDownSelect2"></div>
+                    </div>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 wrap-input50">
+                    <div>
+                        <select class="js-select2 m-select" name="service">
+                            <option>Năm</option>
+                        </select>
+                        <div class="dropDownSelect2"></div>
+                    </div>
+                    <span class="focus-input100"></span>
+                </div>
+                
+                <div class="wrap-input100 validate-input">
+                    <input id="name" class="input100" type="text" placeholder="Mật khẩu đăng nhập">
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="wrap-input100 ">
+                    <div>
+                        <select class="js-select2 m-select" name="service">
+                            <option>Khu vực xây dựng</option>
+                        </select>
+                        <div class="dropDownSelect2"></div>
+                    </div>
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="container-contact100-form-btn">
+                    <button class="contact100-form-btn">
+                        Đăng ký
+                    </button>
+                </div>
+            </form>
+            <div class="contact100-more flex-col-c-m" style="background-image: url('images/bg-01.jpg');">
+            </div>
+        </div>
+        <div class="footer">
+            <p>INSEE</p>
+        </div>
+    </div>
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+
+    <script src="js/animsition.min.js"></script>
+
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/select2.min.js"></script>
+    <script>
+        $(".js-select2").each(function () {
+            $(this).select2({
+                minimumResultsForSearch: 10,
+                containerCssClass: '',
+                dropdownParent: $(this).next('.dropDownSelect2')
+            });
+        })
+        $(".js-select2").each(function () {
+            $(this).on('select2:open', function (e) {
+                $(this).parent().next().addClass('eff-focus-selection');
+            });
+        });
+        $(".js-select2").each(function () {
+            $(this).on('select2:close', function (e) {
+                $(this).parent().next().removeClass('eff-focus-selection');
+            });
+        });
+
+    </script>
+
+    <script src="js/moment.min.js"></script>
+    <script src="js/daterangepicker.js"></script>
+
+    <script src="js/countdowntime.js"></script>
+
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>

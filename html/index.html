@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Contact V18</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" type="image/png" href="images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/icon-font.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+
+    <link rel="stylesheet" type="text/css" href="css/hamburgers.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/animsition.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/select2.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
+
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/me.css">
+
+</head>
+
+<body>
+    <div class="container-contact100">
+        <div class="wrap-contact100">
+            <form class="contact100-form validate-form">
+                <span class="contact100-form-title">
+                    Chương trình khuyến mãi INSEE Wall Pro
+                    <div class="line-bt"></div>
+                </span>
+                <div class="form-description">Vui lòng nhập thông tin để hoàn tất</div>
+                <div class="wrap-input100 validate-input" data-validate="Name is required">
+                    <label class="label-input100" for="name">Địa chỉ</label>
+                    <input id="name" class="input100" type="text" name="name" placeholder="424/62 Lê Văn Quới">
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="wrap-input100 wrap-input50">
+                    <label class="label-input100" for="email">Tỉnh</label>
+                    <div>
+                        <select class="js-select2 m-select" name="service">
+                            <option>TP Hồ Chí Minh</option>
+                            <option>Hà Nội</option>
+                            <option>Đà Nẵng</option>
+                            <option>Quảng Ngãi</option>
+                        </select>
+                        <div class="dropDownSelect2"></div>
+                    </div>
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="wrap-input100 wrap-input50">
+                    <label class="label-input100" for="email">Quận / Huyện</label>
+                    <div>
+                        <select class="js-select2 m-select" name="service">
+                            <option>Quận 1</option>
+                            <option>Quận 2</option>
+                            <option>Quận 3</option>
+                            <option>Quận 4</option>
+                        </select>
+                        <div class="dropDownSelect2"></div>
+                    </div>
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="wrap-input100 wrap-input50">
+                    <label class="label-input100" for="email">Tên Cửa Hàng</label>
+                    <input id="email" class="input100" type="text"  >
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="wrap-input100 wrap-input50">
+                    <label class="label-input100" for="email">SDT Của Hàng</label>
+                    <input id="email" class="input100" type="text" >
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="wrap-input100 validate-input" data-validate="Name is required">
+                    <label class="label-input100" for="name">Số lượng sản phẩm INSEE cho công trình này</label>
+                    <input id="name" class="input100" type="text" >
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="wrap-input100 validate-input" data-validate="Name is required">
+                    <label class="label-input100" for="name">Hình ảnh hóa đơn cửa hàng</label>
+                    <input id="name" class="input100" type="text" name="name" >
+                    <i class="fa fa-camera input-icon"></i>
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="wrap-input100 validate-input" data-validate="Name is required">
+                    <label class="label-input100" for="name">Hình ảnh công trình có bao xi măng INSEE</label>
+                    <input id="name" class="input100" type="text" name="name" >
+                    <i class="fa fa-camera input-icon"></i>
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="container-contact100-form-btn">
+                    <button class="contact100-form-btn">
+                        Hoàn tất
+                    </button>
+                </div>
+            </form>
+            <div class="contact100-more flex-col-c-m" style="background-image: url('images/bg-01.jpg');">
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+
+    <script src="js/animsition.min.js"></script>
+
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/select2.min.js"></script>
+    <script>
+        $(".js-select2").each(function () {
+            $(this).select2({
+                minimumResultsForSearch: 10,
+                containerCssClass: '',   
+                dropdownParent: $(this).next('.dropDownSelect2')
+            });
+        })
+        $(".js-select2").each(function () {
+            $(this).on('select2:open', function (e) {
+                $(this).parent().next().addClass('eff-focus-selection');
+            });
+        });
+        $(".js-select2").each(function () {
+            $(this).on('select2:close', function (e) {
+                $(this).parent().next().removeClass('eff-focus-selection');
+            });
+        });
+
+    </script>
+
+    <script src="js/moment.min.js"></script>
+    <script src="js/daterangepicker.js"></script>
+
+    <script src="js/countdowntime.js"></script>
+
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
