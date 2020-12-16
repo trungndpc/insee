@@ -1,0 +1,20 @@
+.btn-apply-promotion {
+    background-color: #b71c1c;
+    color: #fff;
+    padding: 10px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 9px;
+    border: none;
+}
+
+.extra-infor-post {
+    padding-left: 25px;
+    padding-bottom: 10px;
+    display: block;
+    color: #088dcd;
+}
+.insee-color {
+    background-color: #b71c1c;
+    color: #fff;
+}

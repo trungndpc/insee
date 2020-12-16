@@ -14,17 +14,6 @@
 
     <link rel="stylesheet" type="text/css" href="css/icon-font.min.css">
 
-    <link rel="stylesheet" type="text/css" href="css/animate.css">
-
-    <link rel="stylesheet" type="text/css" href="css/hamburgers.min.css">
-
-    <link rel="stylesheet" type="text/css" href="css/animsition.min.css">
-
-    <link rel="stylesheet" type="text/css" href="css/select2.min.css">
-
-    <link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
-
-    <link rel="stylesheet" type="text/css" href="css/util.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/me.css">
 
@@ -55,46 +44,6 @@
             <p>INSEE</p>
         </div>
     </div>
-
-    <script src="js/jquery-3.2.1.min.js"></script>
-
-    <script src="js/animsition.min.js"></script>
-
-    <script src="js/popper.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-
-    <script src="js/select2.min.js"></script>
-    <script>
-        $("#btn-register-phone").click(function() {
-            window.location.href = "otp.html";
-            return  false;
-        })
-        $(".js-select2").each(function () {
-            $(this).select2({
-                minimumResultsForSearch: 10,
-                containerCssClass: '',   
-                dropdownParent: $(this).next('.dropDownSelect2')
-            });
-        })
-        $(".js-select2").each(function () {
-            $(this).on('select2:open', function (e) {
-                $(this).parent().next().addClass('eff-focus-selection');
-            });
-        });
-        $(".js-select2").each(function () {
-            $(this).on('select2:close', function (e) {
-                $(this).parent().next().removeClass('eff-focus-selection');
-            });
-        });
-
-    </script>
-
-    <script src="js/moment.min.js"></script>
-    <script src="js/daterangepicker.js"></script>
-
-    <script src="js/countdowntime.js"></script>
-
-    <script src="js/main.js"></script>
 
 </body>
 
