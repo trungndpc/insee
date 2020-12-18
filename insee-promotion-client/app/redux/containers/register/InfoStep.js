@@ -6,44 +6,64 @@ class InfoStep extends Component {
     constructor(props) {
         super(props)
         this._onClickSubmit = this._onClickSubmit.bind(this);
+        this.state = {
+            errorMsg: null
+        }
     }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.props != nextProps) {
+            if (nextProps.app.register.statusStep3 < 0){
+                nextState.errorMsg = "Đăng ký thất bại"
+            }
+        }
+        return true;
+    }
+
 
     _onClickSubmit() {
         let errorMsg = null;
-        let birthday = 0;
-        let birthdayValue = this.birthdayInputRef.getValue();
-        if (birthdayValue.error == 0) {
-            birthday = birthdayValue.value;
-        }else {
-            errorMsg = birthdayValue.errorMsg;
-            return;
+        try {
+            let name = this.nameInputRef.value;
+            let password = this.passwordInputRef.value;
+            let confirmPassword = this.confirmPasswordInputRef.value;
+
+            if (!name) {
+                errorMsg = 'Vui lòng nhập họ và tên'
+                return;
+            }
+
+            let birthday = 0;
+            let birthdayValue = this.birthdayInputRef.getValue();
+            if (birthdayValue.error == 0) {
+                birthday = birthdayValue.value;
+            } else {
+                errorMsg = birthdayValue.errorMsg;
+                return;
+            }
+
+            if (!password) {
+                errorMsg = 'Vui lòng nhập mật khẩu'
+                return;
+            }
+            if (!confirmPassword) {
+                errorMsg = 'Vui lòng xác nhận mật khẩu'
+                return;
+            }
+            if (password != confirmPassword) {
+                errorMsg = "Mật khẩu xác nhận không đúng"
+                return;
+            }
+            let data = { ...this.props.app.register };
+            data["birthday"] = parseInt(birthday / 1000);
+            data["name"] = name;
+            data["password"] = password;
+            data["location"] = 1;
+            this.props.appActions.register(data);
+        } finally {
+            this.setState({errorMsg: errorMsg})
         }
-        let name = this.nameInputRef.value;
-        let password = this.passwordInputRef.value;
-        let confirmPassword = this.confirmPasswordInputRef.value;
-        
-        if (!name) {
-            errorMsg = 'Vui lòng nhập họ và tên'
-            return;
-        }
-        if (!password) {
-            errorMsg = 'Vui lòng nhập mật khẩu'
-            return;
-        }
-        if (!confirmPassword) {
-            errorMsg = 'Vui lòng xác nhận mật khẩu'
-            return;
-        }
-        if (password != confirmPassword) {
-            errorMsg = "Mật khẩu xác nhận không đúng"
-            return;
-        }
-        let data = {...this.props.app.register};
-        data["birthday"] = birthday;
-        data["name"] = name;
-        data["password"] = password;
-        data["location"] = 1;
-        this.props.appActions.register(data);
+
     }
 
 
@@ -79,6 +99,7 @@ class InfoStep extends Component {
                             </div>
                             <span className="focus-input100" />
                         </div>
+                        <div style={{ height: '20px', textAlign: 'center' }}><span style={{ color: 'red', fontSize: 'small' }}>{this.state.errorMsg && this.state.errorMsg}</span></div>
                         <div className="container-contact100-form-btn">
                             <button onClick={this._onClickSubmit} id="btn-submit" className="contact100-form-btn">
                                 Đăng ký

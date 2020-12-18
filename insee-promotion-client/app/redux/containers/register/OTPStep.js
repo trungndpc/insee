@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import FirebaseUtil from '../../../utils/FirebaseUtil'
 import CountDown from '../../../components/CountDown'
 
+const SENDING_SMS = 1;
+const SENDING_SUCCESS = 2;
+const SENDING_FAILED = 3;
+
 const FM_NAME_INPUT = "smsCodeInput";
 class OTPStep extends Component {
 
@@ -19,7 +23,8 @@ class OTPStep extends Component {
         this.confirmFailed = this.confirmFailed.bind(this);
         this.state = {
             errorMsg: null,
-            smsError: 0
+            smsError: 0,
+            statusSending: -1
         }
     }
 
@@ -44,11 +49,16 @@ class OTPStep extends Component {
     sendSMS() {
         let phone = this.data["phone"];
         if (phone) {
-            console.log(window.recaptchaVerifier)
+            this.setState({statusSending: SENDING_SMS})            
             FirebaseUtil.sendSMS(window.recaptchaVerifier, phone, (err, confirmationResult) => {
                 if (err == 0) {
+                    this.setState({statusSending: SENDING_SUCCESS})            
                     console.log("send sms to: " + phone + " success")
                     this.confirmationResult = confirmationResult;
+                }else {
+                    this.setState({statusSending: SENDING_FAILED, 
+                        smsError: -1, 
+                        errorMsg: "Gửi OTP thất bại, bạn vui lòng kiểm tra lại số điện thoại"});
                 }
             });
         }
@@ -129,7 +139,9 @@ class OTPStep extends Component {
                         <div className="form-center">
                             <div> 
                             {
-                                ( this.state.smsError == 0 || this.state.smsError == -1 ) && <CountDown count={60} done={this.counterEnd}/> 
+                                (this.state.statusSending == SENDING_SUCCESS && 
+                                    ( this.state.smsError == 0 || this.state.smsError == -1 )) 
+                                    && <CountDown count={60} done={this.counterEnd}/> 
                             }
                             </div>
                             {

@@ -2,7 +2,8 @@ import * as type from '../actions/action-types'
 
 const initialState = {
   register: {
-    step: 1
+    step: 1,
+    isLoading: false
   }
  
 }
@@ -11,17 +12,22 @@ export default function app(state = initialState, action) {
   let newState = Object.assign({}, state)
   switch (action.type) {
     case type.APP.PUSH_DATA_REGISTER: {
+      newState.register = {...newState.register}
       newState.register = action.data;
       break
     }
     case type.APP.CHECK_PHONE_START: {
+      newState.register = {...newState.register}
+      newState.register.isLoading = true;
       console.log("CHECK_PHONE_START")
       break;
     }
     case type.APP.CHECK_PHONE_END: {
       console.log("CHECK_PHONE_END: " + action.payload);
+      newState.register = {...newState.register}
       let error = action.payload;
       newState.register.statusStep1 = error;
+      newState.register.isLoading = false;
       break;
     }
     case type.APP.REGISTER_START: {

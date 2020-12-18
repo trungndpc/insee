@@ -4,9 +4,9 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import configureStore from './redux/store/configure-store'
 import { BrowserRouter } from 'react-router-dom'
-import { withRouter, Switch, Route } from 'react-router-dom'
-import Home from './redux/containers/Home';
+import { Switch, Route } from 'react-router-dom'
 import Register from '../app/redux/containers/register/index';
+import Home from './redux/containers/webapp/index';
 
 
 
@@ -17,7 +17,7 @@ render(
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={Home} />
+        <Route exact path="/khach-hang/:id" component={Home} />
         <Route path="/register" component={Register} />
       </Switch>
     </BrowserRouter>

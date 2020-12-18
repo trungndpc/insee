@@ -1,5 +1,6 @@
 import { takeLatest, call, put } from 'redux-saga/effects'
 import * as type from '../actions/action-types'
+import APIUtils from '../../utils/APIUtils'
 
 
 export default function* customer() {
@@ -33,18 +34,17 @@ function* checkPhoneAsync(action) {
     ]
   }
   yield put({ type: type.APP.PUSH_STATE_REGISTER, payload: data })
-  // yield put({ type: type.APP.CHECK_PHONE_END, payload: resp.error })
+  yield put({ type: type.APP.CHECK_PHONE_END, payload: resp.error })
 }
 
 
 function postCheckPhone(phone) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({
-        error: 0
-      })
-    }, 1000)
-  })
+  var body = {
+    phone: phone
+  }
+  return new Promise((resolve, reject) => {
+    APIUtils.postJSONWithoutCredentials(process.env.DOMAIN + `/api/customer/check-phone`, JSON.stringify(body), resolve, reject);
+  });
 }
 
 //Register customer
@@ -53,20 +53,26 @@ function* registerCustomerAsync(action) {
   const resp = yield call(postRegisterCustomer, action.data)
   let data = [];
   if (resp.error == 0) {
-    data = [{name: "statusStep3", value: 0}, {name: "step", value: 4}]
-  }else {
-    data = [{name: "statusStep3", value: resp.error}]
+    data = [{ name: "statusStep3", value: 0 }, { name: "step", value: 4 }]
+  } else {
+    data = [{ name: "statusStep3", value: resp.error }]
   }
   yield put({ type: type.APP.PUSH_STATE_REGISTER, payload: data })
   yield put({ type: type.APP.REGISTER_END, payload: resp.error })
 }
 
 function postRegisterCustomer(data) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({
-        error: 0
-      })
-    }, 1000)
-  })
+  console.log(data)
+  var body = {
+    phone: data["phone"],
+    birthday: data["birthday"],
+    mainAreaId: 1,
+    pass: data["password"],
+    fullName: data["name"],
+    avatar: "https://s120-ava-talk.zadn.vn/f/f/a/9/10/120/87069ccaa43702ad56ec93fe5a75f24f.jpg",
+    idToken: data["idToken"]
+  }
+  return new Promise((resolve, reject) => {
+    APIUtils.postJSONWithoutCredentials(process.env.DOMAIN + `/api/customer/register`, JSON.stringify(body), resolve, reject);
+  });
 }
