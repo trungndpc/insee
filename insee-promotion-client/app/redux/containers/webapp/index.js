@@ -3,9 +3,13 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
-
+import { useParams, Route } from 'react-router-dom';
 
 class Home extends React.Component {
+
+    componentDidMount() {
+        useParams()
+    }
 
     render() {
         return (
