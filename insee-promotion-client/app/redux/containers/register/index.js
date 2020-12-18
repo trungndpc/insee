@@ -23,6 +23,7 @@ class Register extends React.Component {
         {data && data.step == 2 && <OTPStep {...this.props} />}
         {data &&data.step == 3 && <InfoStep {...this.props} />}
         {data && data.step == 4 && <CompletedStep {...this.props} />}
+        <div id="recaptcha-container"></div>
       </div>
     )
   }

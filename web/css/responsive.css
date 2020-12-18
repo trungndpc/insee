@@ -1082,7 +1082,9 @@
 
 @media screen and (max-width: 480px) {
     .user-avatar {
-        width: 30%;
+        /* width: 30%; */
+        height: 100px;
+        width: 100px !important;
     }
     .header-inner > h2 {
         font-size: 16px;
@@ -1144,9 +1146,9 @@
         width: 5.3%;
     }
     .timeline-info > ul li.admin-name {
-        left: 190px;
-        position: absolute;
-        top: -95px;
+        left: 0 !important;
+        position: relative !important;
+        top: -0 !important;
     }
     .timeline-info .admin-name > h5 {
         color: #424242;
@@ -1176,11 +1178,24 @@
     footer .widget-title h4::before {
         width: 10%;
     }
+
+    .timeline-info {
+        height: 100%;
+        padding-left: 20px;
+    }
+
+    .user-avatar {
+        position: absolute;
+        top: -57px;
+    }
+
+
     .timeline-info .admin-name > span {
         color: #333;
         display: block;
-        line-height: 20px;
-        position: unset;
+        position: initial !important;
+        /* line-height: 20px; */
+        /* position: unset; */
     }
     .list-style > li {
         width: 49%;

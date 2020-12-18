@@ -13,10 +13,9 @@ firebase.auth().languageCode = 'vi';
 export default class FirebaseUtil {
 
     static recaptcha() {
-        return new firebase.auth.RecaptchaVerifier('btn-register', {
+        return new firebase.auth.RecaptchaVerifier('recaptcha-container', {
             'size': 'invisible',
             'callback': function (response) {
-                // Token code 
             }
         });
     }

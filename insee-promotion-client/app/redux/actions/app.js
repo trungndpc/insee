@@ -9,3 +9,17 @@ export function pushRegisterData(data) {
     data: data
   }
 }
+
+export function checkPhone(phone) {
+  return {
+    type: type.APP.CHECK_PHONE_ASYNC,
+    phone: phone
+  }
+}
+
+export function register(data) {
+  return {
+    type: type.APP.REGISTER_ASYNC,
+    data: data
+  }
+}

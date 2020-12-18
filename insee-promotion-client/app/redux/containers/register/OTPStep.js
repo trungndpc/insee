@@ -1,37 +1,37 @@
 import React, { Component } from 'react'
 import FirebaseUtil from '../../../utils/FirebaseUtil'
-import { retry } from 'redux-saga/effects';
+import CountDown from '../../../components/CountDown'
 
 const FM_NAME_INPUT = "smsCodeInput";
 class OTPStep extends Component {
 
     constructor(props) {
         super(props);
-        this.recaptchaVerifier = null;
         this._onKeyPress = this._onKeyPress.bind(this);
         this.getSMSCode = this.getSMSCode.bind(this);
         this._onSubmitSMSCode = this._onSubmitSMSCode.bind(this);
         this.data = this.props.app.register;
         this.goToNextStep = this.goToNextStep.bind(this);
         this.resetInput = this.resetInput.bind(this);
+        this.counterEnd = this.counterEnd.bind(this);
+        this.sendSMS = this.sendSMS.bind(this);
+        this._onClickResetSMSCode = this._onClickResetSMSCode.bind(this);
+        this.confirmFailed = this.confirmFailed.bind(this);
+        this.state = {
+            errorMsg: null,
+            smsError: 0
+        }
     }
 
     componentDidMount() {
-        let phone = this.data["phone"];
-        if (phone) {
-            this.recaptchaVerifier = FirebaseUtil.recaptcha();
-            FirebaseUtil.sendSMS(this.recaptchaVerifier, phone, (err, confirmationResult) => {
-                if (err == 0) {
-                    this.confirmationResult = confirmationResult;
-                }
-            });
-        }
-        
+        this.sendSMS();
     }
 
-    goToNextStep() {
-        let data = {...this.props.app.register}
+    goToNextStep(idToken) {
+        let data = { ...this.props.app.register }
         data["step"] = 3;
+        data["idToken"] = idToken;
+        console.log(data)
         this.props.appActions.pushRegisterData(data);
     }
 
@@ -41,15 +41,45 @@ class OTPStep extends Component {
             inputRef.value = '';
         }
     }
+    sendSMS() {
+        let phone = this.data["phone"];
+        if (phone) {
+            console.log(window.recaptchaVerifier)
+            FirebaseUtil.sendSMS(window.recaptchaVerifier, phone, (err, confirmationResult) => {
+                if (err == 0) {
+                    console.log("send sms to: " + phone + " success")
+                    this.confirmationResult = confirmationResult;
+                }
+            });
+        }
+    }
+
+    _onClickResetSMSCode() {
+        this.sendSMS();
+        this.resetInput();
+    }
+
+    confirmFailed() {
+        this.setState({
+            smsError: -1,
+            errorMsg: 'OTP sai vui lòng thử lại'
+        })
+        this.resetInput();
+    }
 
     _onSubmitSMSCode() {
-        let smsCode = this.getSMSCode();
-        this.confirmationResult && FirebaseUtil.confirm(smsCode, this.confirmationResult, (result) => {
-            console.log(result.user)
-            this.goToNextStep();
-        }, (error) => {
-            this.resetInput();
-        })
+        if(this.state.smsError == 0 || this.state.smsError == -1) {
+            console.log("_onSubmitSMSCode")
+            this.setState({errorMsg: null})
+            let smsCode = this.getSMSCode();
+            this.confirmationResult && FirebaseUtil.confirm(smsCode, this.confirmationResult, (result) => {
+                result.user.getIdToken().then(function(idToken) { 
+                    this.goToNextStep(idToken);
+                 }.bind(this));
+            }, (error) => { 
+                this.confirmFailed();
+            })
+        }
     }
 
     _onKeyPress(key, index) {
@@ -77,6 +107,13 @@ class OTPStep extends Component {
         return rs;
     }
 
+    counterEnd() {
+        this.setState({
+            smsError: -10,
+            errorMsg: 'Mã OTP đã hết hạn, bấm Gửi Lại Mã để nhận OTP mới'
+        });
+    }
+
     render() {
         return (
             <div className="container-contact100 regiser otp">
@@ -88,7 +125,19 @@ class OTPStep extends Component {
                         </span>
                         <div className="form-description">Vui lòng nhập số OTP( được gửi đến SDT bạn) vào ô bên dưới và bấm xác nhận
                             để hoàn tất truy cập vào hệ thống</div>
+
                         <div className="form-center">
+                            <div> 
+                            {
+                                ( this.state.smsError == 0 || this.state.smsError == -1 ) && <CountDown count={60} done={this.counterEnd}/> 
+                            }
+                            </div>
+                            {
+                                (this.state.smsError != 0 && this.state.errorMsg ) && 
+                                <div className="error-msg">
+                                    {this.state.errorMsg}
+                                </div>
+                            }
                             <div className="wrap-input100 wrap-input25">
                                 <input ref={e => this.smsCodeInput1 = e} onKeyPress={key => { this._onKeyPress(key, 1) }} className="input100" type="number" />
                             </div>
@@ -109,7 +158,7 @@ class OTPStep extends Component {
                             </div>
                         </div>
                         <div className="container-contact100-form-btn">
-                            <button className="contact100-form-btn contact30-form-btn btn-default">
+                            <button onClick={this._onClickResetSMSCode} className="contact100-form-btn contact30-form-btn btn-default">
                                 Gửi lại mã
                             </button>
                             <button onClick={this._onSubmitSMSCode} id="btn-register" className="contact100-form-btn contact30-form-btn">
