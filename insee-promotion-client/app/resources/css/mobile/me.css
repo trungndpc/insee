@@ -98,10 +98,14 @@ input.input100 {
 }
 
 .footer p {
-    font-size: 30px;
-    font-weight: 600;
-    color: #fff;
+    font-size: 30px !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+    padding: 0 !important;
+    line-height: 16px !important;
+    margin: 13px !important;
 }
+
 
 .wrap-input25 {
     width: 50px;
