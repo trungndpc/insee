@@ -2,7 +2,7 @@ import * as type from '../actions/action-types'
 
 const initialState = {
   register: {
-    step: 1,
+    step: 4,
     isLoading: false
   },
  
@@ -36,6 +36,8 @@ export default function app(state = initialState, action) {
     }
     case type.APP.REGISTER_END: {
       console.log("REGISTER_END: " + action.payload);
+      newState.register = {...newState.register}
+      newState.register.customer = action.payload;
       break
     }
     case type.APP.PUSH_STATE_REGISTER: {
