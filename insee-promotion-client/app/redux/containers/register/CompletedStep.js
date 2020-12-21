@@ -12,16 +12,17 @@ class CompletedStep extends Component {
 
     _onClickToZalo() {
         window.location.href = "https://zalo.me/428332895304538762"
+        return false;
     }
 
     
 
     render() {
-        const data = this.props.app.register;
+        const customer = this.props.app.register.customer;
         return (
             <div className="container-contact100 regiser complete">
                 <div className="wrap-contact100">
-                    <form className="contact100-form validate-form">
+                    <div className="contact100-form validate-form">
                         <span className="contact100-form-title">
                             Hoàn tất đăng ký
                             <div className="line-bt" />
@@ -32,14 +33,14 @@ class CompletedStep extends Component {
                     <button onClick={this._onClickToZalo} id="btn-to-zalo" style={{ marginBottom: '20px' }} className="contact100-form-btn btn-default">
                                 Quay lại Zalo
                     </button>
-                    {data && 
-                    <Link style={{textAlign: 'center'}} className="contact100-form-btn" to={"/khach-hang/" + data.id }>
+                    {customer && 
+                    <Link style={{textAlign: 'center'}} className="contact100-form-btn" to={"/khach-hang/" + customer.id }>
                             Nhà thầu ngoại hạng
                     </Link>
                     }
                     
                         </div>
-                    </form>
+                    </div>
                     <div className="contact100-more flex-col-c-m" style={{ backgroundImage: 'url("images/bg-01.jpg")' }}>
                     </div>
                 </div>

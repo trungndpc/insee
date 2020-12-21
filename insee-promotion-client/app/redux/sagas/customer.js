@@ -61,7 +61,7 @@ function* registerCustomerAsync(action) {
     data = [{ name: "statusStep3", value: resp.error }]
   }
   yield put({ type: type.APP.PUSH_STATE_REGISTER, payload: data })
-  yield put({ type: type.APP.REGISTER_END, payload: resp.error })
+  yield put({ type: type.APP.REGISTER_END, payload: resp.data })
 }
 
 function postRegisterCustomer(data) {
