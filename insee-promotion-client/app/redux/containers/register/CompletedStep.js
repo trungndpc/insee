@@ -1,7 +1,18 @@
 import React, { Component } from 'react'
+import {
+    Link
+  } from "react-router-dom";
+
 
 class CompletedStep extends Component {
 
+    constructor(props) {
+        super(props)
+    }
+
+    _onClickToZalo() {
+        window.location.href = "https://zalo.me/428332895304538762"
+    }
 
     render() {
         return (
@@ -14,12 +25,15 @@ class CompletedStep extends Component {
                         </span>
                         <div className="form-description">Đơn đăng ký đã được hoàn tất. INSEE sẽ tiến hành kiểm tra và gửi tin nhắn xác nhận trong vòng 24 giờ</div>
                         <div className="container-contact100-form-btn">
-                            <button id="btn-to-zalo" style={{ marginBottom: '20px' }} className="contact100-form-btn btn-default">
+                            <button onClick={this._onClickToZalo} id="btn-to-zalo" style={{ marginBottom: '20px' }} className="contact100-form-btn btn-default">
                                 Quay lại Zalo
                   </button>
-                            <button id="btn-click-to-insee-page" className="contact100-form-btn">
-                                Tới trang nhà thầu ngoại hạng
-                  </button>
+                    <Link to={"/dang-ky"}>
+                        <button id="btn-click-to-insee-page" className="contact100-form-btn">
+                            Tới trang nhà thầu ngoại hạng
+                        </button>
+                    </Link>
+                    
                         </div>
                     </form>
                     <div className="contact100-more flex-col-c-m" style={{ backgroundImage: 'url("images/bg-01.jpg")' }}>

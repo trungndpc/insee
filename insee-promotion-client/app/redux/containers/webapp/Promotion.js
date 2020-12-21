@@ -10,7 +10,6 @@ import {
     Link,
     useParams
 } from "react-router-dom";
-import CreatePromotion from '../../../components/promotions/CreatePromotion'
 import SideBar from '../../../components/layout/SideBar'
 import DetailPromotion from '../../../components/promotions/DetailPromotion'
 
@@ -42,21 +41,12 @@ class Promotion extends React.Component {
                                         <div className="col-lg-9">
 
                                             <Switch>
-                                                <Route exact path="/promotion/create">
-                                                    <CreatePromotion {...this.props} />
-                                                </Route>
-                                                <Route path="/promotion/:postId">
+                                                <Route path="/khuyen-mai/:postId">
                                                     <DetailPromotionRoute {...this.props} />
                                                 </Route>
-                                                <Route path="/promotion">
-                                                    <div className="inbox-action ctkm">
-                                                        <ul>
-                                                            <li><Link to="/promotion/create"><span className="mbtn">Thêm</span></Link></li>
-                                                        </ul>
-                                                    </div>
+                                                <Route path="/khuyen-mai">
                                                     <ListPromotion {...this.props} />
                                                 </Route>
-
                                             </Switch>
                                         </div>
                                     </div>

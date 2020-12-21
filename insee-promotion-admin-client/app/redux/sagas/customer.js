@@ -1,12 +1,16 @@
 import { takeLatest, call, put } from 'redux-saga/effects'
 import * as type from '../actions/action-types'
 import APIUtils from '../../utils/APIUtils'
-
+import AlertUtils from '../../utils/AlertUtils'
+import AppUtils from '../../utils/AppUtils'
 
 export default function* customer() {
   yield takeLatest(type.APP.CHECK_PHONE_ASYNC, checkPhoneAsync)
   yield takeLatest(type.APP.REGISTER_ASYNC, registerCustomerAsync)
   yield takeLatest(type.APP.GET_CUSTOMER_BY_ID_ASYNC, getCustomerByIdAsync)
+  yield takeLatest(type.APP.GET_LIST_PROMOTION_ASYNC, getListPromotionAsync)
+  yield takeLatest(type.APP.CREATE_PROMOTION_ASYNC, createPromotionAsync)
+  yield takeLatest(type.APP.GET_PROMOTION_BY_ID_ASYNC, getPromotionByIdAsync)
 }
 
 
@@ -88,5 +92,61 @@ function* getCustomerByIdAsync(action) {
 function getCustomerById(id) {
   return new Promise((resolve, reject) => {
     APIUtils.getJSONWithoutCredentials(process.env.DOMAIN + `/api/customer/?id=` + id, resolve, reject);
+  });
+}
+
+//Get list promotion 
+
+function* getListPromotionAsync(action) {
+  yield put({ type: type.APP.GET_LIST_PROMOTION_START })
+  const resp = yield call(getPromotion)
+  yield put({ type: type.APP.GET_LIST_PROMOTION_END, payload: resp.data })
+
+}
+
+function getPromotion() {
+  return new Promise((resolve, reject) => {
+    APIUtils.getJSONWithoutCredentials(process.env.DOMAIN + `/api/admin/post/list`, resolve, reject);
+  });
+}
+
+
+//create promotion 
+function* createPromotionAsync(action) {
+  yield put({ type: type.APP.CREATE_PROMOTION_START })
+  const resp = yield call(postToCreatePromotion, action.data)
+  if (resp.error == 0) {
+    AlertUtils.showSuccess(AlertUtils.CREATE_PROMOTION_SUCCESS)
+    yield put({ type: type.APP.CREATE_PROMOTION_END, payload: resp.data })
+    AppUtils.push("/promotion")
+  } else {
+    AlertUtils.showError(AlertUtils.CREATE_PROMOTION_FAILED)
+  }
+}
+
+function postToCreatePromotion(data) {
+  console.log(data)
+  var body = {
+    title: data.title,
+    subTitle: data.title,
+    summary: data.summary,
+    content: data.content,
+    typePromotion: 1
+  }
+  return new Promise((resolve, reject) => {
+    APIUtils.postJSONWithoutCredentials(process.env.DOMAIN + `/api/admin/post/create`, JSON.stringify(body), resolve, reject);
+  });
+}
+
+// get promotion by id
+function* getPromotionByIdAsync(action) {
+  yield put({ type: type.APP.GET_PROMOTION_BY_ID_START })
+  const resp = yield call(getPromotionById, action.id)
+  yield put({ type: type.APP.GET_PROMOTION_BY_ID_END, payload: resp.data})
+}
+
+function getPromotionById(id) {
+  return new Promise((resolve, reject) => {
+    APIUtils.getJSONWithoutCredentials(process.env.DOMAIN + `/api/admin/post?id=` + id, resolve, reject);
   });
 }

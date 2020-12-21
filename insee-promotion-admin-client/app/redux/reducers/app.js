@@ -54,6 +54,20 @@ export default function app(state = initialState, action) {
       newState.customer = data;
       break;
     }
+
+    case type.APP.GET_LIST_PROMOTION_END: {
+      console.log("GET_LIST_PROMOTION_END: " + action.payload);
+      let data = action.payload;
+      newState.promotions = data;
+      break;
+    }
+
+    case type.APP.GET_PROMOTION_BY_ID_END: {
+      console.log("GET_PROMOTION_BY_ID_END: " + action.payload);
+      let data = action.payload;
+      newState.promotion = data;
+      break;
+    }
     default:
       return state
   }

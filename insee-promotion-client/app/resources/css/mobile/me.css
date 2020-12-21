@@ -175,3 +175,23 @@ input.input100 {
     font-size: small;
 }
 
+
+@media (max-width: 576px) {
+    .sidebar {
+        display: none !important;
+    }
+
+    .text-center-mobile {
+        text-align: center !important;
+    }
+
+    .text-center-mobile .btn-apply-promotion {
+        padding: 10px 70px;
+    }
+}
+
+
+.no-border {
+    border: none !important;
+}
+

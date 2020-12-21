@@ -10,25 +10,38 @@ import {
   useParams
 } from "react-router-dom";
 import Register from '../app/redux/containers/register/index';
-import Home from './redux/containers/webapp/index';
-
-
-
+import ContractorInfo from './redux/containers/webapp/ContractorInfo';
+import Promotion from './redux/containers/webapp/Promotion'
 
 const store = configureStore()
-function HomeRoute() {
-  let {id} = useParams();
-  return <Home id={id}/>
+function ContractorInfoRoute() {
+  let { id } = useParams();
+  return <ContractorInfo id={id} />
 };
+
+function PromotionRoute() {
+  let { id } = useParams();
+  if (!id) {
+    id = 1005;
+  }
+  return <Promotion id={id} />
+}
+
 
 render(
   <Provider store={store}>
     <Router>
       <Switch>
-        <Route exact path="/khach-hang/:id" >
-          <HomeRoute />
+        <Route path="/khuyen-mai" >
+          <PromotionRoute />
         </Route>
-        <Route path="/register" component={Register} />
+        <Route exact path="/khach-hang/:id" >
+          <ContractorInfoRoute />
+        </Route>
+        <Route path="/dang-ky" component={Register} />
+        <Route path="/" >
+          <PromotionRoute />
+        </Route>
       </Switch>
     </Router>
   </Provider>,

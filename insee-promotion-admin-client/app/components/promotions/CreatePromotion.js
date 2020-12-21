@@ -4,6 +4,40 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 class CreatePromotion extends Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            data: 'Hello from TrungND',
+            errorMsg: null
+        }
+        this._onClickSave = this._onClickSave.bind(this)
+    }
+
+    _onClickSave() {
+        let title = this.titleInputRef.value;
+        let summary = this.summaryInputRef.value;
+        let content = this.state.data;
+        if (!title) {
+            this.setState({errorMsg: 'Vui lòng nhập tiêu đề'})
+            return;
+        }
+        if(!summary) {
+            this.setState({errorMsg: 'Vui lòng nhập tóm tắt'})
+            return;
+        }
+        if (!content) {
+            this.setState({errorMsg: 'Vui lòng nhập nội dung'})
+            return;
+        }
+        let data = {
+            title : title,
+            summary: summary,
+            content: content
+        }
+        this.props.appActions.createPromotion(data);
+        console.log(data)
+    }
+
 
     render() {
         return (
@@ -18,38 +52,30 @@ class CreatePromotion extends Component {
                                 <form method="post">
                                     <div className="ctk-row">
                                         <label className="ctk-editor-lable">Tiêu đề: </label>
-                                        <input className="ctk-editor-input" type="text" placeholder="Chương trình khuyến mãi siêu cấp" />
+                                        <input className="ctk-editor-input" ref={e => this.titleInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp" />
                                     </div>
                                     <div className="ctk-row">
                                         <label className="ctk-editor-lable">Tóm tắt ngắn: </label>
-                                        <input className="ctk-editor-input" type="text" placeholder="Chương trình khuyến mãi siêu cấp" />
+                                        <input className="ctk-editor-input" ref={e => this.summaryInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp" />
                                     </div>
                                 </form>
                             </div>
                             <div className="d-flex flex-row mt-2">
                                 <CKEditor
+                                    ref={e => this.editor = e}
                                     editor={ClassicEditor}
                                     data="<p>Hello from CKEditor 5!</p>"
-                                    onReady={editor => {
-                                        console.log('Editor is ready to use!', editor);
-                                    }}
+                                   
                                     onChange={(event, editor) => {
                                         const data = editor.getData();
-                                        console.log({ event, editor, data });
-                                    }}
-                                    onBlur={(event, editor) => {
-                                        console.log('Blur.', editor);
-                                    }}
-                                    onFocus={(event, editor) => {
-                                        console.log('Focus.', editor);
+                                        this.setState({data: data});
                                     }}
                                 />
                             </div>
                             <div className="inbox-action ctkm">
                                 <ul>
                                     <li><span className="mbtn">Public</span></li>
-
-                                    <li><span className="mbtn">Save</span></li>
+                                    <li onClick={this._onClickSave}><span className="mbtn">Save</span></li>
                                 </ul>
                             </div>
                         </div>

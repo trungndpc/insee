@@ -205,3 +205,12 @@ input.input100 {
 .ctk-row {
     padding: 20px 0px;
 }
+
+.post-summary {
+    height: 52px;
+}
+
+.post-title-detail {
+    text-align: center;
+    padding: 10px 0px;
+}

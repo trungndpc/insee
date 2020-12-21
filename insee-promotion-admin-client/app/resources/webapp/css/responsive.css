@@ -1091,6 +1091,7 @@
         /* width: 30%; */
         height: 100px;
         width: 100px !important;
+        top: -60px !important;
     }
     .header-inner > h2 {
         font-size: 16px;

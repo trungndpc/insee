@@ -26,17 +26,17 @@ class ListPromotion extends Component {
                                             <img alt="" src={require('../../resources/images/promotion1.png')} />
                                         </figure>
                                         <div className="g-post-meta">
-                                            <div className="post-title">
+                                            <div className="post-title no-border text-center-mobile">
                                                 <h4><a title href="#">{item.title}</a></h4>
                                                 <p className="post-summary">{item.summary}</p>
                                                 <span className="p-date">
                                                     <Link to={"/promotion/" + item.id}>
-                                                        <button className="btn-apply-promotion" type="submit">Chi tiết</button>
+                                                        <button className="btn-apply-promotion" type="submit">Tham gia ngay</button>
                                                     </Link>
                                                 </span>
                                             </div>
                                         </div>
-                                        <span className="extra-infor-post">Đã có 10 người tham gia chương trình</span>
+                                        {/* <span className="extra-infor-post">Đã có 10 người tham gia chương trình</span> */}
                                     </div>
                                 </div>
                             )

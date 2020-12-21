@@ -30,3 +30,16 @@ export function getCustomerById(id) {
     id: id
   }
 }
+
+export function getListPromotion() {
+  return {
+    type: type.APP.GET_LIST_PROMOTION_ASYNC
+  }
+}
+
+export function getPromotionById(id) {
+  return {
+    type: type.APP.GET_PROMOTION_BY_ID_ASYNC,
+    id: id
+  }
+} 
