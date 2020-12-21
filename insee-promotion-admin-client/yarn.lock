@@ -1780,6 +1780,15 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@ckeditor/ckeditor5-basic-styles@^24.0.0":
+  version "24.0.0"
+  resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-basic-styles/-/ckeditor5-basic-styles-24.0.0.tgz#4ec398c3ae832db2ecdaffb0eb8ac2a4bb963293"
+  integrity sha512-FdmKgJ5FRfo103ko1CEyy76qFrWtdxpDUVpkVh1Dsx89sT0sT/RkDPU1pAhBGAwq31zUmL1k5BTRsokv5KY8sg==
+  dependencies:
+    "@ckeditor/ckeditor5-core" "^24.0.0"
+    "@ckeditor/ckeditor5-typing" "^24.0.0"
+    "@ckeditor/ckeditor5-ui" "^24.0.0"
+
 "@ckeditor/ckeditor5-build-classic@^24.0.0":
   version "24.0.0"
   resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-build-classic/-/ckeditor5-build-classic-24.0.0.tgz#18f310fd0f62c77d3c9ad0348d881c5f1638c564"
@@ -1819,6 +1828,16 @@
   integrity sha512-kqoD0rbGeUp7CjYBtKcwXVVSWO/VL1QsoTyeGbFyoMHmkM96fBj0TI0Xs2kFqKkeiICtAnwvul3GVNWbIlK/Tw==
   dependencies:
     prop-types "^15.7.2"
+
+"@ckeditor/ckeditor5-typing@^24.0.0":
+  version "24.0.0"
+  resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-typing/-/ckeditor5-typing-24.0.0.tgz#06d3709242462c9c931636404591e9b2f00c999f"
+  integrity sha512-hB5YDC0mMs0+HA69A+x/7ifwdnCbHo2UOX3yz4os9aid5qXIFOt1OXiktYnOuIQI9tJwDWrV+CiLSp8x6Zs2BA==
+  dependencies:
+    "@ckeditor/ckeditor5-core" "^24.0.0"
+    "@ckeditor/ckeditor5-engine" "^24.0.0"
+    "@ckeditor/ckeditor5-utils" "^24.0.0"
+    lodash-es "^4.17.15"
 
 "@ckeditor/ckeditor5-ui@^24.0.0":
   version "24.0.0"

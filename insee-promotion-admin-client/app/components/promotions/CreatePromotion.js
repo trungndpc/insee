@@ -65,7 +65,6 @@ class CreatePromotion extends Component {
                                     ref={e => this.editor = e}
                                     editor={ClassicEditor}
                                     data="<p>Hello from CKEditor 5!</p>"
-                                   
                                     onChange={(event, editor) => {
                                         const data = editor.getData();
                                         this.setState({data: data});

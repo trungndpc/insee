@@ -14,25 +14,29 @@ class CompletedStep extends Component {
         window.location.href = "https://zalo.me/428332895304538762"
     }
 
+    
+
     render() {
+        const data = this.props.app.register;
         return (
             <div className="container-contact100 regiser complete">
                 <div className="wrap-contact100">
                     <form className="contact100-form validate-form">
                         <span className="contact100-form-title">
                             Hoàn tất đăng ký
-                  <div className="line-bt" />
+                            <div className="line-bt" />
                         </span>
                         <div className="form-description">Đơn đăng ký đã được hoàn tất. INSEE sẽ tiến hành kiểm tra và gửi tin nhắn xác nhận trong vòng 24 giờ</div>
                         <div className="container-contact100-form-btn">
-                            <button onClick={this._onClickToZalo} id="btn-to-zalo" style={{ marginBottom: '20px' }} className="contact100-form-btn btn-default">
+                    
+                    <button onClick={this._onClickToZalo} id="btn-to-zalo" style={{ marginBottom: '20px' }} className="contact100-form-btn btn-default">
                                 Quay lại Zalo
-                  </button>
-                    <Link to={"/dang-ky"}>
-                        <button id="btn-click-to-insee-page" className="contact100-form-btn">
-                            Tới trang nhà thầu ngoại hạng
-                        </button>
+                    </button>
+                    {data && 
+                    <Link style={{textAlign: 'center'}} className="contact100-form-btn" to={"/khach-hang/" + data.id }>
+                            Nhà thầu ngoại hạng
                     </Link>
+                    }
                     
                         </div>
                     </form>

@@ -2,7 +2,7 @@ import * as type from '../actions/action-types'
 
 const initialState = {
   register: {
-    step: 1,
+    step: 4,
     isLoading: false
   },
  
