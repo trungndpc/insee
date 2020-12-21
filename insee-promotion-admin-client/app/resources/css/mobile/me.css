@@ -1,0 +1,207 @@
+.contact100-form-btn {
+    background-color: #b71c1c;
+    font-size: medium;
+}
+
+.contact100-form-title {
+    text-align: left;
+    padding-bottom: 30px;
+}
+
+.contact100-form-title .line-bt {
+    display: block;
+    width: 55px;
+    height: 5px;
+    background-color: #b71c1c;
+    margin-top: 5px;
+}
+
+.wrap-input50 {
+    width: calc((100% - 5px)/2);
+    display: inline-block;
+}
+
+.form-description {
+    padding: 10px 0px;
+}
+
+.label-input100 {
+    padding: 8px 0 2px 20px;
+}
+
+input.input100 {
+    height: 30px;
+}
+
+.input100 {
+    font-size: 15px;
+    padding: 0px 20px;
+}
+
+@media (max-width: 576px) {
+    .contact100-form {
+        padding: 25px 15px 55px 15px;
+    }
+}
+
+.m-select {
+    font-size: 15px;
+    height: 30px;
+    border: none;
+    width: 100%;
+    padding: 0px 20px;
+    border-radius: 24px;
+    background-color: #fff;
+}
+
+.input-icon {
+    color: #ccc;
+    position: absolute;
+    right: 10px;
+    bottom: 7px;
+}
+
+.phone_step input {
+    font-size: 29px;
+    font-weight: 600;
+    letter-spacing: 10px;
+    text-align: center;
+}
+
+::-webkit-input-placeholder {
+    font-size: medium !important;
+    letter-spacing: 1.2px;
+    text-align: left;
+    font-weight: 100;
+
+}
+
+.regiser .form #sdt {
+    height: 48px;
+}
+
+
+.regiser .wrap-input100  {
+    margin-top: 40%;
+}
+
+.regiser .container-contact100-form-btn {
+    padding-top: 50px;
+}
+
+.footer {
+    background-color: #b71c1c;
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+}
+
+.footer p {
+    font-size: 30px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.wrap-input25 {
+    width: 50px;
+    display: inline-block;
+    height: 50px;
+    position: relative;
+    border: 1px solid #e6e6e6;
+    margin-bottom: 20px;
+    border-radius: 0px;
+}
+
+.wrap-input25 input {
+    height: 48px;
+}
+
+.otp .input100 {
+    font-size: 35px;
+    font-weight: 600;
+    padding: 0 15px;
+    text-align: center;
+}
+
+.otp .form-center {
+    text-align: center;
+    padding: 30px;
+}
+
+.btn-default {
+    background-color: #fff;
+    color: black;
+    border: 1px solid #e6e6e6;
+}
+
+.otp .contact30-form-btn {
+    width: 40%;
+    font-size: medium;
+    height: 45px;
+    margin: 10px;
+}
+
+.complete .contact100-form-btn {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.register_step3 input.input100 {
+    height: 48px;
+}
+
+.register_step3 .m-select {
+    height: 48px;
+    padding: 0px 10px;
+}
+
+.register_step3  .wrap-input50 {
+    width: calc((100% - 10px)/3);
+    width: calc((100% - 15px)/3);
+    margin-right: 5px;
+}
+
+.grecaptcha-badge {
+    display: none;
+}
+
+#btn-register-phone {
+    font-size: medium;
+}
+
+.error-msg {
+    color: red;
+    font-size: small;
+}
+
+.ctkm li {
+    float: right !important;
+}
+
+.ctkm li span.mbtn {
+    padding: 5px 20px;
+    background-color: #dc3545;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.ck.ck-editor {
+    width: 100% !important;
+}
+
+.ctk-editor-lable {
+    width: 14%;
+}
+
+.ctk-editor-input {
+    border: 1px solid #eee;
+    font-size: 14px;
+    padding: 10px 20px;
+    width: 86%;
+}
+
+.ctk-row {
+    padding: 20px 0px;
+}

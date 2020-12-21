@@ -1,0 +1,38 @@
+.btn-apply-promotion {
+    background-color: #b71c1c;
+    color: #fff;
+    padding: 10px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 9px;
+    border: none;
+}
+
+.extra-infor-post {
+    padding-left: 25px;
+    padding-bottom: 10px;
+    display: block;
+    color: #b71c1c;
+}
+.insee-color {
+    background-color: #b71c1c;
+    color: #fff;
+}
+
+.feature-photo figure img {
+    max-height: 400px;
+}
+
+.user-avatar{
+    position: absolute;
+    top: 50px;
+    right: 0;
+ }
+
+ .table-info-contractor th{
+     border: none;
+ }
+
+ .table-info-contractor td{
+    border: none;
+}
