@@ -49,7 +49,8 @@ class OTPStep extends Component {
     sendSMS() {
         let phone = this.data["phone"];
         if (phone) {
-            this.setState({statusSending: SENDING_SMS})            
+            this.setState({statusSending: SENDING_SMS})           
+            console.log("phone: " + phone) 
             FirebaseUtil.sendSMS(window.recaptchaVerifier, phone, (err, confirmationResult) => {
                 if (err == 0) {
                     this.setState({statusSending: SENDING_SUCCESS})            

@@ -25,6 +25,7 @@ export default class FirebaseUtil {
             .then(function (confirmationResult) {
                 callback(0, confirmationResult);
             }).catch(function (error) {
+                console.log(error)
                 callback(-1, null);
             });
     }
