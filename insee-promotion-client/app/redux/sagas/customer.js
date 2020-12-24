@@ -46,7 +46,7 @@ function postCheckPhone(phone) {
     phone: phone
   }
   return new Promise((resolve, reject) => {
-    APIUtils.postJSONWithoutCredentials(process.env.DOMAIN + `/api/customer/check-phone`, JSON.stringify(body), resolve, reject);
+    APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/customer/check-phone`, JSON.stringify(body), resolve, reject);
   });
 }
 

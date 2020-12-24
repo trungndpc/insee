@@ -63,9 +63,7 @@ class InfoStep extends Component {
         } finally {
             this.setState({errorMsg: errorMsg})
         }
-
     }
-
 
     render() {
         return (
