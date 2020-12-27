@@ -5,7 +5,6 @@ const initialState = {
     step: 1,
     isLoading: false
   },
- 
 }
 
 export default function app(state = initialState, action) {
@@ -30,11 +29,11 @@ export default function app(state = initialState, action) {
       newState.register.isLoading = false;
       break;
     }
-    case type.APP.REGISTER_START: {
+    case type.APP.UPDATE_CUSTOMER_START: {
       console.log("REGISTER_START");
       break;
     }
-    case type.APP.REGISTER_END: {
+    case type.APP.UPDATE_CUSTOMER_END: {
       console.log("REGISTER_END: " + action.payload);
       newState.register = {...newState.register}
       newState.register.customer = action.payload;
@@ -50,7 +49,7 @@ export default function app(state = initialState, action) {
       break;
     }
 
-    case type.APP.GET_CUSTOMER_BY_ID_END: {
+    case type.APP.GET_CUSTOMER_END: {
       console.log("GET_CUSTOMER_BY_ID_END: " + action.payload);
       let data = action.payload;
       newState.customer = data;

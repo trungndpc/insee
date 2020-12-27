@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import {
     Link
-  } from "react-router-dom";
-
+} from "react-router-dom";
+import Footer from '../../../components/layout/Footer'
 
 class CompletedStep extends Component {
 
@@ -15,7 +15,6 @@ class CompletedStep extends Component {
         return false;
     }
 
-    
 
     render() {
         const customer = this.props.app.register.customer;
@@ -28,25 +27,18 @@ class CompletedStep extends Component {
                             <div className="line-bt" />
                         </span>
                         <div className="form-description">Đơn đăng ký đã được hoàn tất. INSEE sẽ tiến hành kiểm tra và gửi tin nhắn xác nhận trong vòng 24 giờ</div>
-                        <div className="container-contact100-form-btn">
-                    
-                    <button onClick={this._onClickToZalo} id="btn-to-zalo" style={{ marginBottom: '20px' }} className="contact100-form-btn btn-default">
-                                Quay lại Zalo
-                    </button>
-                    {customer && 
-                    <Link style={{textAlign: 'center'}} className="contact100-form-btn" to={"/khach-hang/" + customer.id }>
-                            Nhà thầu ngoại hạng
-                    </Link>
-                    }
-                    
+                        <div className="btn-container btn-to-zalo">
+                            <button onClick={this._onClickToZalo} className="btn-insee btn-default-none-bg">Quay lại Zalo</button>
+                        </div>
+                        <div className="btn-container">
+                            <Link to={"/khach-hang"}>
+                                <button className="btn-insee btn-insee-bg">Nhà thầu ngoại hạng</button>
+                            </Link>
                         </div>
                     </div>
-                    <div className="contact100-more flex-col-c-m" style={{ backgroundImage: 'url("images/bg-01.jpg")' }}>
-                    </div>
+                    <div className="bg-desktop contact100-more flex-col-c-m"></div>
                 </div>
-                <div className="footer">
-                    <p>INSEE</p>
-                </div>
+                <Footer />
             </div>
         )
     }

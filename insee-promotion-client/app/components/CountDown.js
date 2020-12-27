@@ -8,6 +8,7 @@ class CountDown extends Component {
         }
         this.countdown = this.countdown.bind(this);
         this.done = this.done.bind(this);
+        this.reset = this.reset.bind(this);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -20,6 +21,12 @@ class CountDown extends Component {
 
     componentDidMount() {
         this.countdown();
+    }
+
+    reset() {
+        this.setState({
+            color: this.props.count
+        })
     }
 
     countdown() {

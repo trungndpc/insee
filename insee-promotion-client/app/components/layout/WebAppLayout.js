@@ -12,7 +12,7 @@ class WebAppLayout extends Component {
   }
 
   componentDidMount() {
-    this.props.appActions.getCustomerById(this.props.id);
+    this.props.appActions.getCustomer();
   }
 
   render() {

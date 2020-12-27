@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
 import BirtdayInput from '../../../components/BirtdayInput'
+import Footer from '../../../components/layout/Footer'
+import {
+    Link
+} from "react-router-dom";
 
 class InfoStep extends Component {
 
@@ -59,7 +63,7 @@ class InfoStep extends Component {
             data["name"] = name;
             data["password"] = password;
             data["location"] = 1;
-            this.props.appActions.register(data);
+            this.props.appActions.updateCustomer(data);
         } finally {
             this.setState({errorMsg: errorMsg})
         }
@@ -75,41 +79,42 @@ class InfoStep extends Component {
                      <div className="line-bt" />
                         </span>
                         <div className="form-description">Vui lòng nhập thông tin để tạo tài khoản</div>
-                        <div className="wrap-input100">
-                            <input ref={e => this.nameInputRef = e} id="name" className="input100" type="text" name="name" placeholder="Họ và tên" />
-                            <span className="focus-input100" />
+
+                        <div className="form-row">
+                            <input ref={e => this.nameInputRef = e} className="insee-input" type="text"  placeholder="Họ và tên" />
                         </div>
-                        <BirtdayInput ref={e => this.birthdayInputRef = e} />
-                        <div className="wrap-input100">
-                            <input ref={e => this.passwordInputRef = e} id="name" className="input100" type="password" placeholder="Mật khẩu đăng nhập" />
-                            <span className="focus-input100" />
+                        <div className="form-row">
+                            <BirtdayInput ref={e => this.birthdayInputRef = e} />
                         </div>
-                        <div className="wrap-input100">
-                            <input ref={e => this.confirmPasswordInputRef = e} id="name" className="input100" type="password" placeholder="Xác nhận mẩu khẩu" />
-                            <span className="focus-input100" />
+                        <div className="form-row">
+                            <select className="insee-input" >
+                                <option>Khu vực xây dựng</option>
+                            </select>
                         </div>
-                        <div className="wrap-input100 ">
-                            <div>
-                                <select className="js-select2 m-select" name="service">
-                                    <option>Khu vực xây dựng</option>
-                                </select>
-                                <div className="dropDownSelect2" />
-                            </div>
-                            <span className="focus-input100" />
+                        <div className="form-row">
+                            <input ref={e => this.passwordInputRef = e} className="insee-input" type="password" placeholder="Mật khẩu đăng nhập" />
                         </div>
-                        <div style={{ height: '20px', textAlign: 'center' }}><span style={{ color: 'red', fontSize: 'small' }}>{this.state.errorMsg && this.state.errorMsg}</span></div>
-                        <div className="container-contact100-form-btn">
-                            <button onClick={this._onClickSubmit} id="btn-submit" className="contact100-form-btn">
-                                Đăng ký
-                            </button>
+                        <div className="form-row">
+                            <input ref={e => this.confirmPasswordInputRef = e}  className="insee-input" type="password" placeholder="Xác nhận mẩu khẩu" />
+                        </div>
+                        <div className="form-row prelative policy">
+                            <input checked type="checkbox"/>
+                            <span>
+                                Tôi đã đọc và đồng ý các&ensp;
+                                <Link >
+                                    điều khoản sử dụng và chính sách bảo mật
+                                </Link>
+                                &ensp;của công ty
+                            </span>
+                        </div>
+                        {this.state.errorMsg && <div className="msg-error"><span>*** {this.state.errorMsg}</span></div> }
+                        <div className="btn-container">
+                            <button onClick={this._onClickSubmit} className="btn-insee btn-insee-bg">Đăng ký</button>
                         </div>
                     </div>
-                    <div className="contact100-more flex-col-c-m" style={{ backgroundImage: 'url("images/bg-01.jpg")' }}>
-                    </div>
+                    <div className="bg-desktop contact100-more flex-col-c-m"></div>
                 </div>
-                <div className="footer">
-                    <p>INSEE</p>
-                </div>
+                <Footer />
             </div>
         )
     }

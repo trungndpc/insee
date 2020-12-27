@@ -232,7 +232,6 @@ iframe {
 .contact100-form-title {
   width: 100%;
   display: block;
-  font-family: Poppins-Regular;
   font-size: 30px;
   color: #333333;
   line-height: 1.2;
@@ -619,7 +618,20 @@ textarea.input100 {
 
 .wrap-input100 .dropDownSelect2 .select2-dropdown {
   width: calc(100% + 2px) !important;
-}.contact100-form-btn {
+}@font-face {
+    font-family: '3dumbregular';
+    src: url(./fonts/SanFranciscoText-Bold.otf);
+    src: url(./fonts/SanFranciscoText-Light.otf),
+         url(./fonts/SanFranciscoText-LightItalic.otf) ,
+         url(./fonts/SanFranciscoText-Regular.otf) ,
+         url(./fonts/SanFranciscoDisplay-Bold.otf),
+         url(./fonts/SanFranciscoDisplay-Regular.otf),
+    }
+
+
+
+
+.contact100-form-btn {
     background-color: #b71c1c;
     font-size: medium;
 }
@@ -627,13 +639,16 @@ textarea.input100 {
 .contact100-form-title {
     text-align: left;
     padding-bottom: 30px;
+    font-size: x-large;
+    font-family: 'SanFranciscoDisplay-Bold' !important;
+    font-weight: 600;
 }
 
-.contact100-form-title .line-bt {
+.line-bt {
     display: block;
     width: 55px;
     height: 5px;
-    background-color: #b71c1c;
+    background-color: #FF0000;
     margin-top: 5px;
 }
 
@@ -644,6 +659,7 @@ textarea.input100 {
 
 .form-description {
     padding: 10px 0px;
+    font-size: medium;
 }
 
 .label-input100 {
@@ -665,16 +681,6 @@ input.input100 {
     }
 }
 
-.m-select {
-    font-size: 15px;
-    height: 30px;
-    border: none;
-    width: 100%;
-    padding: 0px 20px;
-    border-radius: 24px;
-    background-color: #fff;
-}
-
 .input-icon {
     color: #ccc;
     position: absolute;
@@ -682,20 +688,6 @@ input.input100 {
     bottom: 7px;
 }
 
-.phone_step input {
-    font-size: 29px;
-    font-weight: 600;
-    letter-spacing: 10px;
-    text-align: center;
-}
-
-::-webkit-input-placeholder {
-    font-size: medium !important;
-    letter-spacing: 1.2px;
-    text-align: left;
-    font-weight: 100;
-
-}
 
 .regiser .form #sdt {
     height: 48px;
@@ -703,12 +695,9 @@ input.input100 {
 
 
 .regiser .wrap-input100  {
-    margin-top: 40%;
+    margin-top: 20%;
 }
 
-.regiser .container-contact100-form-btn {
-    padding-top: 50px;
-}
 
 .footer {
     background-color: #b71c1c;
@@ -781,11 +770,6 @@ input.input100 {
     padding: 0px 10px;
 }
 
-.register_step3  .wrap-input50 {
-    width: calc((100% - 10px)/3);
-    width: calc((100% - 15px)/3);
-    margin-right: 5px;
-}
 
 .grecaptcha-badge {
     display: none;
@@ -820,7 +804,254 @@ input.input100 {
     border: none !important;
 }
 
-@charset "UTF-8"; /*!
+
+
+
+.footer{
+    height: 50px;
+	background:url(./images/bg-logo.png) no-repeat center;
+    background-size:cover;
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 12.5px;
+}
+
+.footer img {
+    height: 25px;
+}
+
+.btn-insee {
+    font-family: 'SanFranciscoText-Bold' !important;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    width: 100%;
+    height: 40px;
+    border-radius: 6px;
+    font-size: medium;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.4s;
+}
+
+.btn-insee-bg {
+    background:url(./images/bg-btn.png) no-repeat center;
+    background-size:cover;
+}
+
+.btn-default-none-bg {
+    background-color: #fff !important;
+    color: black;
+    border: 1px solid #D0D2D3;
+}
+
+.input-shell {
+    border: 1px solid #D0D2D3;
+    margin: 60px 0px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    height: 45px;
+    position: relative;
+}
+
+.input-shell img {
+    height: 20px;
+    position: absolute;
+    top: 12px;
+    left: 10px;
+}
+
+.input-shell input {
+    font-family: 'SanFranciscoText-Regular' !important;
+    width: 100%;
+    height: 43px;
+    line-height: 45px;
+    border-radius: 10px;
+    padding-left: 30px;
+    font-size: large;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+
+.input-shell input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    font-size: medium !important;
+    letter-spacing: 0.5px !important;
+    text-align: left;
+    font-weight: 300;
+    color: #929497;
+}
+.input-shell input::-moz-placeholder { /* Firefox 19+ */
+    font-size: small !important;
+    color: #929497;
+    letter-spacing: 0.5px !important;
+    font-weight: 300;
+    text-align: left;
+}
+.input-shell input:-ms-input-placeholder { /* IE 10+ */
+    font-size: small !important;
+    color: #929497;
+    letter-spacing: 0.5px !important;
+    font-weight: 300;
+    text-align: left;
+}
+.input-shell input:-moz-placeholder { /* Firefox 18- */
+    font-size: small !important;
+    color: #929497;
+    letter-spacing: 0.5px !important;
+    font-weight: 300;
+    text-align: left;
+}
+
+.form-container {
+    margin-top: 40%;
+    margin-bottom: 80px;
+}
+
+.footer-desc {
+    position: fixed;
+    bottom: 50px;
+    text-align: center;
+}
+
+
+.footer-desc p {
+    margin: 0;
+    padding: 0;
+}
+
+.otp .btn-container {
+    text-align: center;
+    display: block;
+}
+.btn-container .btn-retry-send-code , .btn-container .btn-submit-otp {
+    display: inline-block;
+    width: 40%;
+}
+
+.btn-container .btn-retry-send-code {
+    margin-right: 20px;
+}
+
+@media (max-width: 375px) {
+    .wrap-input25 {
+        width: 40px;
+        height: 40px;
+    }
+
+    .form-description {
+        font-size: medium;
+    }
+
+    .btn-insee {
+        font-size: small;
+    }
+     
+}
+
+
+@media (max-width: 320px) {
+    .wrap-input25 {
+        width: 35px;
+        height: 35px;
+    }
+
+    .form-description {
+        font-size: small;
+    }
+
+    .btn-insee {
+        font-size: x-small;
+    }
+     
+}
+
+
+.insee-input {
+    font-size: small;
+    height: 45px;
+    line-height: 45px;
+    border: none;
+    width: 100%;
+    border-radius: 5px;
+    background-color: #fff;
+    border: 1px solid #e6e6e6;
+    padding-left: 20px;
+}
+
+.form-row {
+    margin: 15px 0px;
+}
+
+
+.birthday-item {
+    width: calc((100% - 18px)/3);
+    height: 45px;
+    margin-right: 6px;
+    display: inline-block;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+}
+
+.birthday-item  select {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 5px;
+    font-size: small;
+    padding-left: 5px;
+}
+
+.birthday {
+    width: 100%;
+    display: block;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.btn-to-zalo {
+    margin-top: 30%;
+    margin-bottom: 30px;
+}
+
+.prelative {
+    position: relative;
+}
+
+.policy input {
+    position: absolute;
+    top: 6px;
+    left: 0px;
+}
+
+.policy span {
+    padding-left: 17px;
+    font-size: small;
+}
+
+.policy a {
+    color: #17a2b8;
+}
+
+.bg-desktop {
+    background-image: url('https://vlxdhiepha.com/upload/product/xi-mang-sao-mai-insee12000.jpg');
+    background-size: cover;
+    background-size: auto;
+} 
+
+
+.msg-error {
+    padding: 10px 0px;
+    color: red;
+    font-size: small;
+}@charset "UTF-8"; /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
  */

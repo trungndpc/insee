@@ -17,17 +17,16 @@ export function checkPhone(phone) {
   }
 }
 
-export function register(data) {
+export function updateCustomer(data) {
   return {
-    type: type.APP.REGISTER_ASYNC,
+    type: type.APP.UPDATE_CUSTOMER_ASYNC,
     data: data
   }
 }
 
-export function getCustomerById(id) {
+export function getCustomer() {
   return {
-    type: type.APP.GET_CUSTOMER_BY_ID_ASYNC,
-    id: id
+    type: type.APP.GET_CUSTOMER_ASYNC,
   }
 }
 
@@ -43,3 +42,10 @@ export function getPromotionById(id) {
     id: id
   }
 } 
+
+export function loginWithPhone(data) {
+  return {
+    type: type.APP.LOGIN_ASYNC_ASYNC,
+    data: data
+  }
+}
