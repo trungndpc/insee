@@ -42,7 +42,7 @@ export default class APIUtils {
       method: 'post',
       credentials: 'include',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/json'
       },
       body: formData
     })

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import FirebaseUtil from '../../../utils/FirebaseUtil'
 import CountDown from '../../../components/CountDown'
+import Footer from '../../../components/layout/Footer'
 
 const SENDING_SMS = 1;
 const SENDING_SUCCESS = 2;
@@ -34,10 +35,9 @@ class OTPStep extends Component {
 
     goToNextStep(idToken) {
         let data = { ...this.props.app.register }
-        data["step"] = 3;
+        data["phone"] = data["phone"];
         data["idToken"] = idToken;
-        console.log(data)
-        this.props.appActions.pushRegisterData(data);
+        this.props.appActions.loginWithPhone(data);
     }
 
     resetInput() {
@@ -53,8 +53,8 @@ class OTPStep extends Component {
             console.log("phone: " + phone) 
             FirebaseUtil.sendSMS(window.recaptchaVerifier, phone, (err, confirmationResult) => {
                 if (err == 0) {
-                    this.setState({statusSending: SENDING_SUCCESS})            
-                    console.log("send sms to: " + phone + " success")
+                    this.setState({statusSending: SENDING_SUCCESS})
+                    this.countDownRef.reset();
                     this.confirmationResult = confirmationResult;
                 }else {
                     this.setState({statusSending: SENDING_FAILED, 
@@ -68,6 +68,12 @@ class OTPStep extends Component {
     _onClickResetSMSCode() {
         this.sendSMS();
         this.resetInput();
+        
+        this.state = {
+            errorMsg: null,
+            smsError: 0,
+            statusSending: -1
+        }
     }
 
     confirmFailed() {
@@ -83,6 +89,10 @@ class OTPStep extends Component {
             console.log("_onSubmitSMSCode")
             this.setState({errorMsg: null})
             let smsCode = this.getSMSCode();
+            if(smsCode == null || smsCode.length < 6) {
+                this.setState({errorMsg: "Vui lòng nhập mã OTP"})
+                return;
+            }
             this.confirmationResult && FirebaseUtil.confirm(smsCode, this.confirmationResult, (result) => {
                 result.user.getIdToken().then(function(idToken) { 
                     this.goToNextStep(idToken);
@@ -142,15 +152,10 @@ class OTPStep extends Component {
                             {
                                 (this.state.statusSending == SENDING_SUCCESS && 
                                     ( this.state.smsError == 0 || this.state.smsError == -1 )) 
-                                    && <CountDown count={60} done={this.counterEnd}/> 
+                                    && <CountDown ref={e => this.countDownRef = e} count={60} done={this.counterEnd}/> 
                             }
                             </div>
-                            {
-                                (this.state.smsError != 0 && this.state.errorMsg ) && 
-                                <div className="error-msg">
-                                    {this.state.errorMsg}
-                                </div>
-                            }
+                            {this.state.errorMsg  &&  <div className="error-msg">{this.state.errorMsg}</div>}
                             <div className="wrap-input100 wrap-input25">
                                 <input ref={e => this.smsCodeInput1 = e} onKeyPress={key => { this._onKeyPress(key, 1) }} className="input100" type="number" />
                             </div>
@@ -170,21 +175,18 @@ class OTPStep extends Component {
                                 <input ref={e => this.smsCodeInput6 = e} onKeyPress={key => { this._onKeyPress(key, 6) }} className="input100" type="number" />
                             </div>
                         </div>
-                        <div className="container-contact100-form-btn">
-                            <button onClick={this._onClickResetSMSCode} className="contact100-form-btn contact30-form-btn btn-default">
-                                Gửi lại mã
-                            </button>
-                            <button onClick={this._onSubmitSMSCode} id="btn-register" className="contact100-form-btn contact30-form-btn">
-                                Đăng ký
-                            </button>
+                        <div className="btn-container">
+                            <div className="btn-retry-send-code">
+                                <button onClick={this._onClickResetSMSCode} className="btn-insee btn-default-none-bg">Gửi lại mã</button>
+                            </div>
+                            <div className="btn-submit-otp">
+                                <button onClick={this._onSubmitSMSCode} className="btn-insee btn-insee-bg">Đăng ký</button>
+                            </div>
                         </div>
                     </div>
-                    <div className="contact100-more flex-col-c-m" style={{ backgroundImage: 'url("images/bg-01.jpg")' }}>
-                    </div>
+                    <div className="bg-desktop contact100-more flex-col-c-m"></div>
                 </div>
-                <div className="footer">
-                    <p>INSEE</p>
-                </div>
+                <Footer />
             </div>
         )
     }

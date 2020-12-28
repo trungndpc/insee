@@ -14,10 +14,6 @@ import ContractorInfo from './redux/containers/webapp/ContractorInfo';
 import Promotion from './redux/containers/webapp/Promotion'
 
 const store = configureStore()
-function ContractorInfoRoute() {
-  let { id } = useParams();
-  return <ContractorInfo id={id} />
-};
 
 function PromotionRoute() {
   let { id } = useParams();
@@ -35,8 +31,8 @@ render(
         <Route path="/khuyen-mai" >
           <PromotionRoute />
         </Route>
-        <Route exact path="/khach-hang/:id" >
-          <ContractorInfoRoute />
+        <Route path="/khach-hang" >
+          <ContractorInfo  />
         </Route>
         <Route path="/dang-ky" component={Register} />
         <Route path="/" >

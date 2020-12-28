@@ -73,42 +73,30 @@ class BirtdayInput extends Component {
     render() {
         const listDay = this.getListDay(this.state.year, this.state.month);
         return (
-            <div>
-                <div className="wrap-input100 wrap-input50">
-                    <div>
-                        <select onChange={this.onChangeDay} className="js-select2 m-select" name="service">
-                            <option value={0}>Ngày</option>
-                            {listDay && listDay.map(function (day) {
-                                return <option key={day} value={day}>{day}</option>;
-                            })}
-                        </select>
-                        <div className="dropDownSelect2" />
-                    </div>
-                    <span className="focus-input100" />
+            <div className="birthday">
+                <div className="birthday-item">
+                    <select onChange={this.onChangeDay} >
+                        <option value={0}>Ngày</option>
+                        {listDay && listDay.map(function (day) {
+                            return <option key={day} value={day}>{day}</option>;
+                        })}
+                    </select>
                 </div>
-                <div className="wrap-input100 wrap-input50">
-                    <div>
-                        <select onChange={this.onChangeMonth} className="js-select2 m-select" name="service">
+                <div className="birthday-item">
+                        <select onChange={this.onChangeMonth} >
                             <option>Tháng</option>
                             {months.map(function (month) {
                                 return (<option key={month.id} value={month.id}>{month.name}</option>)
                             })}
                         </select>
-                        <div className="dropDownSelect2" />
-                    </div>
-                    <span className="focus-input100" />
                 </div>
-                <div className="wrap-input100 wrap-input50">
-                    <div>
-                        <select onChange={this.onChangeYear} className="js-select2 m-select" name="service">
-                            <option value={0}>Năm</option>
-                            {years.map(function (year) {
-                                return (<option key={year} value={year}>{year}</option>)
-                            })}
-                        </select>
-                        <div className="dropDownSelect2" />
-                    </div>
-                    <span className="focus-input100" />
+                <div className="birthday-item">
+                    <select onChange={this.onChangeYear}  >
+                        <option value={0}>Năm</option>
+                        {years.map(function (year) {
+                            return (<option key={year} value={year}>{year}</option>)
+                        })}
+                    </select>
                 </div>
             </div>
         )
