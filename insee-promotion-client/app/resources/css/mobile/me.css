@@ -1,11 +1,11 @@
 @font-face {
     font-family: '3dumbregular';
-    src: url('../../fonts/SanFranciscoText-Bold.otf');
-    src: url('../../fonts/SanFranciscoText-Light.otf'),
-         url('../../fonts/SanFranciscoText-LightItalic.otf') ,
-         url('../../fonts/SanFranciscoText-Regular.otf') ,
-         url('../../fonts/SanFranciscoDisplay-Bold.otf'),
-         url('../../fonts/SanFranciscoDisplay-Regular.otf'),
+    src: url('https://trungndpc.github.io/insee-promotion-client/fonts/SanFranciscoText-Bold.otf');
+    src: url('https://trungndpc.github.io/insee-promotion-client/fonts/SanFranciscoText-Light.otf'),
+         url('https://trungndpc.github.io/insee-promotion-client/fonts/SanFranciscoText-LightItalic.otf') ,
+         url('https://trungndpc.github.io/insee-promotion-client/fonts/SanFranciscoText-Regular.otf') ,
+         url('https://trungndpc.github.io/insee-promotion-client/fonts/SanFranciscoDisplay-Bold.otf'),
+         url('https://trungndpc.github.io/insee-promotion-client/fonts/SanFranciscoDisplay-Regular.otf'),
     }
 
 
@@ -57,7 +57,9 @@ input.input100 {
 
 @media (max-width: 576px) {
     .contact100-form {
-        padding: 25px 15px 55px 15px;
+        padding: 25px 15px 0px 15px;
+        height: calc(100vh - 86px);
+        min-height: initial;
     }
 }
 
@@ -83,7 +85,7 @@ input.input100 {
     background-color: #b71c1c;
     width: 100%;
     text-align: center;
-    position: fixed;
+    /* position: fixed; */
     bottom: 0;
 }
 
@@ -177,6 +179,11 @@ input.input100 {
     .text-center-mobile .btn-apply-promotion {
         padding: 10px 70px;
     }
+
+    .icon-bar {
+        display: block;
+    }
+   
 }
 
 
@@ -189,7 +196,7 @@ input.input100 {
 
 .footer{
     height: 50px;
-	background:url('../../images/bg-logo.png') no-repeat center;
+	background:url('https://trungndpc.github.io/insee-promotion-client/images/bg-logo.png') no-repeat center;
     background-size:cover;
     text-align: center;
     vertical-align: middle;
@@ -218,7 +225,7 @@ input.input100 {
 }
 
 .btn-insee-bg {
-    background:url('../../images/bg-btn.png') no-repeat center;
+    background:url('https://trungndpc.github.io/insee-promotion-client/images/bg-btn.png') no-repeat center;
     background-size:cover;
 }
 
@@ -287,14 +294,17 @@ input.input100 {
 }
 
 .form-container {
-    margin-top: 40%;
+    margin-top: 30%;
     margin-bottom: 80px;
 }
 
 .footer-desc {
-    position: fixed;
+    /* position: fixed; */
     bottom: 50px;
     text-align: center;
+    background-color: #fff;
+    display: block;
+    width: 100%;
 }
 
 
@@ -431,4 +441,71 @@ input:-webkit-autofill:active  {
     padding: 10px 0px;
     color: red;
     font-size: small;
+}
+
+
+.icon-bar {
+    position: absolute;
+    top: 20px;
+    font-size: 20px;
+    right: 0;
+}
+
+#main-menu {
+    text-align: right;
+    padding: 0;
+    background-color: #fff;
+}
+
+#main-menu ul {
+    width: 100%;
+    margin: 0;
+}
+
+#main-menu ul li {
+    padding: 10px 20px;
+    font-size: small;
+}
+
+body {
+    background: #f4f2f2 !important;
+}
+
+.col-avatar {
+    background-color: #fff;
+}
+.container-fluid {
+    background-color: #fff;
+}
+
+.input-shell.login-password {
+    margin-top: 10px;
+}
+
+.login-page .form-container {
+    margin-bottom: 10px ;
+}
+
+.btn-zalo-login button {
+    background-color: #1E8FE5 !important;
+}
+
+.or {
+    text-align: center;
+    margin: 10px;
+}
+
+
+@media (min-width: 576px) {
+    
+
+    .icon-bar {
+        display: none !important;
+    }
+   
+}
+
+
+#insee-promotion-client {
+    background-color: #fff;
 }

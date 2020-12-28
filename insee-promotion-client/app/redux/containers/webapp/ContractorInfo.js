@@ -53,7 +53,7 @@ class ContractorInfo extends React.Component {
                                                                 <table className="table table-responsive table-info-contractor">
                                                                     <tbody>
                                                                         <tr>
-                                                                            <th>Họ tên nhà thầu</th>
+                                                                            <th>Nhà thầu</th>
                                                                             <td>{contractor.fullName}</td>
                                                                         </tr>
                                                                         <tr>
@@ -61,11 +61,7 @@ class ContractorInfo extends React.Component {
                                                                             <td>{contractor.phone}</td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <th>Mật khẩu đăng nhập</th>
-                                                                            <th>***</th>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <th>Khu vực thi công chính</th>
+                                                                            <th>Khu vực thi công</th>
                                                                             <td>Hồ Chí Minh</td>
                                                                         </tr>
                                                                     </tbody>
