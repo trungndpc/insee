@@ -620,12 +620,12 @@ textarea.input100 {
   width: calc(100% + 2px) !important;
 }@font-face {
     font-family: '3dumbregular';
-    src: url(../fonts/SanFranciscoText-Bold.otf);
-    src: url(../fonts/SanFranciscoText-Light.otf),
-         url(../fonts/SanFranciscoText-LightItalic.otf) ,
-         url(../fonts/SanFranciscoText-Regular.otf) ,
-         url(../fonts/SanFranciscoDisplay-Bold.otf),
-         url(../fonts/SanFranciscoDisplay-Regular.otf),
+    src: url(../dist/fonts/SanFranciscoText-Bold.otf);
+    src: url(../dist/fonts/SanFranciscoText-Light.otf),
+         url(../dist/fonts/SanFranciscoText-LightItalic.otf) ,
+         url(../dist/fonts/SanFranciscoText-Regular.otf) ,
+         url(../dist/fonts/SanFranciscoDisplay-Bold.otf),
+         url(../dist/fonts/SanFranciscoDisplay-Regular.otf),
     }
 
 
@@ -809,7 +809,7 @@ input.input100 {
 
 .footer{
     height: 50px;
-	background:url(../images/bg-logo.png) no-repeat center;
+	background:url(../dist/images/bg-logo.png) no-repeat center;
     background-size:cover;
     text-align: center;
     vertical-align: middle;
@@ -838,7 +838,7 @@ input.input100 {
 }
 
 .btn-insee-bg {
-    background:url(../images/bg-btn.png) no-repeat center;
+    background:url(../dist/images/bg-btn.png) no-repeat center;
     background-size:cover;
 }
 
