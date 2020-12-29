@@ -49,7 +49,7 @@ class PhoneStep extends Component {
     render() {
         const isLoading = this.props.app.register.isLoading;
         return (
-            <FormLayout copyright={true}>
+            <FormLayout {...this.props} copyright={true}>
                 <span className="contact100-form-title">Đăng ký<div className="line-bt" /> </span>
                 <div className="form-container">
                     <div className="input-shell">

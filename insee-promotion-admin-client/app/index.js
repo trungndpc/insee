@@ -10,7 +10,7 @@ import {
   useParams,
   useHistory
 } from "react-router-dom";
-import Register from '../app/redux/containers/register/index';
+import Login from '../app/redux/containers/webapp/Login';
 import ContractorInfo from './redux/containers/webapp/ContractorInfo';
 import Promotion from './redux/containers/webapp/Promotion'
 import Gift from './redux/containers/webapp/Gift'
@@ -93,10 +93,9 @@ render(
         <Route path="/customer">
           <CustomerRoute />
         </Route>
-        <Route path="/register" component={Register} />
+        <Route path="/login" component={Login} />
       </Switch>
       <RouteApp />
-
     </Router>
     <Alert stack={{ limit: 3 }} />
   </Provider>,

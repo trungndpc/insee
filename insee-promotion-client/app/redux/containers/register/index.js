@@ -10,6 +10,7 @@ import PhoneStep from './PhoneStep';
 import OTPStep from './OTPStep';
 import InfoStep from './InfoStep';
 import CompletedStep from './CompletedStep';
+import Loading from '../../../components/layout/Loading'
 
 class Register extends React.Component {
 
@@ -24,6 +25,7 @@ class Register extends React.Component {
         {data &&data.step == 3 && <InfoStep {...this.props} />}
         {data && data.step == 4 && <CompletedStep {...this.props} />}
         <div id="recaptcha-container"></div>
+        <Loading {...this.props}/>
       </div>
     )
   }

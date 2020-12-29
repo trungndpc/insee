@@ -57,6 +57,7 @@ class OTPStep extends Component {
                     this.setState({ statusSending: SENDING_SUCCESS })
                     this.countDownRef.reset();
                     this.confirmationResult = confirmationResult;
+                    this.props.appActions.setStatusLoading(false);
                 } else {
                     this.setState({
                         statusSending: SENDING_FAILED,
@@ -77,6 +78,7 @@ class OTPStep extends Component {
             smsError: 0,
             statusSending: -1
         }
+        this.props.appActions.setStatusLoading(true);
     }
 
     confirmFailed() {
@@ -107,15 +109,28 @@ class OTPStep extends Component {
     }
 
     _onKeyPress(key, index) {
-        var currentRef = this[FM_NAME_INPUT + index];
-        currentRef.value = key;
-        index = index + 1;
-        if (index > 6) {
-            return false;
+        if (key.key == 'Backspace') {
+            let prev = index - 1;
+            if (prev > 0) {
+                let prevRef = this[FM_NAME_INPUT + prev];
+                prevRef.focus();
+
+            }
+        } else if (key.key >= 0 && key.key <= 9){
+            let next = index + 1;
+            if (next <= 6) {
+                let nextRef = this[FM_NAME_INPUT + next]
+                nextRef.focus();
+            }
         }
-        var nextRef = this[FM_NAME_INPUT + index]
-        nextRef.focus();
-        return false;
+    }
+
+    _onChange(e) {
+        if (e.target.value) {
+            e.target.value = e.target.value % 10;
+        }else{
+            e.target.value = null;
+        }
     }
 
     getSMSCode() {
@@ -138,10 +153,11 @@ class OTPStep extends Component {
         });
     }
 
+
+
     render() {
-        alert("OK2 ")
         return (
-            <FormLayout>
+            <FormLayout {...this.props}>
                 <span className="contact100-form-title">
                     Nhập OTP
                     <div className="line-bt" />
@@ -150,7 +166,7 @@ class OTPStep extends Component {
                             để hoàn tất truy cập vào hệ thống</div>
 
                 <div className="form-center">
-                    <div>
+                    <div style={{padding: '20px 10px'}}>
                         {
                             (this.state.statusSending == SENDING_SUCCESS &&
                                 (this.state.smsError == 0 || this.state.smsError == -1))
@@ -159,22 +175,22 @@ class OTPStep extends Component {
                     </div>
                     {this.state.errorMsg && <div className="error-msg">{this.state.errorMsg}</div>}
                     <div className="wrap-input100 wrap-input25">
-                        <input ref={e => this.smsCodeInput1 = e} value={2}  onKeyPress={key => { this._onKeyPress(key, 1) }} className="input100" type="number" />
+                        <input ref={e => this.smsCodeInput1 = e} onChange={this._onChange} onKeyUp={key => { this._onKeyPress(key, 1) }} className="input100" type="number" />
                     </div>
                     <div className="wrap-input100 wrap-input25">
-                        <input ref={e => this.smsCodeInput2 = e} value={2} inputmode="numeric" pattern="[0-9]*" onKeyPress={key => { this._onKeyPress(key, 2) }} className="input100" type="number" />
+                        <input ref={e => this.smsCodeInput2 = e} onChange={this._onChange}  onKeyUp={key => { this._onKeyPress(key, 2) }} className="input100" type="number" />
                     </div>
                     <div className="wrap-input100 wrap-input25">
-                        <input ref={e => this.smsCodeInput3 = e} inputmode="numeric" pattern="[0-9]*" onKeyPress={key => { this._onKeyPress(key, 3) }} className="input100" type="number" />
+                        <input ref={e => this.smsCodeInput3 = e} onChange={this._onChange}  onKeyUp={key => { this._onKeyPress(key, 3) }} className="input100" type="number" />
                     </div>
                     <div className="wrap-input100 wrap-input25">
-                        <input ref={e => this.smsCodeInput4 = e} inputmode="numeric" pattern="[0-9]*" onKeyPress={key => { this._onKeyPress(key, 4) }} className="input100" type="number"/>
+                        <input ref={e => this.smsCodeInput4 = e} onChange={this._onChange}  onKeyUp={key => { this._onKeyPress(key, 4) }} className="input100" type="number" />
                     </div>
                     <div className="wrap-input100 wrap-input25">
-                        <input ref={e => this.smsCodeInput5 = e} inputmode="numeric" pattern="[0-9]*" onKeyPress={key => { this._onKeyPress(key, 5) }} className="input100" type="number" />
+                        <input ref={e => this.smsCodeInput5 = e} onChange={this._onChange}  onKeyUp={key => { this._onKeyPress(key, 5) }} className="input100" type="number" />
                     </div>
                     <div className="wrap-input100 wrap-input25">
-                        <input ref={e => this.smsCodeInput6 = e} inputmode="numeric" pattern="[0-9]*" onKeyPress={key => { this._onKeyPress(key, 6) }} className="input100" type="number" />
+                        <input ref={e => this.smsCodeInput6 = e} onChange={this._onChange}  onKeyUp={key => { this._onKeyPress(key, 6) }} className="input100" type="number" />
                     </div>
                 </div>
                 <div className="btn-container center">

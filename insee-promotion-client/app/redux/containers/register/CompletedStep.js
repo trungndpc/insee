@@ -18,7 +18,7 @@ class CompletedStep extends Component {
 
     render() {
         return (
-            <FormLayout>
+            <FormLayout {...this.props}>
                 <span className="contact100-form-title">Hoàn tất đăng ký
                     <div className="line-bt" />
                 </span>

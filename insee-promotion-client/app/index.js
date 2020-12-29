@@ -17,7 +17,6 @@ import Login from './redux/containers/Login'
 const store = configureStore()
 const isLogin = window.isLogin = true;
 
-
 function RouteApp() {
   let history = useHistory();
   window.pushHistory = function (path) {
@@ -30,23 +29,22 @@ function APP() {
 
   return (
     <Switch>
-      <Route path="/khuyen-mai" >
-        <Promotion />
-      </Route>
-      {/* {!isLogin &&  */}
+        <Route path="/khuyen-mai" >
+          <Promotion />
+        </Route>
+        {/* {!isLogin &&  */}
         <Route path="/dang-nhap" >
           <Login />
         </Route>
-      {/* } */}
-      {/* {isLogin &&  */}
+        {/* } */}
+        {/* {isLogin &&  */}
         <Route path="/khach-hang" >
           <ContractorInfo />
         </Route>
-      {/* } */}
-      {/* {!isLogin &&  */}
+        {/* } */}
+        {/* {!isLogin &&  */}
         <Route path="/dang-ky" component={Register} />
-      {/* } */}
-        
+        {/* } */}    
     </Switch>
   )
 }

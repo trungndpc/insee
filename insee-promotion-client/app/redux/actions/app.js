@@ -41,7 +41,7 @@ export function getPromotionById(id) {
     type: type.APP.GET_PROMOTION_BY_ID_ASYNC,
     id: id
   }
-} 
+}
 
 export function loginWithPhone(data) {
   return {
@@ -54,5 +54,13 @@ export function loginWithPass(data) {
   return {
     type: type.APP.LOGIN_PASSWORD_ASYNC,
     data: data
+  }
+}
+
+export function setStatusLoading(is) {
+  if (is) {
+    return { type: type.APP.ON_LOADING }
+  } else {
+    return { type: type.APP.OFF_LOADING }
   }
 }

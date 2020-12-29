@@ -1,8 +1,9 @@
 import * as type from '../actions/action-types'
 
 const initialState = {
+  isLoading: false,
   register: {
-    step: 2,
+    step: 1,
     isLoading: false
   },
 }
@@ -17,30 +18,29 @@ export default function app(state = initialState, action) {
     }
     case type.APP.CHECK_PHONE_START: {
       newState.register = {...newState.register}
-      newState.register.isLoading = true;
-      console.log("CHECK_PHONE_START")
+      newState.isLoading = true;
       break;
     }
     case type.APP.CHECK_PHONE_END: {
-      console.log("CHECK_PHONE_END: " + action.payload);
       newState.register = {...newState.register}
       let error = action.payload;
+      if (error != 0) {
+        newState.isLoading = false;
+      }
       newState.register.statusStep1 = error;
-      newState.register.isLoading = false;
       break;
     }
     case type.APP.UPDATE_CUSTOMER_START: {
-      console.log("REGISTER_START");
+      newState.isLoading = true;
       break;
     }
     case type.APP.UPDATE_CUSTOMER_END: {
-      console.log("REGISTER_END: " + action.payload);
+      newState.isLoading = false;
       newState.register = {...newState.register}
       newState.register.customer = action.payload;
       break
     }
     case type.APP.PUSH_STATE_REGISTER: {
-      console.log("PUSH_STATE_REGISTER: " + action.payload);
       let data = action.payload;
       newState.register = {...newState.register}
       data.forEach(function(item) {
@@ -48,32 +48,53 @@ export default function app(state = initialState, action) {
       })
       break;
     }
-
+    case type.APP.GET_CUSTOMER_START: {
+      newState.isLoading = true;
+      break;
+    }
     case type.APP.GET_CUSTOMER_END: {
-      console.log("GET_CUSTOMER_BY_ID_END: " + action.payload);
+      newState.isLoading = false;
       let data = action.payload;
       newState.customer = data;
       break;
     }
-
     case type.APP.GET_LIST_PROMOTION_END: {
-      console.log("GET_LIST_PROMOTION_END: " + action.payload);
       let data = action.payload;
       newState.promotions = data;
       break;
     }
 
     case type.APP.GET_PROMOTION_BY_ID_END: {
-      console.log("GET_PROMOTION_BY_ID_END: " + action.payload);
       let data = action.payload;
       newState.promotion = data;
       break;
     }
+    case type.APP.LOGIN_PASSWORD_START: {
+      newState.isLoading = true;
+      break;
+    }
     case type.APP.LOGIN_PASSWORD_END: {
+      newState.isLoading = false;
       let data = action.payload;
       if (data.error != 0) {
         newState.loginPassErrorMsg = "SDT hoặc mật khẩu không đúng"
       }
+      break;
+    }
+    case type.APP.ON_LOADING: {
+      newState.isLoading = true;
+      break;
+    }
+    case type.APP.OFF_LOADING: {
+      newState.isLoading = false;
+      break;
+    }
+    case type.APP.LOGIN_ASYNC_START: {
+      newState.isLoading = true;
+      break;
+    }
+    case type.APP.LOGIN_ASYNC_END: {
+      newState.isLoading = false;
       break;
     }
     default:

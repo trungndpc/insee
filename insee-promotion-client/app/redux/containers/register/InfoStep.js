@@ -71,7 +71,7 @@ class InfoStep extends Component {
 
     render() {
         return (
-            <FormLayout>
+            <FormLayout {...this.props}>
                 <span className="contact100-form-title">
                     Đăng ký
                      <div className="line-bt" />
