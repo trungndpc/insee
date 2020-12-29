@@ -10,6 +10,7 @@ export default function* customer() {
   yield takeLatest(type.APP.GET_LIST_PROMOTION_ASYNC, getListPromotionAsync)
   yield takeLatest(type.APP.GET_PROMOTION_BY_ID_ASYNC, getPromotionByIdAsync)
   yield takeLatest(type.APP.LOGIN_ASYNC_ASYNC, loginAsync)
+  yield takeLatest(type.APP.LOGIN_PASSWORD_ASYNC, loginWithPassAsync)
 }
 
 
@@ -141,5 +142,26 @@ function loginWithPhoneSMS(data) {
   }
   return new Promise((resolve, reject) => {
     APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/authen/login`, JSON.stringify(body), resolve, reject);
+  });
+}
+
+//loginWithPassAsync
+
+function* loginWithPassAsync(action) {
+  yield put({ type: type.APP.LOGIN_PASSWORD_START })
+  const resp = yield call(loginWithPass, action.data)
+  if (resp.error == 0) {
+    window.pushHistory("/khach-hang");
+  }
+  yield put({ type: type.APP.LOGIN_PASSWORD_END, payload: resp })
+}
+
+function  loginWithPass(data) {
+  var body = {
+    phone: data["phone"],
+    pass: data["pass"]
+  }
+  return new Promise((resolve, reject) => {
+    APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/authen/login-pass`, JSON.stringify(body), resolve, reject);
   });
 }

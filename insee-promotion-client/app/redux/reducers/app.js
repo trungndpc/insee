@@ -2,7 +2,7 @@ import * as type from '../actions/action-types'
 
 const initialState = {
   register: {
-    step: 1,
+    step: 2,
     isLoading: false
   },
 }
@@ -67,6 +67,13 @@ export default function app(state = initialState, action) {
       console.log("GET_PROMOTION_BY_ID_END: " + action.payload);
       let data = action.payload;
       newState.promotion = data;
+      break;
+    }
+    case type.APP.LOGIN_PASSWORD_END: {
+      let data = action.payload;
+      if (data.error != 0) {
+        newState.loginPassErrorMsg = "SDT hoặc mật khẩu không đúng"
+      }
       break;
     }
     default:

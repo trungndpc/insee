@@ -49,3 +49,10 @@ export function loginWithPhone(data) {
     data: data
   }
 }
+
+export function loginWithPass(data) {
+  return {
+    type: type.APP.LOGIN_PASSWORD_ASYNC,
+    data: data
+  }
+}

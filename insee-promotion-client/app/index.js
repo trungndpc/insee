@@ -7,7 +7,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useParams
+  useHistory
 } from "react-router-dom";
 import Register from '../app/redux/containers/register/index';
 import ContractorInfo from './redux/containers/webapp/ContractorInfo';
@@ -16,6 +16,15 @@ import Login from './redux/containers/Login'
 
 const store = configureStore()
 const isLogin = window.isLogin = true;
+
+
+function RouteApp() {
+  let history = useHistory();
+  window.pushHistory = function (path) {
+    history.push(path);
+  }
+  return <div></div>
+}
 
 function APP() {
 
@@ -37,6 +46,7 @@ function APP() {
       {/* {!isLogin &&  */}
         <Route path="/dang-ky" component={Register} />
       {/* } */}
+        
     </Switch>
   )
 }
@@ -46,6 +56,7 @@ render(
   <Provider store={store}>
     <Router>
       <APP />
+      <RouteApp />
     </Router>
   </Provider>,
   document.getElementById('insee-promotion-client')
