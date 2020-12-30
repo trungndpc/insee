@@ -11,6 +11,10 @@ export default function* customer() {
   yield takeLatest(type.APP.GET_LIST_PROMOTION_ASYNC, getListPromotionAsync)
   yield takeLatest(type.APP.CREATE_PROMOTION_ASYNC, createPromotionAsync)
   yield takeLatest(type.APP.GET_PROMOTION_BY_ID_ASYNC, getPromotionByIdAsync)
+  yield takeLatest(type.APP.LOGIN_ASYNC, loginAsync)
+  yield takeLatest(type.APP.GET_PROFILE_ASYNC, getProfileAsync)
+  yield takeLatest(type.APP.GET_LIST_CUSTOMER_ALL_ASYNC, getListCustomerAllAsync)
+  yield takeLatest(type.APP.GET_LIST_CUSTOMER_BY_STATUS_ASYNC, getListCustomerByStatusAsync)
 }
 
 
@@ -91,7 +95,7 @@ function* getCustomerByIdAsync(action) {
 
 function getCustomerById(id) {
   return new Promise((resolve, reject) => {
-    APIUtils.getJSONWithoutCredentials(process.env.DOMAIN + `/api/customer/?id=` + id, resolve, reject);
+    APIUtils.getJSONWithoutCredentials(process.env.DOMAIN + `/api/admin/customer?id=` + id, resolve, reject);
   });
 }
 
@@ -148,5 +152,67 @@ function* getPromotionByIdAsync(action) {
 function getPromotionById(id) {
   return new Promise((resolve, reject) => {
     APIUtils.getJSONWithoutCredentials(process.env.DOMAIN + `/api/admin/post?id=` + id, resolve, reject);
+  });
+}
+
+//loginAsync 
+
+function* loginAsync(action) {
+  yield put({type: type.APP.LOGIN_START})
+  const resp = yield call(postLogin, action.data)
+  if (resp.error == 0) {
+    AppUtils.push("/")
+  }
+  yield put({type: type.APP.LOGIN_END, payload: resp})
+}
+
+function postLogin(data) {
+  var body = {
+      phone: data["phone"],
+      pass: data["pass"]
+  }
+  return new Promise((resolve, reject) => {
+    APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/admin/authen/login`, JSON.stringify(body), resolve, reject);
+  });
+}
+
+//getProfileAsync 
+
+function* getProfileAsync() {
+  yield put({type: type.APP.GET_PROFILE_START})
+  const resp = yield call(getProfile)
+  yield put({type: type.APP.GET_PROFILE_END, payload: resp.data})
+}
+
+function getProfile() {
+  return new Promise((resolve, reject) => {
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/admin/authen/profile`, resolve, reject);
+  });
+}
+
+//getListCustomerAllAsync 
+function* getListCustomerAllAsync(action) {
+  yield put({type: type.APP.GET_LIST_CUSTOMER_ALL_START})
+  const resp = yield call(getListCustomerAll, action.page, action.pageSize)
+  yield put({type: type.APP.GET_LIST_CUSTOMER_ALL_END, payload: resp.data})
+}
+
+function getListCustomerAll(page, pageSize) {
+  return new Promise((resolve, reject) => {
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/customer/list?page=${page}&pageSize=${pageSize}`, resolve, reject);
+  });
+}
+
+//getListCustomerByStatus
+
+function* getListCustomerByStatusAsync(action) {
+  yield put({type: type.APP.GET_LIST_CUSTOMER_BY_STATUS_START})
+  const resp = yield call(getListCustomerByStatus, action.status, action.page, action.pageSize)
+  yield put({type: type.APP.GET_LIST_CUSTOMER_BY_STATUS_END, payload: resp.data})
+}
+
+function getListCustomerByStatus(status, page, pageSize) {
+  return new Promise((resolve, reject) => {
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/customer/find-by?page=${page}&pageSize=${pageSize}&status=${status}`, resolve, reject);
   });
 }

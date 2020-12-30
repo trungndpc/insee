@@ -857,7 +857,7 @@ input[type=number] {
     line-height: 1.2;
     text-transform: uppercase;
     letter-spacing: 1px;
-    transition: all 0.4s;
+    /* transition: all 0.4s; */
 }
 
 .btn-insee-bg {
@@ -865,10 +865,19 @@ input[type=number] {
     background-size:cover;
 }
 
+.btn-insee-bg:active {
+    background-color: brown;
+    background-image: none;
+}
+
 .btn-default-none-bg {
     background-color: #fff !important;
     color: black;
     border: 1px solid #D0D2D3;
+}
+
+.btn-default-none-bg:active {
+    background-color: #d7d7d7 !important
 }
 
 .input-shell {
@@ -1039,9 +1048,11 @@ input[type=number] {
     display: block;
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active  {
+input:-webkit-autofill{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+select:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
@@ -1147,6 +1158,31 @@ body {
 
 #insee-promotion-client {
     background-color: #fff;
+}
+
+
+.insee-app {
+    width: 100%;
+    height: 100%;
+    /* position: fixed; */
+}
+
+.img-loading {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: calc(50% - 60px);
+    left: calc(50% - 30px);
+}
+
+.bg-loading {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
 }@charset "UTF-8"; /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)

@@ -3441,11 +3441,7 @@ nav.breadcrumb {
 }
 
 .pepl-info {
-    display: inline-block;
-    padding-left: 15px;
-    position: relative;
-    vertical-align: middle;
-    width: 85%;
+    display: flex;
 }
 
 .pepl-info > h4 {
@@ -3457,14 +3453,10 @@ nav.breadcrumb {
 
 a.add-butn {
     color: #fff;
-    float: right;
     font-size: 13px;
     line-height: initial;
     padding: 5px 10px;
-    position: absolute;
-    right: 0;
     text-transform: capitalize;
-    top: 10px;
 	border-radius: 4px;
 }
 
@@ -3635,6 +3627,7 @@ a.add-butn {
 
 .frnds .nav-tabs .nav-item {
     margin-right: 50px;
+    cursor: pointer;
 }
 
 .frnds .nav-tabs .nav-item:last-child {

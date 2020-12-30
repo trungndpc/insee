@@ -41,9 +41,13 @@ function APP() {
         <Route path="/khach-hang" >
           <ContractorInfo />
         </Route>
+        
         {/* } */}
         {/* {!isLogin &&  */}
         <Route path="/dang-ky" component={Register} />
+        <Route path="/" >
+          <ContractorInfo />
+        </Route>
         {/* } */}    
     </Switch>
   )

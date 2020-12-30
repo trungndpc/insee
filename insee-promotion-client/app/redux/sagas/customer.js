@@ -11,6 +11,7 @@ export default function* customer() {
   yield takeLatest(type.APP.GET_PROMOTION_BY_ID_ASYNC, getPromotionByIdAsync)
   yield takeLatest(type.APP.LOGIN_ASYNC_ASYNC, loginAsync)
   yield takeLatest(type.APP.LOGIN_PASSWORD_ASYNC, loginWithPassAsync)
+  yield takeLatest(type.APP.GET_PROFILE_USER_ASYNC, getProfileAsync)
 }
 
 
@@ -69,7 +70,7 @@ function* updateCustomerAsync(action) {
 function postUpdateCustomer(data) {
   var body = {
     phone: data["phone"],
-    mainAreaId: 1,
+    mainAreaId: data["location"],
     pass: data["password"],
     fullName: data["name"],
   }
@@ -163,5 +164,20 @@ function  loginWithPass(data) {
   }
   return new Promise((resolve, reject) => {
     APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/authen/login-pass`, JSON.stringify(body), resolve, reject);
+  });
+}
+
+function* getProfileAsync() {
+  yield put({ type: type.APP.GET_PROFILE_USER_START })
+  const resp = yield call(getProfile)
+  if (resp.error < 0) {
+    window.pushHistory("/dang-nhap");
+  }
+  yield put({ type: type.APP.GET_PROFILE_USER_END, payload: resp.data })
+}
+
+function getProfile() {
+  return new Promise((resolve, reject) => {
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/user/profile`, resolve, reject);
   });
 }

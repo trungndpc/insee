@@ -97,6 +97,13 @@ export default function app(state = initialState, action) {
       newState.isLoading = false;
       break;
     }
+    case type.APP.GET_PROFILE_USER_START: {
+      break;
+    }
+    case type.APP.GET_PROFILE_USER_END: {
+      newState.user = action.payload;
+      break;
+    }
     default:
       return state
   }

@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
-
+import {UserRole} from '../../../components/enum/UserRole'
+import {CustomerStatus} from '../../../components/enum/CustomerStatus'
+import Location from '../../../data/Location'
 class ContractorInfo extends React.Component {
 
 
@@ -12,6 +14,7 @@ class ContractorInfo extends React.Component {
 
     render() {
         const contractor = this.props.app.customer;
+        const user = this.props.app.user;
         return (
             <WebAppLayout {...this.props}>
                 <section>
@@ -49,6 +52,36 @@ class ContractorInfo extends React.Component {
                                                             <div className="personal">
                                                                 <h5 className="f-title">THÔNG TIN TÀI KHOẢN </h5>
                                                             </div>
+                                                            {user &&
+                                                                <table className="table table-responsive table-info-contractor">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <th>Họ và tên</th>
+                                                                            <td>{user.name}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Vai trò</th>
+                                                                            <td>{UserRole.findByRoleId(user.roleId).getName()}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Chứng chỉ</th>
+                                                                            <td>Nhà thầu xanh</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Ghi chú</th>
+                                                                            <td>{user.note}</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            }
+                                                        </div>
+                                                    </div>
+
+                                                    {contractor &&  <div className="central-meta">
+                                                        <div className="about">
+                                                            <div className="personal">
+                                                                <h5 className="f-title">THÔNG TIN NHÀ THẦU</h5>
+                                                            </div>
                                                             {contractor &&
                                                                 <table className="table table-responsive table-info-contractor">
                                                                     <tbody>
@@ -57,19 +90,31 @@ class ContractorInfo extends React.Component {
                                                                             <td>{contractor.fullName}</td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <th>Số điện thoại</th>
+                                                                            <th>SDT</th>
                                                                             <td>{contractor.phone}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Khu vực thi công</th>
-                                                                            <td>Hồ Chí Minh</td>
+                                                                            <td>{Location.getName(contractor.mainAreaId)}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Trạng thái hồ sơ</th>
+                                                                            <td style={{color: `${CustomerStatus.findByStatus(contractor.finalStatus).getColor()}`}}>
+                                                                                {CustomerStatus.findByStatus(contractor.finalStatus).getName()}
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Ghi chú</th>
+                                                                            <td>{contractor.note}</td>
                                                                         </tr>
                                                                     </tbody>
                                                                 </table>
                                                             }
                                                         </div>
                                                     </div>
-                                                </div>{/* centerl meta */}
+                                                    }
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>{/* centerl meta */}

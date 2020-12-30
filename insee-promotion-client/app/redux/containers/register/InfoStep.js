@@ -4,6 +4,7 @@ import FormLayout from '../../../components/layout/FormLayout'
 import {
     Link
 } from "react-router-dom";
+import Location from '../../../data/Location';
 
 class InfoStep extends Component {
 
@@ -31,6 +32,7 @@ class InfoStep extends Component {
             let name = this.nameInputRef.value;
             let password = this.passwordInputRef.value;
             let confirmPassword = this.confirmPasswordInputRef.value;
+            let mainAreaId = this.mainAreaRef.value;
 
             if (!name) {
                 errorMsg = 'Vui lòng nhập họ và tên'
@@ -58,11 +60,15 @@ class InfoStep extends Component {
                 errorMsg = "Mật khẩu xác nhận không đúng"
                 return;
             }
+            if (mainAreaId == 0) {
+                errorMsg = "Vui lòng nhập khu vực chính"
+                return;
+            }
             let data = { ...this.props.app.register };
             data["birthday"] = parseInt(birthday / 1000);
             data["name"] = name;
             data["password"] = password;
-            data["location"] = 1;
+            data["location"] = parseInt(mainAreaId);
             this.props.appActions.updateCustomer(data);
         } finally {
             this.setState({ errorMsg: errorMsg })
@@ -85,8 +91,11 @@ class InfoStep extends Component {
                     <BirtdayInput ref={e => this.birthdayInputRef = e} />
                 </div>
                 <div className="form-row">
-                    <select className="insee-input" >
-                        <option>Khu vực xây dựng</option>
+                    <select ref={e => this.mainAreaRef = e} className="insee-input" >
+                        <option value={0}>Khu vực xây dựng</option>
+                        {Location.getList().map(function name(item, key) {
+                            return <option value={item.key}>{item.value}</option>
+                        })}
                     </select>
                 </div>
                 <div className="form-row">

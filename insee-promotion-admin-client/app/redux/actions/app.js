@@ -50,3 +50,33 @@ export function getPromotionById(id) {
     id: id
   }
 } 
+
+export function login(data) {
+  return {
+    type: type.APP.LOGIN_ASYNC,
+    data: data
+  }
+}
+
+export function getProfile() {
+  return {
+    type: type.APP.GET_PROFILE_ASYNC
+  }
+}
+
+export function getListCustomerAll(page, pageSize) {
+  return {
+    type: type.APP.GET_LIST_CUSTOMER_ALL_ASYNC,
+    page: page,
+    pageSize: pageSize
+  }
+}
+
+export function getListCustomerByStatus(status, page, pageSize) {
+  return {
+    type: type.APP.GET_LIST_CUSTOMER_BY_STATUS_ASYNC,
+    page: page,
+    pageSize: pageSize,
+    status : status
+  }
+}

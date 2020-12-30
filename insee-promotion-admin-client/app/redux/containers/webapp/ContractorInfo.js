@@ -13,7 +13,7 @@ class ContractorInfo extends React.Component {
     }
 
     render() {
-        const contractor = this.props.app.customer;
+        const user = this.props.app.user;
         return (
             <WebAppLayout {...this.props}>
                 <section>
@@ -33,24 +33,16 @@ class ContractorInfo extends React.Component {
                                                             <div className="personal">
                                                                 <h5 className="f-title">THÔNG TIN TÀI KHOẢN </h5>
                                                             </div>
-                                                            {contractor &&
+                                                            {user &&
                                                                 <table className="table table-responsive table-info-contractor">
                                                                     <tbody>
                                                                         <tr>
-                                                                            <th>Họ tên nhà thầu</th>
-                                                                            <td>{contractor.fullName}</td>
+                                                                            <th>Họ tên</th>
+                                                                            <td>{user.name}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Số điện thoại</th>
-                                                                            <td>{contractor.phone}</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <th>Mật khẩu đăng nhập</th>
-                                                                            <th>***</th>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <th>Khu vực thi công chính</th>
-                                                                            <td>Hồ Chí Minh</td>
+                                                                            <td>{user.phone}</td>
                                                                         </tr>
                                                                     </tbody>
                                                                 </table>

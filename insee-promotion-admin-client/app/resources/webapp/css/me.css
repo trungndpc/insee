@@ -37,3 +37,51 @@
  .table-info-contractor td{
     border: none;
 }
+
+
+.errorMsg {
+    text-align: left;
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+
+.errorMsg p {
+    font-size: small;
+    color: red;
+}
+
+.pepl-info ul {
+    padding-left: 0;
+}
+.pepl-info ul li {
+    display: inline-block;
+    padding: 5px 20px;
+    padding-left: 0;
+    font-size: 13px;
+}
+
+.pepl-info .action {
+    padding-top: 24px;
+    display: block;
+    overflow: hidden;
+    text-align: center;
+}
+
+.mgr20 {
+    margin-right: 20px;
+}
+
+.pepl-info img {
+    border-radius: 100%;
+}
+
+.action-customer-detail li {
+    display: inline-block;
+    padding: 10px 20px;
+    padding-right: 0;
+}
+
+.action-container {
+    margin-bottom: 20px;
+    text-align: right;
+}

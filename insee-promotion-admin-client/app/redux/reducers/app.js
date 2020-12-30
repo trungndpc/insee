@@ -19,11 +19,9 @@ export default function app(state = initialState, action) {
     case type.APP.CHECK_PHONE_START: {
       newState.register = {...newState.register}
       newState.register.isLoading = true;
-      console.log("CHECK_PHONE_START")
       break;
     }
     case type.APP.CHECK_PHONE_END: {
-      console.log("CHECK_PHONE_END: " + action.payload);
       newState.register = {...newState.register}
       let error = action.payload;
       newState.register.statusStep1 = error;
@@ -31,15 +29,12 @@ export default function app(state = initialState, action) {
       break;
     }
     case type.APP.REGISTER_START: {
-      console.log("REGISTER_START");
       break;
     }
     case type.APP.REGISTER_END: {
-      console.log("REGISTER_END: " + action.payload);
       break
     }
     case type.APP.PUSH_STATE_REGISTER: {
-      console.log("PUSH_STATE_REGISTER: " + action.payload);
       let data = action.payload;
       newState.register = {...newState.register}
       data.forEach(function(item) {
@@ -49,23 +44,58 @@ export default function app(state = initialState, action) {
     }
 
     case type.APP.GET_CUSTOMER_BY_ID_END: {
-      console.log("GET_CUSTOMER_BY_ID_END: " + action.payload);
       let data = action.payload;
       newState.customer = data;
       break;
     }
 
     case type.APP.GET_LIST_PROMOTION_END: {
-      console.log("GET_LIST_PROMOTION_END: " + action.payload);
       let data = action.payload;
       newState.promotions = data;
       break;
     }
 
     case type.APP.GET_PROMOTION_BY_ID_END: {
-      console.log("GET_PROMOTION_BY_ID_END: " + action.payload);
       let data = action.payload;
       newState.promotion = data;
+      break;
+    }
+
+    case type.APP.LOGIN_START: {
+      break;
+    }
+
+    case type.APP.LOGIN_END: {
+      let resp = action.payload;
+      if (resp.error < 0) {
+        newState.errorMsg = "Sai SDT hoặc mật khẩu"
+      }
+      break;
+    }
+    case type.APP.GET_PROFILE_START: {
+      break;
+    }
+    case type.APP.GET_PROFILE_END: {
+      let data = action.payload;
+      newState.user = data;
+      break;
+    }
+    case type.APP.GET_LIST_CUSTOMER_ALL_START: {
+      newState.customers = null
+      break;
+    }
+    case type.APP.GET_LIST_CUSTOMER_ALL_END: {
+      let data = action.payload;
+      newState.customers = data;
+      break;
+    }
+    case type.APP.GET_LIST_CUSTOMER_BY_STATUS_START: {
+      newState.customers = null
+      break;
+    }
+    case type.APP.GET_LIST_CUSTOMER_BY_STATUS_END: {
+      let data = action.payload;
+      newState.customers = data;
       break;
     }
     default:

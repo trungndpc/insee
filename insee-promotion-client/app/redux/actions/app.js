@@ -64,3 +64,10 @@ export function setStatusLoading(is) {
     return { type: type.APP.OFF_LOADING }
   }
 }
+
+export function getProfile() {
+  return {
+    type: type.APP.GET_PROFILE_USER_ASYNC
+  }
+  
+}

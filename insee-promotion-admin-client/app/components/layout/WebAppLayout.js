@@ -12,11 +12,11 @@ class WebAppLayout extends Component {
   }
 
   componentDidMount() {
-    this.props.appActions.getCustomerById(this.props.id);
+    this.props.appActions.getProfile();
   }
 
   render() {
-    const account = this.props.app.customer;
+    const user = this.props.app.user;
     return (
       <div className="theme-layout">
         <section>
@@ -27,7 +27,7 @@ class WebAppLayout extends Component {
                 <div className="col-lg-2 col-4">
                   <div className="user-avatar">
                     <figure>
-                      <img src={account && account.avatar} alt="" />
+                      <img src={user && user.avatar} alt="" />
                     </figure>
                   </div>
                 </div>
@@ -35,8 +35,8 @@ class WebAppLayout extends Component {
                   <div className="timeline-info">
                     <ul>
                       <li className="admin-name">
-                        <h5>{account && account.fullName}</h5>
-                        <span>Tp Hồ Chí Minh</span>
+                        <h5>{user && user.name}</h5>
+                        <span>Admin</span>
                       </li>
                     </ul>
                   </div>
