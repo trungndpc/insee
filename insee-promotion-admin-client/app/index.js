@@ -57,11 +57,7 @@ function VerificationRoute() {
 }
 
 function CustomerRoute() {
-  let { id } = useParams();
-  if (!id) {
-    id = 1005;
-  }
-  return <Customer id={id} />
+  return <Customer  />
 }
 
 function RouteApp() {

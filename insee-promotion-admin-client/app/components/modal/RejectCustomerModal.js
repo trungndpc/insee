@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import AppUtils from '../../utils/AppUtils'
+
+const REJECTED = 3;
 class RejectCustomerModal extends Component {
 
     constructor(props) {
@@ -10,7 +12,8 @@ class RejectCustomerModal extends Component {
         if (this.props.isOpen) {
             AppUtils.toggleModal(this.props.isOpen)
         }
-        this._onClose = this._onClose.bind(this)
+        this._onClose = this._onClose.bind(this);
+        this._onClickOK = this._onClickOK.bind(this);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -30,6 +33,12 @@ class RejectCustomerModal extends Component {
         this.props.onClose && this.props.onClose();
     }
 
+    _onClickOK() {
+        let note = this.noteRef.value;
+        this.props.appActions.updateStatusCustomer(this.props.id, REJECTED, note ? note : '')
+        this._onClose();
+    }
+
     render() {
         return (
             <div className={`popup-wraper3 ${this.state.isOpen && 'active'}`}>
@@ -44,10 +53,10 @@ class RejectCustomerModal extends Component {
                             <div method="post">
                                 <div>
                                     <label>Ghi chú</label>
-                                    <textarea rows={2} defaultValue={""} />
+                                    <textarea ref={e => this.noteRef = e} rows={2} defaultValue={""} />
                                 </div>
                                 <div className="btn-bar">
-                                    <a className="add-butn" >Đồng ý</a>
+                                    <a onClick={this._onClickOK} className="add-butn" >Đồng ý</a>
                                     <a onClick={this._onClose} className="add-butn cancel">Đóng</a>
                                 </div>
                             </div>

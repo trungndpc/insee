@@ -15,6 +15,7 @@ export default function* customer() {
   yield takeLatest(type.APP.GET_PROFILE_ASYNC, getProfileAsync)
   yield takeLatest(type.APP.GET_LIST_CUSTOMER_ALL_ASYNC, getListCustomerAllAsync)
   yield takeLatest(type.APP.GET_LIST_CUSTOMER_BY_STATUS_ASYNC, getListCustomerByStatusAsync)
+  yield takeLatest(type.APP.UPDATE_STATUS_CUSTOMER_ASYNC, updateStatusCustomerAsync)
 }
 
 
@@ -146,7 +147,7 @@ function postToCreatePromotion(data) {
 function* getPromotionByIdAsync(action) {
   yield put({ type: type.APP.GET_PROMOTION_BY_ID_START })
   const resp = yield call(getPromotionById, action.id)
-  yield put({ type: type.APP.GET_PROMOTION_BY_ID_END, payload: resp.data})
+  yield put({ type: type.APP.GET_PROMOTION_BY_ID_END, payload: resp.data })
 }
 
 function getPromotionById(id) {
@@ -158,18 +159,18 @@ function getPromotionById(id) {
 //loginAsync 
 
 function* loginAsync(action) {
-  yield put({type: type.APP.LOGIN_START})
+  yield put({ type: type.APP.LOGIN_START })
   const resp = yield call(postLogin, action.data)
   if (resp.error == 0) {
     AppUtils.push("/")
   }
-  yield put({type: type.APP.LOGIN_END, payload: resp})
+  yield put({ type: type.APP.LOGIN_END, payload: resp })
 }
 
 function postLogin(data) {
   var body = {
-      phone: data["phone"],
-      pass: data["pass"]
+    phone: data["phone"],
+    pass: data["pass"]
   }
   return new Promise((resolve, reject) => {
     APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/admin/authen/login`, JSON.stringify(body), resolve, reject);
@@ -179,9 +180,9 @@ function postLogin(data) {
 //getProfileAsync 
 
 function* getProfileAsync() {
-  yield put({type: type.APP.GET_PROFILE_START})
+  yield put({ type: type.APP.GET_PROFILE_START })
   const resp = yield call(getProfile)
-  yield put({type: type.APP.GET_PROFILE_END, payload: resp.data})
+  yield put({ type: type.APP.GET_PROFILE_END, payload: resp.data })
 }
 
 function getProfile() {
@@ -192,9 +193,9 @@ function getProfile() {
 
 //getListCustomerAllAsync 
 function* getListCustomerAllAsync(action) {
-  yield put({type: type.APP.GET_LIST_CUSTOMER_ALL_START})
+  yield put({ type: type.APP.GET_LIST_CUSTOMER_ALL_START })
   const resp = yield call(getListCustomerAll, action.page, action.pageSize)
-  yield put({type: type.APP.GET_LIST_CUSTOMER_ALL_END, payload: resp.data})
+  yield put({ type: type.APP.GET_LIST_CUSTOMER_ALL_END, payload: resp.data })
 }
 
 function getListCustomerAll(page, pageSize) {
@@ -206,13 +207,40 @@ function getListCustomerAll(page, pageSize) {
 //getListCustomerByStatus
 
 function* getListCustomerByStatusAsync(action) {
-  yield put({type: type.APP.GET_LIST_CUSTOMER_BY_STATUS_START})
+  yield put({ type: type.APP.GET_LIST_CUSTOMER_BY_STATUS_START })
   const resp = yield call(getListCustomerByStatus, action.status, action.page, action.pageSize)
-  yield put({type: type.APP.GET_LIST_CUSTOMER_BY_STATUS_END, payload: resp.data})
+  yield put({ type: type.APP.GET_LIST_CUSTOMER_BY_STATUS_END, payload: resp.data })
 }
 
 function getListCustomerByStatus(status, page, pageSize) {
   return new Promise((resolve, reject) => {
     APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/customer/find-by?page=${page}&pageSize=${pageSize}&status=${status}`, resolve, reject);
+  });
+}
+
+
+//updateStatusCustomerAsync 
+
+function* updateStatusCustomerAsync(action) {
+  yield put({ type: type.APP.UPDATE_STATUS_CUSTOMER_START })
+  const resp = yield call(postUpdateStatusCustomer, action.id, action.status, action.note)
+  if (resp.error == 0) {
+    AlertUtils.showSuccess("Cập nhật thành công")
+    const customerResp = yield call(getCustomerById, action.id)
+    yield put({ type: type.APP.GET_CUSTOMER_BY_ID_END, payload: customerResp.data })
+  }else {
+    AlertUtils.showError("Vui lòng thử lại")
+  }
+  yield put({ type: type.APP.UPDATE_STATUS_CUSTOMER_END, payload: resp.data })
+}
+
+function postUpdateStatusCustomer(id, status, note) {
+  var body = {
+    id: id,
+    status: status,
+    note: note
+  }
+  return new Promise((resolve, reject) => {
+    APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/customer/update-status`, JSON.stringify(body), resolve, reject);
   });
 }

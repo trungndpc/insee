@@ -109,8 +109,12 @@ class CustomerDetail extends Component {
             </div>
           </div>
 
-          <ApprovalCustomerModal isOpen={this.state.isOpenApprovalModal} onClose={this._onCloseApprovalModal}/>
-          <RejectCustomerModal isOpen={this.state.isOpenRejectModal} onClose={this._onCloseRejectModal} />
+          {customer && 
+          <ApprovalCustomerModal {...this.props} id={customer.id}  isOpen={this.state.isOpenApprovalModal} onClose={this._onCloseApprovalModal}/>
+          }
+          {customer && 
+          <RejectCustomerModal {...this.props} id={customer.id}  isOpen={this.state.isOpenRejectModal} onClose={this._onCloseRejectModal} />
+          }
           {/* <div className="popup-wraper3 active">
             <div className="popup">
               <span className="popup-closed"><i className="ti-close" /></span>

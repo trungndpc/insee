@@ -80,3 +80,13 @@ export function getListCustomerByStatus(status, page, pageSize) {
     status : status
   }
 }
+
+export function updateStatusCustomer(id, status, note) {
+  return {
+    type: type.APP.UPDATE_STATUS_CUSTOMER_ASYNC,
+    id: id,
+    status: status,
+    note: note
+  }
+}
+
