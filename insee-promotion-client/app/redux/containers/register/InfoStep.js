@@ -52,14 +52,14 @@ class InfoStep extends Component {
                 errorMsg = 'Vui lòng nhập mật khẩu'
                 return;
             }
-            if (!confirmPassword) {
-                errorMsg = 'Vui lòng xác nhận mật khẩu'
-                return;
-            }
-            if (password != confirmPassword) {
-                errorMsg = "Mật khẩu xác nhận không đúng"
-                return;
-            }
+            // if (!confirmPassword) {
+            //     errorMsg = 'Vui lòng xác nhận mật khẩu'
+            //     return;
+            // }
+            // if (password != confirmPassword) {
+            //     errorMsg = "Mật khẩu xác nhận không đúng"
+            //     return;
+            // }
             if (mainAreaId == 0) {
                 errorMsg = "Vui lòng nhập khu vực chính"
                 return;
@@ -67,7 +67,7 @@ class InfoStep extends Component {
             let data = { ...this.props.app.register };
             data["birthday"] = parseInt(birthday / 1000);
             data["name"] = name;
-            data["password"] = password;
+            // data["password"] = password;
             data["location"] = parseInt(mainAreaId);
             this.props.appActions.updateCustomer(data);
         } finally {
@@ -98,12 +98,12 @@ class InfoStep extends Component {
                         })}
                     </select>
                 </div>
-                <div className="form-row">
+                {/* <div className="form-row">
                     <input ref={e => this.passwordInputRef = e} className="insee-input" type="password" placeholder="Mật khẩu đăng nhập" />
                 </div>
                 <div className="form-row">
                     <input ref={e => this.confirmPasswordInputRef = e} className="insee-input" type="password" placeholder="Xác nhận mẩu khẩu" />
-                </div>
+                </div> */}
                 <div className="form-row prelative policy">
                     <input checked type="checkbox" />
                     <span>

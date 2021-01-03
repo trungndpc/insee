@@ -1,11 +1,11 @@
 @font-face {
     font-family: '3dumbregular';
-    src: url('https://trungndpc.github.io/insee-promotion-client/fonts/SanFranciscoText-Bold.otf');
-    src: url('https://trungndpc.github.io/insee-promotion-client/fonts/SanFranciscoText-Light.otf'),
-         url('https://trungndpc.github.io/insee-promotion-client/fonts/SanFranciscoText-LightItalic.otf') ,
-         url('https://trungndpc.github.io/insee-promotion-client/fonts/SanFranciscoText-Regular.otf') ,
-         url('https://trungndpc.github.io/insee-promotion-client/fonts/SanFranciscoDisplay-Bold.otf'),
-         url('https://trungndpc.github.io/insee-promotion-client/fonts/SanFranciscoDisplay-Regular.otf'),
+    src: url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoText-Bold.otf');
+    src: url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoText-Light.otf'),
+         url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoText-LightItalic.otf') ,
+         url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoText-Regular.otf') ,
+         url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoDisplay-Bold.otf'),
+         url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoDisplay-Regular.otf'),
     }
 
 
@@ -408,7 +408,7 @@ input[type=number] {
 .birthday-item {
     width: calc((100% - 18px)/3);
     height: 45px;
-    margin-right: 6px;
+    margin: 0px;
     display: inline-block;
     border: 1px solid #e6e6e6;
     border-radius: 5px;
@@ -420,21 +420,36 @@ input[type=number] {
     border: none;
     border-radius: 5px;
     font-size: small;
-    padding-left: 5px;
+    padding-left: 20px;
 }
 
 .birthday {
     width: 100%;
     display: block;
+    text-align: center;
 }
 
 input:-webkit-autofill{
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
-select:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
+input {
+    -webkit-appearance: none;
 }
+
+select {
+    -webkit-appearance: none;
+    background: url('../../images/down-arrow.png') no-repeat calc(100% - 5px) 18px;
+    background-size: 10px;
+}
+
+input[type="checkbox"], input[type="radio"] {
+    -webkit-appearance: checkbox;
+}
+
+/* select:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+} */
 
 .btn-to-zalo {
     margin-top: 30%;
