@@ -44,7 +44,7 @@ class BirtdayInput extends Component {
 
     getListDay(year, month) {
         if (year == 0 || month == 0) {
-            return null;
+            return [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
         }
         return DateTimeUtil.getArrayDay(month, year);
     }
@@ -74,7 +74,7 @@ class BirtdayInput extends Component {
         const listDay = this.getListDay(this.state.year, this.state.month);
         return (
             <div className="birthday">
-                <div className="birthday-item">
+                <div style={{float: 'left'}} className="birthday-item">
                     <select onChange={this.onChangeDay} >
                         <option value={0}>Ngày</option>
                         {listDay && listDay.map(function (day) {
@@ -90,7 +90,7 @@ class BirtdayInput extends Component {
                             })}
                         </select>
                 </div>
-                <div className="birthday-item">
+                <div style={{float: 'right'}} className="birthday-item">
                     <select onChange={this.onChangeYear}  >
                         <option value={0}>Năm</option>
                         {years.map(function (year) {
