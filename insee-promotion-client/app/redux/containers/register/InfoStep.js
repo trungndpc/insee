@@ -30,8 +30,8 @@ class InfoStep extends Component {
         let errorMsg = null;
         try {
             let name = this.nameInputRef.value;
-            let password = this.passwordInputRef.value;
-            let confirmPassword = this.confirmPasswordInputRef.value;
+            // let password = this.passwordInputRef.value;
+            // let confirmPassword = this.confirmPasswordInputRef.value;
             let mainAreaId = this.mainAreaRef.value;
 
             if (!name) {
@@ -48,10 +48,10 @@ class InfoStep extends Component {
                 return;
             }
 
-            if (!password) {
-                errorMsg = 'Vui lòng nhập mật khẩu'
-                return;
-            }
+            // if (!password) {
+            //     errorMsg = 'Vui lòng nhập mật khẩu'
+            //     return;
+            // }
             // if (!confirmPassword) {
             //     errorMsg = 'Vui lòng xác nhận mật khẩu'
             //     return;
