@@ -77,3 +77,9 @@ export function createNextContruction(data) {
     data: data
   }
 }
+
+export function getListConstruction() {
+  return {
+    type: type.APP.GET_LIST_CONSTRUCTION_ASYNC
+  }
+}

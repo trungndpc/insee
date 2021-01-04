@@ -10,12 +10,16 @@ import '../../../resources/css/mobile/bootstrap.min.css';
 import '../../../resources/css/mobile/main.css';
 import '../../../resources/css/mobile/me.css';
 import MDatePicker from '../../../components/promotions/MDatePicker'
-
-
+import SuccessCreateNextContruction from '../../../components/promotions/SuccessCreateNextContruction'
+import Loading from '../../../components/layout/Loading'
+import {NEXT_CONSTRUCTION} from '../../../components/enum/TypeConstruction'
 class IntroConstructionPromotion extends React.Component {
     constructor(props) {
         super(props)
         this.getForm = this.getForm.bind(this);
+        this.state = {
+            errorMsg: null
+        }
     }
 
     getForm() {
@@ -24,19 +28,60 @@ class IntroConstructionPromotion extends React.Component {
         let timeStart = this.dateInputRef.getValue();
         let typeProject = this.typeProjectInputRef.value;
         let owner = this.ownerInputRef.getValues();
+
+        if (!address) {
+            this.setState({ errorMsg: "Vui lòng nhập địa chỉ" })
+            return;
+        }
+        let city = location && location.city;
+        if (!city || city == 0) {
+            this.setState({ errorMsg: "Vui lòng chọn tỉnh thành" })
+            return;
+        }
+        let district = location && location.district;
+        if (!district || district == 0) {
+            this.setState({ errorMsg: "Vui lòng chọn quận/huyện" })
+            return;
+        }
+        if (typeProject == 0) {
+            this.setState({ errorMsg: "Vui lòng chọn loại công trình" })
+            return;
+        }
+        if (!timeStart) {
+            this.setState({ errorMsg: "Vui lòng ước tính thời gian khởi công" })
+            return;
+        }
+        let name = owner && owner.name;
+        if (!name) {
+            this.setState({ errorMsg: "Vui lòng nhập tên" })
+            return;
+        }
+        let phone = owner && owner.phone;
+        if (!phone) {
+            this.setState({ errorMsg: "Vui lòng nhập số điện thoại" })
+            return;
+        }
+
         let data = {
             address: address,
-            location: location,
+            city: city,
+            district: district,
             timeStart: timeStart,
             typeProject: typeProject,
-            owner: owner
+            name: name,
+            phone: phone,
+            type: NEXT_CONSTRUCTION.getType()
         }
-        console.log(data)
+        this.props.appActions.createNextContruction(data)
     }
 
 
 
     render() {
+        const nextContruction = this.props.app.nextContruction;
+        if (nextContruction) {
+            return <SuccessCreateNextContruction />
+        }
         return (
             <div>
                 <FormLayout {...this.props}>
@@ -55,8 +100,10 @@ class IntroConstructionPromotion extends React.Component {
                         <MDatePicker ref={e => this.dateInputRef = e} />
                     </div>
                     <div className="form-row">
-                        <select ref={e => this.typeProjectInputRef = e}  className="insee-input" >
+                        <select ref={e => this.typeProjectInputRef = e} className="insee-input" >
                             <option value={0}>Loại hình dự án</option>
+                            <option value={1}>CT A</option>
+                            <option value={2}>CT B</option>
                         </select>
                     </div>
                     <div className="form-row">
@@ -70,10 +117,12 @@ class IntroConstructionPromotion extends React.Component {
                         <input checked type="checkbox" />
                         <span>Chỉ cho phép nhân viên INSEE tới kiểm tra trực tiếp tại công trình (quà tặng sẽ được gửi cho nhà thầu ngay sau khí xác nhận trực tiếp)</span>
                     </div>
+                    {this.state.errorMsg && <div className="msg-error"><span>*** {this.state.errorMsg}</span></div>}
                     <div className="btn-container">
                         <button onClick={this.getForm} className="btn-insee btn-insee-bg">Xác nhận</button>
                     </div>
                 </FormLayout>
+                <Loading {...this.props}/>
             </div>
 
         )

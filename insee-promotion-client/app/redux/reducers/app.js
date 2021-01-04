@@ -6,6 +6,7 @@ const initialState = {
     step: 3,
     isLoading: false
   },
+  nextContruction: null
 }
 
 export default function app(state = initialState, action) {
@@ -102,6 +103,22 @@ export default function app(state = initialState, action) {
     }
     case type.APP.GET_PROFILE_USER_END: {
       newState.user = action.payload;
+      break;
+    }
+    case type.APP.PUSH_NEXT_CONTRUCTION_START:{
+      newState.isLoading = true;
+      break;
+    }
+    case type.APP.PUSH_NEXT_CONTRUCTION_END: {
+      newState.nextContruction = action.payload;
+      break;
+    }
+    case type.APP.GET_LIST_CONSTRUCTION_START: {
+      break;
+    }
+    case type.APP.GET_LIST_CONSTRUCTION_END: {
+      console.log("xxxxxxxxxxxxxx")
+      newState.constructions = action.payload;
       break;
     }
     default:

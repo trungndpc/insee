@@ -22,3 +22,7 @@
 .feature-photo figure img {
     max-height: 300px;
 }
+
+.friend-name {
+    padding-left: 0;
+}

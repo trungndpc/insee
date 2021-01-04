@@ -32,4 +32,11 @@ export default class DateTimeUtil {
         }
         return array;
     }
+
+    static formatMonth(date) {
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        return "Tháng " + month + " năm " + year;
+    }
+    
 }
