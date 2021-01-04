@@ -620,12 +620,12 @@ textarea.input100 {
   width: calc(100% + 2px) !important;
 }@font-face {
     font-family: '3dumbregular';
-    src: url('https://trungndpc.github.io/insee-promotion-client/fonts/SanFranciscoText-Bold.otf');
-    src: url('https://trungndpc.github.io/insee-promotion-client/fonts/SanFranciscoText-Light.otf'),
-         url('https://trungndpc.github.io/insee-promotion-client/fonts/SanFranciscoText-LightItalic.otf') ,
-         url('https://trungndpc.github.io/insee-promotion-client/fonts/SanFranciscoText-Regular.otf') ,
-         url('https://trungndpc.github.io/insee-promotion-client/fonts/SanFranciscoDisplay-Bold.otf'),
-         url('https://trungndpc.github.io/insee-promotion-client/fonts/SanFranciscoDisplay-Regular.otf'),
+    src: url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoText-Bold.otf');
+    src: url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoText-Light.otf'),
+         url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoText-LightItalic.otf') ,
+         url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoText-Regular.otf') ,
+         url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoDisplay-Bold.otf'),
+         url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoDisplay-Regular.otf'),
     }
 
 
@@ -32574,8 +32574,8 @@ aside.sidebar.full-style {
  * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
-  src: url('https://trungndpc.github.io/insee-promotion-client/fonts/fontawesome-webfont.eot?v=4.7.0');
-  src: url('https://trungndpc.github.io/insee-promotion-client/fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'), url('https://trungndpc.github.io/insee-promotion-client/fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'), url('https://trungndpc.github.io/insee-promotion-client/fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'), url('https://trungndpc.github.io/insee-promotion-client/fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'), url('https://trungndpc.github.io/insee-promotion-client/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
+  src: url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/fontawesome-webfont.eot?v=4.7.0');
+  src: url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'), url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'), url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'), url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'), url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
   font-weight: normal;
   font-style: normal;
 }
