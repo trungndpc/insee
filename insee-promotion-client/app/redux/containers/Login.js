@@ -17,9 +17,8 @@ class Login extends React.Component {
 
 
     onClickLoginZalo() {
-        window.location.href = "https://insee-promotion.herokuapp.com/authen/zalo?redirectUrl=" + encodeURIComponent('https://insee-promotion.herokuapp.com/khach-hang')
+        window.location.href = "/authen/zalo?redirectUrl=" + encodeURIComponent('https://insee-client.wash-up.vn/khach-hang')
     }
-
 
     _onClickLoginPass() {
         let phone = this.phoneInputRef.value;
@@ -42,7 +41,7 @@ class Login extends React.Component {
         return (
             <FormLayout copyright={true}>
                 <span className="contact100-form-title">Đăng nhập<div className="line-bt" /> </span>
-                <div className="form-container">
+                {/* <div className="form-container">
                     <div className="input-shell">
                         <img src={require('../../resources/images/icon-phone.png')} />
                         <input ref={e => this.phoneInputRef = e} onChange={this._onChangeInputPhone} placeholder="Vui lòng nhập số điện thoại" type="tel" pattern="[0-9]{4}.[0-9]{3}.[0-9]{3}" />
@@ -61,7 +60,7 @@ class Login extends React.Component {
                 </div>
                 <div className="or">
                     --OR--
-                        </div>
+                        </div> */}
                 <div onClick={this.onClickLoginZalo} className="btn-container btn-zalo-login">
                     <button className="btn-insee ">Đăng nhập bằng Zalo</button>
                 </div>

@@ -1,5 +1,6 @@
-#!/bin/sh
+
+local_dir=./
 server=washup@103.147.186.58
 
-rsync -auvr ./dist/ $server:/var/www/insee-client/html
-#rsync -auvr --exclude="flatc" --exclude="*.bin" --exclude="*.json" $local_dir/$project/public $server:$server_dir/$project/
+rsync -a $local_dir/dist/ $server:/var/www/insee-client/html
+

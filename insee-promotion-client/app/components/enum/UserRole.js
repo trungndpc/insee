@@ -9,7 +9,7 @@ export class UserRole{
             case 1: return ADMIN;
             case 2: return CUSTOMER;
             case 3: return EMPLOYEE;
-            case 4: return ANONYMOUS;
+            case 0: return ANONYMOUS;
             default: return null;
         }
     }
@@ -23,7 +23,7 @@ export class UserRole{
             case 1: return "Admin";
             case 2: return "Nhà thầu";
             case 3: return "Nhân viên";
-            case 4: return "Người quan tâm";
+            case 0: return "Người quan tâm";
             default: return null;
         }
     }
