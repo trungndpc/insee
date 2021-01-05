@@ -44,7 +44,7 @@ class FormLayout extends Component {
                         <p>Copyright Siam City Cerment (Vietnam) Ltd.</p>
                     </div>
                 }
-                <Footer />
+                {/* <Footer /> */}
             </div>
         )
     }

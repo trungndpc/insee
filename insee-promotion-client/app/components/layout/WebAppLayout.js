@@ -19,8 +19,8 @@ class WebAppLayout extends Component {
   }
 
   componentDidMount() {
-    // this.props.appActions.getProfile();
-    // this.props.appActions.getCustomer();
+    this.props.appActions.getProfile();
+    this.props.appActions.getCustomer();
   }
 
   _toggleMenuBar() {

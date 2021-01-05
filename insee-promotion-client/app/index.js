@@ -15,6 +15,7 @@ import Promotion from './redux/containers/webapp/Promotion'
 import Login from './redux/containers/Login'
 import IntroConstructionPromotion from './redux/containers/promotion/IntroConstructionPromotion'
 import Contructions from './redux/containers/webapp/Contructions'
+import NowConstruction from './redux/containers/promotion/NowConstruction'
 const store = configureStore()
 const isLogin = window.isLogin = true;
 
@@ -44,6 +45,7 @@ function APP() {
         </Route>
         <Route path="/dang-ky" component={Register} />
         <Route path="/gioi-thieu-cong-trinh" component={IntroConstructionPromotion} />
+        <Route path="/cong-trinh-cua-toi" component={NowConstruction} />
         <Route path="/" >
           <ContractorInfo />
         </Route>
