@@ -21,7 +21,7 @@ class MDatePicker extends Component {
         let date = this.state.date;
         var month = date.getMonth() + 1;
         var year = date.getFullYear();
-        return new Date(year, month, 0, 0, 0, 0, 0).getTime();
+        return new Date(year, month, 0, 0, 0, 0, 0).getTime() / 1000;
     }
 
     handleChange(date) {

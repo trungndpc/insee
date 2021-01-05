@@ -72,17 +72,21 @@ class WebAppLayout extends Component {
                 <ul>
                   <ul className="naves">
                     <li>
-                        <Link onClick={this._onClickToLink} to={"/khach-hang"}>Thông tin tài khoản</Link>
+                      <Link onClick={this._onClickToLink} to={"/khach-hang"}>Thông tin tài khoản</Link>
                     </li>
                     <li>
                       <Link onClick={this._onClickToLink} to={"/khuyen-mai"}>Chương trình khuyễn mãi độc quyền</Link>
                     </li>
                     <li>
-                    <Link onClick={this._onClickToLink} to={"/nha-thau-xanh"}>Nhà thầu xanh</Link>
+                      <Link onClick={this._onClickToLink} to={"/cong-trinh"}>Công trình</Link>
                       <a href="#" ></a>
                     </li>
                     <li>
-                    <Link onClick={this._onClickToLink} to={"/lich-su"}>Lịch sử nhận qùa</Link>
+                      <Link onClick={this._onClickToLink} to={"/nha-thau-xanh"}>Nhà thầu xanh</Link>
+                      <a href="#" ></a>
+                    </li>
+                    <li>
+                      <Link onClick={this._onClickToLink} to={"/lich-su"}>Lịch sử nhận qùa</Link>
                     </li>
                   </ul>
                 </ul>
