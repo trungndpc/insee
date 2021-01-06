@@ -1,34 +1,40 @@
 import React, { Component } from 'react'
+import { ImageStatus } from '../enum/ImageStatus'
 
 class ImgViewer extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            url: 'https://www.designbold.com/academy/wp-content/uploads/2018/09/10-trang-web-c%C3%B3-ngu%E1%BB%93n-h%C3%ACnh-%E1%BA%A3nh-mi%E1%BB%85n-ph%C3%AD-ch%E1%BA%A5t-l%C6%B0%E1%BB%A3ng-1.jpg',
-            isShow: false
+            url: '',
+            isShow: false,
+            item: null
         }
         this.open = this.open.bind(this)
         this.close = this.close.bind(this)
     }
 
-    open(url) {
-        this.setState({isShow: true})
+    open(item) {
+        console.log(item)
+        this.setState({ isShow: true, url: item.link, item: item })
         document.body.style.overflow = 'hidden';
     }
 
     close() {
         document.body.style.overflow = 'initial';
-        this.setState({isShow: false})
+        this.setState({ isShow: false })
     }
 
     render() {
         return (
-            <div style={{display: this.state.isShow ? 'block' : 'none'}} className="img-view-container">
+            <div style={{ display: this.state.isShow ? 'block' : 'none' }} className="img-view-container">
                 <span onClick={this.close} className="btn-close"><i className="fa fa-times"></i></span>
                 <table id="wrapper">
                     <tr>
-                        <td><img src={this.state.url} /></td>
+                        <td>
+                            <img src={this.state.url} />
+                            {this.state.item && <p>{this.state.item.id} - Trang thái: <span style={{ color: ImageStatus.getColor(this.state.item.status) }}>Chờ duyệt</span></p>}
+                        </td>
                     </tr>
                 </table>
             </div>

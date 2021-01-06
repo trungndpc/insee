@@ -12,8 +12,9 @@ export default function* customer() {
   yield takeLatest(type.APP.LOGIN_ASYNC_ASYNC, loginAsync)
   yield takeLatest(type.APP.LOGIN_PASSWORD_ASYNC, loginWithPassAsync)
   yield takeLatest(type.APP.GET_PROFILE_USER_ASYNC, getProfileAsync)
-  yield takeLatest(type.APP.PUSH_CONTRUCTION_ASYNC, pushNextContructionAsync)
+  yield takeLatest(type.APP.PUSH_CONTRUCTION_ASYNC, pushContructionAsync)
   yield takeLatest(type.APP.GET_LIST_CONSTRUCTION_ASYNC, getListConstructionAsync)
+  yield takeLatest(type.APP.GET_CONSTRUCTION_ASYNC, getConstructionAsync)
 }
 
 
@@ -186,7 +187,7 @@ function getProfile() {
 
 //pushNextContructionAsync
 
-function* pushNextContructionAsync(action) {
+function* pushContructionAsync(action) {
   yield put({ type: type.APP.PUSH_CONTRUCTION_START })
   const resp = yield call(postContruction, action.data)
   yield put({ type: type.APP.PUSH_CONTRUCTION_END, payload: resp.data })
@@ -235,5 +236,18 @@ function* getListConstructionAsync() {
 function getListConstruction() {
   return new Promise((resolve, reject) => {
     APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/construction/me`, resolve, reject);
+  });
+}
+
+//getConstructionAsync
+function* getConstructionAsync(action) {
+  yield put({ type: type.APP.GET_CONSTRUCTION_START })
+  const resp = yield call(getConstruction, action.id)
+  yield put({ type: type.APP.GET_CONSTRUCTION_END, payload: resp.data })
+}
+
+function getConstruction(id) {
+  return new Promise((resolve, reject) => {
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/construction?id=${id}`, resolve, reject);
   });
 }

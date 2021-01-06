@@ -12,6 +12,7 @@ import Loading from '../../../components/layout/Loading'
 import ImageInput from '../../../components/promotions/ImageInput'
 import S3Util from '../../../utils/S3Util'
 import {NOW_CONSTRUCTION} from '../../../components/enum/TypeConstruction'
+import SuccessCreateContruction from '../../../components/promotions/SuccessCreateContruction'
 const BILL_FOLDER = "bill"
 const IMAGE_INSEE_FOLDER = "img-insee"
 class NowConstruction extends React.Component {

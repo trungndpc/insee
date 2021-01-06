@@ -83,3 +83,10 @@ export function getListConstruction() {
     type: type.APP.GET_LIST_CONSTRUCTION_ASYNC
   }
 }
+
+export function getConstructionById(id) {
+  return {
+    type: type.APP.GET_CONSTRUCTION_ASYNC,
+    id: id
+  }
+}
