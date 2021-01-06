@@ -4,19 +4,26 @@ import { bindActionCreators } from 'redux'
 import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
 import SideBar from '../../../components/layout/SideBar'
-import Location from '../../../data/Location'
-import DateTimeUtil from '../../../utils/DateTimeUtil'
+import ListConstruction from '../../../components/promotions/ListConstruction'
+import DetailConstruction from '../../../components/promotions/DetailConstruction'
+
+import {
+    Switch,
+    Route,
+    Link,
+    useParams
+} from "react-router-dom";
+
+function DetailConstructionRoute(props) {
+    let { id } = useParams();
+    return <DetailConstruction id={id} {...props} />
+}
+
 
 class Contructions extends React.Component {
 
 
-    componentDidMount() {
-        this.props.appActions.getListConstruction();
-    }
-
     render() {
-        const constructions = this.props.app.constructions;
-        console.log(constructions)
         return (
             <WebAppLayout {...this.props}>
                 <section>
@@ -29,27 +36,14 @@ class Contructions extends React.Component {
                                             <SideBar />
                                         </div>
                                         <div className="col-lg-9">
-                                            <div className="loadMore">
-                                                {constructions && constructions.map(function (item, index) {
-                                                    return (
-                                                        <div key={index} className="central-meta item" style={{ display: 'inline-block' }}>
-                                                            <div className="user-post">
-                                                                <div className="friend-info">
-                                                                    <div className="friend-name">
-                                                                        <ins><a href="time-line.html">Công trình tại {Location.getName(item.city)} - Quân 12`</a></ins>
-                                                                        <span>thời gian khởi công: {DateTimeUtil.formatMonth(new Date(item.estimateTimeStart * 1000))}</span>
-                                                                    </div>
-                                                                    <div className="post-meta">
-                                                                        <img src="http://www.wpkixx.com/html/winku/images/resources/user-post6.jpg" alt="" />
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                })}
-
-                                            </div>
+                                            <Switch>
+                                                <Route path="/cong-trinh/:id">
+                                                    <DetailConstructionRoute {...this.props} />
+                                                </Route>
+                                                <Route path="/cong-trinh">
+                                                    <ListConstruction {...this.props} />
+                                                </Route>
+                                            </Switch>
                                         </div>
                                     </div>
                                 </div>

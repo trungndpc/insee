@@ -678,3 +678,12 @@ body {
     right: 5px;
     top: 2px;
 }
+
+.desc-bill {
+    font-size: small;
+    line-height: 1;
+    padding: 10px 0px;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+

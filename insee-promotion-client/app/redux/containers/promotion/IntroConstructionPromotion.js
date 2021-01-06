@@ -10,9 +10,9 @@ import '../../../resources/css/mobile/bootstrap.min.css';
 import '../../../resources/css/mobile/main.css';
 import '../../../resources/css/mobile/me.css';
 import MDatePicker from '../../../components/promotions/MDatePicker'
-import SuccessCreateNextContruction from '../../../components/promotions/SuccessCreateNextContruction'
+import SuccessCreateContruction from '../../../components/promotions/SuccessCreateContruction'
 import Loading from '../../../components/layout/Loading'
-import {NEXT_CONSTRUCTION} from '../../../components/enum/TypeConstruction'
+import { NEXT_CONSTRUCTION } from '../../../components/enum/TypeConstruction'
 class IntroConstructionPromotion extends React.Component {
     constructor(props) {
         super(props)
@@ -25,8 +25,8 @@ class IntroConstructionPromotion extends React.Component {
     getForm() {
         let address = this.addressInputRef.value;
         let location = this.locationInputRef.getValues();
-        let timeStart = this.dateInputRef.getValue();
-        let typeProject = this.typeProjectInputRef.value;
+        let estimateTimeStart = this.dateInputRef.getValue();
+        let typeConstruction = this.typeProjectInputRef.value;
         let owner = this.ownerInputRef.getValues();
 
         if (!address) {
@@ -43,11 +43,11 @@ class IntroConstructionPromotion extends React.Component {
             this.setState({ errorMsg: "Vui lòng chọn quận/huyện" })
             return;
         }
-        if (typeProject == 0) {
+        if (typeConstruction == 0) {
             this.setState({ errorMsg: "Vui lòng chọn loại công trình" })
             return;
         }
-        if (!timeStart) {
+        if (!estimateTimeStart) {
             this.setState({ errorMsg: "Vui lòng ước tính thời gian khởi công" })
             return;
         }
@@ -66,8 +66,8 @@ class IntroConstructionPromotion extends React.Component {
             address: address,
             city: city,
             district: district,
-            timeStart: timeStart,
-            typeProject: typeProject,
+            estimateTimeStart: estimateTimeStart,
+            typeConstruction: typeConstruction,
             name: name,
             phone: phone,
             type: NEXT_CONSTRUCTION.getType()
@@ -80,7 +80,7 @@ class IntroConstructionPromotion extends React.Component {
     render() {
         const nextContruction = this.props.app.nextContruction;
         if (nextContruction) {
-            return <SuccessCreateNextContruction />
+            return <SuccessCreateContruction />
         }
         return (
             <div>
@@ -122,7 +122,7 @@ class IntroConstructionPromotion extends React.Component {
                         <button onClick={this.getForm} className="btn-insee btn-insee-bg">Xác nhận</button>
                     </div>
                 </FormLayout>
-                <Loading {...this.props}/>
+                <Loading {...this.props} />
             </div>
 
         )

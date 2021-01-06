@@ -105,19 +105,18 @@ export default function app(state = initialState, action) {
       newState.user = action.payload;
       break;
     }
-    case type.APP.PUSH_NEXT_CONTRUCTION_START:{
+    case type.APP.PUSH_CONTRUCTION_START:{
       newState.isLoading = true;
       break;
     }
-    case type.APP.PUSH_NEXT_CONTRUCTION_END: {
-      newState.nextContruction = action.payload;
+    case type.APP.PUSH_CONTRUCTION_END: {
+      newState.contruction = action.payload;
       break;
     }
     case type.APP.GET_LIST_CONSTRUCTION_START: {
       break;
     }
     case type.APP.GET_LIST_CONSTRUCTION_END: {
-      console.log("xxxxxxxxxxxxxx")
       newState.constructions = action.payload;
       break;
     }

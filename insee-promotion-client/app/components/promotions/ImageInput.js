@@ -46,7 +46,7 @@ class ImageInput extends Component {
     return (
       <div className="img-container">
         <input type="file" multiple={true} onChange={this._onChangeInputImg} ref={e => this.inputRef = e} style={{ display: 'none' }} />
-        <input onClick={this._onClickToSelectIMG} value={this.state.inputDesc && this.state.inputDesc} className="insee-input" type="text" />
+        <input onClick={this._onClickToSelectIMG} placeholder={this.props.placeholder} value={this.state.inputDesc && this.state.inputDesc} className="insee-input" type="text" />
         <img className="img-icon" src={require('../../resources/images/icn-camera.png')} />
       </div>
     )

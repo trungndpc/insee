@@ -73,7 +73,7 @@ export function getProfile() {
 
 export function createNextContruction(data) {
   return {
-    type: type.APP.PUSH_NEXT_CONTRUCTION_ASYNC,
+    type: type.APP.PUSH_CONTRUCTION_ASYNC,
     data: data
   }
 }

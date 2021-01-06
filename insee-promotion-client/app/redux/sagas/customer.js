@@ -12,7 +12,7 @@ export default function* customer() {
   yield takeLatest(type.APP.LOGIN_ASYNC_ASYNC, loginAsync)
   yield takeLatest(type.APP.LOGIN_PASSWORD_ASYNC, loginWithPassAsync)
   yield takeLatest(type.APP.GET_PROFILE_USER_ASYNC, getProfileAsync)
-  yield takeLatest(type.APP.PUSH_NEXT_CONTRUCTION_ASYNC, pushNextContructionAsync)
+  yield takeLatest(type.APP.PUSH_CONTRUCTION_ASYNC, pushNextContructionAsync)
   yield takeLatest(type.APP.GET_LIST_CONSTRUCTION_ASYNC, getListConstructionAsync)
 }
 
@@ -187,10 +187,23 @@ function getProfile() {
 //pushNextContructionAsync
 
 function* pushNextContructionAsync(action) {
-  yield put({ type: type.APP.PUSH_NEXT_CONTRUCTION_START })
+  yield put({ type: type.APP.PUSH_CONTRUCTION_START })
   const resp = yield call(postContruction, action.data)
-  yield put({ type: type.APP.PUSH_NEXT_CONTRUCTION_END, payload: resp.data })
+  yield put({ type: type.APP.PUSH_CONTRUCTION_END, payload: resp.data })
 }
+
+
+// private String address;
+// private int city;
+// private String district;
+// private String name;
+// private String phone;
+// private int quantity;
+// private int estimateTimeStart;
+// private int typeConstruction;
+// private int type;
+// private List<String> billIds;
+// private List<String> imageIds;
 
 function postContruction(data) {
   var body = {
@@ -199,8 +212,11 @@ function postContruction(data) {
     district: data["district"],
     name: data["name"],
     phone: data["phone"],
-    estimateTimeStart: data["timeStart"],
-    typeConstruction: data["typeProject"],
+    quantity: data["quantity"],
+    estimateTimeStart: data["estimateTimeStart"],
+    typeConstruction: data["typeConstruction"],
+    billIds: data["billIds"],
+    imageIds: data["imageIds"],
     type: data["type"]
   }
   return new Promise((resolve, reject) => {
@@ -211,10 +227,8 @@ function postContruction(data) {
 //getListConstructionAsync
 
 function* getListConstructionAsync() {
-  console.log("getListConstructionAsync")
   yield put({ type: type.APP.GET_LIST_CONSTRUCTION_START })
   const resp = yield call(getListConstruction)
-  console.log("oooooooooooooooo")
   yield put({ type: type.APP.GET_LIST_CONSTRUCTION_END, payload: resp.data })
 }
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import FormLayout from '../layout/FormLayout'
-class SuccessCreateNextContruction extends Component {
+class SuccessCreateContruction extends Component {
 
 
   render() {
@@ -23,4 +23,4 @@ class SuccessCreateNextContruction extends Component {
   }
 }
 
-export default SuccessCreateNextContruction
+export default SuccessCreateContruction
