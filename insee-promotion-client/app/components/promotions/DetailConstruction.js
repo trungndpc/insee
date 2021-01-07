@@ -15,7 +15,7 @@ class DetailConstruction extends Component {
     }
 
     countApproved(bills) {
-        let arr = bills.filter(e => { e.status == APPROVED.getStatus() });
+        let arr = bills.filter(e =>  e.status == APPROVED.getStatus() );
         return arr ? arr.length : 0
     }
 
@@ -106,7 +106,7 @@ class DetailConstruction extends Component {
                                         <li key={item.id}>
                                             <a className="strip" href="#">
                                                 <img onClick={() => { this.imgViewerRef.open(item) }} src={item.link} alt="" />
-                                                {item.status == REJECTED.getStatus() && <div style={{ color: ImageStatus.getColor(item.status) }} className="status">Reject</div>}
+                                                {item.status == REJECTED.getStatus() && <div style={{ color: ImageStatus.getColor(item.status) }} className="status"></div>}
                                             </a>
                                         </li>
                                     )
@@ -121,7 +121,7 @@ class DetailConstruction extends Component {
                                         <li key={item.id}>
                                             <a className="strip" href="#">
                                                 <img onClick={() => { this.imgViewerRef.open(item) }} src={item.link} alt="" />
-                                                {item.status == REJECTED.getStatus() && <div style={{ color: ImageStatus.getColor(item.status) }} className="status">Reject</div>}
+                                                {item.status == REJECTED.getStatus() && <div style={{ color: ImageStatus.getColor(item.status) }} className="status"></div>}
                                             </a>
                                         </li>
                                     )

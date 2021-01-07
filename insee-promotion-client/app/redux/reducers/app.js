@@ -110,7 +110,8 @@ export default function app(state = initialState, action) {
       break;
     }
     case type.APP.PUSH_CONTRUCTION_END: {
-      newState.contruction = action.payload;
+      newState.isLoading = false;
+      newState.crateedContruction = action.payload;
       break;
     }
     case type.APP.GET_LIST_CONSTRUCTION_START: {

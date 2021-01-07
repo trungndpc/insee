@@ -687,3 +687,6 @@ body {
     margin-bottom: 0;
 }
 
+.m-content.post {
+    padding: 20px 15px;
+}

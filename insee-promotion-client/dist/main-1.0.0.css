@@ -2110,7 +2110,30 @@ body {
 
 .react-datepicker-wrapper {
     width: 100%;
-}@charset "UTF-8"; /*!
+}
+
+.img-container {
+    width: 100%;
+    position: relative;
+}
+
+.img-container .img-icon {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    right: 5px;
+    top: 2px;
+}
+
+.desc-bill {
+    font-size: small;
+    line-height: 1;
+    padding: 10px 0px;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+@charset "UTF-8"; /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
  */
@@ -33481,6 +33504,70 @@ aside.sidebar.full-style {
 
 .friend-name {
     padding-left: 0;
+}
+
+@media screen and (max-width: 640px) {
+    /* .central-meta {
+        padding: 14px;
+    } */
+}
+
+.img-view-container {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: rgb(0 0 0 / 0.9);
+}
+
+.img-view-container table {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.img-view-container td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.img-view-container td {
+    height: auto;
+    max-width: 90%;
+}
+
+.img-view-container .btn-close {
+    font-size: xx-large;
+    color: #fff;
+    position: absolute;
+    right: 21px;
+    top: 1px;
+    cursor: pointer;
+}
+
+.f-title.bill {
+    padding: 10px 0;
+    margin: 0;
+}
+
+.photos li {
+    position: relative;
+}
+
+.photos li .status {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    top: 0;
+    left: 0;
+    text-align: center;
+    padding-top: 22%;
+    color: #fff;
+    font-weight: 600;
 }/*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)

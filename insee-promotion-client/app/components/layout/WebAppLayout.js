@@ -82,6 +82,14 @@ class WebAppLayout extends Component {
                       <a href="#" ></a>
                     </li>
                     <li>
+                      <Link onClick={this._onClickToLink} to={"/cong-trinh-cua-toi"}>Up Hóa đơn nhận quà</Link>
+                      <a href="#" ></a>
+                    </li>
+                    <li>
+                      <Link onClick={this._onClickToLink} to={"/cong-trinh-tiep-theo"}>Công trình trình tiếp theo</Link>
+                      <a href="#" ></a>
+                    </li>
+                    <li>
                       <Link onClick={this._onClickToLink} to={"/nha-thau-xanh"}>Nhà thầu xanh</Link>
                       <a href="#" ></a>
                     </li>

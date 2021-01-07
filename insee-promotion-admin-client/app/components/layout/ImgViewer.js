@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ImageStatus, APPROVED, REJECTED } from '../enum/ImageStatus'
+import { ImageStatus, APPROVED, REJECTED, WAITING_APPROVAL } from '../enum/ImageStatus'
 
 const MODE_PREVIEW = 1
 const MODE_APPROVAL = 2
@@ -42,8 +42,8 @@ class ImgViewer extends Component {
                     <tr>
                         {this.state.mode == MODE_PREVIEW && <td>
                             <img src={this.state.url} />
-                            {this.state.item && <p>{this.state.item.id} - Trang thái: <span style={{ color: ImageStatus.getColor(this.state.item.status) }}>Chờ duyệt</span></p>}
-                            <button onClick={() => this.setState({mode: MODE_APPROVAL})} type="button" className="mtr-btn"><span>Duyệt</span></button>
+                        {this.state.item && <p>{this.state.item.id} - Trang thái: <span style={{ color: ImageStatus.getColor(this.state.item.status) }}>{ImageStatus.getName(this.state.item.status)}</span></p>}
+                        {this.state.item && this.state.item.status == WAITING_APPROVAL.getStatus() &&  <button onClick={() => this.setState({mode: MODE_APPROVAL})} type="button" className="mtr-btn"><span>Duyệt</span></button> }
                         </td>
                         }
                         {this.state.mode == MODE_APPROVAL &&

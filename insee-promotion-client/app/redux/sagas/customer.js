@@ -119,7 +119,7 @@ function* getListPromotionAsync(action) {
 
 function getPromotion() {
   return new Promise((resolve, reject) => {
-    APIUtils.getJSONWithoutCredentials(process.env.DOMAIN + `/api/admin/post/list`, resolve, reject);
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/promotion/list`, resolve, reject);
   });
 }
 

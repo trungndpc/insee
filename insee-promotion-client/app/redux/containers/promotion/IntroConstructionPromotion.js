@@ -78,8 +78,8 @@ class IntroConstructionPromotion extends React.Component {
 
 
     render() {
-        const nextContruction = this.props.app.nextContruction;
-        if (nextContruction) {
+        const crateedContruction = this.props.app.crateedContruction;
+        if (crateedContruction) {
             return <SuccessCreateContruction />
         }
         return (

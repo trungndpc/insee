@@ -19,6 +19,7 @@ export default function* customer() {
   yield takeLatest(type.APP.GET_LIST_CONSTRUCTION_ASYNC, getListConstructionAsync)
   yield takeLatest(type.APP.GET_CONSTRUCTION_ASYNC, getConstructionAsync)
   yield takeLatest(type.APP.UPDATE_STATUS_IMAGE_ASYNC, updateStatusImageAsync)
+  yield takeLatest(type.APP.UPDATE_STATUS_CONSTRUCTION_ASYNC, updateStatusConstructionAsync)
 }
 
 
@@ -231,7 +232,7 @@ function* updateStatusCustomerAsync(action) {
     AlertUtils.showSuccess("Cập nhật thành công")
     const customerResp = yield call(getCustomerById, action.id)
     yield put({ type: type.APP.GET_CUSTOMER_BY_ID_END, payload: customerResp.data })
-  }else {
+  } else {
     AlertUtils.showError("Vui lòng thử lại")
   }
   yield put({ type: type.APP.UPDATE_STATUS_CUSTOMER_END, payload: resp.data })
@@ -278,8 +279,10 @@ function getConstruction(id) {
 //updateStatusImageAsync
 function* updateStatusImageAsync(action) {
   yield put({ type: type.APP.UPDATE_STATUS_IMAGE_START })
-  const resp = yield call(postUpdateStatusImage, action.imgType, action.id, action.status)
+  const resp = yield call(postUpdateStatusImage, action.imgType, action.imageId, action.status)
   if (resp.error == 0) {
+    const constructionResp = yield call(getConstruction, action.id)
+    yield put({ type: type.APP.GET_CONSTRUCTION_END, payload: constructionResp.data })
     AlertUtils.showSuccess("Thành công!")
   }
   yield put({ type: type.APP.UPDATE_STATUS_IMAGE_END, payload: resp.data })
@@ -293,5 +296,28 @@ function postUpdateStatusImage(imgType, id, status) {
   }
   return new Promise((resolve, reject) => {
     APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/image/update-status`, JSON.stringify(body), resolve, reject);
+  });
+}
+
+
+//updateStatusConstructionAsync
+function* updateStatusConstructionAsync(action) {
+  yield put({ type: type.APP.UPDATE_STATUS_CONSTRUCTION_START })
+  const resp = yield call(postUpdateConstruction, action.id, action.status)
+  if (resp.error == 0) {
+    const constructionResp = yield call(getConstruction, action.id)
+    yield put({ type: type.APP.GET_CONSTRUCTION_END, payload: constructionResp.data })
+    AlertUtils.showSuccess("Thành công!")
+  }
+  yield put({ type: type.APP.UPDATE_STATUS_IMAGE_END, payload: resp.data })
+}
+
+function postUpdateConstruction(id, status) {
+  var body = {
+    id: id,
+    status: status
+  }
+  return new Promise((resolve, reject) => {
+    APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/update-status`, JSON.stringify(body), resolve, reject);
   });
 }

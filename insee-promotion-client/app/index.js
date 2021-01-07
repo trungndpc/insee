@@ -44,7 +44,7 @@ function APP() {
           <Contructions />
         </Route>
         <Route path="/dang-ky" component={Register} />
-        <Route path="/gioi-thieu-cong-trinh" component={IntroConstructionPromotion} />
+        <Route path="/cong-trinh-tiep-theo" component={IntroConstructionPromotion} />
         <Route path="/cong-trinh-cua-toi" component={NowConstruction} />
         <Route path="/" >
           <ContractorInfo />

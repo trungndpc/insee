@@ -126,8 +126,8 @@ class NowConstruction extends React.Component {
 
 
     render() {
-        const contruction = this.props.app.contruction;
-        if (contruction) {
+        const crateedContruction = this.props.app.crateedContruction;
+        if (crateedContruction) {
             return <SuccessCreateContruction />
         }
         return (

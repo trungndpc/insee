@@ -22,6 +22,14 @@ export class  ImageStatus {
             case 3: return '#b71c1c'
         }
     }
+
+    static getName(status) {
+        switch(status) {
+            case 1: return 'Chờ duyệt';
+            case 2: return 'Đã chấp nhận';
+            case 3: return 'Không chấp nhận'
+        }
+    }
     
 }
 export const WAITING_APPROVAL = new ImageStatus(1);

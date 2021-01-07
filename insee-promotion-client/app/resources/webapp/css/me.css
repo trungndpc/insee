@@ -90,3 +90,38 @@
     color: #fff;
     font-weight: 600;
 }
+
+.post-btn {
+    width: inherit !important;
+    text-transform: initial;
+    padding: 0 40px;
+}
+.post .g-post-classic > figure {
+    margin: 0;
+}
+
+.g-post-meta {
+    padding: 0;
+}
+.g-post-meta h4  {
+    padding-top: 10px;
+    margin: 0;
+}
+.g-post-meta h4 a {
+    font-size: medium;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.g-post-classic .summary-rules {
+    color: #175ba9;
+    font-size: small;
+    margin-bottom: 5px;
+}
+
+.g-post-classic .post-summary {
+    font-size: revert;
+    padding: 0 10px;
+    margin: 0;
+    line-height: 1.4;
+}

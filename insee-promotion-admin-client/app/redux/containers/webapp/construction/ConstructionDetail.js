@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import {
   Link
 } from "react-router-dom";
-import { CustomerStatusEnum, DO_NOT_HAVE_ACCOUNT, NEED_REVIEW, REJECTED, APPROVED } from '../../../../components/enum/CustomerStatusEnum';
-import ApprovalCustomerModal from '../../../../components/modal/ApprovalCustomerModal'
-import RejectCustomerModal from '../../../../components/modal/RejectCustomerModal'
+import ApprovalConstructionModal from '../../../../components/modal/ApprovalConstructionModal'
+import RejectConstructionModal from '../../../../components/modal/RejectConstructionModal'
 import { TypeConstruction, NEXT_CONSTRUCTION, NOW_CONSTRUCTION } from '../../../../components/enum/TypeConstruction'
 import ImgViewer from '../../../../components/layout/ImgViewer'
 import * as ImageStatus from '../../../../components/enum/ImageStatus'
+import * as ConstructionStatus from '../../../../components/enum/StatusConstruction'
 
 class ConstructionDetail extends Component {
 
@@ -53,7 +53,7 @@ class ConstructionDetail extends Component {
 
   updateStatusImg(type, id, status) {
     console.log("type: " + type + ", id: " + id + ", status: " + status)
-    this.props.appActions.updateStatusImage(type, status, id);
+    this.props.appActions.updateStatusImage(id, type, status, this.props.constructionId);
     this.imgViewerRef.close()
   }
 
@@ -62,6 +62,7 @@ class ConstructionDetail extends Component {
   render() {
     const construction = this.props.app.construction;
     const type = construction && TypeConstruction.findByType(construction.type)
+    const status = construction && ConstructionStatus.findByStatus(construction.status);
     return (
       <div className="loadMore">
         <div className="m-content">
@@ -125,7 +126,7 @@ class ConstructionDetail extends Component {
                     }
                     <tr>
                       <th>Trạng thái</th>
-                      <td>Đã duyệt</td>
+                      <td>{status && status.getName()}</td>
                     </tr>
                     {type == NOW_CONSTRUCTION &&
                       <tr>
@@ -138,6 +139,15 @@ class ConstructionDetail extends Component {
               }
             </div>
           </div>
+
+          {status && status == ConstructionStatus.WAITING_APPROVAL &&
+            <div className="action-container">
+              <ui className="action-customer-detail">
+                <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Approval</Link></li>
+                <li><Link onClick={this._onClickOpenRejectModal} className="add-butn" data-ripple>Reject</Link></li>
+              </ui>
+            </div>
+          }
 
           {(type && type == NOW_CONSTRUCTION) &&
             <div className="central-meta">
@@ -177,21 +187,14 @@ class ConstructionDetail extends Component {
 
 
 
-          {status && status.getStatus() == NEED_REVIEW.getStatus() &&
-            <div className="action-container">
-              <ui className="action-customer-detail">
-                <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Approval</Link></li>
-                <li><Link onClick={this._onClickOpenRejectModal} className="add-butn" data-ripple>Reject</Link></li>
-              </ui>
-            </div>
-          }
+          
 
-          {/* {customer &&
-            <ApprovalCustomerModal {...this.props} id={customer.id} isOpen={this.state.isOpenApprovalModal} onClose={this._onCloseApprovalModal} />
+          {construction &&
+            <ApprovalConstructionModal {...this.props} id={construction.id} isOpen={this.state.isOpenApprovalModal} onClose={this._onCloseApprovalModal} />
           }
-          {customer &&
-            <RejectCustomerModal {...this.props} id={customer.id} isOpen={this.state.isOpenRejectModal} onClose={this._onCloseRejectModal} />
-          } */}
+          {construction &&
+            <RejectConstructionModal {...this.props} id={construction.id} isOpen={this.state.isOpenRejectModal} onClose={this._onCloseRejectModal} />
+          }
         </div>
       </div>
     )

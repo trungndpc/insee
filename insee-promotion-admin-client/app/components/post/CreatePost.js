@@ -58,6 +58,10 @@ class CreatePromotion extends Component {
                                         <label className="ctk-editor-lable">Tóm tắt ngắn: </label>
                                         <input className="ctk-editor-input" ref={e => this.summaryInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp" />
                                     </div>
+                                    <div className="ctk-row">
+                                        <label className="ctk-editor-lable">Khu vực : </label>
+                                        <input className="ctk-editor-input" ref={e => this.summaryInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp" />
+                                    </div>
                                 </form>
                             </div>
                             <div className="d-flex flex-row mt-2">

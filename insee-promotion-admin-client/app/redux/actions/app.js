@@ -104,12 +104,20 @@ export function getConstruction(id) {
   }
 }
 
-export function updateStatusImage(imgType, status, id) {
+export function updateStatusImage(imageId, imgType, status, id) {
   return {
     type: type.APP.UPDATE_STATUS_IMAGE_ASYNC,
     imgType: imgType,
     status: status,
-    id: id
+    id: id,
+    imageId: imageId
   }
 }
 
+export function updateStatusConstruction(id, status) {
+  return {
+    type: type.APP.UPDATE_STATUS_CONSTRUCTION_ASYNC,
+    id: id,
+    status : status
+  }
+}

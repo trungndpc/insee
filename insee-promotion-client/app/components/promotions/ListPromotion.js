@@ -16,7 +16,7 @@ class ListPromotion extends Component {
         let promotions = this.props.app.promotions;
         return (
             <div className="loadMore">
-                <div className="m-content">
+                <div className="m-content post">
                     <div className="row">
                         {promotions && promotions.list.map((item, index) => {
                             return (
@@ -28,10 +28,11 @@ class ListPromotion extends Component {
                                         <div className="g-post-meta">
                                             <div className="post-title no-border text-center-mobile">
                                                 <h4><a title href="#">{item.title}</a></h4>
+                                                <p className="summary-rules">Thời gian: 15/02/2021 - 20/02/2021. Hồ Chí Minh</p>
                                                 <p className="post-summary">{item.summary}</p>
                                                 <span className="p-date">
                                                     <Link to={"/promotion/" + item.id}>
-                                                        <button className="btn-apply-promotion" type="submit">Tham gia ngay</button>
+                                                        <button className="btn-insee btn-insee-bg post-btn">Tham gia ngay</button>
                                                     </Link>
                                                 </span>
                                             </div>
