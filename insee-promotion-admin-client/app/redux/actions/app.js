@@ -90,10 +90,11 @@ export function updateStatusCustomer(id, status, note) {
   }
 }
 
-export function getListConstruction(data) {
+export function getListConstruction(typeConstruction, status) {
   return {
     type: type.APP.GET_LIST_CONSTRUCTION_ASYNC,
-    data: data
+    typeConstruction: typeConstruction,
+    status: status
   }
 }
 

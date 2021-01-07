@@ -252,13 +252,13 @@ function postUpdateStatusCustomer(id, status, note) {
 //getListConstructionAsync
 function* getListConstructionAsync(action) {
   yield put({ type: type.APP.GET_LIST_CONSTRUCTION_START })
-  const resp = yield call(getListConstruction)
+  const resp = yield call(getListConstruction, action.typeConstruction, action.status)
   yield put({ type: type.APP.GET_LIST_CONSTRUCTION_END, payload: resp.data })
 }
 
-function getListConstruction() {
+function getListConstruction(type, status) {
   return new Promise((resolve, reject) => {
-    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/list`, resolve, reject);
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/list?type=${type}${status ? '&status=' + status : ''}` , resolve, reject);
   });
 }
 

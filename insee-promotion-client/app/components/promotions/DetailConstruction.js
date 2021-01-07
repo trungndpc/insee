@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import ImgViewer from '../layout/ImgViewer'
 import { TypeConstruction, NEXT_CONSTRUCTION, NOW_CONSTRUCTION } from '../enum/TypeConstruction'
 import { ImageStatus, WAITING_APPROVAL, APPROVED, REJECTED } from '../enum/ImageStatus'
-
-
+import Location from '../../data/Location'
+import DateTimeUtil from '../../utils/DateTimeUtil'
+import {findByStatus} from '../enum/StatusConstruction'
 
 class DetailConstruction extends Component {
     constructor(props) {
@@ -38,8 +39,8 @@ class DetailConstruction extends Component {
                                         <td>{construction && construction.address}</td>
                                     </tr>
                                     <tr>
-                                        <th>Tỉnh / Huyện </th>
-                                        <td>Hồ Chí Minh / Quận 2</td>
+                                        <th>Tỉnh thành</th>
+                                        <td>{construction && Location.getName(construction.city)} - Quận 1</td>
                                     </tr>
                                     {type == NEXT_CONSTRUCTION &&
                                         <tr>
@@ -67,25 +68,25 @@ class DetailConstruction extends Component {
                                     }
                                     {type == NEXT_CONSTRUCTION &&
                                         <tr>
-                                            <th>Thời gian khởi công: </th>
-                                            <td>{construction && new Date(construction.estimateTimeStart * 1000).toDateString()}</td>
+                                            <th>Khởi công: </th>
+                                            <td>{construction && DateTimeUtil.toString(new Date(construction.estimateTimeStart * 1000))}</td>
                                         </tr>
                                     }
                                     {type == NEXT_CONSTRUCTION &&
                                         <tr>
-                                            <th>Loại công trình: </th>
+                                            <th>Loại CT: </th>
                                             <td>{construction && construction.typeConstruction}</td>
                                         </tr>
                                     }
                                     {type == NOW_CONSTRUCTION &&
                                         <tr>
-                                            <th>Số lượng sản phẩm: </th>
+                                            <th>Số lượng: </th>
                                             <td>{construction && construction.quantity}</td>
                                         </tr>
                                     }
                                     <tr>
                                         <th>Trạng thái</th>
-                                        <td>Đã duyệt</td>
+                                        <td>{construction && findByStatus(construction.status).getName()}</td>
                                     </tr>
                                     {type == NOW_CONSTRUCTION &&
                                         <tr>

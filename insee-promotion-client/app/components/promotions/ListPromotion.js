@@ -5,7 +5,8 @@ import {
     Link,
     useParams
 } from "react-router-dom";
-
+import Location from '../../data/Location'
+import DateTimeUtil from '../../utils/DateTimeUtil'
 class ListPromotion extends Component {
 
     componentDidMount() {
@@ -19,6 +20,7 @@ class ListPromotion extends Component {
                 <div className="m-content post">
                     <div className="row">
                         {promotions && promotions.list.map((item, index) => {
+                            let pathGoToPromotion = item.typePromotion = 1 ? 'cong-trinh-tiep-theo' : 'cong-trinh-cua-toi'
                             return (
                                 <div className="col-lg-6 col-sm-6">
                                     <div className="g-post-classic">
@@ -28,10 +30,10 @@ class ListPromotion extends Component {
                                         <div className="g-post-meta">
                                             <div className="post-title no-border text-center-mobile">
                                                 <h4><a title href="#">{item.title}</a></h4>
-                                                <p className="summary-rules">Thời gian: 15/02/2021 - 20/02/2021. Hồ Chí Minh</p>
+                                                <p className="summary-rules">{`Từ ${DateTimeUtil.toString(new Date(item.timeStart * 1000))} đến ngày ${DateTimeUtil.toString(new Date(item.timeEnd * 1000))} | Khu vực áp dụng: ${Location.getName(item.location)}`}</p>
                                                 <p className="post-summary">{item.summary}</p>
                                                 <span className="p-date">
-                                                    <Link to={"/promotion/" + item.id}>
+                                                    <Link to={'/' + pathGoToPromotion}>
                                                         <button className="btn-insee btn-insee-bg post-btn">Tham gia ngay</button>
                                                     </Link>
                                                 </span>

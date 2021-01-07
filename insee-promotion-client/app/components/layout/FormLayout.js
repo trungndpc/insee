@@ -20,7 +20,7 @@ class FormLayout extends Component {
     componentDidMount() {
         setTimeout(function() {
             let contentH = this.contenRef.offsetHeight;
-            if (Math.abs(this.minHeight - contentH) <= 50) {
+            if (Math.abs(this.minHeight - contentH) <= 50 || contentH >= this.minHeight) {
                 this.setState({pBottom : 50})
             }
         }.bind(this), 500)

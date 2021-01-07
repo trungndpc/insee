@@ -31,6 +31,9 @@
     /* .central-meta {
         padding: 14px;
     } */
+    .table-info-contractor tr th {
+        width: 30%;
+    }
 }
 
 .img-view-container {
@@ -101,7 +104,7 @@
 }
 
 .g-post-meta {
-    padding: 0;
+    padding: 0 5px;
 }
 .g-post-meta h4  {
     padding-top: 10px;
@@ -124,4 +127,16 @@
     padding: 0 10px;
     margin: 0;
     line-height: 1.4;
+}
+
+/* .table-info-contractor {
+    font-size: small;
+} */
+
+.f-title {
+    padding-bottom: 0;
+    /* font-size: medium; */
+}
+.photos > li a img {
+    height: 100px;
 }

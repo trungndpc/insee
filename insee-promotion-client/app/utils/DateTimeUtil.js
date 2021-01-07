@@ -38,5 +38,11 @@ export default class DateTimeUtil {
         var year = date.getFullYear();
         return "Tháng " + month + " năm " + year;
     }
-    
+
+
+    static toString(date) {
+        if (!date) return '';
+        return [date.getDate(), date.getMonth() + 1, date.getFullYear()].join('/');
+    }
+
 }

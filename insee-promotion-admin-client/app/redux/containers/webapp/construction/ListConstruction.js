@@ -5,6 +5,7 @@ import {
 import Location from '../../../../data/Location'
 import * as StatusConstruction from '../../../../components/enum/StatusConstruction'
 import {NEXT_CONSTRUCTION, NOW_CONSTRUCTION} from '../../../../components/enum/TypeConstruction'
+import {WAITING_APPROVAL, APPROVED, REJECTED} from '../../../../components/enum/StatusConstruction'
 class ListConstruction extends Component {
 
 
@@ -14,17 +15,30 @@ class ListConstruction extends Component {
       page: 0,
       pageSize: 10,
       currentStatus: 10,
+      status: 0,
       type: NOW_CONSTRUCTION.getType()
     }
     this.onChangeType = this.onChangeType.bind(this)
+    this.onChangeStatus = this.onChangeStatus.bind(this)
   }
 
   componentDidMount() {
-    this.props.appActions.getListConstruction();
+    this.load(this.state.type, this.state.status)
   }
 
   onChangeType(type) {
     this.setState({type: type})
+    this.load(this.state.type, this.state.status);
+  }
+
+  onChangeStatus(event) {
+    let status =  event.target.value;
+    this.setState({status: status});
+    this.load(this.state.type, status);
+  }
+
+  load(type, status) {
+    this.props.appActions.getListConstruction(type, status == 0 ? null : status );
   }
 
   render() {
@@ -37,10 +51,10 @@ class ListConstruction extends Component {
               <li onClick={() => this.onChangeType(NOW_CONSTRUCTION.getType())} className={`item-left ${this.state.type == NOW_CONSTRUCTION.getType() && 'active'}`}><label>Công trình hiện tại</label></li>
               <li onClick={() => this.onChangeType(NEXT_CONSTRUCTION.getType())} className={`item-left ${this.state.type == NEXT_CONSTRUCTION.getType() && 'active'}`}><label>Công trình tiếp theo</label></li>
               <li className="item-right">
-                <select class="form-control">
-                  <option>Tất cả</option>
-                  <option>Chờ duyệt</option>
-                  <option>Đã duyệt</option>
+                <select onChange={this.onChangeStatus.bind(this)} value={this.state.status} class="form-control">
+                  <option value={0}>Tất cả</option>
+                  <option value={WAITING_APPROVAL.getStatus()}>Chờ duyệt</option>
+                  <option value={APPROVED.getStatus()}>Đã duyệt</option>
                 </select>
               </li>
             </ul>
