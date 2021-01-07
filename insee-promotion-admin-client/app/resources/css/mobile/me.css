@@ -215,3 +215,21 @@ input.input100 {
     padding: 10px 0px;
 }
 
+.img-view-container td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.img-view-container td {
+    height: auto;
+    max-width: 90%;
+}
+
+.img-view-container .btn-close {
+    font-size: xx-large;
+    color: #fff;
+    position: absolute;
+    right: 21px;
+    top: 1px;
+    cursor: pointer;
+}

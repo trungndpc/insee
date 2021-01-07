@@ -1,4 +1,4 @@
-import { takeLatest, call, put } from 'redux-saga/effects'
+import { takeLatest, call, put, take } from 'redux-saga/effects'
 import * as type from '../actions/action-types'
 import APIUtils from '../../utils/APIUtils'
 import AlertUtils from '../../utils/AlertUtils'
@@ -16,6 +16,9 @@ export default function* customer() {
   yield takeLatest(type.APP.GET_LIST_CUSTOMER_ALL_ASYNC, getListCustomerAllAsync)
   yield takeLatest(type.APP.GET_LIST_CUSTOMER_BY_STATUS_ASYNC, getListCustomerByStatusAsync)
   yield takeLatest(type.APP.UPDATE_STATUS_CUSTOMER_ASYNC, updateStatusCustomerAsync)
+  yield takeLatest(type.APP.GET_LIST_CONSTRUCTION_ASYNC, getListConstructionAsync)
+  yield takeLatest(type.APP.GET_CONSTRUCTION_ASYNC, getConstructionAsync)
+  yield takeLatest(type.APP.UPDATE_STATUS_IMAGE_ASYNC, updateStatusImageAsync)
 }
 
 
@@ -242,5 +245,53 @@ function postUpdateStatusCustomer(id, status, note) {
   }
   return new Promise((resolve, reject) => {
     APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/customer/update-status`, JSON.stringify(body), resolve, reject);
+  });
+}
+
+//getListConstructionAsync
+function* getListConstructionAsync(action) {
+  yield put({ type: type.APP.GET_LIST_CONSTRUCTION_START })
+  const resp = yield call(getListConstruction)
+  yield put({ type: type.APP.GET_LIST_CONSTRUCTION_END, payload: resp.data })
+}
+
+function getListConstruction() {
+  return new Promise((resolve, reject) => {
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/list`, resolve, reject);
+  });
+}
+
+//getConstructionAsync 
+function* getConstructionAsync(action) {
+  yield put({ type: type.APP.GET_CONSTRUCTION_START })
+  const resp = yield call(getConstruction, action.id)
+  yield put({ type: type.APP.GET_CONSTRUCTION_END, payload: resp.data })
+}
+
+function getConstruction(id) {
+  return new Promise((resolve, reject) => {
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction?id=${id}`, resolve, reject);
+  });
+}
+
+
+//updateStatusImageAsync
+function* updateStatusImageAsync(action) {
+  yield put({ type: type.APP.UPDATE_STATUS_IMAGE_START })
+  const resp = yield call(postUpdateStatusImage, action.imgType, action.id, action.status)
+  if (resp.error == 0) {
+    AlertUtils.showSuccess("Thành công!")
+  }
+  yield put({ type: type.APP.UPDATE_STATUS_IMAGE_END, payload: resp.data })
+}
+
+function postUpdateStatusImage(imgType, id, status) {
+  var body = {
+    id: id,
+    type: imgType,
+    status: status
+  }
+  return new Promise((resolve, reject) => {
+    APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/image/update-status`, JSON.stringify(body), resolve, reject);
   });
 }

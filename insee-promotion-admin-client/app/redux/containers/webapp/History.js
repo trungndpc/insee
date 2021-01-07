@@ -6,13 +6,14 @@ import WebAppLayout from '../../../components/layout/WebAppLayout'
 import SideBar from '../../../components/layout/SideBar'
 
 
-class Gift extends React.Component {
+class History extends React.Component {
 
 
     componentDidMount() {
     }
 
     render() {
+        console.log("history")
         return (
             <WebAppLayout {...this.props}>
                 <section>
@@ -107,4 +108,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Gift)
+)(History)

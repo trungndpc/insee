@@ -212,3 +212,45 @@
 .open-modal {
     overflow-y: hidden;
 }
+
+
+.img-view-container {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: rgb(0 0 0 / 0.9);
+    z-index: 999999;
+}
+
+.img-view-container table {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.img-view-container td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.img-view-container td {
+    height: auto;
+    max-width: 90%;
+}
+.img-view-container td img {
+    height: 50%;
+    max-width: 90%;
+}
+
+.img-view-container .btn-close {
+    font-size: xx-large;
+    color: #fff;
+    position: absolute;
+    right: 21px;
+    top: 1px;
+    cursor: pointer;
+}

@@ -98,6 +98,20 @@ export default function app(state = initialState, action) {
       newState.customers = data;
       break;
     }
+    case type.APP.GET_LIST_CONSTRUCTION_START: {
+      break;
+    }
+    case type.APP.GET_LIST_CONSTRUCTION_END: {
+      newState.constructions = action.payload;
+      break;
+    }
+    case type.APP.GET_CONSTRUCTION_START: {
+      break;
+    }
+    case type.APP.GET_CONSTRUCTION_END: {
+      newState.construction = action.payload;
+      break;
+    }
     default:
       return state
   }

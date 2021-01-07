@@ -93,7 +93,6 @@ class DetailConstruction extends Component {
                                             <td>{construction && construction.bills && this.countApproved(construction.bills)} hóa đơn,  {construction && construction.images && this.countApproved(construction.images)} hình ảnh</td>
                                         </tr>
                                     }
-
                                 </tbody>
                             </table>
                         </div>

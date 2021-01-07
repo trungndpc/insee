@@ -90,3 +90,26 @@ export function updateStatusCustomer(id, status, note) {
   }
 }
 
+export function getListConstruction(data) {
+  return {
+    type: type.APP.GET_LIST_CONSTRUCTION_ASYNC,
+    data: data
+  }
+}
+
+export function getConstruction(id) {
+  return {
+    type: type.APP.GET_CONSTRUCTION_ASYNC,
+    id: id
+  }
+}
+
+export function updateStatusImage(imgType, status, id) {
+  return {
+    type: type.APP.UPDATE_STATUS_IMAGE_ASYNC,
+    imgType: imgType,
+    status: status,
+    id: id
+  }
+}
+

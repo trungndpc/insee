@@ -6,7 +6,7 @@ import {
     useParams
 } from "react-router-dom";
 
-class ListPromotion extends Component {
+class ListPost extends Component {
 
     componentDidMount() {
         this.props.appActions.getListPromotion();
@@ -49,4 +49,4 @@ class ListPromotion extends Component {
     }
 }
 
-export default ListPromotion
+export default ListPost

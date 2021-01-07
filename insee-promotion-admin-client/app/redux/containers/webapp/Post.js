@@ -3,16 +3,16 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
-import ListPromotion from '../../../components/promotions/ListPromotion'
+import ListPost  from '../../../components/post/ListPost'
+import DetailPost from '../../../components/post/DetailPost'
 import {
     Switch,
     Route,
     Link,
     useParams
 } from "react-router-dom";
-import CreatePromotion from '../../../components/promotions/CreatePromotion'
+import CreatePost from '../../../components/post/CreatePost'
 import SideBar from '../../../components/layout/SideBar'
-import DetailPromotion from '../../../components/promotions/DetailPromotion'
 
 
 function DetailPromotionRoute(props) {
@@ -21,7 +21,7 @@ function DetailPromotionRoute(props) {
 }
 
 
-class Promotion extends React.Component {
+class Post extends React.Component {
 
 
     componentDidMount() {
@@ -42,19 +42,19 @@ class Promotion extends React.Component {
                                         <div className="col-lg-9">
 
                                             <Switch>
-                                                <Route exact path="/promotion/create">
-                                                    <CreatePromotion {...this.props} />
+                                                <Route exact path="/post/create">
+                                                    <CreatePost {...this.props} />
                                                 </Route>
-                                                <Route path="/promotion/:postId">
-                                                    <DetailPromotionRoute {...this.props} />
+                                                <Route path="/post/:postId">
+                                                    <DetailPost {...this.props} />
                                                 </Route>
-                                                <Route path="/promotion">
+                                                <Route path="/post">
                                                     <div className="inbox-action ctkm">
                                                         <ul>
-                                                            <li><Link to="/promotion/create"><span className="mbtn">Thêm</span></Link></li>
+                                                            <li><Link to="/post/create"><span className="mbtn">Thêm</span></Link></li>
                                                         </ul>
                                                     </div>
-                                                    <ListPromotion {...this.props} />
+                                                    <ListPost {...this.props} />
                                                 </Route>
 
                                             </Switch>
@@ -85,4 +85,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Promotion)
+)(Post)

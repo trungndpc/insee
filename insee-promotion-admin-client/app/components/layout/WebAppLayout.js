@@ -27,7 +27,7 @@ class WebAppLayout extends Component {
                 <div className="col-lg-2 col-4">
                   <div className="user-avatar">
                     <figure>
-                      <img src={user && user.avatar} alt="" />
+                      <img style={{width: '150px', height: '150px'}} src={user && user.avatar} alt="" />
                     </figure>
                   </div>
                 </div>
