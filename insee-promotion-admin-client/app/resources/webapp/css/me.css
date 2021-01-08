@@ -331,3 +331,7 @@
 .item-left.active label {
     color: #b71c1c !important;
 }
+
+.photos > li a img {
+    height: 120px;
+}

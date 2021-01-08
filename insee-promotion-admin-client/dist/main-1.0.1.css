@@ -32239,4 +32239,64 @@ a.btn2:hover,
     color: #fff;
     font-weight: 600;
 }
-/*# sourceMappingURL=main-1.0.0.css.map*/
+
+
+.ctkm li {
+    float: right !important;
+}
+
+.ctkm li span.mbtn {
+    padding: 5px 20px;
+    background-color: #dc3545;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.ck.ck-editor {
+    width: 100% !important;
+}
+
+.ctk-editor-lable {
+    width: 14%;
+}
+
+.ctk-editor-input {
+    border: 1px solid #eee;
+    font-size: 14px;
+    padding: 10px 20px;
+    width: 86%;
+}
+
+.ctk-row {
+    padding: 20px 0px;
+}
+
+.nav-construction {
+    background-color: #fff;
+    padding: 13px;
+    padding-left: 5px;
+}
+
+.inbox-lists .item-left {
+    font-size: 20px;
+    padding: 10px;
+}
+
+.inbox-lists .item-left label {
+    font-size: medium;
+    color: black !important;
+}
+
+.inbox-lists .item-right {
+    float: right;
+}
+
+.item-left.active label {
+    color: #b71c1c !important;
+}
+
+.photos > li a img {
+    height: 120px;
+}
+/*# sourceMappingURL=main-1.0.1.css.map*/
