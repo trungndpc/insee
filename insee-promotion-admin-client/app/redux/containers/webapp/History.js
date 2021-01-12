@@ -13,7 +13,6 @@ class History extends React.Component {
     }
 
     render() {
-        console.log("history")
         return (
             <WebAppLayout {...this.props}>
                 <section>

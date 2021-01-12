@@ -21,7 +21,8 @@ class ConstructionDetail extends Component {
       isOpenRejectModal: false,
       isCanApproval: true,
       errorMsg: null,
-      isAreYouSureModal: false
+      isAreYouSureModal: false,
+      isSendingGift: false
     }
     this._onClickOpenApprovalModal = this._onClickOpenApprovalModal.bind(this)
     this._onCloseApprovalModal = this._onCloseApprovalModal.bind(this)
@@ -31,6 +32,8 @@ class ConstructionDetail extends Component {
     this.updateConstruction = this.updateConstruction.bind(this)
     this._onCloseAreUSureModal = this._onCloseAreUSureModal.bind(this)
     this._onClickOpenAreYouSureModal = this._onClickOpenAreYouSureModal.bind(this)
+    this._onClickOpenFormSendingGift = this._onClickOpenFormSendingGift.bind(this)
+    this._onCloseFormSendingGift = this._onCloseFormSendingGift.bind(this)
     this.isApproval = true;
   }
 
@@ -51,9 +54,9 @@ class ConstructionDetail extends Component {
   }
 
   _onClickOpenAreYouSureModal() {
-    let lable =  this.labelRef.getValue();
+    let lable = this.labelRef.getValue();
     if (!lable) {
-      this.setState({errorMsg: 'Vui lòng chọn Label'})
+      this.setState({ errorMsg: 'Vui lòng chọn Label' })
       return;
     }
     this.setState({ isAreYouSureModal: true })
@@ -69,6 +72,14 @@ class ConstructionDetail extends Component {
 
   _onCloseAreUSureModal() {
     this.setState({ isAreYouSureModal: false })
+  }
+
+  _onClickOpenFormSendingGift() {
+    this.setState({ isSendingGift: true})
+  }
+
+  _onCloseFormSendingGift(){
+    this.setState({ isSendingGift: false})
   }
 
   componentDidMount() {
@@ -102,13 +113,13 @@ class ConstructionDetail extends Component {
   updateConstruction() {
     const construction = this.props.app.construction;
     let data = {
-      id : construction.id
+      id: construction.id
     }
-    let lable =  this.labelRef.getValue();
+    let lable = this.labelRef.getValue();
     if (lable.__isNew__) {
       data.labelName = lable.value,
-      data.labelType = 1
-    }else {
+        data.labelType = 1
+    } else {
       data.labelId = lable.value
     }
     this.setState({ isAreYouSureModal: false })
@@ -120,7 +131,7 @@ class ConstructionDetail extends Component {
   render() {
     const construction = this.props.app.construction;
     const labels = this.props.app.labels;
-    const labelOptions = labels && labels.map(e => {return {value: e.id, label: e.name}})
+    const labelOptions = labels && labels.map(e => { return { value: e.id, label: e.name } })
     const type = construction && TypeConstruction.findByType(construction.type)
     const status = construction && ConstructionStatus.findByStatus(construction.status);
     if (construction && construction.bills && construction.images) {
@@ -201,7 +212,7 @@ class ConstructionDetail extends Component {
                         <td>{construction && construction.bills && this.countApproved(construction.bills)} hóa đơn,  {construction && construction.images && this.countApproved(construction.images)} hình ảnh</td>
                       </tr>
                     }
-                    {(construction && construction.label )&& 
+                    {(construction && construction.label) &&
                       <tr>
                         <th>Label</th>
                         <td className="label">#{construction.label.name}</td>
@@ -210,30 +221,31 @@ class ConstructionDetail extends Component {
                   </tbody>
                 </table>
               }
-              {(labelOptions && construction && !construction.label) && 
+              {(labelOptions && construction && !construction.label) &&
                 <div className="input-extra">
                   <div className="th">Nhãn công trình</div>
-                  <div className="td"><ReactSelect options={labelOptions} ref={e => this.labelRef = e}/></div>
+                  <div className="td"><ReactSelect options={labelOptions} ref={e => this.labelRef = e} /></div>
                 </div>
               }
             </div>
           </div>
           {this.state.errorMsg && <div className="errorMsg-right">{this.state.errorMsg}</div>}
-          {status && status == ConstructionStatus.WAITING_APPROVAL &&
-            <div className="action-container">
-              <ui className="action-customer-detail">
-                {construction && !construction.label &&
-                  <li><Link onClick={this._onClickOpenAreYouSureModal} className="add-butn" data-ripple>Cập nhật</Link></li>
-                }
-                {construction && construction.label && construction.status == ConstructionStatus.WAITING_APPROVAL.getStatus() &&
-                  <div>
-                    <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Chấp nhận</Link></li>
-                    <li><Link onClick={this._onClickOpenRejectModal} className="add-butn" data-ripple>Không chấp nhận</Link></li>
-                  </div>
-                }
-              </ui>
-            </div>
-          }
+          <div className="action-container">
+            <ui className="action-customer-detail">
+              {construction && !construction.label &&
+                <li><Link onClick={this._onClickOpenAreYouSureModal} className="add-butn">Cập nhật</Link></li>
+              }
+              {construction && construction.label && construction.status == ConstructionStatus.WAITING_APPROVAL.getStatus() &&
+                <div>
+                  <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn">Chấp nhận</Link></li>
+                  <li><Link onClick={this._onClickOpenRejectModal} className="add-butn">Không chấp nhận</Link></li>
+                </div>
+              }
+              {construction && construction.status == ConstructionStatus.APPROVED.getStatus() &&
+                <li><Link onClick={this._onClickOpenFormSendingGift} className="add-butn">Gửi quà</Link></li>
+              }
+            </ui>
+          </div>
 
           {(type && type == NOW_CONSTRUCTION) &&
             <div className="central-meta">
@@ -278,7 +290,7 @@ class ConstructionDetail extends Component {
             <RejectConstructionModal {...this.props} id={construction.id} isOpen={this.state.isOpenRejectModal} onClose={this._onCloseRejectModal} />
           }
           {construction &&
-            <SendGiftModal {...this.props} isOpen={false} />
+            <SendGiftModal {...this.props} id={construction.id} isOpen={this.state.isSendingGift} onClose={this._onCloseFormSendingGift}/>
           }
           <AreYouSureModal isOpen={this.state.isAreYouSureModal} onOK={this.updateConstruction} onClose={this._onCloseAreUSureModal} />
         </div>

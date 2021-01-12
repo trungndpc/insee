@@ -29,17 +29,25 @@ class SendGiftModal extends Component {
 
     _onClose() {
         AppUtils.toggleModal(false)
+        this.props.onClose && this.props.onClose()
     }
 
     _onClickOK() {
         let typeCard = this.typeCardRef.value;
         let seri = this.seriRef.value;
         let code = this.codeRef.value;
+        let data = {
+            typeCard: parseInt(typeCard),
+            seri: seri,
+            code: code,
+            constructionId: this.props.id
+        }
+        this.props.appActions.createGift(data);
+        this.props.onClose && this.props.onClose()
     }
 
     render() {
         const construction = this.props.app.construction;
-        console.log(construction)
         return (
             <div className={`popup-wraper3 ${this.state.isOpen && 'active'}`}>
                 <div className="popup creat-group">
@@ -58,7 +66,7 @@ class SendGiftModal extends Component {
                                     </div>
                                     <div className="clearfix"></div>
                                 </div>
-                                <form method="post">
+                                <div className="form">
                                     <select ref={e => this.typeCardRef = e} className="modal-input">
                                         <option value="1">Vietel</option>
                                         <option value="2">Vinaphone</option>
@@ -67,9 +75,9 @@ class SendGiftModal extends Component {
                                     <input ref={e => this.seriRef = e} type="text" className="modal-input" placeholder="Seri" />
                                     <input ref={e => this.codeRef = e} type="text" className="modal-input" placeholder="Code" />
                                     <div className="container-btn">
-                                        <button className="main-btn">Đồng ý</button>
+                                        <button onClick={this._onClickOK} className="main-btn">Đồng ý</button>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>

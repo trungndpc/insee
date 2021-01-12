@@ -137,3 +137,10 @@ export function getListLabel() {
     type: type.APP.GET_LIST_LABEL_ASYNC
   }
 }
+
+export function createGift(data) {
+  return {
+    type: type.APP.CREATE_GIFT_ASYNC,
+    data: data
+  }
+}

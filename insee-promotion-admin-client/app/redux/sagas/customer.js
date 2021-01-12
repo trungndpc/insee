@@ -22,6 +22,7 @@ export default function* customer() {
   yield takeLatest(type.APP.UPDATE_STATUS_CONSTRUCTION_ASYNC, updateStatusConstructionAsync)
   yield takeLatest(type.APP.UPDATE_CONSTRUCTION_ASYNC, updateConstructionAsync)
   yield takeLatest(type.APP.GET_LIST_LABEL_ASYNC, getListLabelAsync)
+  yield takeLatest(type.APP.CREATE_GIFT_ASYNC, createGiftAsync)
 }
 
 
@@ -367,5 +368,29 @@ function* getListLabelAsync() {
 function getListLabel() {
   return new Promise((resolve, reject) => {
     APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/label/list` , resolve, reject);
+  });
+}
+
+//createGiftAsync 
+function* createGiftAsync(action) {
+  yield put({ type: type.APP.CREATE_GIFT_START })
+  const resp = yield call(postCreateGift, action.data)
+  if (resp.error == 0) {
+    const constructionResp = yield call(getConstruction, action.data.constructionId)
+    yield put({ type: type.APP.GET_CONSTRUCTION_END, payload: constructionResp.data })
+    AlertUtils.showSuccess("Thành công!")
+  }
+  yield put({ type: type.APP.CREATE_GIFT_END, payload: resp.data })
+}
+
+function postCreateGift(data) {
+  var body = {
+    constructionId: data.constructionId,
+    seri: data.seri,
+    code: data.code,
+    network: data.typeCard
+  }
+  return new Promise((resolve, reject) => {
+    APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/gift/create`, JSON.stringify(body), resolve, reject);
   });
 }
