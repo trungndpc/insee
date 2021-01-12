@@ -3,7 +3,7 @@ import * as type from '../actions/action-types'
 const initialState = {
   isLoading: false,
   register: {
-    step: 3,
+    step: 1,
     isLoading: false
   },
   nextContruction: null

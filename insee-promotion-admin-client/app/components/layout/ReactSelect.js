@@ -24,7 +24,7 @@ class ReactSelect extends Component {
     };
 
     getValue() {
-        this.state.value;
+        return this.state.value;
     }
 
     render() {

@@ -3,6 +3,11 @@ import '../../resources/js/ckeditor.js'
 
 class INSEEEditor extends Component {
 
+    constructor(props) {
+        super(props)
+        this.getValue = this.getValue.bind(this);
+    }
+
     componentDidMount() {
         ClassicEditor
             .create(document.querySelector('.editor'), {
@@ -56,6 +61,10 @@ class INSEEEditor extends Component {
                 console.warn('Build id: 6dkp8w5jo5z3-ncpei71nr563');
                 console.error(error);
             });
+    }
+
+    getValue() {
+        return window.editor.getData();
     }
 
     render() {

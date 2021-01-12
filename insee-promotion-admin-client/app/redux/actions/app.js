@@ -124,3 +124,16 @@ export function updateStatusConstruction(id, status) {
     status : status
   }
 }
+
+export function updateConstruction(data) {
+  return {
+    type: type.APP.UPDATE_CONSTRUCTION_ASYNC,
+    data: data
+  }
+}
+
+export function getListLabel() {
+  return {
+    type: type.APP.GET_LIST_LABEL_ASYNC
+  }
+}

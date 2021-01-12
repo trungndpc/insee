@@ -30,7 +30,8 @@ class ListPromotion extends Component {
                                         <div className="g-post-meta">
                                             <div className="post-title no-border text-center-mobile">
                                                 <h4><a title href="#">{item.title}</a></h4>
-                                                <p className="summary-rules">{`Từ ${DateTimeUtil.toString(new Date(item.timeStart * 1000))} đến ngày ${DateTimeUtil.toString(new Date(item.timeEnd * 1000))} | Khu vực áp dụng: ${Location.getName(item.location)}`}</p>
+                                                <p className="summary-rules">{`Thời gian áp dụng ${DateTimeUtil.toString(new Date(item.timeStart * 1000))} - ${DateTimeUtil.toString(new Date(item.timeEnd * 1000))}`}</p>
+                                                <p className="summary-rules">{`Khu vực áp dụng: ${Location.getName(item.location)}`}</p>
                                                 <p className="post-summary">{item.summary}</p>
                                                 <span className="p-date">
                                                     <Link to={'/' + pathGoToPromotion}>

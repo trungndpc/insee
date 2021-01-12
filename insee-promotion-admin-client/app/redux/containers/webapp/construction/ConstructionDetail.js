@@ -10,6 +10,7 @@ import * as ImageStatus from '../../../../components/enum/ImageStatus'
 import * as ConstructionStatus from '../../../../components/enum/StatusConstruction'
 import ReactSelect from '../../../../components/layout/ReactSelect'
 import SendGiftModal from '../../../../components/modal/SendGiftModal'
+import AreYouSureModal from '../../../../components/modal/AreYouSureModal'
 
 class ConstructionDetail extends Component {
 
@@ -19,29 +20,42 @@ class ConstructionDetail extends Component {
       isOpenApprovalModal: false,
       isOpenRejectModal: false,
       isCanApproval: true,
-      errorMsg : null
+      errorMsg: null,
+      isAreYouSureModal: false
     }
     this._onClickOpenApprovalModal = this._onClickOpenApprovalModal.bind(this)
     this._onCloseApprovalModal = this._onCloseApprovalModal.bind(this)
     this._onClickOpenRejectModal = this._onClickOpenRejectModal.bind(this)
     this._onCloseRejectModal = this._onCloseRejectModal.bind(this)
     this.updateStatusImg = this.updateStatusImg.bind(this)
+    this.updateConstruction = this.updateConstruction.bind(this)
+    this._onCloseAreUSureModal = this._onCloseAreUSureModal.bind(this)
+    this._onClickOpenAreYouSureModal = this._onClickOpenAreYouSureModal.bind(this)
   }
 
   _onClickOpenApprovalModal() {
     if (!this.isApproval) {
-        this.setState({errorMsg: 'Vui lòng duyệt hết hóa đơn và hình ảnh nhà thầu upload lên.'});
-        return false;
+      this.setState({ errorMsg: 'Vui lòng duyệt hết hóa đơn và hình ảnh nhà thầu upload lên.' });
+      return false;
     }
     this.setState({ isOpenApprovalModal: true })
   }
 
   _onClickOpenRejectModal() {
     if (!this.isApproval) {
-      this.setState({errorMsg: 'Vui lòng duyệt hết hóa đơn và hình ảnh nhà thầu upload lên.'});
+      this.setState({ errorMsg: 'Vui lòng duyệt hết hóa đơn và hình ảnh nhà thầu upload lên.' });
       return false;
-  }
+    }
     this.setState({ isOpenRejectModal: true })
+  }
+
+  _onClickOpenAreYouSureModal() {
+    let lable =  this.labelRef.getValue();
+    if (!lable) {
+      this.setState({errorMsg: 'Vui lòng chọn Label'})
+      return;
+    }
+    this.setState({ isAreYouSureModal: true })
   }
 
   _onCloseApprovalModal() {
@@ -52,14 +66,18 @@ class ConstructionDetail extends Component {
     this.setState({ isOpenRejectModal: false })
   }
 
+  _onCloseAreUSureModal() {
+    this.setState({ isAreYouSureModal: false })
+  }
+
   componentDidMount() {
     this.props.appActions.getConstruction(this.props.constructionId)
+    // this.props.appActions.getListLabel()
   }
 
 
   countApproved(bills) {
-    console.log(ImageStatus.APPROVED.getStatus())
-    let arr = bills.filter(e =>  e.status == ImageStatus.APPROVED.getStatus() );
+    let arr = bills.filter(e => e.status == ImageStatus.APPROVED.getStatus());
     return arr ? arr.length : 0
   }
 
@@ -80,16 +98,32 @@ class ConstructionDetail extends Component {
     this.imgViewerRef.close()
   }
 
+  updateConstruction() {
+    const construction = this.props.app.construction;
+    let data = {
+      id : construction.id
+    }
+    let lable =  this.labelRef.getValue();
+    if (lable.__isNew__) {
+      data.labelName = lable.value,
+      data.labelType = 1
+    }else {
+      data.labelId = lable.value
+    }
+    this.setState({ isAreYouSureModal: false })
+  }
+
 
 
   render() {
     const construction = this.props.app.construction;
+    const labels = this.props.app.labels;
+    const labelOptions = labels && labels.map(e => {return {value: e.id, label: e.name}})
     const type = construction && TypeConstruction.findByType(construction.type)
     const status = construction && ConstructionStatus.findByStatus(construction.status);
     if (construction && construction.bills && construction.images) {
-      this.isApproval  = this.isCanApproval(construction.bills, construction.images);
+      this.isApproval = this.isCanApproval(construction.bills, construction.images);
     }
-    console.log(construction)
     return (
       <div className="loadMore">
         <div className="m-content">
@@ -123,7 +157,7 @@ class ConstructionDetail extends Component {
                     }
                     <tr>
                       <th>Nhà thầu</th>
-                      <td style={{color: '#b71c1c'}}>{construction && <Link to={'/customer/' + construction.user.customerId}>{construction.user.name}</Link>}</td>
+                      <td style={{ color: '#b71c1c' }}>{construction && <Link to={'/customer/' + construction.user.customerId}>{construction.user.name}</Link>}</td>
                     </tr>
                     {type == NOW_CONSTRUCTION &&
                       <tr>
@@ -168,18 +202,20 @@ class ConstructionDetail extends Component {
                   </tbody>
                 </table>
               }
-              <div className="input-extra">
-                <div className="th">Nhãn công trình</div>
-                <div className="td"><ReactSelect /></div>
-              </div>
+              {labelOptions && 
+                <div className="input-extra">
+                  <div className="th">Nhãn công trình</div>
+                  <div className="td"><ReactSelect options={labelOptions} ref={e => this.labelRef = e}/></div>
+                </div>
+              }
             </div>
           </div>
-            {this.state.errorMsg &&  <div className="errorMsg-right">{this.state.errorMsg}</div> }
+          {this.state.errorMsg && <div className="errorMsg-right">{this.state.errorMsg}</div>}
           {status && status == ConstructionStatus.WAITING_APPROVAL &&
             <div className="action-container">
               <ui className="action-customer-detail">
                 {!construction.labelConstruction &&
-                  <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Cập nhật</Link></li>
+                  <li><Link onClick={this._onClickOpenAreYouSureModal} className="add-butn" data-ripple>Cập nhật</Link></li>
                 }
                 {construction.labelConstruction &&
                   <div>
@@ -227,19 +263,16 @@ class ConstructionDetail extends Component {
 
           <ImgViewer ref={e => this.imgViewerRef = e} updateStatus={this.updateStatusImg} />
 
-
-
-
-
           {construction &&
             <ApprovalConstructionModal {...this.props} id={construction.id} isOpen={this.state.isOpenApprovalModal} onClose={this._onCloseApprovalModal} />
           }
           {construction &&
             <RejectConstructionModal {...this.props} id={construction.id} isOpen={this.state.isOpenRejectModal} onClose={this._onCloseRejectModal} />
           }
-          {construction && 
-            <SendGiftModal {...this.props} isOpen={false}/>
+          {construction &&
+            <SendGiftModal {...this.props} isOpen={false} />
           }
+          <AreYouSureModal isOpen={this.state.isAreYouSureModal} onOK={this.updateConstruction} onClose={this._onCloseAreUSureModal} />
         </div>
       </div>
     )

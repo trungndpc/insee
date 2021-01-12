@@ -112,6 +112,13 @@ export default function app(state = initialState, action) {
       newState.construction = action.payload;
       break;
     }
+    case type.APP.GET_LIST_LABEL_START: {
+      break;
+    }
+    case type.APP.GET_LIST_LABEL_END: {
+      newState.labels = action.payload;
+      break;
+    }
     default:
       return state
   }

@@ -20,6 +20,8 @@ export default function* customer() {
   yield takeLatest(type.APP.GET_CONSTRUCTION_ASYNC, getConstructionAsync)
   yield takeLatest(type.APP.UPDATE_STATUS_IMAGE_ASYNC, updateStatusImageAsync)
   yield takeLatest(type.APP.UPDATE_STATUS_CONSTRUCTION_ASYNC, updateStatusConstructionAsync)
+  yield takeLatest(type.APP.UPDATE_CONSTRUCTION_ASYNC, updateConstructionAsync)
+  yield takeLatest(type.APP.GET_LIST_LABEL_ASYNC, getListLabelAsync)
 }
 
 
@@ -134,13 +136,14 @@ function* createPromotionAsync(action) {
 }
 
 function postToCreatePromotion(data) {
-  console.log(data)
   var body = {
     title: data.title,
-    subTitle: data.title,
     summary: data.summary,
     content: data.content,
-    typePromotion: 1
+    typePromotion: data.typePromotion,
+    location: data.location,
+    timeStart: data.timeStart,
+    timeEnd: data.timeEnd
   }
   return new Promise((resolve, reject) => {
     APIUtils.postJSONWithoutCredentials(process.env.DOMAIN + `/api/admin/post/create`, JSON.stringify(body), resolve, reject);
@@ -305,7 +308,7 @@ function postUpdateStatusImage(imgType, id, status, billId) {
 //updateStatusConstructionAsync
 function* updateStatusConstructionAsync(action) {
   yield put({ type: type.APP.UPDATE_STATUS_CONSTRUCTION_START })
-  const resp = yield call(postUpdateConstruction, action.id, action.status)
+  const resp = yield call(postUpdateStatusConstruction, action.id, action.status)
   if (resp.error == 0) {
     const constructionResp = yield call(getConstruction, action.id)
     yield put({ type: type.APP.GET_CONSTRUCTION_END, payload: constructionResp.data })
@@ -314,12 +317,54 @@ function* updateStatusConstructionAsync(action) {
   yield put({ type: type.APP.UPDATE_STATUS_IMAGE_END, payload: resp.data })
 }
 
-function postUpdateConstruction(id, status) {
+function postUpdateStatusConstruction(id, status) {
   var body = {
     id: id,
     status: status
   }
   return new Promise((resolve, reject) => {
     APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/update-status`, JSON.stringify(body), resolve, reject);
+  });
+}
+
+//updateConstructionAsync
+function* updateConstructionAsync(action) {
+  yield put({ type: type.APP.UPDATE_CONSTRUCTION_START })
+  const resp = yield call(postUpdateConstruction, action.data)
+  if (resp.error == 0) {
+    const constructionResp = yield call(getConstruction, action.data.id)
+    yield put({ type: type.APP.GET_CONSTRUCTION_END, payload: constructionResp.data })
+    AlertUtils.showSuccess("Thành công!")
+  }
+  yield put({ type: type.APP.UPDATE_CONSTRUCTION_END, payload: resp.data })
+}
+
+function postUpdateConstruction(data) {
+  var body = {
+    id: id
+  }
+  if (data.labelId) {
+    body.labelId = data.labelId
+  }
+  if (data.labelName) {
+    body.labelName = data.labelName
+    body.labelType = data.labelType
+  }
+  return new Promise((resolve, reject) => {
+    APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/update`, JSON.stringify(body), resolve, reject);
+  });
+}
+
+
+//getListLabelAsync
+function* getListLabelAsync() {
+  yield put({ type: type.APP.GET_LIST_LABEL_START })
+  const resp = yield call(getListLabel)
+  yield put({ type: type.APP.GET_LIST_LABEL_END, payload: resp.data })
+}
+
+function getListLabel() {
+  return new Promise((resolve, reject) => {
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/label/list}` , resolve, reject);
   });
 }
