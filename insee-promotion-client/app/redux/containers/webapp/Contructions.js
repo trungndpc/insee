@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
-import SideBar from '../../../components/layout/SideBar'
+import {SideBar} from '../../../components/layout/SideBar'
 import ListConstruction from '../../../components/promotions/ListConstruction'
 import DetailConstruction from '../../../components/promotions/DetailConstruction'
 

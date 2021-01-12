@@ -6,6 +6,7 @@ import WebAppLayout from '../../../components/layout/WebAppLayout'
 import {UserRole} from '../../../components/enum/UserRole'
 import {CustomerStatus} from '../../../components/enum/CustomerStatus'
 import Location from '../../../data/Location'
+import {ContentSideBar} from '../../../components/layout/SideBar'
 class ContractorInfo extends React.Component {
 
 
@@ -27,20 +28,7 @@ class ContractorInfo extends React.Component {
                                             <aside className="sidebar static">
                                                 <div className="widget">
                                                     <h4 className="widget-title">Thông tin</h4>
-                                                    <ul className="naves">
-                                                        <li>
-                                                            <a href="newsfeed.html" >Thông tin tài khoản</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="inbox.html" >Chương trình khuyễn mãi độc quyền</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="fav-page.html" >Thiết kế hồ sơ nhà thầu</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="fav-page.html" >Lịch sử nhận quà</a>
-                                                        </li>
-                                                    </ul>
+                                                    <ContentSideBar />
                                                 </div>{/* Shortcuts */}
                                             </aside>
                                         </div>{/* sidebar */}

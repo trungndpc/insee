@@ -509,7 +509,11 @@ input[type="checkbox"], input[type="radio"] {
 
 #main-menu ul li {
     padding: 10px 20px;
-    font-size: small;
+    font-size: medium;
+}
+
+#main-menu ul li a{
+    font-size: medium;
 }
 
 body {

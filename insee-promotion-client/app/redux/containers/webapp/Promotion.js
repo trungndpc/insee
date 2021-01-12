@@ -10,7 +10,7 @@ import {
     Link,
     useParams
 } from "react-router-dom";
-import SideBar from '../../../components/layout/SideBar'
+import {SideBar} from '../../../components/layout/SideBar'
 import DetailPromotion from '../../../components/promotions/DetailPromotion'
 
 

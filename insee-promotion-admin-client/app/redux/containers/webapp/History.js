@@ -29,7 +29,7 @@ class History extends React.Component {
                                             <div className="loadMore">
                                                 <div className="m-content">
                                                     <div className="row">
-                                                        <div className="col-lg-12 col-sm-12">
+                                                        <div className="col-lg-12 col-sm-12 ">
                                                             <table className="table">
                                                                 <thead className=" insee-color">
                                                                     <tr className="insee-color">

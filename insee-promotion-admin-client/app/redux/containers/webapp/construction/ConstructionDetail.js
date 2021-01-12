@@ -8,6 +8,8 @@ import { TypeConstruction, NEXT_CONSTRUCTION, NOW_CONSTRUCTION } from '../../../
 import ImgViewer from '../../../../components/layout/ImgViewer'
 import * as ImageStatus from '../../../../components/enum/ImageStatus'
 import * as ConstructionStatus from '../../../../components/enum/StatusConstruction'
+import ReactSelect from '../../../../components/layout/ReactSelect'
+import SendGiftModal from '../../../../components/modal/SendGiftModal'
 
 class ConstructionDetail extends Component {
 
@@ -15,7 +17,9 @@ class ConstructionDetail extends Component {
     super(props)
     this.state = {
       isOpenApprovalModal: false,
-      isOpenRejectModal: false
+      isOpenRejectModal: false,
+      isCanApproval: true,
+      errorMsg : null
     }
     this._onClickOpenApprovalModal = this._onClickOpenApprovalModal.bind(this)
     this._onCloseApprovalModal = this._onCloseApprovalModal.bind(this)
@@ -25,10 +29,18 @@ class ConstructionDetail extends Component {
   }
 
   _onClickOpenApprovalModal() {
+    if (!this.isApproval) {
+        this.setState({errorMsg: 'Vui lòng duyệt hết hóa đơn và hình ảnh nhà thầu upload lên.'});
+        return false;
+    }
     this.setState({ isOpenApprovalModal: true })
   }
 
   _onClickOpenRejectModal() {
+    if (!this.isApproval) {
+      this.setState({errorMsg: 'Vui lòng duyệt hết hóa đơn và hình ảnh nhà thầu upload lên.'});
+      return false;
+  }
     this.setState({ isOpenRejectModal: true })
   }
 
@@ -51,9 +63,20 @@ class ConstructionDetail extends Component {
     return arr ? arr.length : 0
   }
 
-  updateStatusImg(type, id, status) {
-    console.log("type: " + type + ", id: " + id + ", status: " + status)
-    this.props.appActions.updateStatusImage(id, type, status, this.props.constructionId);
+  isCanApproval(bills, images) {
+    let arr = bills.filter(e => e.status == ImageStatus.WAITING_APPROVAL.getStatus());
+    if (arr) {
+      return false;
+    }
+    arr = images.filter(e => e.status == ImageStatus.WAITING_APPROVAL.getStatus());
+    if (arr) {
+      return false;
+    }
+    return true;
+  }
+
+  updateStatusImg(type, id, status, billId, weigh) {
+    this.props.appActions.updateStatusImage(id, type, status, this.props.constructionId, billId, weigh);
     this.imgViewerRef.close()
   }
 
@@ -63,11 +86,15 @@ class ConstructionDetail extends Component {
     const construction = this.props.app.construction;
     const type = construction && TypeConstruction.findByType(construction.type)
     const status = construction && ConstructionStatus.findByStatus(construction.status);
+    if (construction && construction.bills && construction.images) {
+      this.isApproval  = this.isCanApproval(construction.bills, construction.images);
+    }
+    console.log(construction)
     return (
       <div className="loadMore">
         <div className="m-content">
           <div className="central-meta">
-            <div className="about">
+            <div className="about construction">
               <div className="personal">
                 <h5 className="f-title">THÔNG TIN CÔNG TRÌNH</h5>
               </div>
@@ -94,6 +121,10 @@ class ConstructionDetail extends Component {
                         <td>{construction && construction.phone}</td>
                       </tr>
                     }
+                    <tr>
+                      <th>Nhà thầu</th>
+                      <td style={{color: '#b71c1c'}}>{construction && <Link to={'/customer/' + construction.user.customerId}>{construction.user.name}</Link>}</td>
+                    </tr>
                     {type == NOW_CONSTRUCTION &&
                       <tr>
                         <th>Tên cửa hàng: </th>
@@ -137,14 +168,25 @@ class ConstructionDetail extends Component {
                   </tbody>
                 </table>
               }
+              <div className="input-extra">
+                <div className="th">Nhãn công trình</div>
+                <div className="td"><ReactSelect /></div>
+              </div>
             </div>
           </div>
-
+            {this.state.errorMsg &&  <div className="errorMsg-right">{this.state.errorMsg}</div> }
           {status && status == ConstructionStatus.WAITING_APPROVAL &&
             <div className="action-container">
               <ui className="action-customer-detail">
-                <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Approval</Link></li>
-                <li><Link onClick={this._onClickOpenRejectModal} className="add-butn" data-ripple>Reject</Link></li>
+                {!construction.labelConstruction &&
+                  <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Cập nhật</Link></li>
+                }
+                {construction.labelConstruction &&
+                  <div>
+                    <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Approval</Link></li>
+                    <li><Link onClick={this._onClickOpenRejectModal} className="add-butn" data-ripple>Reject</Link></li>
+                  </div>
+                }
               </ui>
             </div>
           }
@@ -183,17 +225,20 @@ class ConstructionDetail extends Component {
             </div>
           }
 
-        <ImgViewer ref={e => this.imgViewerRef = e} updateStatus={this.updateStatusImg}/>
+          <ImgViewer ref={e => this.imgViewerRef = e} updateStatus={this.updateStatusImg} />
 
 
 
-          
+
 
           {construction &&
             <ApprovalConstructionModal {...this.props} id={construction.id} isOpen={this.state.isOpenApprovalModal} onClose={this._onCloseApprovalModal} />
           }
           {construction &&
             <RejectConstructionModal {...this.props} id={construction.id} isOpen={this.state.isOpenRejectModal} onClose={this._onCloseRejectModal} />
+          }
+          {construction && 
+            <SendGiftModal {...this.props} isOpen={false}/>
           }
         </div>
       </div>

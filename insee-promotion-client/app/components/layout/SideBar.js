@@ -6,31 +6,50 @@ import {
 } from "react-router-dom";
 
 
-class SideBar extends Component {
+export class ContentSideBar extends Component {
+
+    constructor(props) {
+        super(props)
+        this._onClickToLink = this._onClickToLink.bind(this)
+    }
+
+    _onClickToLink() {
+        this.props.onClickToLink && this.props.onClickToLink
+    }
+
+    render() {
+        let pathname = window.location.pathname;
+        return <ul>
+            <ul className="naves">
+                <li>
+                    <Link style={{color: pathname == '/khach-hang' && '#b71c1c'}} onClick={this._onClickToLink} to={"/khach-hang"}>Thông tin tài khoản</Link>
+                </li>
+                <li>
+                    <Link style={{color: pathname == '/khuyen-mai' && '#b71c1c'}} onClick={this._onClickToLink} to={"/khuyen-mai"}>Chương trình khuyễn mãi độc quyền</Link>
+                </li>
+                <li>
+                    <Link style={{color: pathname == '/nha-thau-xanh' && '#b71c1c'}} onClick={this._onClickToLink} to={"/nha-thau-xanh"}>Nhà thầu xanh</Link>
+                </li>
+                <li>
+                    <Link style={{color: pathname == '/lich-su' && '#b71c1c'}} onClick={this._onClickToLink} to={"/lich-su"}>Lịch sử nhận qùa</Link>
+                </li>
+            </ul>
+        </ul>
+    }
+
+}
+
+export class SideBar extends Component {
 
     render() {
         return (
             <aside className="sidebar static">
                 <div className="widget">
                     <h4 className="widget-title">Thông tin</h4>
-                    <ul className="naves">
-                        <li>
-                            <a href="newsfeed.html" >Thông tin tài khoản</a>
-                        </li>
-                        <li>
-                            <a href="inbox.html" >Chương trình khuyễn mãi độc quyền</a>
-                        </li>
-                        <li>
-                            <a href="fav-page.html" >Thiết kế hồ sơ nhà thầu</a>
-                        </li>
-                        <li>
-                            <a href="fav-page.html" >Lịch sử nhận quà</a>
-                        </li>
-                    </ul>
+                    <ContentSideBar />
                 </div>
             </aside>
         )
     }
 }
 
-export default SideBar

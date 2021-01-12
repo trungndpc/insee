@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import {TypeConstruction} from '../enum/TypeConstruction'
+import Location from '../../data/Location'
+import INSEEEditor from './INSEEEditor'
 
 class CreatePromotion extends Component {
 
@@ -59,21 +60,33 @@ class CreatePromotion extends Component {
                                         <input className="ctk-editor-input" ref={e => this.summaryInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp" />
                                     </div>
                                     <div className="ctk-row">
-                                        <label className="ctk-editor-lable">Khu vực : </label>
-                                        <input className="ctk-editor-input" ref={e => this.summaryInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp" />
+                                        <label className="ctk-editor-lable">Khu vực áp dụng: </label>
+                                        <select className="ctk-editor-input" ref={e => this.summaryInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp">
+                                            {Location.getList().map((item, index) => {
+                                                return <option key={index} value={item.key}>{item.value}</option> 
+                                            })}
+                                        </select>
+                                    </div>
+                                    <div className="ctk-row">
+                                        <label className="ctk-editor-lable">Loại khuyến mãi: </label>
+                                        <select className="ctk-editor-input" ref={e => this.summaryInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp">
+                                            {TypeConstruction.getList().map((item, index) => {
+                                                return <option key={index} value={item.getType()}>{item.getName()}</option> 
+                                            })}
+                                        </select>
+                                    </div>
+                                    <div className="ctk-row">
+                                        <label className="ctk-editor-lable">Thời gian bắt đầu: </label>
+                                        <input className="ctk-editor-input" ref={e => this.summaryInputRef = e} type="date" placeholder="Chương trình khuyến mãi siêu cấp" />
+                                    </div>
+                                    <div className="ctk-row">
+                                        <label className="ctk-editor-lable">Thời gian kết thúc: </label>
+                                        <input className="ctk-editor-input" ref={e => this.summaryInputRef = e} type="date" placeholder="Chương trình khuyến mãi siêu cấp" />
                                     </div>
                                 </form>
                             </div>
                             <div className="d-flex flex-row mt-2">
-                                <CKEditor
-                                    ref={e => this.editor = e}
-                                    editor={ClassicEditor}
-                                    data="<p>Hello from CKEditor 5!</p>"
-                                    onChange={(event, editor) => {
-                                        const data = editor.getData();
-                                        this.setState({data: data});
-                                    }}
-                                />
+                                <INSEEEditor />
                             </div>
                             <div className="inbox-action ctkm">
                                 <ul>

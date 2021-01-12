@@ -2442,7 +2442,7 @@ footer .logo {
     position: relative;
     text-align: center;
     transition: all 0.1s ease-in-out 0s;
-    width: 52px;
+    width: 73px;
 }
 
 .setting-row input + label::before {
@@ -2492,7 +2492,7 @@ footer .logo {
 .setting-row input:checked + label::after {
     background-color: #f7f7f7;
     box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.3);
-    left: 2.16667rem;
+    left: 3.5rem;
 }
 
 

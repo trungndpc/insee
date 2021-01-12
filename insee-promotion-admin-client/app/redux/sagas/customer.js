@@ -279,7 +279,7 @@ function getConstruction(id) {
 //updateStatusImageAsync
 function* updateStatusImageAsync(action) {
   yield put({ type: type.APP.UPDATE_STATUS_IMAGE_START })
-  const resp = yield call(postUpdateStatusImage, action.imgType, action.imageId, action.status)
+  const resp = yield call(postUpdateStatusImage, action.imgType, action.imageId, action.status, action.billId)
   if (resp.error == 0) {
     const constructionResp = yield call(getConstruction, action.id)
     yield put({ type: type.APP.GET_CONSTRUCTION_END, payload: constructionResp.data })
@@ -288,11 +288,13 @@ function* updateStatusImageAsync(action) {
   yield put({ type: type.APP.UPDATE_STATUS_IMAGE_END, payload: resp.data })
 }
 
-function postUpdateStatusImage(imgType, id, status) {
+function postUpdateStatusImage(imgType, id, status, billId) {
   var body = {
     id: id,
     type: imgType,
-    status: status
+    status: status,
+    billId: billId,
+    weigh: weigh
   }
   return new Promise((resolve, reject) => {
     APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/image/update-status`, JSON.stringify(body), resolve, reject);

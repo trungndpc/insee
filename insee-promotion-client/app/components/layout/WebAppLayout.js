@@ -7,6 +7,7 @@ import '../../resources/css/mobile/font-awesome.css'
 import {
   Link,
 } from "react-router-dom";
+import {ContentSideBar} from '../layout/SideBar'
 
 class WebAppLayout extends Component {
   constructor(props) {
@@ -69,35 +70,7 @@ class WebAppLayout extends Component {
             {
               this.state.isShowMobileBar &&
               <div id="main-menu" className={`topnav navbar collapse navbar-collapse in`}>
-                <ul>
-                  <ul className="naves">
-                    <li>
-                      <Link onClick={this._onClickToLink} to={"/khach-hang"}>Thông tin tài khoản</Link>
-                    </li>
-                    <li>
-                      <Link onClick={this._onClickToLink} to={"/khuyen-mai"}>Chương trình khuyễn mãi độc quyền</Link>
-                    </li>
-                    <li>
-                      <Link onClick={this._onClickToLink} to={"/cong-trinh"}>Công trình</Link>
-                      <a href="#" ></a>
-                    </li>
-                    <li>
-                      <Link onClick={this._onClickToLink} to={"/cong-trinh-cua-toi"}>Up Hóa đơn nhận quà</Link>
-                      <a href="#" ></a>
-                    </li>
-                    <li>
-                      <Link onClick={this._onClickToLink} to={"/cong-trinh-tiep-theo"}>Công trình trình tiếp theo</Link>
-                      <a href="#" ></a>
-                    </li>
-                    <li>
-                      <Link onClick={this._onClickToLink} to={"/nha-thau-xanh"}>Nhà thầu xanh</Link>
-                      <a href="#" ></a>
-                    </li>
-                    <li>
-                      <Link onClick={this._onClickToLink} to={"/lich-su"}>Lịch sử nhận qùa</Link>
-                    </li>
-                  </ul>
-                </ul>
+                <ContentSideBar onClickToLink={this._onClickToLink}/>
               </div>
             }
           </div>

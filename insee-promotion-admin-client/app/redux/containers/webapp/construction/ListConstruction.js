@@ -28,7 +28,7 @@ class ListConstruction extends Component {
 
   onChangeType(type) {
     this.setState({type: type})
-    this.load(this.state.type, this.state.status);
+    this.load(type, this.state.status);
   }
 
   onChangeStatus(event) {
