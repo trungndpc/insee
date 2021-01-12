@@ -418,3 +418,9 @@
 .pading0 {
     padding: 0;
 }
+
+.label{ 
+    color: #007bff;
+    font-style: italic;
+    font-weight: 600;
+}

@@ -66,8 +66,7 @@ class CreatePromotion extends Component {
             timeStart: new Date(timeStart).getTime() / 1000,
             timeEnd: new Date(timeEnd).getTime() / 1000
         }
-        // this.props.appActions.createPromotion(data);
-        console.log(data)
+        this.props.appActions.createPromotion(data);
     }
 
 

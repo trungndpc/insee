@@ -31,8 +31,8 @@ class ImgViewer extends Component {
     }
 
     onClickUpdateStatus() {
-        let billId = this.billIdRef.value;
-        let weigh = this.weighRef.value;
+        let billId = this.billIdRef && this.billIdRef.value;
+        let weigh = this.weighRef && this.weighRef.value;
         this.props.updateStatus && this.props.updateStatus(this.state.type, this.state.item.id, this.state.isChecked ? APPROVED.getStatus() : REJECTED.getStatus(), billId, weigh)
     }
 
@@ -60,14 +60,18 @@ class ImgViewer extends Component {
                                                 <input checked={this.state.isChecked} onChange={() => this.setState({isChecked: !this.state.isChecked})} type="checkbox" id="switch00" />
                                                 <label htmlFor="switch00" data-on-label="Có" data-off-label="Không" />
                                             </div>
-                                            <div className="setting-row">
-                                                <p>Định danh</p>
-                                                <input ref={e => this.billIdRef = e} className="input-lable"  type="text" />
-                                            </div>
-                                            <div className="setting-row">
-                                                <p>Khố lượng xi măng (kg)</p>
-                                                <input ref={e => this.weighRef = e} className="input-lable"  type="number" />
-                                            </div>
+                                            {this.state.type == 1 && 
+                                                <div className="setting-row">
+                                                    <p>Định danh</p>
+                                                    <input ref={e => this.billIdRef = e} className="input-lable"  type="text" />
+                                                </div>
+                                            }
+                                            {this.state.type == 1 && 
+                                                <div className="setting-row">
+                                                    <p>Khố lượng xi măng (kg)</p>
+                                                    <input ref={e => this.weighRef = e} className="input-lable"  type="number" />
+                                                </div>
+                                            }
                                             <div className="submit-btns">
                                                 <button onClick={() => this.setState({mode: MODE_PREVIEW})} type="button" className="mtr-btn"><span>Xem lại</span></button>
                                                 <button onClick={this.onClickUpdateStatus} style={{ marginLeft: '30px' }} type="button" className="mtr-btn"><span>Save</span></button>

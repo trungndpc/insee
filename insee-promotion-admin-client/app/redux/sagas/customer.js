@@ -129,7 +129,7 @@ function* createPromotionAsync(action) {
   if (resp.error == 0) {
     AlertUtils.showSuccess(AlertUtils.CREATE_PROMOTION_SUCCESS)
     yield put({ type: type.APP.CREATE_PROMOTION_END, payload: resp.data })
-    AppUtils.push("/promotion")
+    AppUtils.push("/post")
   } else {
     AlertUtils.showError(AlertUtils.CREATE_PROMOTION_FAILED)
   }
@@ -282,7 +282,7 @@ function getConstruction(id) {
 //updateStatusImageAsync
 function* updateStatusImageAsync(action) {
   yield put({ type: type.APP.UPDATE_STATUS_IMAGE_START })
-  const resp = yield call(postUpdateStatusImage, action.imgType, action.imageId, action.status, action.billId)
+  const resp = yield call(postUpdateStatusImage, action.imgType, action.imageId, action.status, action.billId, action.weigh)
   if (resp.error == 0) {
     const constructionResp = yield call(getConstruction, action.id)
     yield put({ type: type.APP.GET_CONSTRUCTION_END, payload: constructionResp.data })
@@ -291,14 +291,15 @@ function* updateStatusImageAsync(action) {
   yield put({ type: type.APP.UPDATE_STATUS_IMAGE_END, payload: resp.data })
 }
 
-function postUpdateStatusImage(imgType, id, status, billId) {
+function postUpdateStatusImage(imgType, id, status, billId, weigh) {
+ 
   var body = {
     id: id,
     type: imgType,
-    status: status,
-    billId: billId,
-    weigh: weigh
+    status: status
   }
+  weigh && (body.volumeCiment = weigh);
+  billId && (body.labelId = billId)
   return new Promise((resolve, reject) => {
     APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/image/update-status`, JSON.stringify(body), resolve, reject);
   });
@@ -341,7 +342,7 @@ function* updateConstructionAsync(action) {
 
 function postUpdateConstruction(data) {
   var body = {
-    id: id
+    id: data.id
   }
   if (data.labelId) {
     body.labelId = data.labelId
@@ -365,6 +366,6 @@ function* getListLabelAsync() {
 
 function getListLabel() {
   return new Promise((resolve, reject) => {
-    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/label/list}` , resolve, reject);
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/label/list` , resolve, reject);
   });
 }

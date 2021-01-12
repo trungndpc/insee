@@ -31,6 +31,7 @@ class ConstructionDetail extends Component {
     this.updateConstruction = this.updateConstruction.bind(this)
     this._onCloseAreUSureModal = this._onCloseAreUSureModal.bind(this)
     this._onClickOpenAreYouSureModal = this._onClickOpenAreYouSureModal.bind(this)
+    this.isApproval = true;
   }
 
   _onClickOpenApprovalModal() {
@@ -72,7 +73,7 @@ class ConstructionDetail extends Component {
 
   componentDidMount() {
     this.props.appActions.getConstruction(this.props.constructionId)
-    // this.props.appActions.getListLabel()
+    this.props.appActions.getListLabel()
   }
 
 
@@ -83,11 +84,11 @@ class ConstructionDetail extends Component {
 
   isCanApproval(bills, images) {
     let arr = bills.filter(e => e.status == ImageStatus.WAITING_APPROVAL.getStatus());
-    if (arr) {
+    if (arr && arr.length > 0) {
       return false;
     }
     arr = images.filter(e => e.status == ImageStatus.WAITING_APPROVAL.getStatus());
-    if (arr) {
+    if (arr && arr.length > 0) {
       return false;
     }
     return true;
@@ -111,6 +112,7 @@ class ConstructionDetail extends Component {
       data.labelId = lable.value
     }
     this.setState({ isAreYouSureModal: false })
+    this.props.appActions.updateConstruction(data);
   }
 
 
@@ -199,10 +201,16 @@ class ConstructionDetail extends Component {
                         <td>{construction && construction.bills && this.countApproved(construction.bills)} hóa đơn,  {construction && construction.images && this.countApproved(construction.images)} hình ảnh</td>
                       </tr>
                     }
+                    {(construction && construction.label )&& 
+                      <tr>
+                        <th>Label</th>
+                        <td className="label">#{construction.label.name}</td>
+                      </tr>
+                    }
                   </tbody>
                 </table>
               }
-              {labelOptions && 
+              {(labelOptions && construction && !construction.label) && 
                 <div className="input-extra">
                   <div className="th">Nhãn công trình</div>
                   <div className="td"><ReactSelect options={labelOptions} ref={e => this.labelRef = e}/></div>
@@ -214,13 +222,13 @@ class ConstructionDetail extends Component {
           {status && status == ConstructionStatus.WAITING_APPROVAL &&
             <div className="action-container">
               <ui className="action-customer-detail">
-                {!construction.labelConstruction &&
+                {construction && !construction.label &&
                   <li><Link onClick={this._onClickOpenAreYouSureModal} className="add-butn" data-ripple>Cập nhật</Link></li>
                 }
-                {construction.labelConstruction &&
+                {construction && construction.label && construction.status == ConstructionStatus.WAITING_APPROVAL.getStatus() &&
                   <div>
-                    <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Approval</Link></li>
-                    <li><Link onClick={this._onClickOpenRejectModal} className="add-butn" data-ripple>Reject</Link></li>
+                    <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Chấp nhận</Link></li>
+                    <li><Link onClick={this._onClickOpenRejectModal} className="add-butn" data-ripple>Không chấp nhận</Link></li>
                   </div>
                 }
               </ui>

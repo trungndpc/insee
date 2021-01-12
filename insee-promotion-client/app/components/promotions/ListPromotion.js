@@ -15,11 +15,12 @@ class ListPromotion extends Component {
 
     render() {
         let promotions = this.props.app.promotions;
+        console.log(promotions)
         return (
             <div className="loadMore">
                 <div className="m-content post">
                     <div className="row">
-                        {promotions && promotions.list.map((item, index) => {
+                        {promotions && promotions.map((item, index) => {
                             let pathGoToPromotion = item.typePromotion = 1 ? 'cong-trinh-tiep-theo' : 'cong-trinh-cua-toi'
                             return (
                                 <div className="col-lg-6 col-sm-6">
