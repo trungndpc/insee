@@ -11,7 +11,7 @@ class MDatePicker extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            date: new Date()
+            date: null
         }
         this.handleChange = this.handleChange.bind(this);
         this.getValue = this.getValue.bind(this);
@@ -32,7 +32,7 @@ class MDatePicker extends Component {
 
     render() {
         return (
-            <DatePicker selected={this.state.date} showMonthYearPicker onChange={this.handleChange} dateFormat="MMMM - yyyy" className="insee-input" locale="vi" />
+            <DatePicker placeholderText={"Thời gian dự kiến thi công (tháng/năm)"} selected={this.state.date} showMonthYearPicker onChange={this.handleChange} dateFormat="MMMM - yyyy" className="insee-input" locale="vi" />
         )
     }
 }

@@ -70,6 +70,7 @@ class IntroConstructionPromotion extends React.Component {
             typeConstruction: typeConstruction,
             name: name,
             phone: phone,
+            promotionId: parseInt(this.props.promotionId),
             type: NEXT_CONSTRUCTION.getType()
         }
         this.props.appActions.createNextContruction(data)

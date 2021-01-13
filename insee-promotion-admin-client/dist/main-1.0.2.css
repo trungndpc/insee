@@ -22186,7 +22186,7 @@ footer .logo {
     position: relative;
     text-align: center;
     transition: all 0.1s ease-in-out 0s;
-    width: 52px;
+    width: 73px;
 }
 
 .setting-row input + label::before {
@@ -22236,7 +22236,7 @@ footer .logo {
 .setting-row input:checked + label::after {
     background-color: #f7f7f7;
     box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.3);
-    left: 2.16667rem;
+    left: 3.5rem;
 }
 
 
@@ -32258,14 +32258,15 @@ a.btn2:hover,
 }
 
 .ctk-editor-lable {
-    width: 14%;
+    width: 20%;
 }
 
 .ctk-editor-input {
     border: 1px solid #eee;
     font-size: 14px;
     padding: 10px 20px;
-    width: 86%;
+    width: 80%;
+    background-color: #fff;
 }
 
 .ctk-row {
@@ -32299,4 +32300,102 @@ a.btn2:hover,
 .photos > li a img {
     height: 120px;
 }
-/*# sourceMappingURL=main-1.0.1.css.map*/
+
+.about.construction .input-extra {
+    padding: 0.75rem;
+}
+
+.about.construction .input-extra .th {
+    width: 20%;
+    display: inline-block;
+    font-weight: 600;
+}
+
+.about.construction .input-extra .td {
+    width: 20%;
+    display: inline-block;
+}
+
+.input-lable{
+    display: block !important;
+    float: right;
+    text-transform: uppercase;
+    color: #6b6b6b;
+    font-weight: 600;
+    border: 1px dashed #bbbbbb;
+    text-align: right;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+}
+
+.errorMsg-right{
+    text-align: right;
+    color: red;
+    font-size: unset;
+}
+
+.friend-group .change-photo {
+    border: 1px dashed #cecece;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+.change-photo > figure {
+    display: inline-block;
+    margin: 0;
+    float: left;
+    width: auto;
+    margin-top: 13px;
+}
+
+.change-photo > figure img {
+    border: 3px solid #ccc;
+    border-radius: 100%;
+    width: 80px;
+    height: 80px;
+}
+
+.change-photo .edit-img {
+    display: inline-block;
+    padding: 25px 10px;
+}
+.change-photo .edit-img p {
+    margin: 0;
+}
+
+.modal-input {
+    background: #edf2f6;
+    border: 1px solid #e4e4e4;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    width: 100%;
+    font-size: 13px;
+}
+
+.container-btn {
+    text-align: right;
+}
+
+.pading0 {
+    padding: 0;
+}
+
+.label{ 
+    color: #007bff;
+    font-style: italic;
+    font-weight: 600;
+}
+
+.form button {
+    border: medium none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 4px 20px;
+    border-radius: 4px;
+    background-color: #b71c1c;
+}
+/*# sourceMappingURL=main-1.0.2.css.map*/

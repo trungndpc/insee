@@ -218,7 +218,8 @@ function postContruction(data) {
     typeConstruction: data["typeConstruction"],
     billIds: data["billIds"],
     imageIds: data["imageIds"],
-    type: data["type"]
+    type: data["type"],
+    promotionId: data["promotionId"]
   }
   return new Promise((resolve, reject) => {
     APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/construction/create`, JSON.stringify(body), resolve, reject);

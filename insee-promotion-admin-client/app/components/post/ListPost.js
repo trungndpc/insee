@@ -30,7 +30,7 @@ class ListPost extends Component {
                                                 <h4><a title href="#">{item.title}</a></h4>
                                                 <p className="post-summary">{item.summary}</p>
                                                 <span className="p-date">
-                                                    <Link to={"/promotion/" + item.id}>
+                                                    <Link to={"/post/" + item.id}>
                                                         <button className="btn-apply-promotion" type="submit">Chi tiết</button>
                                                     </Link>
                                                 </span>

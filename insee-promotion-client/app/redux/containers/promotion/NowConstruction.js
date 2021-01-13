@@ -114,6 +114,7 @@ class NowConstruction extends React.Component {
                 quantity: quantity,
                 billIds: listBill,
                 imageIds: listImg,
+                promotionId: parseInt(this.props.promotionId),
                 type: NOW_CONSTRUCTION.getType()
             }
             this.props.appActions.createNextContruction(data)

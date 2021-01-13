@@ -24,10 +24,11 @@ html,body{
 }
 
 .extra-infor-post {
-    padding-left: 25px;
+    padding: 10px;
     padding-bottom: 10px;
     display: block;
     color: #b71c1c;
+    border-top: 1px solid #e0e0e0;
 }
 .insee-color {
     background-color: #b71c1c;
@@ -156,4 +157,27 @@ html,body{
 }
 .photos > li a img {
     height: 100px;
+}
+
+
+.history-promotion {
+    background-color: #fff;
+    margin-bottom: 5px;
+}
+
+.history-promotion .title {
+    font-size: medium;
+    font-weight: 600;
+    padding-top: 25px;
+    padding-left: 10px;
+    color: #b71c1c;
+}
+
+
+.history-promotion .content{
+    padding-left: 10px;
+}
+
+.history-promotion .content th {
+    width: 30%;
 }

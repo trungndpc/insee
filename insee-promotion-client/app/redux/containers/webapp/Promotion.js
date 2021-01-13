@@ -38,7 +38,7 @@ class Promotion extends React.Component {
                                         <div className="col-lg-3">
                                             <SideBar />
                                         </div>
-                                        <div className="col-lg-9">
+                                        <div style={{padding: 0}} className="col-lg-9">
 
                                             <Switch>
                                                 <Route path="/khuyen-mai/:postId">

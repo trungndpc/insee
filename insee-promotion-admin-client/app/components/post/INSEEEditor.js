@@ -1,17 +1,30 @@
 import React, { Component } from 'react'
-import '../../resources/js/ckeditor.js'
 
 class INSEEEditor extends Component {
 
     constructor(props) {
         super(props)
         this.getValue = this.getValue.bind(this);
+        console.log(this.props.defaultValue)
     }
 
     componentDidMount() {
         ClassicEditor
             .create(document.querySelector('.editor'), {
-
+                fontFamily: {
+                    options: [
+                        'default',
+                        'Ubuntu, Arial, sans-serif',
+                        'Ubuntu Mono, Courier New, Courier, monospace'
+                    ]
+                }, fontSize: {
+                    options: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+                    supportAllValues: true
+                },
+                fontColor: {
+                    columns: 6,
+                    documentColors: 12,
+                },
                 toolbar: {
                     items: [
                         'heading',
@@ -31,7 +44,10 @@ class INSEEEditor extends Component {
                         'mediaEmbed',
                         'undo',
                         'redo',
-                        'alignment'
+                        'alignment',
+                        'fontFamily',
+                        'fontSize',
+                        'fontColor'
                     ]
                 },
                 language: 'en',
@@ -54,11 +70,11 @@ class INSEEEditor extends Component {
             })
             .then(editor => {
                 window.editor = editor;
+                if (this.props.defaultValue) {
+                    editor.setData(this.props.defaultValue)
+                }
             })
             .catch(error => {
-                console.error('Oops, something went wrong!');
-                console.error('Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:');
-                console.warn('Build id: 6dkp8w5jo5z3-ncpei71nr563');
                 console.error(error);
             });
     }

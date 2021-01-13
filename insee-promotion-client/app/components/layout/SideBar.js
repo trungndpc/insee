@@ -27,11 +27,11 @@ export class ContentSideBar extends Component {
                 <li>
                     <Link style={{color: pathname == '/khuyen-mai' && '#b71c1c'}} onClick={this._onClickToLink} to={"/khuyen-mai"}>Chương trình khuyễn mãi độc quyền</Link>
                 </li>
-                <li>
+                {/* <li>
                     <Link style={{color: pathname == '/nha-thau-xanh' && '#b71c1c'}} onClick={this._onClickToLink} to={"/nha-thau-xanh"}>Nhà thầu xanh</Link>
-                </li>
+                </li> */}
                 <li>
-                    <Link style={{color: pathname == '/lich-su' && '#b71c1c'}} onClick={this._onClickToLink} to={"/lich-su"}>Lịch sử nhận qùa</Link>
+                    <Link style={{color: pathname == '/lich-su' && '#b71c1c'}} onClick={this._onClickToLink} to={"/lich-su"}>Lịch sử nhận quà</Link>
                 </li>
             </ul>
         </ul>

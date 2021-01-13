@@ -32,4 +32,17 @@ export default class DateTimeUtil {
         }
         return array;
     }
+
+    static toString(date) {
+        if (!date) return '';
+        let mon =  date.getMonth() + 1;
+        if (mon < 10) {
+            mon = '0' + mon;
+        }
+        let day = date.getDate();
+        if (day < 10) {
+            day = '0' + day;
+        }
+        return [date.getFullYear(), mon, day].join('-');
+    }
 }

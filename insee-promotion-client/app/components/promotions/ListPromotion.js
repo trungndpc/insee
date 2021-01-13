@@ -15,12 +15,12 @@ class ListPromotion extends Component {
 
     render() {
         let promotions = this.props.app.promotions;
-        console.log(promotions)
         return (
             <div className="loadMore">
                 <div className="m-content post">
                     <div className="row">
                         {promotions && promotions.map((item, index) => {
+                            const countSubmit = item.listPlayingId.length;
                             let pathGoToPromotion = item.typePromotion = 1 ? 'cong-trinh-tiep-theo' : 'cong-trinh-cua-toi'
                             return (
                                 <div className="col-lg-6 col-sm-6">
@@ -35,13 +35,13 @@ class ListPromotion extends Component {
                                                 <p className="summary-rules">{`Khu vực áp dụng: ${Location.getName(item.location)}`}</p>
                                                 <p className="post-summary">{item.summary}</p>
                                                 <span className="p-date">
-                                                    <Link to={'/' + pathGoToPromotion}>
+                                                    <Link to={'/khuyen-mai/' + item.id}>
                                                         <button className="btn-insee btn-insee-bg post-btn">Tham gia ngay</button>
                                                     </Link>
                                                 </span>
                                             </div>
                                         </div>
-                                        {/* <span className="extra-infor-post">Đã có 10 người tham gia chương trình</span> */}
+                                        {countSubmit > 0 && <span className="extra-infor-post">{`Đã tham gia ${countSubmit} lần`}</span> }
                                     </div>
                                 </div>
                             )

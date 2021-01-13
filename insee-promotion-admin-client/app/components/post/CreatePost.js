@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {TypeConstruction} from '../enum/TypeConstruction'
 import Location from '../../data/Location'
 import INSEEEditor from './INSEEEditor'
+import DateTimeUtil from '../../utils/DateTimeUtil'
 
 class CreatePromotion extends Component {
 
@@ -9,9 +10,16 @@ class CreatePromotion extends Component {
         super(props)
         this.state = {
             data: 'Hello from TrungND',
-            errorMsg: null
+            errorMsg: null,
         }
         this._onClickSave = this._onClickSave.bind(this)
+    }
+
+    componentDidMount() {
+        let postId = this.props.postId;
+        if (postId) {
+            this.props.appActions.getPromotionById(postId);
+        }
     }
 
     _onClickSave() {
@@ -71,6 +79,12 @@ class CreatePromotion extends Component {
 
 
     render() {
+        const postId = this.props.postId;
+        let isRender = true;
+        const promotion = this.props.app.promotion;
+        if (postId && !promotion) {
+            isRender = false
+        }
         return (
             <div className="loadMore">
                 <div className="m-content">
@@ -83,15 +97,15 @@ class CreatePromotion extends Component {
                                 <form method="post">
                                     <div className="ctk-row">
                                         <label className="ctk-editor-lable">Tiêu đề: </label>
-                                        <input className="ctk-editor-input" ref={e => this.titleInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp" />
+                                        <input defaultValue={promotion && promotion.title} className="ctk-editor-input" ref={e => this.titleInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp" />
                                     </div>
                                     <div className="ctk-row">
                                         <label className="ctk-editor-lable">Tóm tắt ngắn: </label>
-                                        <input className="ctk-editor-input" ref={e => this.summaryInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp" />
+                                        <input defaultValue={promotion && promotion.summary} className="ctk-editor-input" ref={e => this.summaryInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp" />
                                     </div>
                                     <div className="ctk-row">
                                         <label className="ctk-editor-lable">Khu vực áp dụng: </label>
-                                        <select className="ctk-editor-input" ref={e => this.locationInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp">
+                                        <select defaultValue={promotion && promotion.location} className="ctk-editor-input" ref={e => this.locationInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp">
                                             {Location.getList().map((item, index) => {
                                                 return <option key={index} value={item.key}>{item.value}</option> 
                                             })}
@@ -99,24 +113,25 @@ class CreatePromotion extends Component {
                                     </div>
                                     <div className="ctk-row">
                                         <label className="ctk-editor-lable">Loại khuyến mãi: </label>
-                                        <select className="ctk-editor-input" ref={e => this.typePromotionRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp">
+                                        { isRender && <select defaultValue={promotion && promotion.typePromotion} className="ctk-editor-input" ref={e => this.typePromotionRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp">
                                             {TypeConstruction.getList().map((item, index) => {
                                                 return <option key={index} value={item.getType()}>{item.getName()}</option> 
                                             })}
                                         </select>
+    }
                                     </div>
                                     <div className="ctk-row">
                                         <label className="ctk-editor-lable">Thời gian bắt đầu: </label>
-                                        <input className="ctk-editor-input" ref={e => this.timeStartInputRef = e} type="date" placeholder="Chương trình khuyến mãi siêu cấp" />
+                                        <input defaultValue={promotion && DateTimeUtil.toString(new Date(promotion.timeStart * 1000))} className="ctk-editor-input" ref={e => this.timeStartInputRef = e} type="date" placeholder="Chương trình khuyến mãi siêu cấp" />
                                     </div>
                                     <div className="ctk-row">
                                         <label className="ctk-editor-lable">Thời gian kết thúc: </label>
-                                        <input className="ctk-editor-input" ref={e => this.timeEndInputRef = e} type="date" placeholder="Chương trình khuyến mãi siêu cấp" />
+                                        <input defaultValue={promotion && DateTimeUtil.toString(new Date(promotion.timeEnd * 1000))} className="ctk-editor-input" ref={e => this.timeEndInputRef = e} type="date" placeholder="Chương trình khuyến mãi siêu cấp" />
                                     </div>
                                 </form>
                             </div>
                             <div className="d-flex flex-row mt-2">
-                                <INSEEEditor ref={e => this.editorRef = e} />
+                                {isRender && <INSEEEditor defaultValue={promotion && promotion.content} ref={e => this.editorRef = e} /> }
                             </div>
                             <div className="inbox-action ctkm">
                                 {this.state.errorMsg && <div style={{textAlign: 'right', paddingRight: '45px'}} className="errorMsg"><p>{this.state.errorMsg}</p></div>}

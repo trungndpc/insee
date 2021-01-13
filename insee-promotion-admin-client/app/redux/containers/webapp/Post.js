@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux'
 import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
 import ListPost  from '../../../components/post/ListPost'
-import DetailPost from '../../../components/post/DetailPost'
 import {
     Switch,
     Route,
@@ -15,9 +14,9 @@ import CreatePost from '../../../components/post/CreatePost'
 import SideBar from '../../../components/layout/SideBar'
 
 
-function DetailPromotionRoute(props) {
+function DetailPostRoute(props) {
     let { postId } = useParams();
-    return <DetailPromotion postId={postId} {...props} />
+    return <CreatePost postId={postId} {...props} />
 }
 
 
@@ -46,7 +45,7 @@ class Post extends React.Component {
                                                     <CreatePost {...this.props} />
                                                 </Route>
                                                 <Route path="/post/:postId">
-                                                    <DetailPost {...this.props} />
+                                                    <DetailPostRoute {...this.props} />
                                                 </Route>
                                                 <Route path="/post">
                                                     <div className="inbox-action ctkm">

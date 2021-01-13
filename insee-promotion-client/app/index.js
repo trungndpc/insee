@@ -7,7 +7,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useHistory
+  useHistory,
+  useParams
 } from "react-router-dom";
 import Register from '../app/redux/containers/register/index';
 import ContractorInfo from './redux/containers/webapp/ContractorInfo';
@@ -16,6 +17,8 @@ import Login from './redux/containers/Login'
 import IntroConstructionPromotion from './redux/containers/promotion/IntroConstructionPromotion'
 import Contructions from './redux/containers/webapp/Contructions'
 import NowConstruction from './redux/containers/promotion/NowConstruction'
+import GiftHistory from './redux/containers/webapp/GiftHistory'
+
 const store = configureStore()
 const isLogin = window.isLogin = true;
 
@@ -27,28 +30,43 @@ function RouteApp() {
   return <div></div>
 }
 
+function NowConstructionRoute() {
+  let { promotionId } = useParams();
+  return <NowConstruction promotionId={promotionId} />
+}
+
+function IntroConstructionPromotionRoute() {
+  let { promotionId } = useParams();
+  return <IntroConstructionPromotion promotionId={promotionId} />
+}
+
 function APP() {
 
   return (
     <Switch>
-        <Route path="/khuyen-mai" >
-          <Promotion />
-        </Route>
-        <Route path="/dang-nhap" >
-          <Login />
-        </Route>
-        <Route path="/khach-hang" >
-          <ContractorInfo />
-        </Route>
-        <Route path="/cong-trinh">
-          <Contructions />
-        </Route>
-        <Route path="/dang-ky" component={Register} />
-        <Route path="/cong-trinh-tiep-theo" component={IntroConstructionPromotion} />
-        <Route path="/cong-trinh-cua-toi" component={NowConstruction} />
-        <Route path="/" >
-          <ContractorInfo />
-        </Route>
+      <Route path="/dang-nhap" >
+        <Login />
+      </Route>
+      <Route path="/cong-trinh">
+        <Contructions />
+      </Route>
+      <Route path="/dang-ky" component={Register} />
+      <Route path="/khuyen-mai/:promotionId/cong-trinh-tiep-theo">
+        <IntroConstructionPromotionRoute />
+      </Route>
+      <Route path="/khuyen-mai/:promotionId/up-hoa-don-nha-qua">
+        <NowConstructionRoute />
+      </Route>
+      <Route path="/khach-hang" >
+        <ContractorInfo />
+      </Route>
+      <Route path="/khuyen-mai" >
+        <Promotion />
+      </Route>
+      <Route path="/lich-su" component={GiftHistory}/>
+      <Route path="/" >
+        <ContractorInfo />
+      </Route>
     </Switch>
   )
 }
