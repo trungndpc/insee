@@ -48,7 +48,10 @@ html,body{
         padding: 14px;
     } */
     .table-info-contractor tr th {
-        width: 30%;
+        width: 40%;
+    }
+    .table-responsive {
+        display: table;
     }
 }
 
@@ -178,6 +181,28 @@ html,body{
     padding-left: 10px;
 }
 
+.history-promotion .content table {
+    width: 100%;
+}
+
 .history-promotion .content th {
-    width: 30%;
+    width: 25%;
+}
+
+.volume {
+    font-weight: 600;
+    color: #dc3545;
+}
+
+.ntx {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.ntx-icon {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: -40px;
+    top: 7px;
 }

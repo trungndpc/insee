@@ -21,7 +21,6 @@ class ListPromotion extends Component {
                     <div className="row">
                         {promotions && promotions.map((item, index) => {
                             const countSubmit = item.listPlayingId.length;
-                            let pathGoToPromotion = item.typePromotion = 1 ? 'cong-trinh-tiep-theo' : 'cong-trinh-cua-toi'
                             return (
                                 <div className="col-lg-6 col-sm-6">
                                     <div className="g-post-classic">

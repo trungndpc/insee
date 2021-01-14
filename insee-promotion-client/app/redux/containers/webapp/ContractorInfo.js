@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
-import {UserRole} from '../../../components/enum/UserRole'
-import {CustomerStatus} from '../../../components/enum/CustomerStatus'
+import { UserRole } from '../../../components/enum/UserRole'
+import { CustomerStatus } from '../../../components/enum/CustomerStatus'
 import Location from '../../../data/Location'
-import {ContentSideBar} from '../../../components/layout/SideBar'
+import { ContentSideBar } from '../../../components/layout/SideBar'
 class ContractorInfo extends React.Component {
 
 
@@ -51,21 +51,13 @@ class ContractorInfo extends React.Component {
                                                                             <th>Vai trò</th>
                                                                             <td>{UserRole.findByRoleId(user.roleId).getName()}</td>
                                                                         </tr>
-                                                                        <tr>
-                                                                            <th>Chứng chỉ</th>
-                                                                            <td>Nhà thầu xanh</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <th>Ghi chú</th>
-                                                                            <td>{user.note}</td>
-                                                                        </tr>
                                                                     </tbody>
                                                                 </table>
                                                             }
                                                         </div>
                                                     </div>
 
-                                                    {contractor &&  <div className="central-meta">
+                                                    {contractor && <div className="central-meta">
                                                         <div className="about">
                                                             <div className="personal">
                                                                 <h5 className="f-title">THÔNG TIN NHÀ THẦU</h5>
@@ -87,10 +79,20 @@ class ContractorInfo extends React.Component {
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Trạng thái hồ sơ</th>
-                                                                            <td style={{color: `${CustomerStatus.findByStatus(contractor.finalStatus).getColor()}`}}>
+                                                                            <td style={{ color: `${CustomerStatus.findByStatus(contractor.finalStatus).getColor()}` }}>
                                                                                 {CustomerStatus.findByStatus(contractor.finalStatus).getName()}
                                                                             </td>
                                                                         </tr>
+                                                                        <tr>
+                                                                            <th>Đã mua</th>
+                                                                            <td><span className="volume">{contractor.volumeCiment}</span> bao xi măng INSEE</td>
+                                                                        </tr>
+                                                                        {contractor.volumeCiment > 700 &&
+                                                                            <tr>
+                                                                                <th>Chứng chỉ</th>
+                                                                                <td className="ntx">Nhà thầu xanh</td>
+                                                                            </tr>
+                                                                        }
                                                                         <tr>
                                                                             <th>Ghi chú</th>
                                                                             <td>{contractor.note}</td>

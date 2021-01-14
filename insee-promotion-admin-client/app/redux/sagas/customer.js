@@ -146,6 +146,9 @@ function postToCreatePromotion(data) {
     timeStart: data.timeStart,
     timeEnd: data.timeEnd
   }
+  if (data.postId) {
+    body.id = data.postId
+  }
   return new Promise((resolve, reject) => {
     APIUtils.postJSONWithoutCredentials(process.env.DOMAIN + `/api/admin/post/create`, JSON.stringify(body), resolve, reject);
   });
@@ -388,7 +391,9 @@ function postCreateGift(data) {
     constructionId: data.constructionId,
     seri: data.seri,
     code: data.code,
-    network: data.typeCard
+    network: data.typeCard,
+    userId: data.userId,
+    name: data.name
   }
   return new Promise((resolve, reject) => {
     APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/gift/create`, JSON.stringify(body), resolve, reject);

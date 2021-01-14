@@ -74,6 +74,9 @@ class CreatePromotion extends Component {
             timeStart: new Date(timeStart).getTime() / 1000,
             timeEnd: new Date(timeEnd).getTime() / 1000
         }
+        if (this.props.postId) {
+            data.postId = this.props.postId
+        }
         this.props.appActions.createPromotion(data);
     }
 

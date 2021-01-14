@@ -15,6 +15,7 @@ export default function* customer() {
   yield takeLatest(type.APP.PUSH_CONTRUCTION_ASYNC, pushContructionAsync)
   yield takeLatest(type.APP.GET_LIST_CONSTRUCTION_ASYNC, getListConstructionAsync)
   yield takeLatest(type.APP.GET_CONSTRUCTION_ASYNC, getConstructionAsync)
+  yield takeLatest(type.APP.GET_LIST_HISTORY_GIFT_ASYNC, getListHistoryGiftAsync)
 }
 
 
@@ -194,18 +195,6 @@ function* pushContructionAsync(action) {
 }
 
 
-// private String address;
-// private int city;
-// private String district;
-// private String name;
-// private String phone;
-// private int quantity;
-// private int estimateTimeStart;
-// private int typeConstruction;
-// private int type;
-// private List<String> billIds;
-// private List<String> imageIds;
-
 function postContruction(data) {
   var body = {
     address: data["address"],
@@ -250,5 +239,18 @@ function* getConstructionAsync(action) {
 function getConstruction(id) {
   return new Promise((resolve, reject) => {
     APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/construction?id=${id}`, resolve, reject);
+  });
+}
+
+//getListHistoryGiftAsync 
+function* getListHistoryGiftAsync() {
+  yield put({ type: type.APP.GET_LIST_HISTORY_GIFT_START })
+  const resp = yield call(getListHistoryGift)
+  yield put({ type: type.APP.GET_LIST_HISTORY_GIFT_END, payload: resp.data })
+}
+
+function getListHistoryGift() {
+  return new Promise((resolve, reject) => {
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/gift/me`, resolve, reject);
   });
 }

@@ -128,6 +128,13 @@ export default function app(state = initialState, action) {
       newState.construction = action.payload;
       break;
     }
+    case type.APP.GET_LIST_HISTORY_GIFT_START: {
+      break;
+    }
+    case type.APP.GET_LIST_HISTORY_GIFT_END: {
+      newState.gifts = action.payload;
+      break;
+    }
     default:
       return state
   }

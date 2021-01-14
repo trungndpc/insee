@@ -90,3 +90,9 @@ export function getConstructionById(id) {
     id: id
   }
 }
+
+export function getHistoryGift() {
+  return {
+    type: type.APP.GET_LIST_HISTORY_GIFT_ASYNC
+  }
+}

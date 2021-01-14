@@ -36,10 +36,13 @@ class SendGiftModal extends Component {
         let typeCard = this.typeCardRef.value;
         let seri = this.seriRef.value;
         let code = this.codeRef.value;
+        let name = this.nameRef.value;
         let data = {
             typeCard: parseInt(typeCard),
             seri: seri,
             code: code,
+            name: name,
+            userId: this.props.uid,
             constructionId: this.props.id
         }
         this.props.appActions.createGift(data);
@@ -72,6 +75,7 @@ class SendGiftModal extends Component {
                                         <option value="2">Vinaphone</option>
                                         <option value="3">Mobile Phone</option>
                                     </select>
+                                    <input ref={e => this.nameRef = e} type="text" className="modal-input" placeholder="Thẻ viettel 500" />
                                     <input ref={e => this.seriRef = e} type="text" className="modal-input" placeholder="Seri" />
                                     <input ref={e => this.codeRef = e} type="text" className="modal-input" placeholder="Code" />
                                     <div className="container-btn">

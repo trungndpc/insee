@@ -287,10 +287,10 @@ class ConstructionDetail extends Component {
             <ApprovalConstructionModal {...this.props} id={construction.id} isOpen={this.state.isOpenApprovalModal} onClose={this._onCloseApprovalModal} />
           }
           {construction &&
-            <RejectConstructionModal {...this.props} id={construction.id} isOpen={this.state.isOpenRejectModal} onClose={this._onCloseRejectModal} />
+            <RejectConstructionModal {...this.props} id={construction.id}  isOpen={this.state.isOpenRejectModal} onClose={this._onCloseRejectModal} />
           }
           {construction &&
-            <SendGiftModal {...this.props} id={construction.id} isOpen={this.state.isSendingGift} onClose={this._onCloseFormSendingGift}/>
+            <SendGiftModal {...this.props} id={construction.id} uid={construction.user.id} isOpen={this.state.isSendingGift} onClose={this._onCloseFormSendingGift}/>
           }
           <AreYouSureModal isOpen={this.state.isAreYouSureModal} onOK={this.updateConstruction} onClose={this._onCloseAreUSureModal} />
         </div>
