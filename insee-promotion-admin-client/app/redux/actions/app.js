@@ -144,3 +144,10 @@ export function createGift(data) {
     data: data
   }
 }
+
+export function updateStatusPromotion(id) {
+  return {
+    type: type.APP.UPDATE_STATUS_PROMOTION_ASYNC,
+    id: id,
+  }
+}

@@ -29,6 +29,7 @@ class GiftHistory extends React.Component {
                                         <div className="col-lg-3">
                                             <SideBar />
                                         </div>
+                                        {gifts && gifts.length == 0 && <div className="empty-container"><p>Bạn chưa tham gia chương trình nào</p></div>} 
                                         <div style={{ padding: 0 }} className="col-lg-9">
                                             {gifts && gifts.map((item, index) => {
                                                 let nameConstruction = item.construction.address + ' - ' + Location.getName(item.construction.city)

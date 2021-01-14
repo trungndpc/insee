@@ -23,6 +23,7 @@ export default function* customer() {
   yield takeLatest(type.APP.UPDATE_CONSTRUCTION_ASYNC, updateConstructionAsync)
   yield takeLatest(type.APP.GET_LIST_LABEL_ASYNC, getListLabelAsync)
   yield takeLatest(type.APP.CREATE_GIFT_ASYNC, createGiftAsync)
+  yield takeLatest(type.APP.UPDATE_STATUS_PROMOTION_ASYNC, updateStatusPromotionAsync)
 }
 
 
@@ -129,6 +130,7 @@ function* createPromotionAsync(action) {
   const resp = yield call(postToCreatePromotion, action.data)
   if (resp.error == 0) {
     AlertUtils.showSuccess(AlertUtils.CREATE_PROMOTION_SUCCESS)
+    yield put({ type: type.APP.GET_PROMOTION_BY_ID_START })
     yield put({ type: type.APP.CREATE_PROMOTION_END, payload: resp.data })
     AppUtils.push("/post")
   } else {
@@ -265,7 +267,7 @@ function* getListConstructionAsync(action) {
 
 function getListConstruction(type, status) {
   return new Promise((resolve, reject) => {
-    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/list?type=${type}${status ? '&status=' + status : ''}` , resolve, reject);
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/list?type=${type}${status ? '&status=' + status : ''}`, resolve, reject);
   });
 }
 
@@ -296,7 +298,7 @@ function* updateStatusImageAsync(action) {
 }
 
 function postUpdateStatusImage(imgType, id, status, billId, weigh) {
- 
+
   var body = {
     id: id,
     type: imgType,
@@ -370,7 +372,7 @@ function* getListLabelAsync() {
 
 function getListLabel() {
   return new Promise((resolve, reject) => {
-    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/label/list` , resolve, reject);
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/label/list`, resolve, reject);
   });
 }
 
@@ -397,5 +399,24 @@ function postCreateGift(data) {
   }
   return new Promise((resolve, reject) => {
     APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/gift/create`, JSON.stringify(body), resolve, reject);
+  });
+}
+
+function* updateStatusPromotionAsync(action) {
+  yield put({ type: type.APP.UPDATE_STATUS_PROMOTION_START })
+  const resp = yield call(postPublishPromotion, action.id)
+  if (resp.error == 0) {
+    AlertUtils.showSuccess(AlertUtils.CREATE_PROMOTION_SUCCESS)
+    yield put({ type: type.APP.GET_PROMOTION_BY_ID_START })
+    yield put({ type: type.APP.UPDATE_STATUS_PROMOTION_END })
+    AppUtils.push("/post")
+  } else {
+    AlertUtils.showError("Vui lòng thử lại")
+  }
+}
+
+function postPublishPromotion(id) {
+  return new Promise((resolve, reject) => {
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/post/publish?id=${id}`, resolve, reject);
   });
 }

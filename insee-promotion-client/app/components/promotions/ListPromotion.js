@@ -19,6 +19,7 @@ class ListPromotion extends Component {
             <div className="loadMore">
                 <div className="m-content post">
                     <div className="row">
+                        {promotions && promotions.length == 0 && <div className="empty-container"><p>Chưa có chương trình khuyến mãi dành cho khu vực của bạn</p></div>} 
                         {promotions && promotions.map((item, index) => {
                             const countSubmit = item.listPlayingId.length;
                             return (

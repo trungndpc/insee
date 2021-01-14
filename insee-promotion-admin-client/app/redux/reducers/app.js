@@ -5,24 +5,24 @@ const initialState = {
     step: 1,
     isLoading: false
   },
- 
+
 }
 
 export default function app(state = initialState, action) {
   let newState = Object.assign({}, state)
   switch (action.type) {
     case type.APP.PUSH_DATA_REGISTER: {
-      newState.register = {...newState.register}
+      newState.register = { ...newState.register }
       newState.register = action.data;
       break
     }
     case type.APP.CHECK_PHONE_START: {
-      newState.register = {...newState.register}
+      newState.register = { ...newState.register }
       newState.register.isLoading = true;
       break;
     }
     case type.APP.CHECK_PHONE_END: {
-      newState.register = {...newState.register}
+      newState.register = { ...newState.register }
       let error = action.payload;
       newState.register.statusStep1 = error;
       newState.register.isLoading = false;
@@ -36,8 +36,8 @@ export default function app(state = initialState, action) {
     }
     case type.APP.PUSH_STATE_REGISTER: {
       let data = action.payload;
-      newState.register = {...newState.register}
-      data.forEach(function(item) {
+      newState.register = { ...newState.register }
+      data.forEach(function (item) {
         newState.register[item.name] = item.value;
       })
       break;
@@ -54,7 +54,9 @@ export default function app(state = initialState, action) {
       newState.promotions = data;
       break;
     }
-
+    case type.APP.GET_PROMOTION_BY_ID_START: {
+      newState.promotion = null;
+    }
     case type.APP.GET_PROMOTION_BY_ID_END: {
       let data = action.payload;
       newState.promotion = data;
@@ -106,6 +108,7 @@ export default function app(state = initialState, action) {
       break;
     }
     case type.APP.GET_CONSTRUCTION_START: {
+      newState.construction = null
       break;
     }
     case type.APP.GET_CONSTRUCTION_END: {

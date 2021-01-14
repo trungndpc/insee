@@ -206,3 +206,15 @@ html,body{
     right: -40px;
     top: 7px;
 }
+
+.empty-container {
+    text-align: center;
+    width: 100%;
+    font-size: medium;
+    padding: 10px 35px !important;
+}
+
+.empty-container p {
+    font-size: medium;
+    color: #212529;
+}
