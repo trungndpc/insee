@@ -5,7 +5,8 @@ import {
 import { CustomerStatusEnum, DO_NOT_HAVE_ACCOUNT, NEED_REVIEW, REJECTED, APPROVED } from '../../../../components/enum/CustomerStatusEnum';
 import ApprovalCustomerModal from '../../../../components/modal/ApprovalCustomerModal'
 import RejectCustomerModal from '../../../../components/modal/RejectCustomerModal'
-
+import {StatusConstruction, findByStatus} from '../../../../components/enum/StatusConstruction'
+import {GiftStatus} from '../../../../components/enum/GiftStatus'
 
 class CustomerDetail extends Component {
 
@@ -40,12 +41,14 @@ class CustomerDetail extends Component {
   componentDidMount() {
     console.log("Load ddddddd")
     this.props.appActions.getCustomerById(this.props.customerId)
+    this.props.appActions.getHistoryByCustomerId(this.props.customerId);
   }
 
 
 
   render() {
     const customer = this.props.app.customer;
+    const historyByCustomer = this.props.app.historyByCustomer;
     var status;
     if (customer) {
       status = CustomerStatusEnum.findByStatus(customer.finalStatus);
@@ -116,62 +119,46 @@ class CustomerDetail extends Component {
             </div>
           </div>
 
-          <div className="central-meta">
-            <div className="about">
-              <div className="personal">
-                <h5 className="f-title">Danh sách các chương trình đã tham gia</h5>
-              </div>
-              <div className="col-lg-12 col-sm-12 pading0">
-                <table className="table">
-                  <thead className=" insee-color">
-                    <tr className="insee-color">
-                      <th scope="col">STT</th>
-                      <th scope="col">Chương trình khuyến mãi</th>
-                      <th scope="col">Quà tặng</th>
-                      <th scope="col">Số lượng</th>
-                      <th scope="col">Tình trạng</th>
-                      <th scope="col">Thời gian nhận quà</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>INSEE Wall Pro</td>
-                      <td>Thẻ điện thoại 100K</td>
-                      <td>2</td>
-                      <td>Đang duyệt</td>
-                      <td>06/11/2020</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>INSEE Power-S</td>
-                      <td>Thẻ điện thoại 100K</td>
-                      <td>1</td>
-                      <td>Đã nhận</td>
-                      <td>30/10/2020</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>Keo dán gạch INSEE Tilefix</td>
-                      <td>Voucher DMX 100K</td>
-                      <td>2</td>
-                      <td>Đã nhận</td>
-                      <td>28/10/2020</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">4</th>
-                    </tr>
-                    <tr>
-                      <th scope="row">5</th>
-                    </tr>
-                    <tr>
-                      <th scope="row">6</th>
-                    </tr>
-                  </tbody>
-                </table>
+          {historyByCustomer && historyByCustomer.length > 0 &&
+            <div className="central-meta">
+              <div className="about">
+                <div className="personal">
+                  <h5 className="f-title">Danh sách các chương trình đã tham gia</h5>
+                </div>
+                <div className="col-lg-12 col-sm-12 pading0">
+                  <table className="table">
+                    <thead className=" insee-color">
+                      <tr className="insee-color">
+                        <th scope="col">STT</th>
+                        <th scope="col">Chương trình khuyến mãi</th>
+                        <th scope="col">Quà tặng</th>
+                        <th scope="col">Tình trạng</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {historyByCustomer.map((item, index) => {
+                        let status = findByStatus(item.construction.status).getName() ;
+                        if (item.gift) {
+                          status = GiftStatus.getName(item.gift.status);
+                        }
+
+                        return (
+                          <tr key={index}>
+                            <th scope="row">{index}</th>
+                            <td>{item.title}</td>
+                            <td>{item.gift && item.gift.name}</td>
+                            <td>{status}</td>
+                          </tr>
+                        )
+                      })}
+
+
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
+          }
 
           {customer &&
             <ApprovalCustomerModal {...this.props} id={customer.id} isOpen={this.state.isOpenApprovalModal} onClose={this._onCloseApprovalModal} />

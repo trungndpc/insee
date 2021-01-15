@@ -122,6 +122,14 @@ export default function app(state = initialState, action) {
       newState.labels = action.payload;
       break;
     }
+    case type.APP.GET_HISTORY_GIFT_BY_ID_START: {
+      newState.historyByCustomer = null;
+      break;
+    }
+    case type.APP.GET_HISTORY_GIFT_BY_ID_END: {
+      newState.historyByCustomer = action.payload;
+      break;
+    }
     default:
       return state
   }

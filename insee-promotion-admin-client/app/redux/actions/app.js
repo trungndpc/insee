@@ -151,3 +151,10 @@ export function updateStatusPromotion(id) {
     id: id,
   }
 }
+
+export function getHistoryByCustomerId(id) {
+  return {
+    type: type.APP.GET_HISTORY_GIFT_BY_ID_ASYNC,
+    id: id
+  }
+}

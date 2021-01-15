@@ -24,6 +24,7 @@ export default function* customer() {
   yield takeLatest(type.APP.GET_LIST_LABEL_ASYNC, getListLabelAsync)
   yield takeLatest(type.APP.CREATE_GIFT_ASYNC, createGiftAsync)
   yield takeLatest(type.APP.UPDATE_STATUS_PROMOTION_ASYNC, updateStatusPromotionAsync)
+  yield takeLatest(type.APP.GET_HISTORY_GIFT_BY_ID_ASYNC, getHistoryGiftByCustomerIdAsync)
 }
 
 
@@ -418,5 +419,19 @@ function* updateStatusPromotionAsync(action) {
 function postPublishPromotion(id) {
   return new Promise((resolve, reject) => {
     APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/post/publish?id=${id}`, resolve, reject);
+  });
+}
+
+//getHistoryGiftByCustomerIdAsync
+
+function* getHistoryGiftByCustomerIdAsync(action) {
+  yield put({ type: type.APP.GET_HISTORY_GIFT_BY_ID_START })
+  const resp = yield call(getHistoryGiftByCustomerId, action.id)
+  yield put({ type: type.APP.GET_HISTORY_GIFT_BY_ID_END, payload: resp.data })
+}
+
+function getHistoryGiftByCustomerId(id) {
+  return new Promise((resolve, reject) => {
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/customer/history?id=${id}`, resolve, reject);
   });
 }
