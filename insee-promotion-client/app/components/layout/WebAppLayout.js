@@ -60,7 +60,7 @@ class WebAppLayout extends Component {
                       <li className="admin-name">
                         <h5>{account && account.name}</h5>
                         <span>Tp Hồ Chí Minh</span>
-                        {certificate && <img className="ntx-icon" src="http://nzim.vn/wp-content/uploads/2019/12/free-certificate-icon-1356-thumb.png"/> }
+                        {certificate && <img className="ntx-icon" src="https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/certificate-icon.png"/> }
                       </li>
                     </ul>
                   </div>
