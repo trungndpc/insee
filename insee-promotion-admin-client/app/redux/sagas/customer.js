@@ -25,6 +25,7 @@ export default function* customer() {
   yield takeLatest(type.APP.CREATE_GIFT_ASYNC, createGiftAsync)
   yield takeLatest(type.APP.UPDATE_STATUS_PROMOTION_ASYNC, updateStatusPromotionAsync)
   yield takeLatest(type.APP.GET_HISTORY_GIFT_BY_ID_ASYNC, getHistoryGiftByCustomerIdAsync)
+  yield takeLatest(type.APP.GET_HISTORY_GIFT_ASYNC, getHistoryGiftAsync)
 }
 
 
@@ -125,15 +126,28 @@ function getPromotion() {
 }
 
 
+// get promotion by id
+function* getPromotionByIdAsync(action) {
+  yield put({ type: type.APP.GET_PROMOTION_BY_ID_START })
+  const resp = yield call(getPromotionById, action.id)
+  yield put({ type: type.APP.GET_PROMOTION_BY_ID_END, payload: resp.data })
+}
+
+function getPromotionById(id) {
+  return new Promise((resolve, reject) => {
+    APIUtils.getJSONWithoutCredentials(process.env.DOMAIN + `/api/admin/post?id=` + id, resolve, reject);
+  });
+}
+
 //create promotion 
 function* createPromotionAsync(action) {
   yield put({ type: type.APP.CREATE_PROMOTION_START })
-  const resp = yield call(postToCreatePromotion, action.data)
+  let resp = yield call(postToCreatePromotion, action.data)
   if (resp.error == 0) {
+    resp = yield call(getPromotionById, resp.data)
+    yield put({ type: type.APP.GET_PROMOTION_BY_ID_END, payload: resp.data })
+    yield put({ type: type.APP.CREATE_PROMOTION_END })
     AlertUtils.showSuccess(AlertUtils.CREATE_PROMOTION_SUCCESS)
-    yield put({ type: type.APP.GET_PROMOTION_BY_ID_START })
-    yield put({ type: type.APP.CREATE_PROMOTION_END, payload: resp.data })
-    AppUtils.push("/post")
   } else {
     AlertUtils.showError(AlertUtils.CREATE_PROMOTION_FAILED)
   }
@@ -154,19 +168,6 @@ function postToCreatePromotion(data) {
   }
   return new Promise((resolve, reject) => {
     APIUtils.postJSONWithoutCredentials(process.env.DOMAIN + `/api/admin/post/create`, JSON.stringify(body), resolve, reject);
-  });
-}
-
-// get promotion by id
-function* getPromotionByIdAsync(action) {
-  yield put({ type: type.APP.GET_PROMOTION_BY_ID_START })
-  const resp = yield call(getPromotionById, action.id)
-  yield put({ type: type.APP.GET_PROMOTION_BY_ID_END, payload: resp.data })
-}
-
-function getPromotionById(id) {
-  return new Promise((resolve, reject) => {
-    APIUtils.getJSONWithoutCredentials(process.env.DOMAIN + `/api/admin/post?id=` + id, resolve, reject);
   });
 }
 
@@ -222,13 +223,23 @@ function getListCustomerAll(page, pageSize) {
 
 function* getListCustomerByStatusAsync(action) {
   yield put({ type: type.APP.GET_LIST_CUSTOMER_BY_STATUS_START })
-  const resp = yield call(getListCustomerByStatus, action.status, action.page, action.pageSize)
+  const resp = yield call(getListCustomerByStatus, action.status, action.location, action.page, action.pageSize)
   yield put({ type: type.APP.GET_LIST_CUSTOMER_BY_STATUS_END, payload: resp.data })
 }
 
-function getListCustomerByStatus(status, page, pageSize) {
+function getListCustomerByStatus(status, location, page, pageSize) {
+  let statusQuery = status != 10 ? 'status=' + status : null;
+  let locationQuery = location != 0 ? 'location=' + location : null;
+  let query = '';
+  if (statusQuery && locationQuery) {
+    query = '&' +  statusQuery + '&' + locationQuery;
+  }else if (statusQuery && !locationQuery) {
+    query = '&' + statusQuery;
+  }else if (!statusQuery && locationQuery) {
+    query = '&' + locationQuery;
+  }
   return new Promise((resolve, reject) => {
-    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/customer/find-by?page=${page}&pageSize=${pageSize}&status=${status}`, resolve, reject);
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/customer/find-by?page=${page}&pageSize=${pageSize}` + query, resolve, reject);
   });
 }
 
@@ -389,14 +400,15 @@ function* createGiftAsync(action) {
   yield put({ type: type.APP.CREATE_GIFT_END, payload: resp.data })
 }
 
+
+
 function postCreateGift(data) {
   var body = {
+    network: data.network,
+    name: data.name,
+    customerId: data.customerId,
     constructionId: data.constructionId,
-    seri: data.seri,
-    code: data.code,
-    network: data.typeCard,
-    userId: data.userId,
-    name: data.name
+    cards: data.cards
   }
   return new Promise((resolve, reject) => {
     APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/gift/create`, JSON.stringify(body), resolve, reject);
@@ -432,6 +444,19 @@ function* getHistoryGiftByCustomerIdAsync(action) {
 
 function getHistoryGiftByCustomerId(id) {
   return new Promise((resolve, reject) => {
-    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/customer/history?id=${id}`, resolve, reject);
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/history?customerId=${id}`, resolve, reject);
+  });
+} 
+
+//getHistoryGiftAsync 
+function* getHistoryGiftAsync(action) {
+  yield put({ type: type.APP.GET_HISTORY_GIFT_START })
+  const resp = yield call(getHistoryGift)
+  yield put({ type: type.APP.GET_HISTORY_GIFT_END, payload: resp.data })
+}
+
+function getHistoryGift() {
+  return new Promise((resolve, reject) => {
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/gift/history`, resolve, reject);
   });
 }

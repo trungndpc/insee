@@ -30,6 +30,7 @@ class ReactSelect extends Component {
     render() {
         return (
             <CreatableSelect
+                placeholder={this.props.placeholder}
                 isClearable={true}
                 onChange={this.handleChange}
                 options={this.props.options ? this.props.options : options}

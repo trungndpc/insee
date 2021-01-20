@@ -130,6 +130,19 @@ export default function app(state = initialState, action) {
       newState.historyByCustomer = action.payload;
       break;
     }
+    case type.APP.CLEAR_PROMOTION_DATA: {
+      newState.promotion = null;
+      break;
+    }
+    case type.APP.GET_HISTORY_GIFT_START: {
+      newState.historyGift = null;
+      break;
+    }
+    case type.APP.GET_HISTORY_GIFT_END:{
+      newState.historyGift = action.payload;
+      break;
+    }
+
     default:
       return state
   }

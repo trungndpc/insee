@@ -5,7 +5,7 @@ class Footer extends Component {
     render() {
         return (
             <div className="footer">
-                <img src={require('../../resources/images/logo.png')} />
+                <img src={'https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/logo.png'} />
             </div>
         )
     }

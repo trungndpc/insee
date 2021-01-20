@@ -74,29 +74,33 @@ class ContractorInfo extends React.Component {
                                                                             <td>{contractor.phone}</td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <th>Khu vực thi công</th>
+                                                                            <th>Khu vực</th>
                                                                             <td>{Location.getName(contractor.mainAreaId)}</td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <th>Trạng thái hồ sơ</th>
+                                                                            <th>Trạng thái</th>
                                                                             <td style={{ color: `${CustomerStatus.findByStatus(contractor.finalStatus).getColor()}` }}>
                                                                                 {CustomerStatus.findByStatus(contractor.finalStatus).getName()}
                                                                             </td>
                                                                         </tr>
-                                                                        <tr>
-                                                                            <th>Đã mua</th>
-                                                                            <td><span className="volume">{contractor.volumeCiment}</span> bao xi măng INSEE</td>
-                                                                        </tr>
+                                                                        {contractor && contractor.volumeCiment > 0 &&
+                                                                            <tr>
+                                                                                <th>Đã mua</th>
+                                                                                <td><span className="volume">{contractor.volumeCiment}</span> bao xi măng INSEE</td>
+                                                                            </tr>
+                                                                        }
                                                                         {contractor.volumeCiment > 700 &&
                                                                             <tr>
                                                                                 <th>Chứng chỉ</th>
                                                                                 <td className="ntx">Nhà thầu xanh</td>
                                                                             </tr>
                                                                         }
-                                                                        <tr>
-                                                                            <th>Ghi chú</th>
-                                                                            <td>{contractor.note}</td>
-                                                                        </tr>
+                                                                        {contractor && contractor.note &&
+                                                                            <tr>
+                                                                                <th>Ghi chú</th>
+                                                                                <td>{contractor.note}</td>
+                                                                            </tr>
+                                                                        }
                                                                     </tbody>
                                                                 </table>
                                                             }

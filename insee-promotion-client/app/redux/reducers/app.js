@@ -111,7 +111,7 @@ export default function app(state = initialState, action) {
     }
     case type.APP.PUSH_CONTRUCTION_END: {
       newState.isLoading = false;
-      newState.crateedContruction = action.payload;
+      newState.crateedContruction = true;
       break;
     }
     case type.APP.GET_LIST_CONSTRUCTION_START: {
@@ -133,6 +133,14 @@ export default function app(state = initialState, action) {
     }
     case type.APP.GET_LIST_HISTORY_GIFT_END: {
       newState.gifts = action.payload;
+      break;
+    }
+    case type.APP.GET_GIFT_BY_ID_START: {
+      newState.gift = null;
+      break;
+    }
+    case type.APP.GET_GIFT_BY_ID_END: {
+      newState.gift = action.payload;
       break;
     }
     default:

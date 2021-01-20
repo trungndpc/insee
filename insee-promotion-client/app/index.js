@@ -18,6 +18,7 @@ import IntroConstructionPromotion from './redux/containers/promotion/IntroConstr
 import Contructions from './redux/containers/webapp/Contructions'
 import NowConstruction from './redux/containers/promotion/NowConstruction'
 import GiftHistory from './redux/containers/webapp/GiftHistory'
+import GiftCard from './redux/containers/GiftCard'
 
 const store = configureStore()
 const isLogin = window.isLogin = true;
@@ -38,6 +39,11 @@ function NowConstructionRoute() {
 function IntroConstructionPromotionRoute() {
   let { promotionId } = useParams();
   return <IntroConstructionPromotion promotionId={promotionId} />
+}
+
+function GiftMessageRoute() {
+  let { giftId } = useParams();
+  return <GiftCard giftId={giftId}/>
 }
 
 function APP() {
@@ -62,6 +68,9 @@ function APP() {
       </Route>
       <Route path="/khuyen-mai" >
         <Promotion />
+      </Route>
+      <Route path="/chuc-mung/:giftId">
+        <GiftMessageRoute />
       </Route>
       <Route path="/lich-su" component={GiftHistory}/>
       <Route path="/" >

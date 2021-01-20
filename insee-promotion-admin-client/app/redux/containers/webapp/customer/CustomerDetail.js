@@ -5,8 +5,10 @@ import {
 import { CustomerStatusEnum, DO_NOT_HAVE_ACCOUNT, NEED_REVIEW, REJECTED, APPROVED } from '../../../../components/enum/CustomerStatusEnum';
 import ApprovalCustomerModal from '../../../../components/modal/ApprovalCustomerModal'
 import RejectCustomerModal from '../../../../components/modal/RejectCustomerModal'
-import {StatusConstruction, findByStatus} from '../../../../components/enum/StatusConstruction'
-import {GiftStatus} from '../../../../components/enum/GiftStatus'
+import { StatusConstruction, findByStatus } from '../../../../components/enum/StatusConstruction'
+import { GiftStatus } from '../../../../components/enum/GiftStatus'
+import Location from '../../../../data/Location'
+import DateTimeUtil from '../../../../utils/DateTimeUtil'
 
 class CustomerDetail extends Component {
 
@@ -74,18 +76,18 @@ class CustomerDetail extends Component {
                     </tr>
                     <tr>
                       <th>Khu vực thi công</th>
-                      <td>Hồ Chí Minh</td>
+                      <td>{Location.getName(customer.mainAreaId)}</td>
                     </tr>
                     <tr>
                       <th>Trang thái</th>
                       <td style={{ color: `${status.getColor()}` }}>{status.getName()}</td>
                     </tr>
-                    {status == APPROVED &&
+                    {/* {status == APPROVED &&
                       <tr>
                         <th>Số  CT đã tham gia </th>
                         <td>10 / 15 </td>
                       </tr>
-                    }
+                    } */}
                   </tbody>
                 </table>
               }
@@ -133,21 +135,19 @@ class CustomerDetail extends Component {
                         <th scope="col">Chương trình khuyến mãi</th>
                         <th scope="col">Quà tặng</th>
                         <th scope="col">Tình trạng</th>
+                        <th scope="col">Thời gian</th>
                       </tr>
                     </thead>
                     <tbody>
                       {historyByCustomer.map((item, index) => {
-                        let status = findByStatus(item.construction.status).getName() ;
-                        if (item.gift) {
-                          status = GiftStatus.getName(item.gift.status);
-                        }
-
+                        let status = findByStatus(item.status).getName();
                         return (
                           <tr key={index}>
-                            <th scope="row">{index}</th>
-                            <td>{item.title}</td>
+                            <th scope="row">{index + 1}</th>
+                            <td>{item.promotion.title}</td>
                             <td>{item.gift && item.gift.name}</td>
                             <td>{status}</td>
+                            <td>{DateTimeUtil.diffTime(item.updatedTime)}</td>
                           </tr>
                         )
                       })}

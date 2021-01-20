@@ -4,9 +4,9 @@ import { bindActionCreators } from 'redux'
 import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
 import { SideBar } from '../../../components/layout/SideBar'
-import {GiftStatus} from '../../../components/enum/GiftStatus'
+import { GiftStatus } from '../../../components/enum/GiftStatus'
 import Location from '../../../data/Location'
-
+import DateTimeUtil from '../../../utils/DateTimeUtil'
 
 class GiftHistory extends React.Component {
 
@@ -29,7 +29,7 @@ class GiftHistory extends React.Component {
                                         <div className="col-lg-3">
                                             <SideBar />
                                         </div>
-                                        {gifts && gifts.length == 0 && <div className="empty-container"><p>Bạn chưa tham gia chương trình nào</p></div>} 
+                                        {gifts && gifts.length == 0 && <div className="empty-container"><p>Bạn chưa tham gia chương trình nào</p></div>}
                                         <div style={{ padding: 0 }} className="col-lg-9">
                                             {gifts && gifts.map((item, index) => {
                                                 let nameConstruction = item.construction.address + ' - ' + Location.getName(item.construction.city)
@@ -49,7 +49,11 @@ class GiftHistory extends React.Component {
                                                                     </tr>
                                                                     <tr>
                                                                         <th>Trạng thái</th>
-                                                                        <td style={{color: `${GiftStatus.getColor(item.status)}`}}>{GiftStatus.getName(item.status)}</td>
+                                                                        <td style={{ color: `${GiftStatus.getColor(item.status)}` }}>{GiftStatus.getName(item.status)}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Thời gian</th>
+                                                                        <td>{DateTimeUtil.diffTime(item.updatedTime)}</td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>

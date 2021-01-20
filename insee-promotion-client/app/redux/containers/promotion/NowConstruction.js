@@ -71,6 +71,7 @@ class NowConstruction extends React.Component {
             let location = this.locationInputRef.getValues();
             let store = this.storeInputRef.getValues();
             let quantity = this.quantityInputRef.value;
+            let agree = this.agreeRef.checked;
             if (!address) {
                 this.setState({ errorMsg: 'Vui lòng nhập địa chỉ công trình' })
                 return;
@@ -101,6 +102,10 @@ class NowConstruction extends React.Component {
                 this.setState({ errorMsg: 'Vui lòng nhập số lượng bao xi măng' })
                 return;
             }
+            if (!agree) {
+                this.setState({ errorMsg: 'Vui lòng đồng ý với điều khoản của chúng tôi' })
+                return;
+            }
             this.props.appActions.setStatusLoading(true);
             let listBill = await this.uploadBill();
             let listImg = await this.uploadImgInsee();
@@ -114,6 +119,7 @@ class NowConstruction extends React.Component {
                 quantity: quantity,
                 billIds: listBill,
                 imageIds: listImg,
+                extra: {agree: [1]},
                 promotionId: parseInt(this.props.promotionId),
                 type: NOW_CONSTRUCTION.getType()
             }
@@ -160,7 +166,7 @@ class NowConstruction extends React.Component {
                     </div>
 
                     <div className="form-row prelative policy">
-                        <input checked type="checkbox" />
+                        <input ref={e => this.agreeRef = e} defaultChecked={true} type="checkbox" />
                         <span>Tôi đồng ý cho nhân viên INSEE có thể tới công trình kiểm tra ngẫu nhiên</span>
                     </div>
 

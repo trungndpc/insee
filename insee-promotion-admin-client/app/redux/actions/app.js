@@ -72,12 +72,13 @@ export function getListCustomerAll(page, pageSize) {
   }
 }
 
-export function getListCustomerByStatus(status, page, pageSize) {
+export function getListCustomerByStatus(status, location, page, pageSize) {
   return {
     type: type.APP.GET_LIST_CUSTOMER_BY_STATUS_ASYNC,
     page: page,
     pageSize: pageSize,
-    status : status
+    status : status,
+    location: location
   }
 }
 
@@ -156,5 +157,17 @@ export function getHistoryByCustomerId(id) {
   return {
     type: type.APP.GET_HISTORY_GIFT_BY_ID_ASYNC,
     id: id
+  }
+}
+
+export function clearPromotionData() {
+  return {
+    type: type.APP.CLEAR_PROMOTION_DATA
+  }
+}
+
+export function getHistoryGift() {
+  return {
+    type: type.APP.GET_HISTORY_GIFT_ASYNC
   }
 }

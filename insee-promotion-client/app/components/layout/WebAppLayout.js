@@ -4,10 +4,8 @@ import '../../resources/webapp/css/style.css';
 import '../../resources/webapp/css/responsive.css';
 import '../../resources/webapp/css/me.css';
 import '../../resources/css/mobile/font-awesome.css'
-import {
-  Link,
-} from "react-router-dom";
 import {ContentSideBar} from '../layout/SideBar'
+import Location from '../../data/Location'
 
 class WebAppLayout extends Component {
   constructor(props) {
@@ -59,7 +57,7 @@ class WebAppLayout extends Component {
                     <ul>
                       <li className="admin-name">
                         <h5>{account && account.name}</h5>
-                        <span>Tp Hồ Chí Minh</span>
+                        {contractor && <span>{Location.getName(contractor.mainAreaId)}</span> }
                         {certificate && <img className="ntx-icon" src="https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/certificate-icon.png"/> }
                       </li>
                     </ul>

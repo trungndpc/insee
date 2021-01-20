@@ -1,4 +1,36 @@
+import moment from 'moment';
+
+
 export default class DateTimeUtil {
+
+    static diffTime(time) {
+        // Second
+        const secondDiff = Math.ceil(Math.abs(new Date().getTime() - time * 1000) / 1000);
+        if (secondDiff < 60) {
+          return secondDiff + ' giây trước';
+        }
+    
+        const minuteDiff = Math.ceil(secondDiff / 60);
+        if (minuteDiff < 60) {
+          return minuteDiff + ' phút trước';
+        }
+    
+        const hourDiff = Math.ceil(minuteDiff / 60);
+        if (hourDiff < 24) {
+          return hourDiff + ' giờ trước';
+        }
+    
+        const dayDiff = Math.ceil(hourDiff / 24);
+    
+        if (dayDiff < 3) {
+          return `${dayDiff} ngày trước`;
+        }
+    
+        return moment.unix(time).format('DD/MM/YYYY');
+      }
+
+
+
     static getArrayMonth() {
         return [
             { name: 'Tháng 1', id: 1 },

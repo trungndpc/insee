@@ -20,6 +20,7 @@ class IntroConstructionPromotion extends React.Component {
         this.state = {
             errorMsg: null
         }
+        this.noteRequirRef = React.createRef();
     }
 
     getForm() {
@@ -70,6 +71,7 @@ class IntroConstructionPromotion extends React.Component {
             typeConstruction: typeConstruction,
             name: name,
             phone: phone,
+            extra: {agree: [parseInt(this.noteRequirRef.current.value)]},
             promotionId: parseInt(this.props.promotionId),
             type: NEXT_CONSTRUCTION.getType()
         }
@@ -111,11 +113,11 @@ class IntroConstructionPromotion extends React.Component {
                         <OwnerInput ref={e => this.ownerInputRef = e} />
                     </div>
                     <div className="form-row prelative policy">
-                        <input checked type="checkbox" />
+                        <input ref={this.noteRequirRef} value={2} defaultChecked={true} name="note-customer" type="radio" />
                         <span>Tôi đồng ý cho nhân viên INSEE gọi chủ nhà để xác nhận thông tin (nhà thầu nên thông báo cho chủ nhà trước)</span>
                     </div>
                     <div className="form-row prelative policy">
-                        <input checked type="checkbox" />
+                        <input ref={this.noteRequirRef} value={3} defaultChecked={false} name="note-customer" type="radio" />
                         <span>Chỉ cho phép nhân viên INSEE tới kiểm tra trực tiếp tại công trình (quà tặng sẽ được gửi cho nhà thầu ngay sau khí xác nhận trực tiếp)</span>
                     </div>
                     {this.state.errorMsg && <div className="msg-error"><span>*** {this.state.errorMsg}</span></div>}

@@ -11,6 +11,8 @@ import * as ConstructionStatus from '../../../../components/enum/StatusConstruct
 import ReactSelect from '../../../../components/layout/ReactSelect'
 import SendGiftModal from '../../../../components/modal/SendGiftModal'
 import AreYouSureModal from '../../../../components/modal/AreYouSureModal'
+import ClientNote from '../../../../components/enum/ClientNote'
+import DateTimeUtil from '../../../../utils/DateTimeUtil'
 
 class ConstructionDetail extends Component {
 
@@ -75,11 +77,11 @@ class ConstructionDetail extends Component {
   }
 
   _onClickOpenFormSendingGift() {
-    this.setState({ isSendingGift: true})
+    this.setState({ isSendingGift: true })
   }
 
-  _onCloseFormSendingGift(){
-    this.setState({ isSendingGift: false})
+  _onCloseFormSendingGift() {
+    this.setState({ isSendingGift: false })
   }
 
   componentDidMount() {
@@ -218,13 +220,25 @@ class ConstructionDetail extends Component {
                         <td className="label">#{construction.label.name}</td>
                       </tr>
                     }
+                    {construction && construction.createdTime &&
+                      <tr>
+                        <th>Thời gian tạo</th>
+                        <td>{DateTimeUtil.diffTime(construction.createdTime)}</td>
+                      </tr>
+                    }
+                    {(construction && construction.extra) &&
+                      <tr>
+                        <th>Lưu ý</th>
+                        <td>*** {construction.extra.agree && ClientNote[construction.extra.agree]}</td>
+                      </tr>
+                    }
                   </tbody>
                 </table>
               }
               {(labelOptions && construction && !construction.label) &&
                 <div className="input-extra">
                   <div className="th">Nhãn công trình</div>
-                  <div className="td"><ReactSelect options={labelOptions} ref={e => this.labelRef = e} /></div>
+                  <div className="td"><ReactSelect placeholder="Gắn nhãn công trình giúp hệ thống phục vụ bản tốt hơn" options={labelOptions} ref={e => this.labelRef = e} /></div>
                 </div>
               }
             </div>
@@ -287,10 +301,10 @@ class ConstructionDetail extends Component {
             <ApprovalConstructionModal {...this.props} id={construction.id} isOpen={this.state.isOpenApprovalModal} onClose={this._onCloseApprovalModal} />
           }
           {construction &&
-            <RejectConstructionModal {...this.props} id={construction.id}  isOpen={this.state.isOpenRejectModal} onClose={this._onCloseRejectModal} />
+            <RejectConstructionModal {...this.props} id={construction.id} isOpen={this.state.isOpenRejectModal} onClose={this._onCloseRejectModal} />
           }
           {construction &&
-            <SendGiftModal {...this.props} id={construction.id} uid={construction.user.id} isOpen={this.state.isSendingGift} onClose={this._onCloseFormSendingGift}/>
+            <SendGiftModal {...this.props} constructionId={construction.id} customerId={construction.user.customerId} isOpen={this.state.isSendingGift} onClose={this._onCloseFormSendingGift} />
           }
           <AreYouSureModal isOpen={this.state.isAreYouSureModal} onOK={this.updateConstruction} onClose={this._onCloseAreUSureModal} />
         </div>

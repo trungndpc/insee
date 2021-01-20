@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import {CustomerStatusEnum, DO_NOT_HAVE_ACCOUNT, NEED_REVIEW, REJECTED, APPROVED} from '../../../../components/enum/CustomerStatusEnum';
+import { CustomerStatusEnum, DO_NOT_HAVE_ACCOUNT, NEED_REVIEW, REJECTED, APPROVED } from '../../../../components/enum/CustomerStatusEnum';
 import {
   Link
 } from "react-router-dom";
+import Location from '../../../../data/Location'
 
 class ListCustomer extends Component {
 
@@ -12,23 +13,32 @@ class ListCustomer extends Component {
     this.state = {
       page: 0,
       pageSize: 10,
-      currentStatus: 10
+      location : 0,
+      status : 10
     }
     this.load = this.load.bind(this)
+    this.onChangeLocation = this.onChangeLocation.bind(this);
+    this.onChangeStatus = this.onChangeStatus.bind(this)
   }
 
   componentDidMount() {
-    this.props.appActions.getListCustomerAll(this.state.page, this.state.pageSize);
+    this.load();
   }
 
-  load(status) {
-    if (!status) {
-      this.setState({ currentStatus: 10 })
-      this.props.appActions.getListCustomerAll(this.state.page, this.state.pageSize);
-    } else {
-      this.setState({ currentStatus: status.getStatus() })
-      this.props.appActions.getListCustomerByStatus(status.getStatus(), this.state.page, this.state.pageSize);
-    }
+  load(status, location) {
+    this.props.appActions.getListCustomerByStatus(status ? status : this.state.status, location ? location : this.state.location, this.state.page, this.state.pageSize);
+  }
+
+  onChangeStatus(status) {
+    this.setState({ status: status })
+    this.load(status, null);
+
+  }
+
+  onChangeLocation(event) {
+    let location = event.target.value;
+    this.setState({ location: location });
+    this.load(null, location);
   }
 
 
@@ -37,11 +47,22 @@ class ListCustomer extends Component {
     return (
       <div className="frnds">
         <ul className="nav nav-tabs">
-          <li onClick={() => { this.load(null) }} className="nav-item"><a className={this.state.currentStatus == 10 ? 'active' : ''} >Tất cả</a></li>
-          <li onClick={() => { this.load(NEED_REVIEW) }} className="nav-item"><a className={this.state.currentStatus == 2 ? 'active' : ''} >Chờ duyệt</a><span>60</span></li>
-          <li onClick={() => { this.load(DO_NOT_HAVE_ACCOUNT) }} className="nav-item"><a className={this.state.currentStatus == 1 ? 'active' : ''} >Chưa có tài khoản</a><span>20</span></li>
-          <li onClick={() => { this.load(APPROVED) }} className="nav-item"><a className={this.state.currentStatus == 4 ? 'active' : ''}>Đã duyệt</a><span>10</span></li>
+          <li onClick={() => { this.onChangeStatus(10) }} className="nav-item"><a className={this.state.status == 10 ? 'active' : ''} >Tất cả</a></li>
+          <li onClick={() => { this.onChangeStatus(NEED_REVIEW.getStatus()) }} className="nav-item"><a className={this.state.status == 2 ? 'active' : ''} >Chờ duyệt</a><span>60</span></li>
+          <li onClick={() => { this.onChangeStatus(DO_NOT_HAVE_ACCOUNT.getStatus()) }} className="nav-item"><a className={this.state.status == 1 ? 'active' : ''} >Chưa có tài khoản</a><span>20</span></li>
+          <li onClick={() => { this.onChangeStatus(APPROVED.getStatus()) }} className="nav-item"><a className={this.state.status == 4 ? 'active' : ''}>Đã duyệt</a><span>10</span></li>
         </ul>
+        <div style={{ float: 'right' }}>
+          <select onChange={this.onChangeLocation} value={this.state.location} style={{ width: '150px' }} class="form-control">
+            <option value={0}>Tất cả</option>
+            {Location.getList().map((item, index) => {
+              return (
+                <option key={index} value={item.key}>{item.value}</option>
+              )
+            })}
+          </select>
+        </div>
+
         {/* Tab panes */}
         <div className="tab-content">
           <div className="tab-pane active fade show" id="frends">
@@ -75,7 +96,7 @@ class ListCustomer extends Component {
               })}
 
             </ul>
-            <div className="lodmore"><button className="btn-view btn-load-more" /></div>
+            {/* <div className="lodmore"><button className="btn-view btn-load-more" /></div> */}
           </div>
         </div>
       </div>

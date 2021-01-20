@@ -166,13 +166,13 @@ html,body{
 .history-promotion {
     background-color: #fff;
     margin-bottom: 5px;
+    padding: 15px 10px;
 }
 
 .history-promotion .title {
     font-size: medium;
     font-weight: 600;
-    padding-top: 25px;
-    padding-left: 10px;
+    padding: 0;
     color: #b71c1c;
 }
 

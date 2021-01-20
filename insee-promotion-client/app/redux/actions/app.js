@@ -96,3 +96,17 @@ export function getHistoryGift() {
     type: type.APP.GET_LIST_HISTORY_GIFT_ASYNC
   }
 }
+
+export function getGiftById(id) {
+  return {
+    type: type.APP.GET_GIFT_BY_ID_ASYNC,
+    id: id
+  }
+}
+
+export function receivedGift(id) {
+  return {
+    type: type.APP.RECIEVED_GIFT_BY_ID_ASYNC,
+    id: id
+  }
+}

@@ -16,6 +16,8 @@ export default function* customer() {
   yield takeLatest(type.APP.GET_LIST_CONSTRUCTION_ASYNC, getListConstructionAsync)
   yield takeLatest(type.APP.GET_CONSTRUCTION_ASYNC, getConstructionAsync)
   yield takeLatest(type.APP.GET_LIST_HISTORY_GIFT_ASYNC, getListHistoryGiftAsync)
+  yield takeLatest(type.APP.GET_GIFT_BY_ID_ASYNC, getGiftByIdAsync)
+  yield takeLatest(type.APP.RECIEVED_GIFT_BY_ID_ASYNC, recievedGiftByIdAsync)
 }
 
 
@@ -191,9 +193,12 @@ function getProfile() {
 function* pushContructionAsync(action) {
   yield put({ type: type.APP.PUSH_CONTRUCTION_START })
   const resp = yield call(postContruction, action.data)
-  yield put({ type: type.APP.PUSH_CONTRUCTION_END, payload: resp.data })
+  if(resp.error == 0) {
+    yield put({ type: type.APP.PUSH_CONTRUCTION_END})
+  }else {
+    alert('Failed')
+  }
 }
-
 
 function postContruction(data) {
   var body = {
@@ -208,7 +213,8 @@ function postContruction(data) {
     billIds: data["billIds"],
     imageIds: data["imageIds"],
     type: data["type"],
-    promotionId: data["promotionId"]
+    promotionId: data["promotionId"],
+    extra: data["extra"]
   }
   return new Promise((resolve, reject) => {
     APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/construction/create`, JSON.stringify(body), resolve, reject);
@@ -252,5 +258,35 @@ function* getListHistoryGiftAsync() {
 function getListHistoryGift() {
   return new Promise((resolve, reject) => {
     APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/gift/me`, resolve, reject);
+  });
+}
+
+//getGiftByIdAsync
+function* getGiftByIdAsync(action) {
+  yield put({ type: type.APP.GET_GIFT_BY_ID_START })
+  const resp = yield call(getGiftById, action.id)
+  yield put({ type: type.APP.GET_GIFT_BY_ID_END, payload: resp.data })
+}
+
+function getGiftById(id) {
+  return new Promise((resolve, reject) => {
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/gift/get?id=${id}`, resolve, reject);
+  });
+}
+
+//recievedGiftByIdAsync
+function* recievedGiftByIdAsync(action) {
+  yield put({ type: type.APP.RECIEVED_GIFT_BY_ID_START })
+  let resp = yield call(recievedGiftById, action.id)
+  if (resp.error == 0) {
+    resp = yield call(getGiftById, action.id)
+    yield put({ type: type.APP.GET_GIFT_BY_ID_END, payload: resp.data })
+  }
+  yield put({ type: type.APP.RECIEVED_GIFT_BY_ID_END})
+}
+
+function recievedGiftById(id) {
+  return new Promise((resolve, reject) => {
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/gift/received?id=${id}`, resolve, reject);
   });
 }

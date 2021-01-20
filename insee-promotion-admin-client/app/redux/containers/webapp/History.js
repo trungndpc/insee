@@ -4,15 +4,20 @@ import { bindActionCreators } from 'redux'
 import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
 import SideBar from '../../../components/layout/SideBar'
+import { GiftStatus } from '../../../components/enum/GiftStatus'
+import DateTimeUtil from '../../../utils/DateTimeUtil'
 
 
 class History extends React.Component {
 
 
     componentDidMount() {
+        this.props.appActions.getHistoryGift();
     }
 
     render() {
+        const historyGift = this.props.app.historyGift;
+        console.log(historyGift)
         return (
             <WebAppLayout {...this.props}>
                 <section>
@@ -33,47 +38,30 @@ class History extends React.Component {
                                                                 <thead className=" insee-color">
                                                                     <tr className="insee-color">
                                                                         <th scope="col">STT</th>
-                                                                        <th scope="col">Chương trình khuyến mãi</th>
+                                                                        <th scope="col">Chương trình</th>
                                                                         <th scope="col">Quà tặng</th>
-                                                                        <th scope="col">Số lượng</th>
+                                                                        <th scope="col">Nhà thầu</th>
                                                                         <th scope="col">Tình trạng</th>
-                                                                        <th scope="col">Thời gian nhận quà</th>
+                                                                        <th scope="col">Thời gian gửi</th>
+                                                                        <th scope="col">Thời gian nhận</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <tr>
-                                                                        <th scope="row">1</th>
-                                                                        <td>INSEE Wall Pro</td>
-                                                                        <td>Thẻ điện thoại 100K</td>
-                                                                        <td>2</td>
-                                                                        <td>Đang duyệt</td>
-                                                                        <td>06/11/2020</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">2</th>
-                                                                        <td>INSEE Power-S</td>
-                                                                        <td>Thẻ điện thoại 100K</td>
-                                                                        <td>1</td>
-                                                                        <td>Đã nhận</td>
-                                                                        <td>30/10/2020</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">3</th>
-                                                                        <td>Keo dán gạch INSEE Tilefix</td>
-                                                                        <td>Voucher DMX 100K</td>
-                                                                        <td>2</td>
-                                                                        <td>Đã nhận</td>
-                                                                        <td>28/10/2020</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">4</th>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">5</th>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">6</th>
-                                                                    </tr>
+                                                                    {historyGift && historyGift.map((item, index) => {
+                                                                        return (
+                                                                            <tr key={index}>
+                                                                                <th scope="row">{index + 1}</th>
+                                                                                <td>{item.promotion.title}</td>
+                                                                                <td>{item.name}</td>
+                                                                                <td>{item.customer.fullName}</td>
+                                                                                <td>{GiftStatus.getName(item.status)}</td>
+                                                                                <td>{DateTimeUtil.diffTime(item.createdTime)}</td>
+                                                                                <td>{item.status == 2 && DateTimeUtil.diffTime(item.updatedTime)}</td>
+                                                                            </tr>
+                                                                        )
+                                                                    })}
+
+
                                                                 </tbody>
                                                             </table>
                                                         </div>

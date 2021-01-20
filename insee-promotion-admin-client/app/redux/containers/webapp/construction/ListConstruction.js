@@ -5,7 +5,8 @@ import {
 import Location from '../../../../data/Location'
 import * as StatusConstruction from '../../../../components/enum/StatusConstruction'
 import {NEXT_CONSTRUCTION, NOW_CONSTRUCTION} from '../../../../components/enum/TypeConstruction'
-import {WAITING_APPROVAL, APPROVED, REJECTED} from '../../../../components/enum/StatusConstruction'
+import {WAITING_APPROVAL, APPROVED, REJECTED, SEND_GIFT, RECIEVED} from '../../../../components/enum/StatusConstruction'
+import DateTimeUtil from '../../../../utils/DateTimeUtil'
 class ListConstruction extends Component {
 
 
@@ -55,6 +56,9 @@ class ListConstruction extends Component {
                   <option value={0}>Tất cả</option>
                   <option value={WAITING_APPROVAL.getStatus()}>Chờ duyệt</option>
                   <option value={APPROVED.getStatus()}>Đã duyệt</option>
+                  <option value={REJECTED.getStatus()}>Đã từ chối</option>
+                  <option value={SEND_GIFT.getStatus()}>Đã gửi quà</option>
+                  <option value={RECIEVED.getStatus()}>Đã nhận</option>
                 </select>
               </li>
             </ul>
@@ -92,6 +96,7 @@ class ListConstruction extends Component {
                             <li>{Location.getName(item.city)}</li>
                             <li>{item.phone}</li>
                             <li>{StatusConstruction.findByStatus(item.status).getName()}</li>
+                            <li>{DateTimeUtil.diffTime(item.updatedTime)}</li>
                           </ul>
                         </div>
                         <div className="col-md-4 action">
@@ -103,9 +108,10 @@ class ListConstruction extends Component {
                   </li>
                 )
               })}
+              {constructions && constructions.list.length == 0 && <div style={{textAlign: 'center'}}>Không có công trình nào ở đây</div>}
 
             </ul>
-            <div className="lodmore"><button className="btn-view btn-load-more" /></div>
+            {/* <div className="lodmore"><button className="btn-view btn-load-more" /></div> */}
           </div>
         </div>
       </div>

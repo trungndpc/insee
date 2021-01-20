@@ -21,7 +21,6 @@ class ListPromotion extends Component {
                     <div className="row">
                         {promotions && promotions.length == 0 && <div className="empty-container"><p>Chưa có chương trình khuyến mãi dành cho khu vực của bạn</p></div>} 
                         {promotions && promotions.map((item, index) => {
-                            const countSubmit = item.listPlayingId.length;
                             return (
                                 <div className="col-lg-6 col-sm-6">
                                     <div className="g-post-classic">
@@ -41,7 +40,7 @@ class ListPromotion extends Component {
                                                 </span>
                                             </div>
                                         </div>
-                                        {countSubmit > 0 && <span className="extra-infor-post">{`Đã tham gia ${countSubmit} lần`}</span> }
+                                        {item.count > 0 && <span className="extra-infor-post">{`Đã tham gia ${item.count} lần`}</span> }
                                     </div>
                                 </div>
                             )

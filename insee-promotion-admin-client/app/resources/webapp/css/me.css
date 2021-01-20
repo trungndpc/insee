@@ -245,8 +245,8 @@
     max-width: 90%;
 }
 .img-view-container td img {
-    height: 50%;
-    max-width: 90%;
+    max-width: 80vw;
+    height: 80vh;
 }
 
 .img-view-container .btn-close {
@@ -348,7 +348,7 @@
 }
 
 .about.construction .input-extra .td {
-    width: 20%;
+    width: 60%;
     display: inline-block;
 }
 
@@ -433,4 +433,10 @@
     padding: 4px 20px;
     border-radius: 4px;
     background-color: #b71c1c;
+}
+
+
+.gift-item{
+    padding: 10px 20px;
+    border: 1px dashed #cecece;
 }

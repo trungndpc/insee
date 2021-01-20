@@ -20,6 +20,7 @@ class CreatePromotion extends Component {
     }
 
     componentDidMount() {
+        this.props.appActions.clearPromotionData()
         let postId = this.props.postId;
         if (postId) {
             this.props.appActions.getPromotionById(postId);
