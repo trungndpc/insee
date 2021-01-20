@@ -327,7 +327,7 @@ function postUpdateStatusImage(imgType, id, status, billId, weigh) {
 //updateStatusConstructionAsync
 function* updateStatusConstructionAsync(action) {
   yield put({ type: type.APP.UPDATE_STATUS_CONSTRUCTION_START })
-  const resp = yield call(postUpdateStatusConstruction, action.id, action.status)
+  const resp = yield call(postUpdateStatusConstruction, action.id, action.status, action.note)
   if (resp.error == 0) {
     const constructionResp = yield call(getConstruction, action.id)
     yield put({ type: type.APP.GET_CONSTRUCTION_END, payload: constructionResp.data })
@@ -336,10 +336,11 @@ function* updateStatusConstructionAsync(action) {
   yield put({ type: type.APP.UPDATE_STATUS_IMAGE_END, payload: resp.data })
 }
 
-function postUpdateStatusConstruction(id, status) {
+function postUpdateStatusConstruction(id, status, note) {
   var body = {
     id: id,
-    status: status
+    status: status,
+    note: note
   }
   return new Promise((resolve, reject) => {
     APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/update-status`, JSON.stringify(body), resolve, reject);

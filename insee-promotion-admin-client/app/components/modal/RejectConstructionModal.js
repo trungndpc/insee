@@ -34,7 +34,8 @@ class RejectConstructionModal extends Component {
     }
 
     _onClickOK() {
-        this.props.appActions.updateStatusConstruction(this.props.id, REJECTED)
+        let note = this.noteRef.value;
+        this.props.appActions.updateStatusConstruction(this.props.id, REJECTED, note)
         this._onClose();
     }
 
@@ -50,10 +51,10 @@ class RejectConstructionModal extends Component {
                         <div className="Rpt-meta">
                             <span style={{ color: '#fa6342' }}>Bạn có chắc từ chối công trình này?</span>
                             <div method="post">
-                                {/* <div>
+                                <div>
                                     <label>Ghi chú</label>
                                     <textarea ref={e => this.noteRef = e} rows={2} defaultValue={""} />
-                                </div> */}
+                                </div>
                                 <div className="btn-bar">
                                     <a onClick={this._onClickOK} className="add-butn" >Đồng ý</a>
                                     <a onClick={this._onClose} className="add-butn cancel">Đóng</a>
