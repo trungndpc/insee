@@ -26,6 +26,13 @@ class NowConstruction extends React.Component {
         this.uploadBill = this.uploadBill.bind(this)
     }
 
+    componentDidMount() {
+        let constructionId = this.props.constructionId;
+        if (constructionId) {
+            this.props.appActions.getConstructionById(constructionId);
+        }
+    }
+
 
     uploadBill() {
         var uid = 25;

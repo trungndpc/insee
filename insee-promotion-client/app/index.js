@@ -32,8 +32,8 @@ function RouteApp() {
 }
 
 function NowConstructionRoute() {
-  let { promotionId } = useParams();
-  return <NowConstruction promotionId={promotionId} />
+  let { promotionId, constructionId } = useParams();
+  return <NowConstruction promotionId={promotionId} constructionId={constructionId} />
 }
 
 function IntroConstructionPromotionRoute() {
@@ -59,6 +59,9 @@ function APP() {
       <Route path="/dang-ky" component={Register} />
       <Route path="/khuyen-mai/:promotionId/cong-trinh-tiep-theo">
         <IntroConstructionPromotionRoute />
+      </Route>
+      <Route path="/khuyen-mai/:promotionId/up-hoa-don-nha-qua/:constructionId">
+        <NowConstructionRoute />
       </Route>
       <Route path="/khuyen-mai/:promotionId/up-hoa-don-nha-qua">
         <NowConstructionRoute />

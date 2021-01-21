@@ -218,3 +218,7 @@ html,body{
     font-size: medium;
     color: #212529;
 }
+
+.insee-input:focus {
+    border: 1px solid #e6e6e6 !important;
+}
