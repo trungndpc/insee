@@ -11,8 +11,9 @@ import '../../../resources/css/mobile/me.css';
 import Loading from '../../../components/layout/Loading'
 import ImageInput from '../../../components/promotions/ImageInput'
 import S3Util from '../../../utils/S3Util'
-import {NOW_CONSTRUCTION} from '../../../components/enum/TypeConstruction'
+import { NOW_CONSTRUCTION } from '../../../components/enum/TypeConstruction'
 import SuccessCreateContruction from '../../../components/promotions/SuccessCreateContruction'
+import { NowConstructionForm } from '../../../common/ValidateForm'
 const BILL_FOLDER = "bill"
 const IMAGE_INSEE_FOLDER = "img-insee"
 class NowConstruction extends React.Component {
@@ -20,7 +21,15 @@ class NowConstruction extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            errorMsg: null
+            errorMsg: null,
+            address: '',
+            city: 0,
+            district: 0,
+            storeName: '',
+            storePhone: '',
+            quantity: 0,
+            countImg: 0,
+            countBill: 0
         }
         this.submit = this.submit.bind(this)
         this.uploadBill = this.uploadBill.bind(this)
@@ -33,6 +42,18 @@ class NowConstruction extends React.Component {
         }
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.app.construction && !this.props.app.construction) {
+            nextState.address = nextProps.app.construction.address
+            nextState.city = nextProps.app.construction.city
+            nextState.storeName = nextProps.app.construction.name
+            nextState.storePhone = nextProps.app.construction.phone
+            nextState.quantity = nextProps.app.construction.quantity
+            nextState.countBill = nextProps.app.construction.bills.length
+            nextState.countImg = nextProps.app.construction.images.length
+        }
+        return true;
+    }
 
     uploadBill() {
         var uid = 25;
@@ -74,69 +95,44 @@ class NowConstruction extends React.Component {
 
     async submit() {
         try {
-            let address = this.addressInputRef.value;
+            this.props.appActions.setStatusLoading(true);
             let location = this.locationInputRef.getValues();
             let store = this.storeInputRef.getValues();
-            let quantity = this.quantityInputRef.value;
             let agree = this.agreeRef.checked;
-            if (!address) {
-                this.setState({ errorMsg: 'Vui lòng nhập địa chỉ công trình' })
-                return;
-            }
-            let city = location && location["city"];
-            if (!city || city <= 0) {
-                this.setState({ errorMsg: 'Vui lòng nhập tỉnh' })
-                return;
-            }
-            let district = location && location["district"];
-            if (!district || district <= 0) {
-                this.setState({ errorMsg: 'Vui lòng nhập quận' })
-
-                return;
-            }
-            let storeName = store && store["name"];
-            if (!storeName) {
-                this.setState({ errorMsg: 'Vui lòng nhập tên cửa hàng' })
-
-                return;
-            }
-            let storePhone = store && store["phone"];
-            if (!storePhone) {
-                this.setState({ errorMsg: 'Vui lòng nhập số điện thoại cửa hàng' })
-                return;
-            }
-            if (!quantity) {
-                this.setState({ errorMsg: 'Vui lòng nhập số lượng bao xi măng' })
-                return;
-            }
-            if (!agree) {
-                this.setState({ errorMsg: 'Vui lòng đồng ý với điều khoản của chúng tôi' })
-                return;
-            }
-            this.props.appActions.setStatusLoading(true);
-            let listBill = await this.uploadBill();
-            let listImg = await this.uploadImgInsee();
-
             let data = {
-                address: address,
-                city: city,
-                district: district,
-                name: storeName,
-                phone: storePhone,
-                quantity: quantity,
-                billIds: listBill,
-                imageIds: listImg,
-                extra: {agree: [1]},
+                address: this.addressInputRef.value,
+                city: location.city,
+                district: location.district,
+                name: store.storeName,
+                phone: store.storePhone,
+                quantity: this.quantityInputRef.value,
+                extra: agree ? { agree: [1] } : {},
                 promotionId: parseInt(this.props.promotionId),
                 type: NOW_CONSTRUCTION.getType()
             }
-            this.props.appActions.createNextContruction(data)
+            if (NowConstructionForm.isValid2Create(data)) {
+                let listBill = await this.uploadBill();
+                let listImg = await this.uploadImgInsee();
+                data.billIds = listBill;
+                data.imageIds = listImg;
+                this.props.appActions.createNextContruction(data)
+            }
         } catch (e) {
             this.setState({ errorMsg: e })
             this.props.appActions.setStatusLoading(false);
         }
-
     }
+
+    async update() {
+        try {
+            this.props.appActions.setStatusLoading(true);
+        } catch (e) {
+            this.setState({ errorMsg: e })
+            this.props.appActions.setStatusLoading(false);
+        }
+    }
+
+
 
 
     render() {
@@ -153,23 +149,23 @@ class NowConstruction extends React.Component {
                     </span>
                     <div className="form-description">Vui lòng nhập thông tin để hoàn tất</div>
                     <div className="form-row">
-                        <input ref={e => this.addressInputRef = e} className="insee-input" type="text" placeholder="Địa chỉ công trình" />
+                        <input ref={e => this.addressInputRef = e} onChange={(e) => this.setState({ address: e.targer.value })} value={this.state.address} className="insee-input" type="text" placeholder="Địa chỉ công trình" />
                     </div>
                     <div className="form-row">
-                        <LocationInput ref={e => this.locationInputRef = e} />
+                        <LocationInput city={this.state.city} district={this.state.district} ref={e => this.locationInputRef = e} />
                     </div>
                     <div className="form-row">
-                        <StoreInput ref={e => this.storeInputRef = e} />
+                        <StoreInput storeName={this.state.storeName} storePhone={this.state.storePhone} ref={e => this.storeInputRef = e} />
                     </div>
                     <div className="form-row">
-                        <input ref={e => this.quantityInputRef = e} className="insee-input" type="number" placeholder="Số lượng sản phẩm dùng cho công trình" />
+                        <input value={this.state.quantity} onChange={e => this.setState({ quantity: e.target.value })} ref={e => this.quantityInputRef = e} className="insee-input" type="number" placeholder="Số lượng sản phẩm dùng cho công trình" />
                     </div>
                     <div className="form-row">
-                        <ImageInput placeholder={'Hình ảnh hóa đơn/đơn hàng đã mua'} ref={e => this.billInputRef = e} />
+                        <ImageInput value={this.state.countBill != 0 ? `${this.state.countBill} hóa đơn đã upload, bấm vào đây để upload thêm` : null} placeholder={'Hình ảnh hóa đơn/đơn hàng đã mua'} ref={e => this.billInputRef = e} />
                         <p className="desc-bill">Lưu ý: Tổng số lượng trên hàng hóa bằng tổng số lượng sản phẩm đã nhập</p>
                     </div>
                     <div className="form-row">
-                        <ImageInput placeholder={'Hình ảnh công trình có bao xi măng INSEE'} ref={e => this.imageInputRef = e} />
+                        <ImageInput value={this.state.countImg != 0 ? `${this.state.countImg} hình ảnh đã upload, bấm vào đây để upload thêm` : null} placeholder={'Hình ảnh công trình có bao xi măng INSEE'} ref={e => this.imageInputRef = e} />
                     </div>
 
                     <div className="form-row prelative policy">
@@ -180,7 +176,11 @@ class NowConstruction extends React.Component {
                     {this.state.errorMsg && <div className="msg-error"><span>*** {this.state.errorMsg}</span></div>}
 
                     <div className="btn-container">
-                        <button onClick={this.submit} className="btn-insee btn-insee-bg">Xác nhận</button>
+                        {this.props.app.construction ?
+                            <button onClick={this.submit} className="btn-insee btn-insee-bg">Cập nhật</button>
+                            :
+                            <button onClick={this.submit} className="btn-insee btn-insee-bg">Xác nhận</button>
+                        }
                     </div>
 
                 </FormLayout>

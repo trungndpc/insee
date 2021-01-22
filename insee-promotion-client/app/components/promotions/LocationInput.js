@@ -6,7 +6,24 @@ class LocationInput extends Component {
 
     constructor(props) {
         super(props)
+        this.state = {
+            city : 0,
+            district: 0
+        }
         this.getValues = this.getValues.bind(this);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.state.city == 0 || this.state.district == 0) {
+            if (nextProps.city != this.state.city) {
+                nextState.city = nextProps.city;
+            }
+            if (nextProps.district != this.state.district) {
+                nextState.district = nextProps.district;
+            }
+            return true;
+        }
+        return this.state != nextState;
     }
 
     getValues() {
@@ -22,7 +39,7 @@ class LocationInput extends Component {
         return (
             <div className="location-input">
                 <div style={{ float: 'left' }} className="location-input-city">
-                    <select ref={e => this.cityInputRef = e}>
+                    <select value={this.state.city} onChange={e => this.setState({city: e.target.value})} ref={e => this.cityInputRef = e}>
                         <option value={0}>Tỉnh</option>
                         {list && list.map(function (item, index) {
                             return <option key={index} value={item.key}>{item.value}</option>
@@ -30,7 +47,7 @@ class LocationInput extends Component {
                     </select>
                 </div>
                 <div style={{ float: 'right' }} className="location-input-district">
-                    <select ref={e => this.districtInputRef = e}>
+                    <select value={this.state.district} onChange={e => this.setState({district: e.target.value})} ref={e => this.districtInputRef = e}>
                         <option value={0}>Quận</option>
                         <option value={1}>Quận 1</option>
                         <option value={2}>Quận 2</option>

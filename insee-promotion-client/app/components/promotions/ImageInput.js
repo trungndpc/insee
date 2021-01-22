@@ -14,10 +14,18 @@ class ImageInput extends Component {
     }
   }
 
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.inputDesc == null && nextProps.value != this.props.value) {
+      nextState.inputDesc = nextProps.value;
+      return true;
+    }
+    return nextState != this.state
+  }
+
   _onChangeInputImg(event) {
     let files = event.target.files;
-    console.log(files)
-    let desc = `Bạn đã nhập ${files.length} file`
+    let desc = `Bạn đã chọn ${files.length} hình`
     this.setState({ files: event.target.files, inputDesc: desc })
   }
 
@@ -46,8 +54,8 @@ class ImageInput extends Component {
     return (
       <div className="img-container">
         <input type="file" multiple={true} onChange={this._onChangeInputImg} ref={e => this.inputRef = e} style={{ display: 'none' }} />
-        <input onClick={this._onClickToSelectIMG}   placeholder={this.props.placeholder} defaultValue={this.state.inputDesc ? this.state.inputDesc : ''} className="insee-input" type="text" />
-        <img onClick={this._onClickToSelectIMG}  className="img-icon" src={'https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/icn-camera.png'} />
+        <input onClick={this._onClickToSelectIMG} placeholder={this.props.placeholder} defaultValue={this.state.inputDesc ? this.state.inputDesc : ''} className="insee-input" type="text" />
+        <img onClick={this._onClickToSelectIMG} className="img-icon" src={'https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/icn-camera.png'} />
       </div>
     )
   }
