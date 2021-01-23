@@ -15,10 +15,10 @@ class LocationInput extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         if (this.state.city == 0 || this.state.district == 0) {
-            if (nextProps.city != this.state.city) {
+            if (nextProps.city != 0 && nextProps.city != this.state.city) {
                 nextState.city = nextProps.city;
             }
-            if (nextProps.district != this.state.district) {
+            if (nextProps.district != 0 && nextProps.district != this.state.district) {
                 nextState.district = nextProps.district;
             }
             return true;

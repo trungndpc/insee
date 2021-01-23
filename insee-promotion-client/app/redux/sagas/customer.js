@@ -202,6 +202,7 @@ function* pushContructionAsync(action) {
 
 function postContruction(data) {
   var body = {
+    id: data["id"],
     address: data["address"],
     city: data["city"],
     district: data["district"],

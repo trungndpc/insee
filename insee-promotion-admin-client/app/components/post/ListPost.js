@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import {
-    Switch,
-    Route,
     Link,
-    useParams
 } from "react-router-dom";
-
+import { StatusPost } from '../enum/StatusPost'
+import DateTimeUtil from '../../utils/DateTimeUtil'
 class ListPost extends Component {
 
     componentDidMount() {
@@ -29,6 +27,7 @@ class ListPost extends Component {
                                             <div className="post-title">
                                                 <h4><a title href="#">{item.title}</a></h4>
                                                 <p className="post-summary">{item.summary}</p>
+                                                <p className="post-status">{StatusPost.findBySatus(item.status).getName()} - {DateTimeUtil.diffTime(item.updatedTime)}</p>
                                                 <span className="p-date">
                                                     <Link to={"/post/" + item.id}>
                                                         <button className="btn-apply-promotion" type="submit">Chi tiết</button>
@@ -36,7 +35,9 @@ class ListPost extends Component {
                                                 </span>
                                             </div>
                                         </div>
-                                        <span className="extra-infor-post">Đã có 10 người tham gia chương trình</span>
+                                        {item.report && item.report.numberOfParticipants > 0 &&
+                                            <span className="extra-infor-post">Đã có {item.report.numberOfParticipants} người tham gia</span>
+                                        }
                                     </div>
                                 </div>
                             )

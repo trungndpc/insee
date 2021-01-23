@@ -75,7 +75,7 @@ class ListCustomer extends Component {
                       <div className="pepl-info row">
                         <div className="col-md-1">
                           <figure>
-                            <a href="time-line.html" ><img src={item.avatar} alt="" /></a>
+                            <a href="#" ><img src={item.avatar} alt="" /></a>
                           </figure>
                         </div>
                         <div className="col-md-7">

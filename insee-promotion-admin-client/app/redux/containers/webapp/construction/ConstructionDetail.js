@@ -249,7 +249,10 @@ class ConstructionDetail extends Component {
               {construction && !construction.label &&
                 <li><Link onClick={this._onClickOpenAreYouSureModal} className="add-butn">Cập nhật</Link></li>
               }
-              {construction && construction.label && construction.status == ConstructionStatus.WAITING_APPROVAL.getStatus() &&
+              {construction 
+              && construction.label && 
+                ( construction.status == ConstructionStatus.WAITING_APPROVAL.getStatus() 
+                  || construction.status == ConstructionStatus.RE_SUBMIT.getStatus() ) &&
                 <div>
                   <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn">Chấp nhận</Link></li>
                   <li><Link onClick={this._onClickOpenRejectModal} className="add-butn">Không chấp nhận</Link></li>

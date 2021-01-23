@@ -87,7 +87,7 @@ class ListConstruction extends Component {
                       <div className="pepl-info row">
                         <div className="col-md-1">
                           <figure>
-                            <a href="time-line.html" ><img src={item.user.avatar} alt="" /></a>
+                            <Link to={'/customer/' + item.user.customerId} ><img src={item.user.avatar} alt="" /></Link>
                           </figure>
                         </div>
                         <div className="col-md-7">

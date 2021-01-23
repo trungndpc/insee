@@ -1,6 +1,51 @@
+import { data } from "autoprefixer";
 
 const vnf_regex_phone = /((09|03|07|08|05)+([0-9]{8})\b)/g;
 export class NowConstructionForm {
+
+    static getChangeAndValidate(data, construction) {
+        let change = {};
+        if (data.address != construction.address) {
+            if (this.isValidAddress(data.address)) {
+                change.address = data.address
+            }
+        }
+        if (data.city != construction.city) {
+            if (this.isValidCity(data.city)) {
+                change.city = data.city
+            }
+        }
+
+        if (data.district != construction.district) {
+            if (this.isValidDistrict(data.district)) {
+                change.district = data.district
+            }
+        }
+
+        if (data.name != construction.name) {
+            if (this.isValidStoreName(data.name)) {
+                change.name = data.name
+            }
+        }
+        if (data.phone != construction.phone) {
+            if (this.isValidPhoneName(data.phone)) {
+                change.phone = data.phone
+            }
+        }
+
+        if (data.quantity != construction.quantity) {
+            if (this.isValidQuantity(data.quantity)) {
+                change.quantity = data.quantity
+            }
+        }
+
+        if (data.extra.agree[0] != construction.extra.agree[0]) {
+            if (this.isValidPolicy(data.extra)) {
+                change.extra = data.extra
+            }
+        }
+        return change;
+    }
 
     static isValid2Create(form) {
         return this.isValidAddress(form.address)
@@ -16,7 +61,7 @@ export class NowConstructionForm {
         if (!address) {
             throw 'Vui lòng nhập địa chỉ'
         }
-        if (address.length <= 20) {
+        if (address.length <= 10) {
             throw 'Địa chỉ phải lớn hơn 20 ký tự'
         }
         return true;
@@ -39,8 +84,8 @@ export class NowConstructionForm {
         if (!storeName) {
             throw 'Vui lòng nhập tên cửa hàng'
         }
-        if (address.length <= 20) {
-            throw 'Tên cửa hàng phải lớn hơn 20 ký tự'
+        if (storeName.length <= 10) {
+            throw 'Tên cửa hàng phải lớn hơn 10 ký tự'
         }
         return true;
     }
@@ -66,7 +111,7 @@ export class NowConstructionForm {
     }
 
     static isValidBill(fileList, current) {
-        if ((!fileList || fileList.length == 0) && current == 0) {
+        if ((!fileList || fileList.length == 0) && (!current || current == 0)) {
             throw 'Vui lòng chọn ít nhất một hóa đơn'
         }
         if (fileList && fileList.length >= 3) {
@@ -77,7 +122,7 @@ export class NowConstructionForm {
 
 
     static isValidImg(fileList, current) {
-        if ((!fileList || fileList.length == 0) && current == 0) {
+        if ((!fileList || fileList.length == 0) && (!current || current == 0)) {
             throw 'Vui lòng chọn ít nhất một hình ảnh'
         }
         if (fileList && fileList.length >= 3) {
@@ -91,6 +136,7 @@ export class NowConstructionForm {
         if (!agree || !agree.includes(1)) {
             throw 'Vui lòng đồng ý với điều khoản của chúng tôi'
         }
+        return true;
     }
 }
 
