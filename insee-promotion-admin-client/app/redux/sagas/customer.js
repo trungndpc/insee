@@ -26,6 +26,7 @@ export default function* customer() {
   yield takeLatest(type.APP.UPDATE_STATUS_PROMOTION_ASYNC, updateStatusPromotionAsync)
   yield takeLatest(type.APP.GET_HISTORY_GIFT_BY_ID_ASYNC, getHistoryGiftByCustomerIdAsync)
   yield takeLatest(type.APP.GET_HISTORY_GIFT_ASYNC, getHistoryGiftAsync)
+  yield takeLatest(type.APP.GET_LIST_PARTICIPATION_ASYNC, getListParticipationAsync)
 }
 
 
@@ -161,7 +162,8 @@ function postToCreatePromotion(data) {
     typePromotion: data.typePromotion,
     location: data.location,
     timeStart: data.timeStart,
-    timeEnd: data.timeEnd
+    timeEnd: data.timeEnd,
+    ruleQuantily: data.ruleQuantily
   }
   if (data.postId) {
     body.id = data.postId
@@ -459,5 +461,18 @@ function* getHistoryGiftAsync(action) {
 function getHistoryGift() {
   return new Promise((resolve, reject) => {
     APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/gift/history`, resolve, reject);
+  });
+}
+
+//getListParticipationAsync
+function* getListParticipationAsync(action) {
+  yield put({ type: type.APP.GET_LIST_PARTICIPATION_START})
+  const resp = yield call(getListParticipation, action.promotionId)
+  yield put({ type: type.APP.GET_LIST_PARTICIPATION_END, payload: resp.data })
+}
+
+function getListParticipation(promotionId) {
+  return new Promise((resolve, reject) => {
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/history-by-promotion?promotionId=${promotionId}`, resolve, reject);
   });
 }

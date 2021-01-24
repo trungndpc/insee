@@ -12,11 +12,17 @@ import {
 } from "react-router-dom";
 import CreatePost from '../../../components/post/CreatePost'
 import SideBar from '../../../components/layout/SideBar'
+import ListParticipationPost from '../../../components/post/ListParticipationPost'
 
 
 function DetailPostRoute(props) {
     let { postId } = useParams();
     return <CreatePost postId={postId} {...props} />
+}
+
+function ListParticipationPostRoute(props) {
+    let { postId } = useParams();
+    return <ListParticipationPost postId={postId} {...props} />
 }
 
 
@@ -43,6 +49,9 @@ class Post extends React.Component {
                                             <Switch>
                                                 <Route exact path="/post/create">
                                                     <CreatePost {...this.props} />
+                                                </Route>
+                                                <Route path="/post/:postId/participation">
+                                                    <ListParticipationPostRoute {...this.props} />
                                                 </Route>
                                                 <Route path="/post/:postId">
                                                     <DetailPostRoute {...this.props} />

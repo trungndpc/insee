@@ -5,7 +5,7 @@ import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
 import { SideBar } from '../../../components/layout/SideBar'
 import { GiftStatus } from '../../../components/enum/GiftStatus'
-import Location from '../../../data/Location'
+import {City} from '../../../data/Location'
 import DateTimeUtil from '../../../utils/DateTimeUtil'
 
 class GiftHistory extends React.Component {
@@ -17,7 +17,6 @@ class GiftHistory extends React.Component {
 
     render() {
         const gifts = this.props.app.gifts;
-        console.log(gifts)
         return (
             <WebAppLayout {...this.props}>
                 <section>
@@ -32,7 +31,7 @@ class GiftHistory extends React.Component {
                                         {gifts && gifts.length == 0 && <div className="empty-container"><p>Bạn chưa tham gia chương trình nào</p></div>}
                                         <div style={{ padding: 0 }} className="col-lg-9">
                                             {gifts && gifts.map((item, index) => {
-                                                let nameConstruction = item.construction.address + ' - ' + Location.getName(item.construction.city)
+                                                let nameConstruction = item.construction.address + ' - ' + City.getName(item.construction.city)
                                                 return (
                                                     <div key={index} className="history-promotion">
                                                         <h4 className="title">{item.promotion.title}</h4>

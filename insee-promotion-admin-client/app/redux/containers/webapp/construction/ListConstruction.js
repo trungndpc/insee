@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {
   Link
 } from "react-router-dom";
-import Location from '../../../../data/Location'
+import {City} from '../../../../data/Location'
 import * as StatusConstruction from '../../../../components/enum/StatusConstruction'
 import {NEXT_CONSTRUCTION, NOW_CONSTRUCTION} from '../../../../components/enum/TypeConstruction'
 import {WAITING_APPROVAL, APPROVED, REJECTED, SEND_GIFT, RECIEVED} from '../../../../components/enum/StatusConstruction'
@@ -87,13 +87,13 @@ class ListConstruction extends Component {
                       <div className="pepl-info row">
                         <div className="col-md-1">
                           <figure>
-                            <a href="time-line.html" ><img src={item.user.avatar} alt="" /></a>
+                            <Link to={'/customer/' + item.user.customerId} ><img src={item.user.avatar} alt="" /></Link>
                           </figure>
                         </div>
                         <div className="col-md-7">
                           <h4>{item.address}</h4>
                           <ul>
-                            <li>{Location.getName(item.city)}</li>
+                            <li>{City.getName(item.city)}</li>
                             <li>{item.phone}</li>
                             <li>{StatusConstruction.findByStatus(item.status).getName()}</li>
                             <li>{DateTimeUtil.diffTime(item.updatedTime)}</li>

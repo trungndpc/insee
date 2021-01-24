@@ -33,10 +33,15 @@ class NowConstruction extends React.Component {
         }
         this.submit = this.submit.bind(this)
         this.uploadBill = this.uploadBill.bind(this)
+        this.update = this.update.bind(this)
     }
 
     componentDidMount() {
         let constructionId = this.props.constructionId;
+        let promotionId = this.props.promotionId;
+        if (promotionId) {
+            this.props.appActions.getPromotionById(promotionId)
+        }
         if (constructionId) {
             this.props.appActions.getConstructionById(constructionId);
         }
@@ -46,6 +51,7 @@ class NowConstruction extends React.Component {
         if (nextProps.app.construction && !this.props.app.construction) {
             nextState.address = nextProps.app.construction.address
             nextState.city = nextProps.app.construction.city
+            nextState.district = nextProps.app.construction.district
             nextState.storeName = nextProps.app.construction.name
             nextState.storePhone = nextProps.app.construction.phone
             nextState.quantity = nextProps.app.construction.quantity
@@ -55,12 +61,8 @@ class NowConstruction extends React.Component {
         return true;
     }
 
-    uploadBill() {
+    uploadBill(fileList) {
         var uid = 25;
-        var fileList = this.billInputRef.getValue();
-        if (!fileList || fileList.length < 0) {
-            return Promise.reject('Vui chọn hóa đơn đã mua');
-        }
         return new Promise((resolve, reject) => {
             S3Util.createAlbum(BILL_FOLDER, uid + "", (pathFolder) => {
                 let name = new Date().getTime();
@@ -74,12 +76,8 @@ class NowConstruction extends React.Component {
         });
     }
 
-    uploadImgInsee() {
+    uploadImgInsee(fileList) {
         var uid = 25;
-        var fileList = this.imageInputRef.getValue();
-        if (!fileList || fileList.length < 0) {
-            return Promise.reject('Vui lòng chọn hình ảnh có xi măng INSEE');
-        }
         return new Promise((resolve, reject) => {
             S3Util.createAlbum(IMAGE_INSEE_FOLDER, uid + "", (pathFolder) => {
                 let name = new Date().getTime();
@@ -95,7 +93,11 @@ class NowConstruction extends React.Component {
 
     async submit() {
         try {
+            await this.setState({ errorMsg: '' })
             this.props.appActions.setStatusLoading(true);
+
+            const promotion = this.props.app.promotion
+
             let location = this.locationInputRef.getValues();
             let store = this.storeInputRef.getValues();
             let agree = this.agreeRef.checked;
@@ -103,19 +105,25 @@ class NowConstruction extends React.Component {
                 address: this.addressInputRef.value,
                 city: location.city,
                 district: location.district,
-                name: store.storeName,
-                phone: store.storePhone,
+                name: store.name,
+                phone: store.phone,
                 quantity: this.quantityInputRef.value,
                 extra: agree ? { agree: [1] } : {},
                 promotionId: parseInt(this.props.promotionId),
                 type: NOW_CONSTRUCTION.getType()
             }
-            if (NowConstructionForm.isValid2Create(data)) {
-                let listBill = await this.uploadBill();
-                let listImg = await this.uploadImgInsee();
-                data.billIds = listBill;
-                data.imageIds = listImg;
-                this.props.appActions.createNextContruction(data)
+            if (NowConstructionForm.isValid2Create(data, promotion)) {
+                let billFiles = this.billInputRef.getValue();
+                let imageFiles = this.imageInputRef.getValue();
+                if (NowConstructionForm.isValidBill(billFiles)
+                    && NowConstructionForm.isValidImg(imageFiles)) {
+                    let listBill = await this.uploadBill(billFiles);
+                    let listImg = await this.uploadImgInsee(imageFiles);
+                    data.billIds = listBill;
+                    data.imageIds = listImg;
+                    console.log(data)
+                    this.props.appActions.createNextContruction(data)
+                }
             }
         } catch (e) {
             this.setState({ errorMsg: e })
@@ -125,7 +133,43 @@ class NowConstruction extends React.Component {
 
     async update() {
         try {
+            await this.setState({ errorMsg: '' })
             this.props.appActions.setStatusLoading(true);
+
+            const promotion = this.props.app.promotion
+            let construction = this.props.app.construction;
+
+            this.props.appActions.setStatusLoading(true);
+            let location = this.locationInputRef.getValues();
+            let store = this.storeInputRef.getValues();
+            let agree = this.agreeRef.checked;
+            let data = {
+                address: this.addressInputRef.value,
+                city: location.city,
+                district: location.district,
+                name: store.name,
+                phone: store.phone,
+                quantity: this.quantityInputRef.value,
+                extra: agree ? { agree: [1] } : {}
+            }
+            let change = NowConstructionForm.getChangeAndValidate(data, construction, promotion);
+            let billFiles = this.billInputRef.getValue();
+            let imageFiles = this.imageInputRef.getValue();
+            if (Object.keys(change).length === 0 && (!billFiles || billFiles.length == 0) && (!imageFiles || imageFiles.length == 0)) {
+                throw 'Vui lòng cập nhật thông tin'
+            }
+            if (billFiles && billFiles.length != 0 && NowConstructionForm.isValidBill(billFiles)) {
+                let listBill = await this.uploadBill(billFiles);
+                change.billIds = listBill;
+            }
+
+            if (imageFiles && imageFiles.length != 0 && NowConstructionForm.isValidImg(imageFiles)) {
+                let listImg = await this.uploadImgInsee(imageFiles);
+                data.imageIds = listImg;
+            }
+            change.id = construction.id;
+            console.log(change)
+            this.props.appActions.createNextContruction(change)
         } catch (e) {
             this.setState({ errorMsg: e })
             this.props.appActions.setStatusLoading(false);
@@ -149,7 +193,7 @@ class NowConstruction extends React.Component {
                     </span>
                     <div className="form-description">Vui lòng nhập thông tin để hoàn tất</div>
                     <div className="form-row">
-                        <input ref={e => this.addressInputRef = e} onChange={(e) => this.setState({ address: e.targer.value })} value={this.state.address} className="insee-input" type="text" placeholder="Địa chỉ công trình" />
+                        <input ref={e => this.addressInputRef = e} onChange={(e) => this.setState({ address: e.target ? e.target.value : '' })} value={this.state.address} className="insee-input" type="text" placeholder="Địa chỉ công trình" />
                     </div>
                     <div className="form-row">
                         <LocationInput city={this.state.city} district={this.state.district} ref={e => this.locationInputRef = e} />
@@ -177,7 +221,7 @@ class NowConstruction extends React.Component {
 
                     <div className="btn-container">
                         {this.props.app.construction ?
-                            <button onClick={this.submit} className="btn-insee btn-insee-bg">Cập nhật</button>
+                            <button onClick={this.update} className="btn-insee btn-insee-bg">Cập nhật</button>
                             :
                             <button onClick={this.submit} className="btn-insee btn-insee-bg">Xác nhận</button>
                         }

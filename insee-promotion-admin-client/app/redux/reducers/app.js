@@ -142,6 +142,13 @@ export default function app(state = initialState, action) {
       newState.historyGift = action.payload;
       break;
     }
+    case type.APP.GET_LIST_PARTICIPATION_START: {
+      break;
+    }
+    case type.APP.GET_LIST_PARTICIPATION_END: {
+      newState.pageParticipationPromotion = action.payload;
+      break;
+    }
 
     default:
       return state

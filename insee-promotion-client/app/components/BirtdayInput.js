@@ -92,7 +92,7 @@ class BirtdayInput extends Component {
                 </div>
                 <div style={{float: 'right'}} className="birthday-item">
                     <select onChange={this.onChangeYear}  >
-                        <option value={0}>Năm</option>
+                        <option value={0}>Năm sinh</option>
                         {years.map(function (year) {
                             return (<option key={year} value={year}>{year}</option>)
                         })}

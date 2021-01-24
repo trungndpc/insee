@@ -1,45 +1,56 @@
+import data from './data_location.json'
 
-
-const LOCATION_DATA = {
-    1: 'Hồ Chí Minh',
-    2: 'Long An',
-    3: 'Đồng Nai',
-    4: 'Vũng Tàu',
-    5: 'Bình Thuận',
-    6: 'Lâm Đồng',
-    7: 'Bình Dương',
-    8: 'Tây Ninh',
-    9: 'Dak Nong',
-    10: 'Dak Lak',
-    11: 'Bình Phước',
-    12: 'Trà Vinh',
-    13: 'An Giang',
-    14: 'Cần Thơ',
-    15: 'Hậu Giang',
-    16: 'Kiên Giang',
-    17: 'Cà Mau',
-    18: 'Sóc Trăng',
-    19: 'Bạc Liêu',
-    20: 'Đồng Tháp',
-    21: 'Bến Tre',
+var listCity = [];
+for (const key in data) {
+    let r = { key: key, value: data[key].name }
+    listCity.push(r);
 }
 
-export default class Location {
+var listDistrict = [];
+for (const key in data) {
+    let city = data[key];
+    let districts = city["districts"];
+    for (const disKey in districts) {
+        let oDistrict = { key: disKey, value: { name: districts[disKey].name, cityId: key } }
+        listDistrict.push(oDistrict);
+    }
+}
+
+export class City {
 
     static getName(id) {
-        for (const key in LOCATION_DATA) {
+        for (const key in data) {
             if (id == key) {
-                return LOCATION_DATA[key];
+                return data[key].name;
             }
         }
         return null;
     }
 
     static getList() {
+        return listCity;
+    }
+}
+
+export class District {
+    static getName(districtId) {
+        for (const key in listDistrict) {
+            if (key == districtId) {
+                return listDistrict[key].name
+            }
+        }
+    }
+
+    static getList(cityId) {
+        if (cityId == 0) {
+            return []
+        }
+        let city = data[cityId];
+        let districts = city.districts;
         let rs = []
-        for (const key in LOCATION_DATA) {
-            let r = {key: key, value: LOCATION_DATA[key]}
-            rs.push(r);
+        for(const district of districts) {
+            let o = {key: district.id, value: district.name}
+            rs.push(o);
         }
         return rs;
     }

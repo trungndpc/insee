@@ -172,3 +172,10 @@ export function getHistoryGift() {
     type: type.APP.GET_HISTORY_GIFT_ASYNC
   }
 }
+
+export function getListParticipation(postId) {
+  return {
+    type: type.APP.GET_LIST_PARTICIPATION_ASYNC,
+    promotionId: postId
+  }
+}
