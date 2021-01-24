@@ -20,7 +20,7 @@ class DetailPromotion extends Component {
                     <div className="user-post">
                         <div className="friend-info">
                             <div className="post-meta">
-                                <img src={require('../../resources/images/promotion1.png')} alt="" />
+                                <img src={'https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/promotion1.png'} alt="" />
                                 <div className="description">
                                     <div dangerouslySetInnerHTML={{ __html: `${promotion && promotion.content}` }}>
                                     </div>

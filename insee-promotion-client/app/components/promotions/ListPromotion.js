@@ -25,7 +25,7 @@ class ListPromotion extends Component {
                                 <div className="col-lg-6 col-sm-6">
                                     <div className="g-post-classic">
                                         <figure>
-                                            <img alt="" src={require('../../resources/images/promotion1.png')} />
+                                            <img alt="" src={'https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/promotion1.png'} />
                                         </figure>
                                         <div className="g-post-meta">
                                             <div className="post-title no-border text-center-mobile">
