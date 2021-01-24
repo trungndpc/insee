@@ -3,7 +3,7 @@ import { CustomerStatusEnum, DO_NOT_HAVE_ACCOUNT, NEED_REVIEW, REJECTED, APPROVE
 import {
   Link
 } from "react-router-dom";
-import Location from '../../../../data/Location'
+import {City} from '../../../../data/Location'
 
 class ListCustomer extends Component {
 
@@ -53,9 +53,9 @@ class ListCustomer extends Component {
           <li onClick={() => { this.onChangeStatus(APPROVED.getStatus()) }} className="nav-item"><a className={this.state.status == 4 ? 'active' : ''}>Đã duyệt</a><span>10</span></li>
         </ul>
         <div style={{ float: 'right' }}>
-          <select onChange={this.onChangeLocation} value={this.state.location} style={{ width: '150px' }} class="form-control">
+          <select onChange={this.onChangeLocation} value={this.state.location} style={{ width: '150px' }} className="form-control">
             <option value={0}>Tất cả</option>
-            {Location.getList().map((item, index) => {
+            {City.getList().map((item, index) => {
               return (
                 <option key={index} value={item.key}>{item.value}</option>
               )
@@ -81,7 +81,7 @@ class ListCustomer extends Component {
                         <div className="col-md-7">
                           <h4>{item.fullName}</h4>
                           <ul>
-                            <li>Hồ Chí Minh</li>
+                            <li>{City.getName(item.mainAreaId)}</li>
                             <li style={{ color: `${status.getColor()}` }}>{status.getName()}</li>
                           </ul>
                         </div>

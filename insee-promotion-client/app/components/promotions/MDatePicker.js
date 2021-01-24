@@ -5,7 +5,6 @@ import { registerLocale, setDefaultLocale } from "react-datepicker";
 import vi from 'date-fns/locale/vi';
 registerLocale('vi', vi)
 
-
 class MDatePicker extends Component {
 
     constructor(props) {
@@ -17,11 +16,22 @@ class MDatePicker extends Component {
         this.getValue = this.getValue.bind(this);
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.date && nextProps.date != nextState.date && nextState.date == null) {
+            nextState.date = nextProps.date
+            return true;
+        }
+        return this.state != nextState;
+    }
+
     getValue() {
         let date = this.state.date;
-        var month = date.getMonth() + 1;
-        var year = date.getFullYear();
-        return new Date(year, month, 0, 0, 0, 0, 0).getTime() / 1000;
+        if (date) {
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+            return new Date(year, month, 0, 0, 0, 0, 0).getTime() / 1000;
+        }
+
     }
 
     handleChange(date) {

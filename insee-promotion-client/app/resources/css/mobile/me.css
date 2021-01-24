@@ -590,7 +590,7 @@ body {
 }
 
 .location-input-city {
-    width: calc((60% - 5px));
+    width: calc((40% - 5px));
     height: 45px;
     margin: 0px;
     display: inline-block;
@@ -599,7 +599,7 @@ body {
 }
 
 .location-input-district {
-    width: calc((40% - 5px));
+    width: calc((60% - 5px));
     height: 45px;
     margin: 0px;
     display: inline-block;

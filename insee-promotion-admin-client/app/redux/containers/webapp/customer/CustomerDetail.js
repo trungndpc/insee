@@ -5,9 +5,8 @@ import {
 import { CustomerStatusEnum, DO_NOT_HAVE_ACCOUNT, NEED_REVIEW, REJECTED, APPROVED } from '../../../../components/enum/CustomerStatusEnum';
 import ApprovalCustomerModal from '../../../../components/modal/ApprovalCustomerModal'
 import RejectCustomerModal from '../../../../components/modal/RejectCustomerModal'
-import { StatusConstruction, findByStatus } from '../../../../components/enum/StatusConstruction'
-import { GiftStatus } from '../../../../components/enum/GiftStatus'
-import Location from '../../../../data/Location'
+import {findByStatus } from '../../../../components/enum/StatusConstruction'
+import {City} from '../../../../data/Location'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
 
 class CustomerDetail extends Component {
@@ -76,7 +75,7 @@ class CustomerDetail extends Component {
                     </tr>
                     <tr>
                       <th>Khu vực thi công</th>
-                      <td>{Location.getName(customer.mainAreaId)}</td>
+                      <td>{City.getName(customer.mainAreaId)}</td>
                     </tr>
                     <tr>
                       <th>Trang thái</th>

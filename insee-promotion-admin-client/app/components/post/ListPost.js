@@ -36,7 +36,9 @@ class ListPost extends Component {
                                             </div>
                                         </div>
                                         {item.report && item.report.numberOfParticipants > 0 &&
-                                            <span className="extra-infor-post">Đã có {item.report.numberOfParticipants} người tham gia</span>
+                                            <Link to={'post/' + item.id + '/participation'}>
+                                                <span className="extra-infor-post">Đã có {item.report.numberOfParticipants} người tham gia</span>
+                                            </Link>
                                         }
                                     </div>
                                 </div>

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ImgViewer from '../layout/ImgViewer'
 import { TypeConstruction, NEXT_CONSTRUCTION, NOW_CONSTRUCTION } from '../enum/TypeConstruction'
 import { ImageStatus, WAITING_APPROVAL, APPROVED, REJECTED } from '../enum/ImageStatus'
-import Location from '../../data/Location'
+import {City} from '../../data/Location'
 import DateTimeUtil from '../../utils/DateTimeUtil'
 import {findByStatus} from '../enum/StatusConstruction'
 
@@ -40,7 +40,7 @@ class DetailConstruction extends Component {
                                     </tr>
                                     <tr>
                                         <th>Tỉnh thành</th>
-                                        <td>{construction && Location.getName(construction.city)} - Quận 1</td>
+                                        <td>{construction && City.getName(construction.city)} - Quận 1</td>
                                     </tr>
                                     {type == NEXT_CONSTRUCTION &&
                                         <tr>

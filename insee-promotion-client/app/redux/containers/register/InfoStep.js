@@ -4,7 +4,7 @@ import FormLayout from '../../../components/layout/FormLayout'
 import {
     Link
 } from "react-router-dom";
-import Location from '../../../data/Location';
+import {City} from '../../../data/Location';
 
 class InfoStep extends Component {
 
@@ -93,26 +93,14 @@ class InfoStep extends Component {
                 <div className="form-row">
                     <select ref={e => this.mainAreaRef = e} className="insee-input" >
                         <option value={0}>Khu vực xây dựng</option>
-                        {Location.getList().map(function name(item, key) {
-                            return <option value={item.key}>{item.value}</option>
+                        {City.getList().map(function name(item, key) {
+                            return <option key={key} value={item.key}>{item.value}</option>
                         })}
                     </select>
                 </div>
-                {/* <div className="form-row">
-                    <input ref={e => this.passwordInputRef = e} className="insee-input" type="password" placeholder="Mật khẩu đăng nhập" />
-                </div>
-                <div className="form-row">
-                    <input ref={e => this.confirmPasswordInputRef = e} className="insee-input" type="password" placeholder="Xác nhận mẩu khẩu" />
-                </div> */}
                 <div className="form-row prelative policy">
-                    <input checked type="checkbox" />
-                    <span>
-                        Tôi đã đọc và đồng ý các&ensp;
-                                <Link >
-                            điều khoản sử dụng và chính sách bảo mật
-                                </Link>
-                                &ensp;của công ty
-                            </span>
+                    <input defaultChecked type="checkbox" />
+                    <span> Tôi đã đọc và đồng ý các&ensp; <Link to={'#'}> điều khoản sử dụng và chính sách bảo mật </Link> &ensp;của công ty </span>
                 </div>
                 {this.state.errorMsg && <div className="msg-error"><span>*** {this.state.errorMsg}</span></div>}
                 <div className="btn-container">

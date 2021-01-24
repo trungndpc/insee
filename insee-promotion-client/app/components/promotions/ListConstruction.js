@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Location from '../../data/Location'
+import {City} from '../../data/Location'
 import DateTimeUtil from '.././../utils/DateTimeUtil'
 import {
     Link,
@@ -21,7 +21,7 @@ class ListConstruction extends Component {
                                 <div className="user-post">
                                     <div className="friend-info">
                                         <div className="friend-name">
-                                            <ins><a href="time-line.html">Công trình tại {Location.getName(item.city)} - Quân 12`</a></ins>
+                                            <ins><a href="time-line.html">Công trình tại {City.getName(item.city)} - Quân 12`</a></ins>
                                             <span>thời gian khởi công: {DateTimeUtil.formatMonth(new Date(item.estimateTimeStart * 1000))}</span>
                                             <span>Loại công trình: </span>
                                             <span>Trạng thái: </span>

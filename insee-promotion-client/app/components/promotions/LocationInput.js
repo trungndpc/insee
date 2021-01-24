@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import Location from '../../data/Location'
+import {City, District} from '../../data/Location'
 
-const list = Location.getList()
+const list = City.getList()
 class LocationInput extends Component {
 
     constructor(props) {
@@ -36,6 +36,7 @@ class LocationInput extends Component {
     }
 
     render() {
+        const districts = District.getList(this.state.city)
         return (
             <div className="location-input">
                 <div style={{ float: 'left' }} className="location-input-city">
@@ -49,9 +50,9 @@ class LocationInput extends Component {
                 <div style={{ float: 'right' }} className="location-input-district">
                     <select value={this.state.district} onChange={e => this.setState({district: e.target.value})} ref={e => this.districtInputRef = e}>
                         <option value={0}>Quận</option>
-                        <option value={1}>Quận 1</option>
-                        <option value={2}>Quận 2</option>
-                        <option value={3}>Quận 3</option>
+                        {districts && districts.map(function(item, index){
+                            return <option key={index} value={item.key}>{item.value}</option>
+                        })}
                     </select>
                 </div>
             </div>

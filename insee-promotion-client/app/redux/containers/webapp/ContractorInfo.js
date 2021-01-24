@@ -5,7 +5,7 @@ import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
 import { UserRole } from '../../../components/enum/UserRole'
 import { CustomerStatus } from '../../../components/enum/CustomerStatus'
-import Location from '../../../data/Location'
+import {City} from '../../../data/Location'
 import { ContentSideBar } from '../../../components/layout/SideBar'
 class ContractorInfo extends React.Component {
 
@@ -75,7 +75,7 @@ class ContractorInfo extends React.Component {
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Khu vực</th>
-                                                                            <td>{Location.getName(contractor.mainAreaId)}</td>
+                                                                            <td>{City.getName(contractor.mainAreaId)}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Trạng thái</th>

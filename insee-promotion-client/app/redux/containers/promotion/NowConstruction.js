@@ -38,6 +38,10 @@ class NowConstruction extends React.Component {
 
     componentDidMount() {
         let constructionId = this.props.constructionId;
+        let promotionId = this.props.promotionId;
+        if (promotionId) {
+            this.props.appActions.getPromotionById(promotionId)
+        }
         if (constructionId) {
             this.props.appActions.getConstructionById(constructionId);
         }
@@ -91,6 +95,9 @@ class NowConstruction extends React.Component {
         try {
             await this.setState({ errorMsg: '' })
             this.props.appActions.setStatusLoading(true);
+
+            const promotion = this.props.app.promotion
+
             let location = this.locationInputRef.getValues();
             let store = this.storeInputRef.getValues();
             let agree = this.agreeRef.checked;
@@ -105,7 +112,7 @@ class NowConstruction extends React.Component {
                 promotionId: parseInt(this.props.promotionId),
                 type: NOW_CONSTRUCTION.getType()
             }
-            if (NowConstructionForm.isValid2Create(data)) {
+            if (NowConstructionForm.isValid2Create(data, promotion)) {
                 let billFiles = this.billInputRef.getValue();
                 let imageFiles = this.imageInputRef.getValue();
                 if (NowConstructionForm.isValidBill(billFiles)
@@ -127,7 +134,11 @@ class NowConstruction extends React.Component {
     async update() {
         try {
             await this.setState({ errorMsg: '' })
+            this.props.appActions.setStatusLoading(true);
+
+            const promotion = this.props.app.promotion
             let construction = this.props.app.construction;
+
             this.props.appActions.setStatusLoading(true);
             let location = this.locationInputRef.getValues();
             let store = this.storeInputRef.getValues();
@@ -141,7 +152,7 @@ class NowConstruction extends React.Component {
                 quantity: this.quantityInputRef.value,
                 extra: agree ? { agree: [1] } : {}
             }
-            let change = NowConstructionForm.getChangeAndValidate(data, construction);
+            let change = NowConstructionForm.getChangeAndValidate(data, construction, promotion);
             let billFiles = this.billInputRef.getValue();
             let imageFiles = this.imageInputRef.getValue();
             if (Object.keys(change).length === 0 && (!billFiles || billFiles.length == 0) && (!imageFiles || imageFiles.length == 0)) {

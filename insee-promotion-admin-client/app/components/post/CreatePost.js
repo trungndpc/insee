@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { TypeConstruction } from '../enum/TypeConstruction'
-import Location from '../../data/Location'
+import {City} from '../../data/Location'
 import INSEEEditor from './INSEEEditor'
 import DateTimeUtil from '../../utils/DateTimeUtil'
 import AreYouSureModal from '../../components/modal/AreYouSureModal'
@@ -47,6 +47,7 @@ class CreatePromotion extends Component {
         let timeStart = this.timeStartInputRef.value;
         let timeEnd = this.timeEndInputRef.value;
         let content = this.editorRef.getValue();
+        let ruleQuantily = this.ruleQuantilyInputRef.value;
 
         if (!title) {
             this.setState({ errorMsg: 'Vui lòng nhập tiêu đề' })
@@ -54,6 +55,10 @@ class CreatePromotion extends Component {
         }
         if (!summary) {
             this.setState({ errorMsg: 'Vui lòng nhập tóm tắt' })
+            return;
+        }
+        if (!ruleQuantily || ruleQuantily == 0) {
+            this.setState({ errorMsg: 'Vui lòng nhập số lượng sản phẩm tối thiểu' })
             return;
         }
         if (!content) {
@@ -89,7 +94,8 @@ class CreatePromotion extends Component {
             typePromotion: typePromotion,
             location: location,
             timeStart: new Date(timeStart).getTime() / 1000,
-            timeEnd: new Date(timeEnd).getTime() / 1000
+            timeEnd: new Date(timeEnd).getTime() / 1000,
+            ruleQuantily: ruleQuantily
         }
         if (this.props.postId) {
             data.postId = this.props.postId
@@ -124,9 +130,13 @@ class CreatePromotion extends Component {
                                         {isRender && <input defaultValue={promotion && promotion.summary} className="ctk-editor-input" ref={e => this.summaryInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp" />}
                                     </div>
                                     <div className="ctk-row">
+                                        <label className="ctk-editor-lable">Số lượng tối thiểu: </label>
+                                        {isRender && <input defaultValue={promotion && promotion.ruleQuantily} className="ctk-editor-input" ref={e => this.ruleQuantilyInputRef = e} type="number" placeholder="Số lượng sản phẩm tối thiểu" />}
+                                    </div>
+                                    <div className="ctk-row">
                                         <label className="ctk-editor-lable">Khu vực áp dụng: </label>
                                         {isRender && <select defaultValue={promotion && promotion.location} className="ctk-editor-input" ref={e => this.locationInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp">
-                                            {Location.getList().map((item, index) => {
+                                            {City.getList().map((item, index) => {
                                                 return <option key={index} value={item.key}>{item.value}</option>
                                             })}
                                         </select>
