@@ -5,8 +5,8 @@ import {
 import { CustomerStatusEnum, DO_NOT_HAVE_ACCOUNT, NEED_REVIEW, REJECTED, APPROVED } from '../../../../components/enum/CustomerStatusEnum';
 import ApprovalCustomerModal from '../../../../components/modal/ApprovalCustomerModal'
 import RejectCustomerModal from '../../../../components/modal/RejectCustomerModal'
-import {findByStatus } from '../../../../components/enum/StatusConstruction'
-import {City} from '../../../../data/Location'
+import { findByStatus } from '../../../../components/enum/StatusConstruction'
+import { City } from '../../../../data/Location'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
 
 class CustomerDetail extends Component {
@@ -98,6 +98,14 @@ class CustomerDetail extends Component {
               <ui className="action-customer-detail">
                 <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Approval</Link></li>
                 <li><Link onClick={this._onClickOpenRejectModal} className="add-butn" data-ripple>Reject</Link></li>
+              </ui>
+            </div>
+          }
+
+          {status && status.getStatus() == REJECTED.getStatus() &&
+            <div className="action-container">
+              <ui className="action-customer-detail">
+                <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Approval</Link></li>
               </ui>
             </div>
           }

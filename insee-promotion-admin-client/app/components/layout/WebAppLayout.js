@@ -21,7 +21,7 @@ class WebAppLayout extends Component {
       <div className="theme-layout">
         <section>
           <div className="feature-photo">
-            <figure><img className="responsive" style={{ objectFit: 'cover' }} src={require('../../resources/images/banner.png')} alt="" /></figure>
+            <figure><img className="responsive" style={{ objectFit: 'cover' }} src={'https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/banner.png'} alt="" /></figure>
             <div className="container-fluid">
               <div className="row merged">
                 <div className="col-lg-2 col-4">

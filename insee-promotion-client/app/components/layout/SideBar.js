@@ -25,7 +25,7 @@ export class ContentSideBar extends Component {
                     <Link style={{color: pathname == '/khach-hang' && '#b71c1c'}} onClick={this._onClickToLink} to={"/khach-hang"}>Thông tin tài khoản</Link>
                 </li>
                 <li>
-                    <Link style={{color: pathname == '/khuyen-mai' && '#b71c1c'}} onClick={this._onClickToLink} to={"/khuyen-mai"}>Chương trình khuyễn mãi độc quyền</Link>
+                    <Link style={{color: pathname == '/khuyen-mai' && '#b71c1c'}} onClick={this._onClickToLink} to={"/khuyen-mai"}>Chương trình khuyến mãi độc quyền</Link>
                 </li>
                 {/* <li>
                     <Link style={{color: pathname == '/nha-thau-xanh' && '#b71c1c'}} onClick={this._onClickToLink} to={"/nha-thau-xanh"}>Nhà thầu xanh</Link>

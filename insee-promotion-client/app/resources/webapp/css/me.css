@@ -1,17 +1,3 @@
-@font-face {
-    font-family: '3dumbregular';
-    src: url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoText-Bold.otf');
-    src: url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoText-Light.otf'),
-         url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoText-LightItalic.otf') ,
-         url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoText-Regular.otf') ,
-         url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoDisplay-Bold.otf'),
-         url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoDisplay-Regular.otf'),
-}
-
-
-html,body{
-    font-family: 'SanFranciscoDisplay-Bold' !important;
-}
 
 .btn-apply-promotion {
     background-color: #b71c1c;
@@ -133,7 +119,6 @@ html,body{
     font-size: medium;
     font-weight: 600;
     text-transform: uppercase;
-    font-family: 'SanFranciscoDisplay-Bold' !important;
 }
 
 .g-post-classic .summary-rules {

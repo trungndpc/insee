@@ -51,13 +51,12 @@ class OTPStep extends Component {
         let phone = this.data["phone"];
         if (phone) {
             this.setState({ statusSending: SENDING_SMS })
-            console.log("phone: " + phone)
             FirebaseUtil.sendSMS(window.recaptchaVerifier, phone, (err, confirmationResult) => {
+                this.props.appActions.setStatusLoading(false);
                 if (err == 0) {
                     this.setState({ statusSending: SENDING_SUCCESS })
                     this.countDownRef.reset();
                     this.confirmationResult = confirmationResult;
-                    this.props.appActions.setStatusLoading(false);
                 } else {
                     this.setState({
                         statusSending: SENDING_FAILED,
@@ -91,7 +90,6 @@ class OTPStep extends Component {
 
     _onSubmitSMSCode() {
         if (this.state.smsError == 0 || this.state.smsError == -1) {
-            console.log("_onSubmitSMSCode")
             this.setState({ errorMsg: null })
             let smsCode = this.getSMSCode();
             if (smsCode == null || smsCode.length < 6) {

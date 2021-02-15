@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PhoneUtil from '../../../utils/PhoneUtil'
 import FirebaseUtil from '../../../utils/FirebaseUtil'
 import FormLayout from '../../../components/layout/FormLayout'
+import {RegisterForm} from '../../../common/ValidateForm'
 
 class PhoneStep extends Component {
 
@@ -35,15 +36,23 @@ class PhoneStep extends Component {
     }
 
     _submit() {
-        let phone = this.phoneInputRef.value;
-        if (!phone) {
-            this.setState({ errorMsg: "Vui lòng nhập số điện thoại của bạn" })
-            return;
+        try {
+            let phone = this.phoneInputRef.value;
+            if (!phone) {
+                this.setState({ errorMsg: "Vui lòng nhập số điện thoại của bạn" })
+                return;
+            }
+            phone = phone.replace(/\./g,'');
+            if (RegisterForm.isValidPhone(phone)) {
+                window.recaptchaVerifier = FirebaseUtil.recaptcha();
+                phone = PhoneUtil.standardized(phone);
+                this.phone = phone;
+                this.props.appActions.checkPhone(phone);
+            }
+        } catch (e) {
+            this.setState({ errorMsg: e })
         }
-        window.recaptchaVerifier = FirebaseUtil.recaptcha();
-        phone = PhoneUtil.standardized(phone);
-        this.phone = phone;
-        this.props.appActions.checkPhone(phone);
+
     }
 
     render() {
@@ -53,7 +62,7 @@ class PhoneStep extends Component {
                 <span className="contact100-form-title">Đăng ký<div className="line-bt" /> </span>
                 <div className="form-container">
                     <div className="input-shell">
-                        <img src={require('../../../resources/images/icon-phone.png')} />
+                        <img src={'https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/icon-phone.png'} />
                         <input ref={e => this.phoneInputRef = e} onChange={this._onChangeInputPhone} placeholder="Vui lòng nhập số điện thoại" type="tel" pattern="[0-9]{4}.[0-9]{3}.[0-9]{3}" />
                     </div>
                     <div style={{ height: '40px' }}>

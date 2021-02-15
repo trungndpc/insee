@@ -12,7 +12,7 @@ class StoreInput extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (nextState.storeName == '' || nextState.storePhone != '') {
+        if (nextState.storeName == '' || nextState.storePhone == '') {
             if (nextProps.storeName && nextProps.storeName != nextState.storeName) {
                 nextState.storeName = nextProps.storeName
             }

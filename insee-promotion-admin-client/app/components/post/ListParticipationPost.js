@@ -15,7 +15,6 @@ class ListParticipationPost extends Component {
     render() {
         const participations = this.props.app.pageParticipationPromotion;
         const promotion = this.props.app.promotion;
-        console.log(promotion)
         return (
             <div className="loadMore">
                 <div className="m-content">

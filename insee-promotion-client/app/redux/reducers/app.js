@@ -3,10 +3,11 @@ import * as type from '../actions/action-types'
 const initialState = {
   isLoading: false,
   register: {
-    step: 1,
+    step: window.register && window.register.step,
     isLoading: false
   },
-  nextContruction: null
+  nextContruction: null,
+  promotion: null
 }
 
 export default function app(state = initialState, action) {
@@ -59,15 +60,30 @@ export default function app(state = initialState, action) {
       newState.customer = data;
       break;
     }
-    case type.APP.GET_LIST_PROMOTION_END: {
-      let data = action.payload;
-      newState.promotions = data;
+    
+    case type.APP.GET_LIST_PROMOTION_START: {
+      newState.promotion = null;
       break;
     }
 
+    case type.APP.GET_LIST_PROMOTION_END: {
+      let resp = action.payload;
+      let promotion = {...newState.promotion}
+      promotion.error = resp.error;
+      promotion.list = resp.data;
+      newState.promotion = promotion;
+      break;
+    }
+    case type.APP.GET_PROMOTION_BY_ID_START: {
+      newState.promotion = null;
+      break;
+    }
     case type.APP.GET_PROMOTION_BY_ID_END: {
-      let data = action.payload;
-      newState.promotion = data;
+      let resp = action.payload;
+      let promotion = {...newState.promotion}
+      promotion.error = resp.error;
+      promotion.one = resp.data;
+      newState.promotion = promotion;
       break;
     }
     case type.APP.LOGIN_PASSWORD_START: {

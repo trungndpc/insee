@@ -5,17 +5,25 @@ import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
 import { UserRole } from '../../../components/enum/UserRole'
 import { CustomerStatus } from '../../../components/enum/CustomerStatus'
-import {City} from '../../../data/Location'
+import { City } from '../../../data/Location'
 import { ContentSideBar } from '../../../components/layout/SideBar'
+import FollowWidget from '../../../components/FollowWidget'
 class ContractorInfo extends React.Component {
+
+    constructor(props) {
+        super(props);
+       
+    }
+
+   
 
 
     componentDidMount() {
     }
 
     render() {
-        const contractor = this.props.app.customer;
         const user = this.props.app.user;
+        const contractor = user && user.customer;
         return (
             <WebAppLayout {...this.props}>
                 <section>
@@ -35,6 +43,11 @@ class ContractorInfo extends React.Component {
                                         <div className="col-lg-9">
                                             <div className="loadMore">
                                                 <div className="m-content">
+                                                    {user && !user.follower && 
+                                                    <div className="central-meta">
+                                                        <FollowWidget {...this.props}/>
+                                                    </div>
+                                                    }
                                                     <div className="central-meta">
                                                         <div className="about">
                                                             <div className="personal">
@@ -79,8 +92,8 @@ class ContractorInfo extends React.Component {
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Trạng thái</th>
-                                                                            <td style={{ color: `${CustomerStatus.findByStatus(contractor.finalStatus).getColor()}` }}>
-                                                                                {CustomerStatus.findByStatus(contractor.finalStatus).getName()}
+                                                                            <td style={{ color: `${CustomerStatus.findByStatus(contractor.status).getColor()}` }}>
+                                                                                {CustomerStatus.findByStatus(contractor.status).getName()}
                                                                             </td>
                                                                         </tr>
                                                                         {contractor && contractor.volumeCiment > 0 &&

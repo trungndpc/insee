@@ -8,9 +8,9 @@ export class CustomerStatus{
 
     static findByStatus(status) {
         switch(status) {
-            case 2 : return NEED_REVIEW;
+            case 1 : return NEED_REVIEW;
             case 3 : return REJECTED;
-            case 4 : return APPROVED;
+            case 2 : return APPROVED;
             default: return null;
         }
     }
@@ -21,23 +21,23 @@ export class CustomerStatus{
 
     getColor() {
         switch(this.status) {
-            case 2 : return '#b71c1c';
+            case 1 : return '#b71c1c';
             case 3 : return '#778899';
-            case 4 : return '#088dcd';
+            case 2 : return '#088dcd';
             default: return null;
         }
     }
 
     getName() {
         switch(this.status) {
-            case 2 : return 'Cần xét duyệt';
+            case 1 : return 'Cần xét duyệt';
             case 3 : return 'Đã từ chối';
-            case 4 : return 'Đã chấp nhận';
+            case 2 : return 'Đã chấp nhận';
             default: return null;
         }
     }
 }
 
-export const NEED_REVIEW = new CustomerStatus(2);
+export const NEED_REVIEW = new CustomerStatus(1);
 export const REJECTED = new CustomerStatus(3);
-export const APPROVED = new CustomerStatus(4);
+export const APPROVED = new CustomerStatus(2);

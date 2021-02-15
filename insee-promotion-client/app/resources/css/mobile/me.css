@@ -1,15 +1,3 @@
-@font-face {
-    font-family: '3dumbregular';
-    src: url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoText-Bold.otf');
-    src: url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoText-Light.otf'),
-         url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoText-LightItalic.otf') ,
-         url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoText-Regular.otf') ,
-         url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoDisplay-Bold.otf'),
-         url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/fonts/SanFranciscoDisplay-Regular.otf'),
-    }
-
-
-
 
 .contact100-form-btn {
     background-color: #b71c1c;
@@ -20,7 +8,6 @@
     text-align: left;
     padding-bottom: 30px;
     font-size: x-large;
-    font-family: 'SanFranciscoDisplay-Bold' !important;
     font-weight: 600;
 }
 
@@ -224,7 +211,6 @@ input[type=number] {
 }
 
 .btn-insee {
-    font-family: 'SanFranciscoText-Bold' !important;
     font-weight: bold;
     justify-content: center;
     align-items: center;
@@ -277,7 +263,6 @@ input[type=number] {
 }
 
 .input-shell input {
-    font-family: 'SanFranciscoText-Regular' !important;
     width: 100%;
     height: 43px;
     line-height: 45px;
@@ -439,7 +424,7 @@ input {
 
 select {
     -webkit-appearance: none;
-    background: url('../../images/down-arrow.png') no-repeat calc(100% - 5px) 18px;
+    background: url('https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/down-arrow.png') no-repeat calc(100% - 5px) 18px;
     background-size: 10px;
 }
 
@@ -771,4 +756,16 @@ body {
 
 .idam {
     font-weight: 600;
+}
+
+.select-cement select{
+    font-size: small;
+    height: 45px;
+    line-height: 45px;
+    border: none;
+    width: 100%;
+    border-radius: 5px;
+    background-color: #fff;
+    border: 1px solid #e6e6e6 !important;
+    padding-left: 20px;
 }

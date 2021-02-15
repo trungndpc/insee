@@ -3,7 +3,9 @@ import { CustomerStatusEnum, DO_NOT_HAVE_ACCOUNT, NEED_REVIEW, REJECTED, APPROVE
 import {
   Link
 } from "react-router-dom";
-import {City} from '../../../../data/Location'
+import { City } from '../../../../data/Location'
+import { Pagination } from 'antd';
+import 'antd/dist/antd.css';
 
 class ListCustomer extends Component {
 
@@ -13,32 +15,43 @@ class ListCustomer extends Component {
     this.state = {
       page: 0,
       pageSize: 10,
-      location : 0,
-      status : 10
+      location: 0,
+      status: 10
     }
     this.load = this.load.bind(this)
     this.onChangeLocation = this.onChangeLocation.bind(this);
     this.onChangeStatus = this.onChangeStatus.bind(this)
+    this.onChangePage = this.onChangePage.bind(this)
   }
 
   componentDidMount() {
     this.load();
   }
 
-  load(status, location) {
-    this.props.appActions.getListCustomerByStatus(status ? status : this.state.status, location ? location : this.state.location, this.state.page, this.state.pageSize);
+  load(status, location, page) {
+    this.props.appActions.getListCustomerByStatus(status ? status : this.state.status, 
+      location ? location : this.state.location, 
+      page != null ? page : this.state.page, this.state.pageSize);
   }
 
   onChangeStatus(status) {
-    this.setState({ status: status })
-    this.load(status, null);
+    this.setState({ status: status, page: 0})
+    this.load(status, null, 0);
+  }
 
+  onChangePage(pageNumber, pageSize) {
+    pageNumber = pageNumber - 1
+    console.log(pageNumber)
+    this.setState({
+      page: pageNumber
+    })
+    this.load(null, null, pageNumber)
   }
 
   onChangeLocation(event) {
     let location = event.target.value;
-    this.setState({ location: location });
-    this.load(null, location);
+    this.setState({ location: location, page: 0 });
+    this.load(null, location, 0);
   }
 
 
@@ -96,7 +109,9 @@ class ListCustomer extends Component {
               })}
 
             </ul>
-            {/* <div className="lodmore"><button className="btn-view btn-load-more" /></div> */}
+            <div className="paging-container">
+            {customers && <Pagination defaultCurrent={1} current={this.state.page + 1} onChange={this.onChangePage} total={customers.totalPage * customers.pageSize} /> }
+            </div>
           </div>
         </div>
       </div>

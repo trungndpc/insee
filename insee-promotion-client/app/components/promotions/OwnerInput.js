@@ -12,7 +12,7 @@ class OwnerInput extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (nextState.ownerName == '' || nextState.ownerPhone != '') {
+        if (nextState.ownerName == '' || nextState.ownerPhone == '') {
             if (nextProps.ownerName && nextProps.ownerName != nextState.ownerName) {
                 nextState.ownerName = nextProps.ownerName
             }

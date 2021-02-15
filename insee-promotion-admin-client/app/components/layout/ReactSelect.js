@@ -6,7 +6,7 @@ const options = [
     { value: 'chocolate', label: 'Chocolate' },
     { value: 'strawberry', label: 'Strawberry' },
     { value: 'vanilla', label: 'Vanilla' }
-  ]
+]
 
 class ReactSelect extends Component {
 
@@ -20,7 +20,7 @@ class ReactSelect extends Component {
     }
 
     handleChange = (newValue, actionMeta) => {
-        this.setState({value: newValue})
+        this.setState({ value: newValue })
     };
 
     getValue() {

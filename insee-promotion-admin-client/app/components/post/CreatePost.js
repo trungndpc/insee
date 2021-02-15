@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
-import { TypeConstruction } from '../enum/TypeConstruction'
-import {City} from '../../data/Location'
+import { TypeConstruction, NOW_CONSTRUCTION, NEXT_CONSTRUCTION } from '../enum/TypeConstruction'
+import { City } from '../../data/Location'
 import INSEEEditor from './INSEEEditor'
 import DateTimeUtil from '../../utils/DateTimeUtil'
 import AreYouSureModal from '../../components/modal/AreYouSureModal'
+import InputImage from '../InputImage'
+import S3Util from '../../utils/S3Util'
+import CementMultiSelect from '../post/CementMultiSelect'
+const FOLDER_COVER_S3 = 'static/images/cover';
+
 class CreatePromotion extends Component {
 
     constructor(props) {
@@ -11,12 +16,14 @@ class CreatePromotion extends Component {
         this.state = {
             data: 'Hello from TrungND',
             errorMsg: null,
-            isAreYouSureModal: false
+            isAreYouSureModal: false,
+            typePromotion: NOW_CONSTRUCTION
         }
         this._onClickSave = this._onClickSave.bind(this)
         this._onClickPublic = this._onClickPublic.bind(this)
         this._onClosePublicModal = this._onClosePublicModal.bind(this)
         this.onPublicPost = this.onPublicPost.bind(this)
+        this._onChangeTypePromotion = this._onChangeTypePromotion.bind(this)
     }
 
     componentDidMount() {
@@ -26,28 +33,42 @@ class CreatePromotion extends Component {
             this.props.appActions.getPromotionById(postId);
         }
     }
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.app.promotion != this.props.app.promotion) {
+            if (nextProps.app.promotion) {
+                nextState.typePromotion = TypeConstruction.findByType(nextProps.app.promotion.typePromotion)
+            }
+        }
+        return true;
+    }
 
     _onClickPublic() {
-        this.setState({isAreYouSureModal: true})
+        this.setState({ isAreYouSureModal: true })
     }
 
     _onClosePublicModal() {
-        this.setState({isAreYouSureModal: false})
+        this.setState({ isAreYouSureModal: false })
+    }
+
+    _onChangeTypePromotion(e) {
+        let type = parseInt(e.target.value);
+        this.setState({
+            typePromotion: TypeConstruction.findByType(type)
+        })
     }
 
     onPublicPost() {
         this.props.appActions.updateStatusPromotion(this.props.postId)
     }
 
-    _onClickSave() {
+    async _onClickSave() {
         let title = this.titleInputRef.value;
         let summary = this.summaryInputRef.value;
         let location = this.locationInputRef.value;
-        let typePromotion = this.typePromotionRef.value;
         let timeStart = this.timeStartInputRef.value;
         let timeEnd = this.timeEndInputRef.value;
         let content = this.editorRef.getValue();
-        let ruleQuantily = this.ruleQuantilyInputRef.value;
+
 
         if (!title) {
             this.setState({ errorMsg: 'Vui lòng nhập tiêu đề' })
@@ -57,10 +78,7 @@ class CreatePromotion extends Component {
             this.setState({ errorMsg: 'Vui lòng nhập tóm tắt' })
             return;
         }
-        if (!ruleQuantily || ruleQuantily == 0) {
-            this.setState({ errorMsg: 'Vui lòng nhập số lượng sản phẩm tối thiểu' })
-            return;
-        }
+
         if (!content) {
             this.setState({ errorMsg: 'Vui lòng nhập nội dung' })
             return;
@@ -68,11 +86,6 @@ class CreatePromotion extends Component {
 
         if (!location) {
             this.setState({ errorMsg: 'Vui lòng chọn khu vực áp dụng' })
-            return;
-        }
-
-        if (!typePromotion || typePromotion == 0) {
-            this.setState({ errorMsg: 'Vui lòng chọn loại khuyến mãi' })
             return;
         }
 
@@ -91,11 +104,35 @@ class CreatePromotion extends Component {
             title: title,
             summary: summary,
             content: content,
-            typePromotion: typePromotion,
+            typePromotion: this.state.typePromotion.getType(),
             location: location,
             timeStart: new Date(timeStart).getTime() / 1000,
             timeEnd: new Date(timeEnd).getTime() / 1000,
-            ruleQuantily: ruleQuantily
+        }
+
+        if (this.state.typePromotion == NOW_CONSTRUCTION) {
+            let ruleQuantily = this.ruleQuantilyInputRef.value;
+            let ruleAcceptedCement = this.cementRef.getValue();
+
+            if (!ruleQuantily || ruleQuantily == 0) {
+                this.setState({ errorMsg: 'Vui lòng nhập số lượng sản phẩm tối thiểu' })
+                return;
+            }
+
+            if (!ruleAcceptedCement || ruleAcceptedCement.length == 0) {
+                this.setState({errorMsg: 'Vui lòng chọn loại xi măng'})
+                return;
+            }
+
+            data.ruleQuantily = ruleQuantily;
+            data.ruleAcceptedCement = ruleAcceptedCement;
+
+        }
+
+        let fileList = this.coverRef.getValue();
+        if (fileList) {
+            let listImg = await this.uploadCover(fileList)
+            data.cover = listImg[0]
         }
         if (this.props.postId) {
             data.postId = this.props.postId
@@ -103,11 +140,26 @@ class CreatePromotion extends Component {
         this.props.appActions.createPromotion(data);
     }
 
+    uploadCover(fileList) {
+        return new Promise((resolve, reject) => {
+            let name = new Date().getTime();
+            let promoise = S3Util.addPhotos(FOLDER_COVER_S3, fileList, name);
+            promoise.then(values => {
+                resolve(values.map(value => value.Location))
+            }).catch(e => {
+                reject('Đã có lỗi xảy ra trong quá trình upload hình ảnh');
+            })
+        });
+    }defaultValue
 
     render() {
         const postId = this.props.postId;
         let isRender = true;
+        let isUpdate = false;
         const promotion = this.props.app.promotion;
+        if (postId) {
+            isUpdate = true;
+        }
         if (postId && !promotion) {
             isRender = false
         }
@@ -122,6 +174,9 @@ class CreatePromotion extends Component {
                             <div>
                                 <form method="post">
                                     <div className="ctk-row">
+                                        <InputImage defaultValue={promotion && promotion.cover} ref={e => this.coverRef = e} />
+                                    </div>
+                                    <div className="ctk-row">
                                         <label className="ctk-editor-lable">Tiêu đề: </label>
                                         {isRender && <input defaultValue={promotion && promotion.title} className="ctk-editor-input" ref={e => this.titleInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp" />}
                                     </div>
@@ -129,10 +184,16 @@ class CreatePromotion extends Component {
                                         <label className="ctk-editor-lable">Tóm tắt ngắn: </label>
                                         {isRender && <input defaultValue={promotion && promotion.summary} className="ctk-editor-input" ref={e => this.summaryInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp" />}
                                     </div>
+
                                     <div className="ctk-row">
-                                        <label className="ctk-editor-lable">Số lượng tối thiểu: </label>
-                                        {isRender && <input defaultValue={promotion && promotion.ruleQuantily} className="ctk-editor-input" ref={e => this.ruleQuantilyInputRef = e} type="number" placeholder="Số lượng sản phẩm tối thiểu" />}
+                                        <label className="ctk-editor-lable">Thời gian bắt đầu: </label>
+                                        {isRender && <input defaultValue={promotion && DateTimeUtil.toString(new Date(promotion.timeStart * 1000))} className="ctk-editor-input" ref={e => this.timeStartInputRef = e} type="date" placeholder="Chương trình khuyến mãi siêu cấp" />}
                                     </div>
+                                    <div className="ctk-row">
+                                        <label className="ctk-editor-lable">Thời gian kết thúc: </label>
+                                        {isRender && <input defaultValue={promotion && DateTimeUtil.toString(new Date(promotion.timeEnd * 1000))} className="ctk-editor-input" ref={e => this.timeEndInputRef = e} type="date" placeholder="Chương trình khuyến mãi siêu cấp" />}
+                                    </div>
+
                                     <div className="ctk-row">
                                         <label className="ctk-editor-lable">Khu vực áp dụng: </label>
                                         {isRender && <select defaultValue={promotion && promotion.location} className="ctk-editor-input" ref={e => this.locationInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp">
@@ -144,21 +205,25 @@ class CreatePromotion extends Component {
                                     </div>
                                     <div className="ctk-row">
                                         <label className="ctk-editor-lable">Loại khuyến mãi: </label>
-                                        {isRender && <select defaultValue={promotion && promotion.typePromotion} className="ctk-editor-input" ref={e => this.typePromotionRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp">
+                                        {isRender && <select disabled={isUpdate} onChange={this._onChangeTypePromotion} defaultValue={promotion ? promotion.typePromotion : this.state.typePromotion.getType()} className="ctk-editor-input" ref={e => this.typePromotionRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp">
                                             {TypeConstruction.getList().map((item, index) => {
                                                 return <option key={index} value={item.getType()}>{item.getName()}</option>
                                             })}
                                         </select>
                                         }
                                     </div>
-                                    <div className="ctk-row">
-                                        <label className="ctk-editor-lable">Thời gian bắt đầu: </label>
-                                        {isRender && <input defaultValue={promotion && DateTimeUtil.toString(new Date(promotion.timeStart * 1000))} className="ctk-editor-input" ref={e => this.timeStartInputRef = e} type="date" placeholder="Chương trình khuyến mãi siêu cấp" />}
-                                    </div>
-                                    <div className="ctk-row">
-                                        <label className="ctk-editor-lable">Thời gian kết thúc: </label>
-                                        {isRender && <input defaultValue={promotion && DateTimeUtil.toString(new Date(promotion.timeEnd * 1000))} className="ctk-editor-input" ref={e => this.timeEndInputRef = e} type="date" placeholder="Chương trình khuyến mãi siêu cấp" />}
-                                    </div>
+                                    {this.state.typePromotion == NOW_CONSTRUCTION  &&
+                                        <div className="ctk-row">
+                                            <label className="ctk-editor-lable">Loại xi măng </label>
+                                            {isRender && <div className="ctk-editor-input c1"> <CementMultiSelect defaultValue={promotion && promotion.ruleAcceptedCement} ref={e => this.cementRef = e} /> </div>}
+                                        </div>
+                                    }
+                                    {this.state.typePromotion == NOW_CONSTRUCTION &&
+                                        <div className="ctk-row">
+                                            <label className="ctk-editor-lable">Số lượng tối thiểu: </label>
+                                            {isRender && <input defaultValue={promotion && promotion.ruleQuantily} className="ctk-editor-input" ref={e => this.ruleQuantilyInputRef = e} type="number" placeholder="Số lượng sản phẩm tối thiểu" />}
+                                        </div>
+                                    }
                                 </form>
                             </div>
                             <div className="d-flex flex-row mt-2">
@@ -167,14 +232,14 @@ class CreatePromotion extends Component {
                             <div className="inbox-action ctkm">
                                 {this.state.errorMsg && <div style={{ textAlign: 'right', paddingRight: '45px' }} className="errorMsg"><p>{this.state.errorMsg}</p></div>}
                                 <ul>
-                                    {promotion && promotion.status == 1 && <li onClick={this._onClickPublic}><span className="mbtn">Public</span></li> }
+                                    {promotion && promotion.status == 1 && <li onClick={this._onClickPublic}><span className="mbtn">Public</span></li>}
                                     <li onClick={this._onClickSave}><span className="mbtn">Save</span></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-            <AreYouSureModal isOpen={this.state.isAreYouSureModal} onOK={this.onPublicPost} onClose={this._onClosePublicModal} />
+                <AreYouSureModal isOpen={this.state.isAreYouSureModal} onOK={this.onPublicPost} onClose={this._onClosePublicModal} />
             </div>
         )
     }

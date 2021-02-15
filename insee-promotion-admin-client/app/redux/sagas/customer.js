@@ -107,7 +107,7 @@ function* getCustomerByIdAsync(action) {
 
 function getCustomerById(id) {
   return new Promise((resolve, reject) => {
-    APIUtils.getJSONWithoutCredentials(process.env.DOMAIN + `/api/admin/customer?id=` + id, resolve, reject);
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/customer?id=` + id, resolve, reject);
   });
 }
 
@@ -122,7 +122,7 @@ function* getListPromotionAsync(action) {
 
 function getPromotion() {
   return new Promise((resolve, reject) => {
-    APIUtils.getJSONWithoutCredentials(process.env.DOMAIN + `/api/admin/post/list`, resolve, reject);
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/post/list`, resolve, reject);
   });
 }
 
@@ -136,7 +136,7 @@ function* getPromotionByIdAsync(action) {
 
 function getPromotionById(id) {
   return new Promise((resolve, reject) => {
-    APIUtils.getJSONWithoutCredentials(process.env.DOMAIN + `/api/admin/post?id=` + id, resolve, reject);
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/post?id=` + id, resolve, reject);
   });
 }
 
@@ -159,22 +159,23 @@ function postToCreatePromotion(data) {
     title: data.title,
     summary: data.summary,
     content: data.content,
+    cover: data.cover,
     typePromotion: data.typePromotion,
     location: data.location,
     timeStart: data.timeStart,
     timeEnd: data.timeEnd,
-    ruleQuantily: data.ruleQuantily
+    ruleQuantily: data.ruleQuantily,
+    ruleAcceptedCement: data.ruleAcceptedCement
   }
   if (data.postId) {
     body.id = data.postId
   }
   return new Promise((resolve, reject) => {
-    APIUtils.postJSONWithoutCredentials(process.env.DOMAIN + `/api/admin/post/create`, JSON.stringify(body), resolve, reject);
+    APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/post/create`, JSON.stringify(body), resolve, reject);
   });
 }
 
 //loginAsync 
-
 function* loginAsync(action) {
   yield put({ type: type.APP.LOGIN_START })
   const resp = yield call(postLogin, action.data)
@@ -190,7 +191,7 @@ function postLogin(data) {
     pass: data["pass"]
   }
   return new Promise((resolve, reject) => {
-    APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/admin/authen/login`, JSON.stringify(body), resolve, reject);
+    APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/authen/login`, JSON.stringify(body), resolve, reject);
   });
 }
 
@@ -204,7 +205,7 @@ function* getProfileAsync() {
 
 function getProfile() {
   return new Promise((resolve, reject) => {
-    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/admin/authen/profile`, resolve, reject);
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/authen/profile`, resolve, reject);
   });
 }
 

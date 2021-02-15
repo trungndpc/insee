@@ -10,13 +10,28 @@ class BirtdayInput extends Component {
         this.state = {
             year: 0,
             month: 0,
-            day: 0
+            day: 0,
+            default: null
         }
         this.onChangeMonth = this.onChangeMonth.bind(this);
         this.onChangeYear = this.onChangeYear.bind(this);
         this.onChangeDay = this.onChangeDay.bind(this);
         this.getListDay = this.getListDay.bind(this);
         this.getValue = this.getValue.bind(this);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.default && nextProps.default != nextState.default && nextState.default == null) {
+            const date = new Date(nextProps.default * 1000);
+            let day = date.getDate()
+            let year = date.getFullYear();
+            let month = date.getMonth() + 1;
+            nextState.year = year;
+            nextState.day = day;
+            nextState.month = month;
+            return true;
+        }
+        return this.state != nextState;
     }
 
     getValue() {
@@ -75,7 +90,7 @@ class BirtdayInput extends Component {
         return (
             <div className="birthday">
                 <div style={{float: 'left'}} className="birthday-item">
-                    <select onChange={this.onChangeDay} >
+                    <select value={this.state.day} onChange={this.onChangeDay} >
                         <option value={0}>Ngày</option>
                         {listDay && listDay.map(function (day) {
                             return <option key={day} value={day}>{day}</option>;
@@ -83,7 +98,7 @@ class BirtdayInput extends Component {
                     </select>
                 </div>
                 <div className="birthday-item">
-                        <select onChange={this.onChangeMonth} >
+                        <select value={this.state.month} onChange={this.onChangeMonth} >
                             <option>Tháng</option>
                             {months.map(function (month) {
                                 return (<option key={month.id} value={month.id}>{month.name}</option>)
@@ -91,7 +106,7 @@ class BirtdayInput extends Component {
                         </select>
                 </div>
                 <div style={{float: 'right'}} className="birthday-item">
-                    <select onChange={this.onChangeYear}  >
+                    <select value={this.state.year} onChange={this.onChangeYear}  >
                         <option value={0}>Năm sinh</option>
                         {years.map(function (year) {
                             return (<option key={year} value={year}>{year}</option>)

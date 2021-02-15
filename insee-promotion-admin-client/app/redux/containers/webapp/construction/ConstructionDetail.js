@@ -13,6 +13,7 @@ import SendGiftModal from '../../../../components/modal/SendGiftModal'
 import AreYouSureModal from '../../../../components/modal/AreYouSureModal'
 import ClientNote from '../../../../components/enum/ClientNote'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
+import * as CementEnum from '../../../../components/enum/CementEnum'
 
 class ConstructionDetail extends Component {
 
@@ -37,6 +38,7 @@ class ConstructionDetail extends Component {
     this._onClickOpenFormSendingGift = this._onClickOpenFormSendingGift.bind(this)
     this._onCloseFormSendingGift = this._onCloseFormSendingGift.bind(this)
     this.isApproval = true;
+    console.log(CementEnum.findById(2))
   }
 
   _onClickOpenApprovalModal() {
@@ -200,6 +202,12 @@ class ConstructionDetail extends Component {
                     }
                     {type == NOW_CONSTRUCTION &&
                       <tr>
+                        <th>Loại xi măng</th>
+                        <td>{construction && CementEnum.findById(construction.cement).name}</td>
+                      </tr>
+                    }
+                    {type == NOW_CONSTRUCTION &&
+                      <tr>
                         <th>Số lượng sản phẩm: </th>
                         <td>{construction && construction.quantity}</td>
                       </tr>
@@ -249,10 +257,10 @@ class ConstructionDetail extends Component {
               {construction && !construction.label &&
                 <li><Link onClick={this._onClickOpenAreYouSureModal} className="add-butn">Cập nhật</Link></li>
               }
-              {construction 
-              && construction.label && 
-                ( construction.status == ConstructionStatus.WAITING_APPROVAL.getStatus() 
-                  || construction.status == ConstructionStatus.RE_SUBMIT.getStatus() ) &&
+              {construction
+                && construction.label &&
+                (construction.status == ConstructionStatus.WAITING_APPROVAL.getStatus()
+                  || construction.status == ConstructionStatus.RE_SUBMIT.getStatus()) &&
                 <div>
                   <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn">Chấp nhận</Link></li>
                   <li><Link onClick={this._onClickOpenRejectModal} className="add-butn">Không chấp nhận</Link></li>

@@ -41,7 +41,7 @@ class FormLayout extends Component {
                 {this.props.copyright && 
                     <div className="footer-desc">
                         <p>Nền tảng chính thức của nhà thầu INSEE Việt Nam</p>
-                        <p>Copyright Siam City Cerment (Vietnam) Ltd.</p>
+                        <p style={{lineHeight: '10px'}} >Copyright Siam City Cerment (Vietnam) Ltd.</p>
                     </div>
                 }
                 <Footer />

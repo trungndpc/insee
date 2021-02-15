@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import * as appActions from '../actions/app'
 import FormLayout from '../../components/layout/FormLayout'
 import PhoneUtil from '../../utils/PhoneUtil'
+import WebUtil from '../../utils/WebUtil'
 
 class Login extends React.Component {
 
@@ -17,7 +18,7 @@ class Login extends React.Component {
 
 
     onClickLoginZalo() {
-        window.location.href = "/authen/zalo?redirectUrl=" + encodeURIComponent('https://insee-client.wash-up.vn/khach-hang')
+        window.location.href = "/authen/zalo?redirectUrl=" + encodeURIComponent(WebUtil.getCurrentDomain() + '/dang-nhap')
     }
 
     _onClickLoginPass() {

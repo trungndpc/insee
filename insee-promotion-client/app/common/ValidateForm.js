@@ -1,6 +1,6 @@
 import { data } from "autoprefixer";
 
-const vnf_regex_phone = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+const vnf_regex_phone = /((09|03|07|08|05)+([0-9]{8})\b)/i;
 export class NowConstructionForm {
 
     static getChangeAndValidate(data, construction, promotion) {
@@ -33,9 +33,17 @@ export class NowConstructionForm {
             }
         }
 
+        if (data.cement != construction.cement) {
+            if (this.isValidCement(data.cement)) {
+                change.cement = data.cement
+            }
+        }
+
         if (data.quantity != construction.quantity) {
             if (this.isValidQuantity(data.quantity, promotion.ruleQuantily)) {
                 change.quantity = data.quantity
+            } else {
+                return null;
             }
         }
 
@@ -44,6 +52,7 @@ export class NowConstructionForm {
                 change.extra = data.extra
             }
         }
+        
         return change;
     }
 
@@ -53,6 +62,7 @@ export class NowConstructionForm {
             && this.isValidDistrict(form.district)
             && this.isValidStoreName(form.name)
             && this.isValidPhoneName(form.phone)
+            && this.isValidCement(form.cement)
             && this.isValidQuantity(form.quantity, promotion.ruleQuantily)
             && this.isValidPolicy(form.extra)
     }
@@ -62,7 +72,7 @@ export class NowConstructionForm {
             throw 'Vui lòng nhập địa chỉ'
         }
         if (address.length <= 10) {
-            throw 'Địa chỉ phải lớn hơn 20 ký tự'
+            throw 'Địa chỉ phải lớn hơn 10 ký tự'
         }
         return true;
     }
@@ -84,8 +94,8 @@ export class NowConstructionForm {
         if (!storeName) {
             throw 'Vui lòng nhập tên cửa hàng'
         }
-        if (storeName.length <= 10) {
-            throw 'Tên cửa hàng phải lớn hơn 10 ký tự'
+        if (storeName.length <= 5) {
+            throw 'Tên cửa hàng phải lớn hơn 5 ký tự'
         }
         return true;
     }
@@ -105,7 +115,8 @@ export class NowConstructionForm {
             throw 'Vui lòng nhập số lượng sản phẩm'
         }
         if (quantity < min) {
-            throw 'Số lượng sản phẩm phải đủ yêu cầu của chương trình'
+            return false;
+            // throw 'Số lượng sản phẩm phải đủ yêu cầu của chương trình'
         }
         return true;
     }
@@ -135,6 +146,13 @@ export class NowConstructionForm {
         let agree = extra['agree']
         if (!agree || !agree.includes(1)) {
             throw 'Vui lòng đồng ý với điều khoản của chúng tôi'
+        }
+        return true;
+    }
+
+    static isValidCement(cement) {
+        if (!cement || cement == 0) {
+            throw 'Vui lòng nhập loại xi măng'
         }
         return true;
     }
@@ -205,7 +223,7 @@ export class IntroConstructionForm {
             throw 'Vui lòng nhập địa chỉ'
         }
         if (address.length <= 10) {
-            throw 'Địa chỉ phải lớn hơn 20 ký tự'
+            throw 'Địa chỉ phải lớn hơn 10 ký tự'
         }
         return true;
     }
@@ -242,8 +260,8 @@ export class IntroConstructionForm {
         if (!storeName) {
             throw 'Vui lòng nhập tên chủ nhà'
         }
-        if (storeName.length <= 10) {
-            throw 'Tên cửa hàng phải lớn hơn 10 ký tự'
+        if (storeName.length <= 5) {
+            throw 'Tên cửa hàng phải lớn hơn 5 ký tự'
         }
         return true;
     }
@@ -258,4 +276,46 @@ export class IntroConstructionForm {
         return true;
     }
 
+}
+
+export class RegisterForm {
+
+    static isValid2Create(form) {
+        return this.isValidName(form.name)
+            && this.isValidArea(form.location)
+    }
+
+    static isValidPhone(phone) {
+        if (!phone) {
+            throw 'Vui lòng nhập số điện thoại'
+        }
+        if (!vnf_regex_phone.test(phone)) {
+            throw 'Số điện thoại không hợp lệ'
+        }
+        return true;
+    }
+
+    static isValidName(name) {
+        if (!name) {
+            throw 'Vui lòng nhập họ và tên của bạn'
+        }
+        if (name.length <= 5) {
+            throw 'Họ và tên phải lớn hơn 5 ký tự'
+        }
+        return true;
+    }
+
+    static isValidBirthday(birthday) {
+        if (birthday.error != 0) {
+            throw birthday.errorMsg;
+        }
+        return true;
+    }
+
+    static isValidArea(mainAreaId) {
+        if (mainAreaId == 0) {
+            throw 'Vui lòng nhập khu vực chính'
+        }
+        return true;
+    }
 }

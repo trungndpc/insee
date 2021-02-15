@@ -102,21 +102,20 @@ function getCustomer() {
 function* getPromotionByIdAsync(action) {
   yield put({ type: type.APP.GET_PROMOTION_BY_ID_START })
   const resp = yield call(getPromotionById, action.id)
-  yield put({ type: type.APP.GET_PROMOTION_BY_ID_END, payload: resp.data })
+  yield put({ type: type.APP.GET_PROMOTION_BY_ID_END, payload: resp})
 }
 
 function getPromotionById(id) {
   return new Promise((resolve, reject) => {
-    APIUtils.getJSONWithoutCredentials(process.env.DOMAIN + `/api/admin/post?id=` + id, resolve, reject);
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/post?id=` + id, resolve, reject);
   });
 }
 
 //Get list promotion 
-
-function* getListPromotionAsync(action) {
+function* getListPromotionAsync() {
   yield put({ type: type.APP.GET_LIST_PROMOTION_START })
   const resp = yield call(getPromotion)
-  yield put({ type: type.APP.GET_LIST_PROMOTION_END, payload: resp.data })
+  yield put({ type: type.APP.GET_LIST_PROMOTION_END, payload: resp })
 
 }
 
@@ -211,6 +210,7 @@ function postContruction(data) {
     quantity: data["quantity"],
     estimateTimeStart: data["estimateTimeStart"],
     typeConstruction: data["typeConstruction"],
+    cement: data["cement"],
     billIds: data["billIds"],
     imageIds: data["imageIds"],
     type: data["type"],

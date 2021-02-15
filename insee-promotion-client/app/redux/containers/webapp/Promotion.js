@@ -47,7 +47,7 @@ class Promotion extends React.Component {
                                                 <Route path="/khuyen-mai">
                                                     <ListPromotion {...this.props} />
                                                 </Route>
-                                            </Switch>s
+                                            </Switch>
                                         </div>
                                     </div>
                                 </div>

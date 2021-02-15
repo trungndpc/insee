@@ -14,6 +14,7 @@ import S3Util from '../../../utils/S3Util'
 import { NOW_CONSTRUCTION } from '../../../components/enum/TypeConstruction'
 import SuccessCreateContruction from '../../../components/promotions/SuccessCreateContruction'
 import { NowConstructionForm } from '../../../common/ValidateForm'
+import SelectCement from '../../../components/promotions/SelectCement'
 const BILL_FOLDER = "bill"
 const IMAGE_INSEE_FOLDER = "img-insee"
 class NowConstruction extends React.Component {
@@ -29,11 +30,13 @@ class NowConstruction extends React.Component {
             storePhone: '',
             quantity: 0,
             countImg: 0,
-            countBill: 0
+            countBill: 0,
+            cement: null
         }
         this.submit = this.submit.bind(this)
         this.uploadBill = this.uploadBill.bind(this)
         this.update = this.update.bind(this)
+        this.getPromotion = this.getPromotion.bind(this)
     }
 
     componentDidMount() {
@@ -56,7 +59,8 @@ class NowConstruction extends React.Component {
             nextState.storePhone = nextProps.app.construction.phone
             nextState.quantity = nextProps.app.construction.quantity
             nextState.countBill = nextProps.app.construction.bills.length
-            nextState.countImg = nextProps.app.construction.images.length
+            nextState.countImg = nextProps.app.construction.images.length,
+            nextState.cement = nextProps.app.construction.cement
         }
         return true;
     }
@@ -94,13 +98,17 @@ class NowConstruction extends React.Component {
     async submit() {
         try {
             await this.setState({ errorMsg: '' })
-            this.props.appActions.setStatusLoading(true);
-
-            const promotion = this.props.app.promotion
+            const promotion = this.getPromotion()
 
             let location = this.locationInputRef.getValues();
             let store = this.storeInputRef.getValues();
             let agree = this.agreeRef.checked;
+            
+            let cement = promotion.ruleAcceptedCement[0];
+            if (this.typeCementRef) {
+                cement = this.typeCementRef.getValue();
+            }
+
             let data = {
                 address: this.addressInputRef.value,
                 city: location.city,
@@ -110,9 +118,11 @@ class NowConstruction extends React.Component {
                 quantity: this.quantityInputRef.value,
                 extra: agree ? { agree: [1] } : {},
                 promotionId: parseInt(this.props.promotionId),
+                cement: cement,
                 type: NOW_CONSTRUCTION.getType()
             }
             if (NowConstructionForm.isValid2Create(data, promotion)) {
+                this.props.appActions.setStatusLoading(true);
                 let billFiles = this.billInputRef.getValue();
                 let imageFiles = this.imageInputRef.getValue();
                 if (NowConstructionForm.isValidBill(billFiles)
@@ -121,7 +131,6 @@ class NowConstruction extends React.Component {
                     let listImg = await this.uploadImgInsee(imageFiles);
                     data.billIds = listBill;
                     data.imageIds = listImg;
-                    console.log(data)
                     this.props.appActions.createNextContruction(data)
                 }
             }
@@ -131,18 +140,29 @@ class NowConstruction extends React.Component {
         }
     }
 
+    getPromotion() {
+        let promotion = this.props.app.promotion
+        return promotion && promotion.one;
+    }
+
     async update() {
         try {
             await this.setState({ errorMsg: '' })
             this.props.appActions.setStatusLoading(true);
 
-            const promotion = this.props.app.promotion
+            const promotion = this.getPromotion();
             let construction = this.props.app.construction;
 
             this.props.appActions.setStatusLoading(true);
             let location = this.locationInputRef.getValues();
             let store = this.storeInputRef.getValues();
             let agree = this.agreeRef.checked;
+
+            let cement = promotion.ruleAcceptedCement[0];
+            if (this.typeCementRef) {
+                cement = this.typeCementRef.getValue();
+            }
+            
             let data = {
                 address: this.addressInputRef.value,
                 city: location.city,
@@ -150,11 +170,16 @@ class NowConstruction extends React.Component {
                 name: store.name,
                 phone: store.phone,
                 quantity: this.quantityInputRef.value,
+                cement: cement,
                 extra: agree ? { agree: [1] } : {}
             }
+
             let change = NowConstructionForm.getChangeAndValidate(data, construction, promotion);
             let billFiles = this.billInputRef.getValue();
             let imageFiles = this.imageInputRef.getValue();
+            if (!change) {
+                return;
+            }
             if (Object.keys(change).length === 0 && (!billFiles || billFiles.length == 0) && (!imageFiles || imageFiles.length == 0)) {
                 throw 'Vui lòng cập nhật thông tin'
             }
@@ -168,7 +193,6 @@ class NowConstruction extends React.Component {
                 data.imageIds = listImg;
             }
             change.id = construction.id;
-            console.log(change)
             this.props.appActions.createNextContruction(change)
         } catch (e) {
             this.setState({ errorMsg: e })
@@ -180,6 +204,7 @@ class NowConstruction extends React.Component {
 
 
     render() {
+        const promotion = this.getPromotion();
         const crateedContruction = this.props.app.crateedContruction;
         if (crateedContruction) {
             return <SuccessCreateContruction />
@@ -198,11 +223,18 @@ class NowConstruction extends React.Component {
                     <div className="form-row">
                         <LocationInput city={this.state.city} district={this.state.district} ref={e => this.locationInputRef = e} />
                     </div>
+
                     <div className="form-row">
                         <StoreInput storeName={this.state.storeName} storePhone={this.state.storePhone} ref={e => this.storeInputRef = e} />
                     </div>
+                    <div className="form-row select-cement">
+                        {promotion && promotion.ruleAcceptedCement && promotion.ruleAcceptedCement.length > 1 &&
+                            <SelectCement value={this.state.cement} ref={e => this.typeCementRef = e} options={promotion.ruleAcceptedCement}/>
+                        }
+                    </div>
                     <div className="form-row">
-                        <input value={this.state.quantity} onChange={e => this.setState({ quantity: e.target.value })} ref={e => this.quantityInputRef = e} className="insee-input" type="number" placeholder="Số lượng sản phẩm dùng cho công trình" />
+                        <input value={this.state.quantity != 0 && this.state.quantity} onChange={e => this.setState({ quantity: e.target.value })} ref={e => this.quantityInputRef = e} className="insee-input" type="number" placeholder="Số lượng sản phẩm dùng cho công trình" />
+                        {promotion && this.state.quantity != 0 && this.state.quantity < promotion.ruleQuantily && <p className="err-slsp">Vui lòng nhập số lượng sản phẩm lớn hơn yêu cầu là {promotion.ruleQuantily}</p>}
                     </div>
                     <div className="form-row">
                         <ImageInput value={this.state.countBill != 0 ? `${this.state.countBill} hóa đơn đã upload, bấm vào đây để upload thêm` : null} placeholder={'Hình ảnh hóa đơn/đơn hàng đã mua'} ref={e => this.billInputRef = e} />

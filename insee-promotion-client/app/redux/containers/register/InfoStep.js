@@ -4,7 +4,8 @@ import FormLayout from '../../../components/layout/FormLayout'
 import {
     Link
 } from "react-router-dom";
-import {City} from '../../../data/Location';
+import { City } from '../../../data/Location';
+import { RegisterForm } from '../../../common/ValidateForm'
 
 class InfoStep extends Component {
 
@@ -16,10 +17,20 @@ class InfoStep extends Component {
         }
     }
 
+    componentDidMount() {
+        this.props.appActions.getProfile();
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
         if (this.props != nextProps) {
             if (nextProps.app.register.statusStep3 < 0) {
                 nextState.errorMsg = "Đăng ký thất bại"
+            }
+
+            if (nextProps.app.user != null && nextProps.app.user && !this.props.app.user) {
+                const user = nextProps.app.user;
+                nextState.name = user.name;
+                nextState.birthday = user.birthday
             }
         }
         return true;
@@ -27,51 +38,23 @@ class InfoStep extends Component {
 
 
     _onClickSubmit() {
-        let errorMsg = null;
         try {
             let name = this.nameInputRef.value;
-            // let password = this.passwordInputRef.value;
-            // let confirmPassword = this.confirmPasswordInputRef.value;
             let mainAreaId = this.mainAreaRef.value;
+            let birthday = this.birthdayInputRef.getValue();
 
-            if (!name) {
-                errorMsg = 'Vui lòng nhập họ và tên'
-                return;
-            }
-
-            let birthday = 0;
-            let birthdayValue = this.birthdayInputRef.getValue();
-            if (birthdayValue.error == 0) {
-                birthday = birthdayValue.value;
-            } else {
-                errorMsg = birthdayValue.errorMsg;
-                return;
-            }
-
-            // if (!password) {
-            //     errorMsg = 'Vui lòng nhập mật khẩu'
-            //     return;
-            // }
-            // if (!confirmPassword) {
-            //     errorMsg = 'Vui lòng xác nhận mật khẩu'
-            //     return;
-            // }
-            // if (password != confirmPassword) {
-            //     errorMsg = "Mật khẩu xác nhận không đúng"
-            //     return;
-            // }
-            if (mainAreaId == 0) {
-                errorMsg = "Vui lòng nhập khu vực chính"
-                return;
-            }
             let data = { ...this.props.app.register };
-            data["birthday"] = parseInt(birthday / 1000);
+            if (RegisterForm.isValidBirthday(birthday)) {
+                data["birthday"] = parseInt(birthday.value / 1000);
+            }
             data["name"] = name;
-            // data["password"] = password;
             data["location"] = parseInt(mainAreaId);
-            this.props.appActions.updateCustomer(data);
-        } finally {
-            this.setState({ errorMsg: errorMsg })
+ 
+            if (RegisterForm.isValid2Create(data)) {
+                this.props.appActions.updateCustomer(data);
+            }
+        } catch (e) {
+            this.setState({ errorMsg: e })
         }
     }
 
@@ -85,10 +68,10 @@ class InfoStep extends Component {
                 <div className="form-description">Vui lòng nhập thông tin để tạo tài khoản</div>
 
                 <div className="form-row">
-                    <input ref={e => this.nameInputRef = e} className="insee-input" type="text" placeholder="Họ và tên" />
+                    <input ref={e => this.nameInputRef = e} value={this.state.name} onChange={e => this.setState({ name: e.target.value })} className="insee-input" type="text" placeholder="Họ và tên" />
                 </div>
                 <div className="form-row">
-                    <BirtdayInput ref={e => this.birthdayInputRef = e} />
+                    <BirtdayInput default={this.state.birthday} ref={e => this.birthdayInputRef = e} />
                 </div>
                 <div className="form-row">
                     <select ref={e => this.mainAreaRef = e} className="insee-input" >

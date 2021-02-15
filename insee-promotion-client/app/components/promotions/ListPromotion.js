@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import {
-    Switch,
-    Route,
     Link,
-    useParams
 } from "react-router-dom";
-import {City} from '../../data/Location'
+import { City } from '../../data/Location'
 import DateTimeUtil from '../../utils/DateTimeUtil'
+import MessageError from '../../components/MessageError'
+import ErrorHelper from '../../components/ErrorHelper'
 class ListPromotion extends Component {
 
     componentDidMount() {
@@ -14,13 +13,16 @@ class ListPromotion extends Component {
     }
 
     render() {
-        let promotions = this.props.app.promotions;
+        const promotion = this.props.app.promotion;
+        const error = promotion && promotion.error;
+        const list = promotion && promotion.list;
         return (
             <div className="loadMore">
                 <div className="m-content post">
                     <div className="row">
-                        {promotions && promotions.length == 0 && <div className="empty-container"><p>Chưa có chương trình khuyến mãi dành cho khu vực của bạn</p></div>} 
-                        {promotions && promotions.map((item, index) => {
+                        {!ErrorHelper.isSuccess(error) && <div className="empty-container"><p>{MessageError.getMsg(error)}</p></div>}
+                        {ErrorHelper.isSuccess(error) && list && list.length == 0 && <div className="empty-container"><p>Chưa có chương trình khuyến mãi dành cho khu vực của bạn</p></div>}
+                        {ErrorHelper.isSuccess(error) && list && list.map((item, index) => {
                             return (
                                 <div key={index} className="col-lg-6 col-sm-6">
                                     <div className="g-post-classic">
@@ -40,7 +42,7 @@ class ListPromotion extends Component {
                                                 </span>
                                             </div>
                                         </div>
-                                        {item.count > 0 && <span className="extra-infor-post">{`Đã tham gia ${item.count} lần`}</span> }
+                                        {item.count > 0 && <span className="extra-infor-post">{`Đã tham gia ${item.count} lần`}</span>}
                                     </div>
                                 </div>
                             )

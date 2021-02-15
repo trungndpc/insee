@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import '../../resources/webapp/css/main.css'
+// import '../../resources/webapp/css/main.css'
 import '../../resources/webapp/css/style.css';
 import '../../resources/webapp/css/responsive.css';
 import '../../resources/webapp/css/me.css';
@@ -19,7 +19,6 @@ class WebAppLayout extends Component {
 
   componentDidMount() {
     this.props.appActions.getProfile();
-    this.props.appActions.getCustomer();
   }
 
   _toggleMenuBar() {
@@ -34,9 +33,10 @@ class WebAppLayout extends Component {
     })
   }
 
+
   render() {
     const account = this.props.app.user;
-    const contractor = this.props.app.customer;
+    const contractor = account && account.customer;
     const certificate = contractor && contractor.volumeCiment > 700
     return (
       <div className="theme-layout">

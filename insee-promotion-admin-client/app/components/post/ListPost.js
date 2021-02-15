@@ -12,16 +12,18 @@ class ListPost extends Component {
 
     render() {
         let promotions = this.props.app.promotions;
+        console.log(promotions)
         return (
             <div className="loadMore">
                 <div className="m-content">
                     <div className="row">
+                        {(!promotions || promotions.list.length == 0) && <div className="col-md-12 no-post">Chưa có bài viết</div>}
                         {promotions && promotions.list.map((item, index) => {
                             return (
                                 <div className="col-lg-6 col-sm-6">
                                     <div className="g-post-classic">
                                         <figure>
-                                            <img alt="" src={require('../../resources/images/promotion1.png')} />
+                                            <img alt="" src={'https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/promotion1.png'} />
                                         </figure>
                                         <div className="g-post-meta">
                                             <div className="post-title">
