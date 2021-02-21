@@ -48102,6 +48102,7 @@ body {
     color: #545454;
     font-weight: 400;
     letter-spacing: 0.1px;
+    background-color: #f4f2f2 !important;
 
 }
 .container {
@@ -48828,6 +48829,7 @@ header.sticky {
     display: block;
     position: relative;
     width: 100%;
+    background-color: #fff;
 }
 
 .feature-photo > figure {
@@ -60291,6 +60293,7 @@ a.btn2:hover,
     top: 50px;
     right: 0;
     z-index: 1000;
+    margin-top: -140px !important;
  }
 
  .table-info-contractor th{
@@ -60564,7 +60567,14 @@ a.btn2:hover,
     padding: 10px 20px;
     width: 80%;
     background-color: #fff;
+    display: inline-block;
 }
+
+.ctk-editor-input.c1 {
+    border: none;
+    padding: 0;
+}
+
 
 .ctk-row {
     padding: 20px 0px;
@@ -60710,5 +60720,40 @@ a.btn2:hover,
 .paging-container {
     padding: 10px;
     text-align: center;
+}
+
+.no-post {
+    display: block;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.img-container {
+    width: 100%;
+    position: relative;
+    text-align: center;
+    cursor: pointer;
+}
+
+.img-container .img-icon {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    right: 5px;
+    top: 2px;
+}
+
+.img-container .preview-img-item {
+    text-align: center;
+    height: 300px;
+}
+
+.img-container .select-change {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
 }
 /*# sourceMappingURL=main-1.0.3.css.map*/

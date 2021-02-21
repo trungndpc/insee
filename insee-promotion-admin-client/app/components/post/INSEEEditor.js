@@ -80,7 +80,8 @@ class INSEEEditor extends Component {
     }
 
     getValue() {
-        return window.editor.getData();
+        let data =  window.editor.getData();
+        return data;
     }
 
     render() {

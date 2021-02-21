@@ -61,6 +61,7 @@ body {
     color: #545454;
     font-weight: 400;
     letter-spacing: 0.1px;
+    background-color: #f4f2f2 !important;
 
 }
 .container {
@@ -787,6 +788,7 @@ header.sticky {
     display: block;
     position: relative;
     width: 100%;
+    background-color: #fff;
 }
 
 .feature-photo > figure {
