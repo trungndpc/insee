@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Select from 'react-select'
 import * as CementEnum from '../enum/CementEnum'
-import {City} from '../../data/Location';
+import { City } from '../../data/Location';
 
 const options = City.getOptions();
 class LocationMultiSelect extends Component {
@@ -16,17 +16,16 @@ class LocationMultiSelect extends Component {
     }
 
     toOptionDefault(valueDefault) {
-        valueDefault = [valueDefault]
         var arr = [];
         valueDefault.forEach(id => {
             var name = City.getName(id);
-            arr.push({value: id, label: name})
+            arr.push({ value: id, label: name })
         });
         return arr;
     }
 
     handleChange = (newValue, actionMeta) => {
-        this.setState({value: newValue})
+        this.setState({ value: newValue })
     };
 
     getValue() {

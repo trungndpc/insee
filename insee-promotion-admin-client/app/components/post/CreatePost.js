@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { TypeConstruction, NOW_CONSTRUCTION, NEXT_CONSTRUCTION } from '../enum/TypeConstruction'
-import { City } from '../../data/Location'
 import INSEEEditor from './INSEEEditor'
 import DateTimeUtil from '../../utils/DateTimeUtil'
 import AreYouSureModal from '../../components/modal/AreYouSureModal'
@@ -66,7 +65,7 @@ class CreatePromotion extends Component {
     async _onClickSave() {
         let title = this.titleInputRef.value;
         let summary = this.summaryInputRef.value;
-        let location = this.locationRef.value;
+        let location = this.locationRef.getValue();
         let timeStart = this.timeStartInputRef.value;
         let timeEnd = this.timeEndInputRef.value;
         let content = this.editorRef.getValue();

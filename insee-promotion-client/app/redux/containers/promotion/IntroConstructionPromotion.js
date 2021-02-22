@@ -5,6 +5,7 @@ import * as appActions from '../../actions/app'
 import FormLayout from '../../../components/layout/FormLayout'
 import LocationInput from '../../../components/promotions/LocationInput'
 import OwnerInput from '../../../components/promotions/OwnerInput'
+import Project from '../../../data/Project'
 
 import '../../../resources/css/mobile/bootstrap.min.css';
 import '../../../resources/css/mobile/main.css';
@@ -149,19 +150,20 @@ class IntroConstructionPromotion extends React.Component {
                     <div className="form-row">
                         <select value={this.state.typeConstruction} onChange={e => this.setState({ typeConstruction: e.target.value })} ref={e => this.typeProjectInputRef = e} className="insee-input" >
                             <option value={0}>Loại hình dự án</option>
-                            <option value={1}>CT A</option>
-                            <option value={2}>CT B</option>
+                            {Project.getList().map((item, index) => {
+                                return <option key={item.key} value={item.key}>{item.value}</option>
+                            })}
                         </select>
                     </div>
                     <div className="form-row">
                         <OwnerInput ownerName={this.state.ownerName} ownerPhone={this.state.ownerPhone} ref={e => this.ownerInputRef = e} />
                     </div>
                     <div onClick={() => this.setState({ agreeValue: 2 })} className="form-row prelative policy">
-                        <input ref={this.noteRequirRef} value={2} checked={this.state.agreeValue == 2} onChange={() => this.setState({agreeValue: 2})} name="note-customer" type="radio" />
+                        <input ref={this.noteRequirRef} value={2} checked={this.state.agreeValue == 2} onChange={() => this.setState({ agreeValue: 2 })} name="note-customer" type="radio" />
                         <span>Tôi đồng ý cho nhân viên INSEE gọi chủ nhà để xác nhận thông tin (nhà thầu nên thông báo cho chủ nhà trước)</span>
                     </div>
                     <div onClick={() => this.setState({ agreeValue: 3 })} className="form-row prelative policy">
-                        <input ref={this.noteRequirRef} value={3} checked={this.state.agreeValue == 3} onChange={() => this.setState({agreeValue: 3})} name="note-customer" type="radio" />
+                        <input ref={this.noteRequirRef} value={3} checked={this.state.agreeValue == 3} onChange={() => this.setState({ agreeValue: 3 })} name="note-customer" type="radio" />
                         <span>Chỉ cho phép nhân viên INSEE tới kiểm tra trực tiếp tại công trình (quà tặng sẽ được gửi cho nhà thầu ngay sau khí xác nhận trực tiếp)</span>
                     </div>
                     {this.state.errorMsg && <div className="msg-error"><span>*** {this.state.errorMsg}</span></div>}

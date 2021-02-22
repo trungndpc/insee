@@ -14,6 +14,7 @@ import AreYouSureModal from '../../../../components/modal/AreYouSureModal'
 import ClientNote from '../../../../components/enum/ClientNote'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
 import * as CementEnum from '../../../../components/enum/CementEnum'
+import Project from '../../../../data/Project'
 
 class ConstructionDetail extends Component {
 
@@ -197,7 +198,7 @@ class ConstructionDetail extends Component {
                     {type == NEXT_CONSTRUCTION &&
                       <tr>
                         <th>Loại công trình: </th>
-                        <td>{construction && construction.typeConstruction}</td>
+                        <td>{construction && Project.getName(construction.typeConstruction)}</td>
                       </tr>
                     }
                     {type == NOW_CONSTRUCTION &&

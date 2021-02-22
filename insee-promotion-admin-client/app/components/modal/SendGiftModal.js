@@ -59,7 +59,9 @@ class SendGiftModal extends Component {
             this.setState({errorMsg: 'Vui lòng nhập đủ thông tin các card'})
             return;
         }
-
+        for(var card of cards) {
+            card.network = parseInt(typeCard)
+        }
         let data = {
             network: parseInt(typeCard),
             name: name,
