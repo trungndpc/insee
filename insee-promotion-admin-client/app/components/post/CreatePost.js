@@ -7,7 +7,9 @@ import AreYouSureModal from '../../components/modal/AreYouSureModal'
 import InputImage from '../InputImage'
 import S3Util from '../../utils/S3Util'
 import CementMultiSelect from '../post/CementMultiSelect'
+import LocationMultiSelect from '../post/LocationMultiSelect'
 const FOLDER_COVER_S3 = 'static/images/cover';
+
 
 class CreatePromotion extends Component {
 
@@ -64,7 +66,7 @@ class CreatePromotion extends Component {
     async _onClickSave() {
         let title = this.titleInputRef.value;
         let summary = this.summaryInputRef.value;
-        let location = this.locationInputRef.value;
+        let location = this.locationRef.value;
         let timeStart = this.timeStartInputRef.value;
         let timeEnd = this.timeEndInputRef.value;
         let content = this.editorRef.getValue();
@@ -99,7 +101,6 @@ class CreatePromotion extends Component {
             return;
         }
 
-
         let data = {
             title: title,
             summary: summary,
@@ -120,7 +121,7 @@ class CreatePromotion extends Component {
             }
 
             if (!ruleAcceptedCement || ruleAcceptedCement.length == 0) {
-                this.setState({errorMsg: 'Vui lòng chọn loại xi măng'})
+                this.setState({ errorMsg: 'Vui lòng chọn loại xi măng' })
                 return;
             }
 
@@ -150,7 +151,7 @@ class CreatePromotion extends Component {
                 reject('Đã có lỗi xảy ra trong quá trình upload hình ảnh');
             })
         });
-    }defaultValue
+    }
 
     render() {
         const postId = this.props.postId;
@@ -193,15 +194,9 @@ class CreatePromotion extends Component {
                                         <label className="ctk-editor-lable">Thời gian kết thúc: </label>
                                         {isRender && <input defaultValue={promotion && DateTimeUtil.toString(new Date(promotion.timeEnd * 1000))} className="ctk-editor-input" ref={e => this.timeEndInputRef = e} type="date" placeholder="Chương trình khuyến mãi siêu cấp" />}
                                     </div>
-
                                     <div className="ctk-row">
                                         <label className="ctk-editor-lable">Khu vực áp dụng: </label>
-                                        {isRender && <select defaultValue={promotion && promotion.location} className="ctk-editor-input" ref={e => this.locationInputRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp">
-                                            {City.getList().map((item, index) => {
-                                                return <option key={index} value={item.key}>{item.value}</option>
-                                            })}
-                                        </select>
-                                        }
+                                        {isRender && <div className="ctk-editor-input c1"> <LocationMultiSelect defaultValue={promotion && promotion.location} ref={e => this.locationRef = e} /> </div>}
                                     </div>
                                     <div className="ctk-row">
                                         <label className="ctk-editor-lable">Loại khuyến mãi: </label>
@@ -212,7 +207,7 @@ class CreatePromotion extends Component {
                                         </select>
                                         }
                                     </div>
-                                    {this.state.typePromotion == NOW_CONSTRUCTION  &&
+                                    {this.state.typePromotion == NOW_CONSTRUCTION &&
                                         <div className="ctk-row">
                                             <label className="ctk-editor-lable">Loại xi măng </label>
                                             {isRender && <div className="ctk-editor-input c1"> <CementMultiSelect defaultValue={promotion && promotion.ruleAcceptedCement} ref={e => this.cementRef = e} /> </div>}

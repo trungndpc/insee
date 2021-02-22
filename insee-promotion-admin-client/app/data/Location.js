@@ -1,9 +1,11 @@
 import data from './data_location.json'
 
 var listCity = [];
+var optionsCity = [];
 for (const key in data) {
     let r = { key: key, value: data[key].name }
     listCity.push(r);
+    optionsCity.push({value: key, label: data[key].name})
 }
 
 var listDistrict = [];
@@ -29,6 +31,10 @@ export class City {
 
     static getList() {
         return listCity;
+    }
+
+    static getOptions() {
+        return optionsCity;
     }
 }
 
