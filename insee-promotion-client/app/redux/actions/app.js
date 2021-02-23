@@ -110,3 +110,11 @@ export function receivedGift(id) {
     id: id
   }
 }
+
+export function getMsgC02(productId, bags) {
+  return {
+    type: type.APP.GET_CONSTRUCTION_ASYNC,
+    productId: productId,
+    bags: bags
+  }
+}
