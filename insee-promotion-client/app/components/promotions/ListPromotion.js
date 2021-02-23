@@ -26,7 +26,7 @@ class ListPromotion extends Component {
                 <div className="m-content post">
                     <div className="row">
                         {!ErrorHelper.isSuccess(error) && <div className="empty-container"><p>{MessageError.getMsg(error)}</p></div>}
-                        {ErrorHelper.isSuccess(error) && list && list.length == 0 && <div className="empty-container"><p>Chưa có chương trình khuyến mãi dành cho khu vực của bạn</p></div>}
+                        {ErrorHelper.isSuccess(error) && list && list.length == 0 && <div className="empty-container"><p>Hiện tại chưa có chương trình khuyến mãi tại khu vực xây dựng này</p></div>}
                         {ErrorHelper.isSuccess(error) && list && list.map((item, index) => {
                             return (
                                 <div key={index} className="col-lg-6 col-sm-6">

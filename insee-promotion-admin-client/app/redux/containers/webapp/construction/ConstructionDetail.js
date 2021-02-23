@@ -15,6 +15,7 @@ import ClientNote from '../../../../components/enum/ClientNote'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
 import * as CementEnum from '../../../../components/enum/CementEnum'
 import Project from '../../../../data/Project'
+import {City, District} from '../../../../data/Location'
 
 class ConstructionDetail extends Component {
 
@@ -159,7 +160,7 @@ class ConstructionDetail extends Component {
                     </tr>
                     <tr>
                       <th>Tỉnh / Huyện </th>
-                      <td>Hồ Chí Minh / Quận 2</td>
+                      <td>{construction && `${City.getName(construction.city)} / ${District.getName(construction.district)}`}</td>
                     </tr>
                     {type == NEXT_CONSTRUCTION &&
                       <tr>

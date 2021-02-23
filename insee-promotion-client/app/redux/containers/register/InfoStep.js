@@ -58,6 +58,10 @@ class InfoStep extends Component {
         }
     }
 
+    toPolicy() {
+        window.location.href = "https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/%C4%90i%E1%BB%81u+kho%E1%BA%A3n+s%E1%BB%AD+d%E1%BB%A5ng.docx"
+    }
+
     render() {
         return (
             <FormLayout {...this.props}>
@@ -83,7 +87,7 @@ class InfoStep extends Component {
                 </div>
                 <div className="form-row prelative policy">
                     <input defaultChecked type="checkbox" />
-                    <span> Tôi đã đọc và đồng ý các&ensp; <Link to={'#'}> điều khoản sử dụng và chính sách bảo mật </Link> &ensp;của công ty </span>
+                    <span> Tôi đã đọc và đồng ý các&ensp;<a href="#" onClick={this.toPolicy}>điều khoản sử dụng và chính sách bảo mật </a>&ensp;của công ty </span>
                 </div>
                 {this.state.errorMsg && <div className="msg-error"><span>*** {this.state.errorMsg}</span></div>}
                 <div className="btn-container">

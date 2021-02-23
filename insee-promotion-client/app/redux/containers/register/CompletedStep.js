@@ -11,7 +11,7 @@ class CompletedStep extends Component {
     }
 
     _onClickToZalo() {
-        window.location.href = "https://zalo.me/428332895304538762"
+        window.location.href = "https://zalo.me/2574239635754425040"
         return false;
     }
 

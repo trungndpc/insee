@@ -41,7 +41,7 @@ class StoreInput extends Component {
 
                 </div>
                 <div style={{ float: 'right' }} className="owner-input-phone">
-                    <input value={this.state.storePhone} onChange={e => this.setState({storePhone: e.target.value})} ref={e => this.phoneInputRef = e} className="insee-input" type="text" placeholder="SDT" />
+                    <input value={this.state.storePhone} onChange={e => this.setState({storePhone: e.target.value})} ref={e => this.phoneInputRef = e} className="insee-input" type="text" placeholder="SDT cửa hàng" />
                 </div>
             </div>
         )
