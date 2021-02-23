@@ -30,6 +30,7 @@
     top: 50px;
     right: 0;
     z-index: 1000;
+    margin-top: -140px !important;
  }
 
  .table-info-contractor th{

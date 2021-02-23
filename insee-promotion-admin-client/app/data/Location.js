@@ -1,20 +1,38 @@
-import data from './data_location.json'
+import data from './data_province_2.json'
+
+function compare(a, b) {
+    if (a.value < b.value) {
+        return -1;
+    }
+    if (a.value > b.value) {
+        return 1;
+    }
+    return 0;
+}
 
 var listCity = [];
+var optionsCity = [];
 for (const key in data) {
     let r = { key: key, value: data[key].name }
-    listCity.push(r);
+    if (data[key].status != 0) {
+        listCity.push(r);
+        optionsCity.push({ value: key, label: data[key].name })
+    }
 }
+listCity = listCity.sort(compare)
+optionsCity = optionsCity.sort(compare)
+
 
 var listDistrict = [];
 for (const key in data) {
     let city = data[key];
     let districts = city["districts"];
-    for (const disKey in districts) {
-        let oDistrict = { key: disKey, value: { name: districts[disKey].name, cityId: key } }
-        listDistrict.push(oDistrict);
-    }
+    districts.forEach(district => {
+        let o = { key: district.id, value: { name: district.name, cityId: key } }
+        listDistrict.push(o);
+    });
 }
+
 
 export class City {
 
@@ -28,15 +46,19 @@ export class City {
     }
 
     static getList() {
-        return listCity;
+        return listCity
+    }
+
+    static getOptions() {
+        return optionsCity;
     }
 }
 
 export class District {
     static getName(districtId) {
-        for (const key in listDistrict) {
-            if (key == districtId) {
-                return listDistrict[key].name
+        for (const district of listDistrict) {
+            if (district.key == districtId) {
+                return district.value.name;
             }
         }
     }
@@ -48,10 +70,11 @@ export class District {
         let city = data[cityId];
         let districts = city.districts;
         let rs = []
-        for(const district of districts) {
-            let o = {key: district.id, value: district.name}
+        for (const district of districts) {
+            let o = { key: district.id, value: district.name }
             rs.push(o);
         }
+        rs = rs.sort(compare);
         return rs;
     }
 }

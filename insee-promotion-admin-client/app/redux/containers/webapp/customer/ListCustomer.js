@@ -61,9 +61,9 @@ class ListCustomer extends Component {
       <div className="frnds">
         <ul className="nav nav-tabs">
           <li onClick={() => { this.onChangeStatus(10) }} className="nav-item"><a className={this.state.status == 10 ? 'active' : ''} >Tất cả</a></li>
-          <li onClick={() => { this.onChangeStatus(NEED_REVIEW.getStatus()) }} className="nav-item"><a className={this.state.status == 2 ? 'active' : ''} >Chờ duyệt</a><span>60</span></li>
-          <li onClick={() => { this.onChangeStatus(DO_NOT_HAVE_ACCOUNT.getStatus()) }} className="nav-item"><a className={this.state.status == 1 ? 'active' : ''} >Chưa có tài khoản</a><span>20</span></li>
-          <li onClick={() => { this.onChangeStatus(APPROVED.getStatus()) }} className="nav-item"><a className={this.state.status == 4 ? 'active' : ''}>Đã duyệt</a><span>10</span></li>
+          <li onClick={() => { this.onChangeStatus(NEED_REVIEW.getStatus()) }} className="nav-item"><a className={this.state.status == 2 ? 'active' : ''} >Chờ duyệt</a></li>
+          <li onClick={() => { this.onChangeStatus(DO_NOT_HAVE_ACCOUNT.getStatus()) }} className="nav-item"><a className={this.state.status == 1 ? 'active' : ''} >Chưa có tài khoản</a></li>
+          <li onClick={() => { this.onChangeStatus(APPROVED.getStatus()) }} className="nav-item"><a className={this.state.status == 4 ? 'active' : ''}>Đã duyệt</a></li>
         </ul>
         <div style={{ float: 'right' }}>
           <select onChange={this.onChangeLocation} value={this.state.location} style={{ width: '150px' }} className="form-control">

@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import * as appActions from '../actions/app'
 import { RECEIVED, GiftStatus, WAITING_RECEIVE } from '../../components/enum/GiftStatus'
 import FormLayout from '../../components/layout/FormLayout'
-import { APPROVED } from '../../components/enum/CustomerStatus'
+import { NetworkCardPhoneEnum, VIETEL_CARD, VINAPHONE_CARD, MOBILE_PHONE } from '../../components/enum/NetworkCardPhoneEnum'
 
 class GiftCard extends React.Component {
 
@@ -51,7 +51,7 @@ class GiftCard extends React.Component {
                 {status && status == RECEIVED &&
                     <div className="cards">
                         {gift.cards.map((item, index) => {
-                            return <ViettelCard key={index} index={index} seri={item.seri} code={item.code}/>
+                            return <ViettelCard key={index} index={index} network={item.network} seri={item.seri} code={item.code} />
                         })}
                     </div>
                 }
@@ -90,6 +90,7 @@ class ViettelCard extends React.Component {
     constructor(props) {
         super(props)
         this.onClickCopy = this.onClickCopy.bind(this)
+        this.getImage = this.getImage.bind(this)
     }
 
 
@@ -113,10 +114,22 @@ class ViettelCard extends React.Component {
         }
     }
 
+
+    getImage() {
+        let network = NetworkCardPhoneEnum.findById(this.props.network);
+        if (network == VINAPHONE_CARD) {
+            return "https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/vina-bg.jpg";
+        } else if (network == VIETEL_CARD) {
+            return "https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/vietel-bg.png";
+        } else {
+            return "https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/mobi-bg.jpg";
+        }
+    }
+
     render() {
         return (
             <div onClick={this.onClickCopy} className="card-item">
-                <img src="https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/viettel100.png" />
+                <img src={this.getImage()} />
                 <ul>
                     <li>
                         <span className="idam">Seri: </span>

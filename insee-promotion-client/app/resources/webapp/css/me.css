@@ -207,3 +207,15 @@
 .insee-input:focus {
     border: 1px solid #e6e6e6 !important;
 }
+
+.cke-content ul{
+    list-style-type: initial;
+    margin: revert;
+    padding: revert;
+}
+
+.cke-content li{
+    list-style-type: initial;
+    margin: revert;
+    padding: revert;
+}

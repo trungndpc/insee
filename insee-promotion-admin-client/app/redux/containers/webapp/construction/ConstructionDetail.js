@@ -14,6 +14,8 @@ import AreYouSureModal from '../../../../components/modal/AreYouSureModal'
 import ClientNote from '../../../../components/enum/ClientNote'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
 import * as CementEnum from '../../../../components/enum/CementEnum'
+import Project from '../../../../data/Project'
+import {City, District} from '../../../../data/Location'
 
 class ConstructionDetail extends Component {
 
@@ -158,7 +160,7 @@ class ConstructionDetail extends Component {
                     </tr>
                     <tr>
                       <th>Tỉnh / Huyện </th>
-                      <td>Hồ Chí Minh / Quận 2</td>
+                      <td>{construction && `${City.getName(construction.city)} / ${District.getName(construction.district)}`}</td>
                     </tr>
                     {type == NEXT_CONSTRUCTION &&
                       <tr>
@@ -197,7 +199,7 @@ class ConstructionDetail extends Component {
                     {type == NEXT_CONSTRUCTION &&
                       <tr>
                         <th>Loại công trình: </th>
-                        <td>{construction && construction.typeConstruction}</td>
+                        <td>{construction && Project.getName(construction.typeConstruction)}</td>
                       </tr>
                     }
                     {type == NOW_CONSTRUCTION &&

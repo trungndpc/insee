@@ -12,6 +12,11 @@ class ListPromotion extends Component {
         this.props.appActions.getListPromotion();
     }
 
+
+    renderLocation(arr) {
+        return ;
+    }
+
     render() {
         const promotion = this.props.app.promotion;
         const error = promotion && promotion.error;
@@ -21,19 +26,19 @@ class ListPromotion extends Component {
                 <div className="m-content post">
                     <div className="row">
                         {!ErrorHelper.isSuccess(error) && <div className="empty-container"><p>{MessageError.getMsg(error)}</p></div>}
-                        {ErrorHelper.isSuccess(error) && list && list.length == 0 && <div className="empty-container"><p>Chưa có chương trình khuyến mãi dành cho khu vực của bạn</p></div>}
+                        {ErrorHelper.isSuccess(error) && list && list.length == 0 && <div className="empty-container"><p>Hiện tại chưa có chương trình khuyến mãi tại khu vực xây dựng này</p></div>}
                         {ErrorHelper.isSuccess(error) && list && list.map((item, index) => {
                             return (
                                 <div key={index} className="col-lg-6 col-sm-6">
                                     <div className="g-post-classic">
                                         <figure>
-                                            <img alt="" src={'https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/promotion1.png'} />
+                                            <img alt="" src={item.cover} />
                                         </figure>
                                         <div className="g-post-meta">
                                             <div className="post-title no-border text-center-mobile">
                                                 <h4><a href="#">{item.title}</a></h4>
                                                 <p className="summary-rules">{`Thời gian áp dụng ${DateTimeUtil.toString(new Date(item.timeStart * 1000))} - ${DateTimeUtil.toString(new Date(item.timeEnd * 1000))}`}</p>
-                                                <p className="summary-rules">{`Khu vực áp dụng: ${City.getName(item.location)}`}</p>
+                                                <p className="summary-rules">{`Khu vực áp dụng: ${item.location.map(id => City.getName(id)).join(', ')}`}</p>
                                                 <p className="post-summary">{item.summary}</p>
                                                 <span className="p-date">
                                                     <Link to={'/khuyen-mai/' + item.id}>

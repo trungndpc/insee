@@ -1,0 +1,23 @@
+{
+    "1" : {
+        "name": "Nhà ở"
+    },
+    "2" : {
+        "name": "Khu dân cư"
+    },
+    "3": {
+        "name": "Chung cư, nhà trọ"
+    },
+    "4": {
+        "name": "Siêu thị, trung tâm thương mại"
+    },
+    "5": {
+        "name": "Nhà thờ, đền chùa"
+    },
+    "6": {
+        "name": "Nhà máy, xí nghiệp"
+    },
+    "7": {
+        "name": "Công trình nhà nước"
+    }
+}
