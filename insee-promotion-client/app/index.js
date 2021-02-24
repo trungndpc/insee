@@ -10,18 +10,17 @@ import {
   useHistory,
   useParams
 } from "react-router-dom";
+
 import Register from '../app/redux/containers/register/index';
 import ContractorInfo from './redux/containers/webapp/ContractorInfo';
 import Promotion from './redux/containers/webapp/Promotion'
 import Login from './redux/containers/Login'
+import UploadBillConstructionPromotion from './redux/containers/promotion/UploadBillConstructionPromotion'
 import IntroConstructionPromotion from './redux/containers/promotion/IntroConstructionPromotion'
-import Contructions from './redux/containers/webapp/Contructions'
-import NowConstruction from './redux/containers/promotion/NowConstruction'
 import GiftHistory from './redux/containers/webapp/GiftHistory'
 import GiftCard from './redux/containers/GiftCard'
 
 const store = configureStore()
-const isLogin = window.isLogin = true;
 
 function RouteApp() {
   let history = useHistory();
@@ -31,9 +30,9 @@ function RouteApp() {
   return <div></div>
 }
 
-function NowConstructionRoute() {
+function UploadBillConstructionPromotionRoute() {
   let { promotionId, constructionId } = useParams();
-  return <NowConstruction promotionId={promotionId} constructionId={constructionId} />
+  return <UploadBillConstructionPromotion promotionId={promotionId} constructionId={constructionId} />
 }
 
 function IntroConstructionPromotionRoute() {
@@ -53,9 +52,6 @@ function APP() {
       <Route path="/dang-nhap" >
         <Login />
       </Route>
-      <Route path="/cong-trinh">
-        <Contructions />
-      </Route>
       <Route path="/dang-ky" component={Register} />
       <Route path="/khuyen-mai/:promotionId/cong-trinh-tiep-theo/:constructionId">
         <IntroConstructionPromotionRoute />
@@ -64,10 +60,10 @@ function APP() {
         <IntroConstructionPromotionRoute />
       </Route>
       <Route path="/khuyen-mai/:promotionId/up-hoa-don-nha-qua/:constructionId">
-        <NowConstructionRoute />
+        <UploadBillConstructionPromotionRoute />
       </Route>
       <Route path="/khuyen-mai/:promotionId/up-hoa-don-nha-qua">
-        <NowConstructionRoute />
+        <UploadBillConstructionPromotionRoute />
       </Route>
       <Route path="/khach-hang" >
         <ContractorInfo />

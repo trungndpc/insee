@@ -17,7 +17,7 @@ import { NowConstructionForm } from '../../../common/ValidateForm'
 import SelectCement from '../../../components/promotions/SelectCement'
 const BILL_FOLDER = "bill"
 const IMAGE_INSEE_FOLDER = "img-insee"
-class NowConstruction extends React.Component {
+class UploadBillConstructionPromotion extends React.Component {
 
     constructor(props) {
         super(props)
@@ -258,7 +258,6 @@ class NowConstruction extends React.Component {
                             <button onClick={this.submit} className="btn-insee btn-insee-bg">Xác nhận</button>
                         }
                     </div>
-
                 </FormLayout>
                 <Loading {...this.props} />
             </div>
@@ -282,4 +281,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(NowConstruction)
+)(UploadBillConstructionPromotion)
