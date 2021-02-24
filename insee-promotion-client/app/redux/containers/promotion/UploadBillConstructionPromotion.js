@@ -213,7 +213,7 @@ class UploadBillConstructionPromotion extends React.Component {
             <div>
                 <FormLayout {...this.props}>
                     <span className="contact100-form-title">
-                        Chương trình khuyến mãi INSEE Wall Pro
+                        {promotion && promotion.title}
                      <div className="line-bt" />
                     </span>
                     <div className="form-description">Vui lòng nhập thông tin để hoàn tất</div>

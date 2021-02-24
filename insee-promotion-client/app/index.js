@@ -17,6 +17,7 @@ import Promotion from './redux/containers/webapp/Promotion'
 import Login from './redux/containers/Login'
 import UploadBillConstructionPromotion from './redux/containers/promotion/UploadBillConstructionPromotion'
 import IntroConstructionPromotion from './redux/containers/promotion/IntroConstructionPromotion'
+import ReportUploadBillConstructionPromotion from './redux/containers/promotion/ReportUploadBillConstructionPromotion'
 import GiftHistory from './redux/containers/webapp/GiftHistory'
 import GiftCard from './redux/containers/GiftCard'
 
@@ -75,9 +76,11 @@ function APP() {
         <GiftMessageRoute />
       </Route>
       <Route path="/lich-su" component={GiftHistory}/>
+      <Route path="/test" component={ReportUploadBillConstructionPromotion} />
       <Route path="/" >
         <ContractorInfo />
       </Route>
+
     </Switch>
   )
 }

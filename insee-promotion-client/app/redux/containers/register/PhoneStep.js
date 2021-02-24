@@ -62,7 +62,7 @@ class PhoneStep extends Component {
                 <span className="contact100-form-title">Đăng ký<div className="line-bt" /> </span>
                 <div className="form-container">
                     <div className="input-shell">
-                        <img src={'https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/icon-phone.png'} />
+                        <img src={require('../../../resources/images/icon-phone.png')} />
                         <input ref={e => this.phoneInputRef = e} onChange={this._onChangeInputPhone} placeholder="Vui lòng nhập số điện thoại" type="tel" pattern="[0-9]{4}.[0-9]{3}.[0-9]{3}" />
                     </div>
                     <div style={{ height: '40px' }}>

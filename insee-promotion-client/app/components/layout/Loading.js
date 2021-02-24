@@ -18,7 +18,7 @@ class Loading extends Component {
             return (
                 <div className="insee-app">
                     <div className="bg-loading"></div>
-                    <img className="img-loading" src={'https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/loading.gif'} />
+                    <img className="img-loading" src={require('../../resources/images/loading.gif')} />
                 </div>
             )
         }else {

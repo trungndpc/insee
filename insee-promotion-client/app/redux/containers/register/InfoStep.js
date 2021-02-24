@@ -59,7 +59,7 @@ class InfoStep extends Component {
     }
 
     toPolicy() {
-        window.location.href = "https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/%C4%90i%E1%BB%81u+kho%E1%BA%A3n+s%E1%BB%AD+d%E1%BB%A5ng.docx"
+        window.location.href = "https://ktl6lowkv2obj.vcdn.cloud/static/%C4%90i%E1%BB%81u+kho%E1%BA%A3n+s%E1%BB%AD+d%E1%BB%A5ng.docx"
     }
 
     render() {

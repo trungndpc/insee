@@ -118,11 +118,11 @@ class ViettelCard extends React.Component {
     getImage() {
         let network = NetworkCardPhoneEnum.findById(this.props.network);
         if (network == VINAPHONE_CARD) {
-            return "https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/vina-bg.jpg";
+            return require('../../resources/images/vina-bg.jpg');
         } else if (network == VIETEL_CARD) {
-            return "https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/vietel-bg.png";
+            return require('../../resources/images/vietel-bg.png');
         } else {
-            return "https://insee-promotion-vn.s3.us-east-2.amazonaws.com/static/images/mobi-bg.jpg";
+            return require('../../resources/images/mobi-bg.jpg');
         }
     }
 
