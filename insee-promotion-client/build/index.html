@@ -6,23 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8" />
     <title>insee-promotion-client</title>
-    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
-    <script  src="https://www.gstatic.com/firebasejs/8.1.2/firebase-auth.js"></script>
-    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.821.0.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <script src="https://sp.zalo.me/plugins/sdk.js"></script>
-    <!-- <script src="//cdn.jsdelivr.net/npm/eruda"></script> -->
-    <!-- <script>eruda.init();</script> -->
-<link href="/main-0.2.5.css" rel="stylesheet"></head>
+<link href="/main-1.0.6.css" rel="stylesheet"></head>
 
 <body>
     <script>
         window.register = {
-            step : 1
+            step: 1
         }
     </script>
     <div id="insee-promotion-client"></div>
-<script type="text/javascript" src="/main-0.2.5.js"></script></body>
+    <script>
+        function load(doc, tag, link) {
+            var el = doc.getElementsByTagName(tag)[0];
+            var script = doc.createElement(tag);
+            script.async = 1;
+            script.src = link;
+            el.parentNode.insertBefore(script, el)
+        }
+        load(document, 'script', '//gstatic.com/firebasejs/8.1.2/firebase-app.js');
+        load(document, 'script', '//gstatic.com/firebasejs/8.1.2/firebase-auth.js');
+        load(document, 'script', '//sdk.amazonaws.com/js/aws-sdk-2.821.0.min.js');
+    </script>
+<script type="text/javascript" src="/main-1.0.6.js"></script></body>
 
 
 

@@ -44,6 +44,7 @@ class PhoneStep extends Component {
             }
             phone = phone.replace(/\./g,'');
             if (RegisterForm.isValidPhone(phone)) {
+                FirebaseUtil.init();
                 window.recaptchaVerifier = FirebaseUtil.recaptcha();
                 phone = PhoneUtil.standardized(phone);
                 this.phone = phone;

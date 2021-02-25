@@ -8,9 +8,13 @@ const firebaseConfig = {
     appId: "1:471532250212:web:a6607b67a18dccb0a56b71",
     measurementId: "G-72T8VS69CZ"
 };
-firebase.initializeApp(firebaseConfig);
-firebase.auth().languageCode = 'vi';
+
 export default class FirebaseUtil {
+
+    static init() {
+        firebase.initializeApp(firebaseConfig);
+        firebase.auth().languageCode = 'vi';
+    }
 
     static recaptcha() {
         return new firebase.auth.RecaptchaVerifier('recaptcha-container', {

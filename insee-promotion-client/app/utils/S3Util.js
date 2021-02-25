@@ -2,19 +2,22 @@ var bucketRegion = "us-east-2";
 var albumBucketName = "insee-promotion-vn";
 var IdentityPoolId = "us-east-2:576f9bed-553b-46e0-b874-1b72134451bb";
 
-AWS.config.update({
-  region: bucketRegion,
-  credentials: new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: IdentityPoolId
-  })
-});
-
-var s3 = new AWS.S3({
-  apiVersion: "2012-10-17",
-  params: { Bucket: albumBucketName }
-});
-
+var s3;
 export default class S3Util {
+
+  static init() {
+    AWS.config.update({
+      region: bucketRegion,
+      credentials: new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: IdentityPoolId
+      })
+    });
+
+    s3 = new AWS.S3({
+      apiVersion: "2012-10-17",
+      params: { Bucket: albumBucketName }
+    });
+  }
 
   static createAlbum(parent, name, callback) {
     console.log(name)
@@ -51,7 +54,7 @@ export default class S3Util {
     for (var i = 0; i < files.length; i++) {
       var file = files.item(i);
       var ext = file.name.split('.').pop();
-      let name = fileName + "-" + i +"." + ext;
+      let name = fileName + "-" + i + "." + ext;
       let promise = this.addPhoto(albumkey, file, name);
       promises.push(promise);
     }

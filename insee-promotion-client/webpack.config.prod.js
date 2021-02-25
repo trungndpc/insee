@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const config = require('./app/config/production');
-const version = "0.2.5";
+const version = "1.0.6";
 const public_static = "https://ktl6lowkv2obj.vcdn.cloud/";
 
 const CSSModuleLoader = {
@@ -116,8 +116,8 @@ module.exports = {
 						loader: "file-loader",
 						options: {
 							name: "[name].[ext]",
-							publicPath: public_static,
-							outputPath: './image'
+							publicPath: public_static + "static/images/",
+							outputPath: './images'
 						}
 					},
 				]

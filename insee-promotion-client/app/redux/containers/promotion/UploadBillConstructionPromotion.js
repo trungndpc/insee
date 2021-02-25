@@ -21,6 +21,7 @@ class UploadBillConstructionPromotion extends React.Component {
 
     constructor(props) {
         super(props)
+        S3Util.init();
         this.state = {
             errorMsg: null,
             address: '',
