@@ -51,9 +51,12 @@ class GiftCard extends React.Component {
                 {status && status == RECEIVED &&
                     <div className="cards">
                         {gift.cards.map((item, index) => {
-                            return <ViettelCard key={index} index={index} network={item.network} seri={item.seri} code={item.code} />
+                            return <PhoneCard key={index} index={index} network={item.network} seri={item.seri} code={item.code} />
                         })}
                     </div>
+                }
+                {status && status == RECEIVED && 
+                <p style={{padding: '20px 40px'}}>***Hướng dẫn: Sử dụng bàn phím di động bấm: *100* (mã nạp thẻ) # OK</p>
                 }
                 <div className="cm-note">
                     Lưu ý:
@@ -86,58 +89,47 @@ export default connect(
 
 
 
-class ViettelCard extends React.Component {
+class PhoneCard extends React.Component {
     constructor(props) {
         super(props)
-        this.onClickCopy = this.onClickCopy.bind(this)
         this.getImage = this.getImage.bind(this)
+        this.copy = this.copy.bind(this)
     }
-
-
-    onClickCopy() {
-        var elm = document.getElementById("cpcode" + this.props.index);
-        // for Internet Explorer
-        if (document.body.createTextRange) {
-            var range = document.body.createTextRange();
-            range.moveToElementText(elm);
-            range.select();
-            document.execCommand("Copy");
-        }
-        else if (window.getSelection) {
-            // other browsers
-            var selection = window.getSelection();
-            var range = document.createRange();
-            range.selectNodeContents(elm);
-            selection.removeAllRanges();
-            selection.addRange(range);
-            document.execCommand("Copy");
-        }
-    }
-
 
     getImage() {
         let network = NetworkCardPhoneEnum.findById(this.props.network);
         if (network == VINAPHONE_CARD) {
-            return require('../../resources/images/vina-bg.jpg');
+            return require('../../resources/images/vinaphone.png');
         } else if (network == VIETEL_CARD) {
-            return require('../../resources/images/vietel-bg.png');
+            return require('../../resources/images/vietel.png');
         } else {
-            return require('../../resources/images/mobi-bg.jpg');
+            return require('../../resources/images/mobi.png');
         }
+    }
+
+    copy() {
+        var copyText = document.getElementById("code_" + this.props.index);
+        var tooltip = document.getElementById("tooltip_" + this.props.index);
+        tooltip.style.display = "none";
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        tooltip.style.display = "block";
+
+        setTimeout(function() {
+            window.open('tel:*100*' + this.props.code + '#', '_system');
+        }.bind(this), 1000)
     }
 
     render() {
         return (
-            <div onClick={this.onClickCopy} className="card-item">
+            <div className="card-item">
                 <img src={this.getImage()} />
                 <ul>
-                    <li>
-                        <span className="idam">Seri: </span>
-                        <span>{this.props.seri}</span>
-                    </li>
-                    <li>
-                        <span className="idam">Code: </span>
-                        <span id={'cpcode' + this.props.index}>{this.props.seri}</span>
+                    <li onClick={this.copy}>
+                        <span className="tooltiptext" id={"tooltip_" + this.props.index}>Đã copy</span>
+                        <span>Mã nạp thẻ: </span>
+                        <span> <input id={'code_' + this.props.index} className="code-cardphone" readOnly="readonly" value={this.props.code} /></span>
                     </li>
 
                 </ul>

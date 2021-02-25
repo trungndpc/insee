@@ -685,9 +685,10 @@ body {
 }
 
 .cm-title h3 {
-    font-size: xx-large;
+    font-size: large;
     color: red;
     font-weight: 600;
+    text-transform: uppercase;
 }
 
 .cm-desc {
@@ -698,8 +699,8 @@ body {
 .cm-desc p {
     padding: 0;
     margin: 0;
-    color: black;
-    font-size: medium;
+    color: #545454;
+    font-size: small;
 }
 
 .cm-content {
@@ -708,13 +709,13 @@ body {
 }
 
 .cm-content p {
-    color: black;
+    color: #545454;
     font-size: medium;
 }
 
 .cm-note  {
     text-align: center;
-    color: black;
+    color: #545454;
     font-size: medium;
     position: fixed;
     bottom: 0;
@@ -722,7 +723,7 @@ body {
 }
 
 .cm-note p {
-    color: black;
+    color: #545454;
     font-size: small;
     margin: 0;
     line-height: 15px;
@@ -734,28 +735,36 @@ body {
 }
 
 .cards .card-item {
+    position: relative;
     width: 80%;
     display: inline-block;
     border: 1px solid #ccc;
-    padding: 12px;
-    margin-bottom: 5px;
+    background: #fafafa;
+    padding: 10px 0px;
+    margin-bottom: 10px;
+    font-size: small;
 }
 
 .cards .card-item img {
-    height: 70px;
     float: left;
+    width: 100px;
+    padding: 20px;
 }
 
 .cards .card-item ul {
-    padding-top: 13px;
+    padding-top: 5px;
 }
 
 .cards .card-item ul li{
     font-size: small;
 }
 
-.idam {
+.code-cardphone {
+    text-align: center;
+    font-size: 18px;
+    width: calc(100% - 100px);
     font-weight: 600;
+    background-color: #fafafa;
 }
 
 .select-cement select{
@@ -769,3 +778,53 @@ body {
     border: 1px solid #e6e6e6 !important;
     padding-left: 20px;
 }
+.tooltiptext {
+    -webkit-animation: seconds 1.0s forwards;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-delay: 2s;
+    animation: seconds 1.0s forwards;
+    animation-iteration-count: 1;
+    animation-delay: 2s;
+    visibility: visible;
+    width: 78px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    top: -50%;
+    right: 0;
+    display: none;
+  }
+
+.tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+  }
+
+  @-webkit-keyframes seconds {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      left: -9999px; 
+    }
+  }
+  @keyframes seconds {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      left: -9999px; 
+    }
+  }
