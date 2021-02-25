@@ -1,5 +1,3 @@
-import { data } from "autoprefixer";
-
 const vnf_regex_phone = /((09|03|07|08|05)+([0-9]{8})\b)/i;
 export class NowConstructionForm {
 
