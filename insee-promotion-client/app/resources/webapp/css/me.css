@@ -15,6 +15,7 @@
     display: block;
     color: #b71c1c;
     border-top: 1px solid #e0e0e0;
+    text-align: left;
 }
 .insee-color {
     background-color: #b71c1c;
@@ -123,26 +124,18 @@
 
 .g-post-classic .summary-rules {
     color: #175ba9;
-    font-size: small;
+    font-size: 0.8rem;
     margin-bottom: 5px;
     line-height: 10px;
 }
 
 .g-post-classic .post-summary {
-    font-size: revert;
-    padding: 0 10px;
+    font-size: 1.0rem;
+    padding: 10px 0px;
     margin: 0;
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
-/* .table-info-contractor {
-    font-size: small;
-} */
-
-.f-title {
-    padding-bottom: 0;
-    /* font-size: medium; */
-}
 .photos > li a img {
     height: 100px;
 }
@@ -218,4 +211,20 @@
     list-style-type: initial;
     margin: revert;
     padding: revert;
+}
+
+.table-info-contractor {
+    font-size: medium;
+}
+
+.table-info-contractor tbody th {
+    padding: 12px 0px;
+    font-size: 100%;
+    font-weight: 500;
+}
+
+.table-info-contractor tbody td {
+    font-weight: 400;
+    font-size: 100%;
+    text-align: right;
 }
