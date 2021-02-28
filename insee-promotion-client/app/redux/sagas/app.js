@@ -74,7 +74,6 @@ function getCustomer() {
   });
 }
 
-
 //loginAsync 
 function* loginAsync(action) {
   yield put({ type: type.APP.LOGIN_ASYNC_START })

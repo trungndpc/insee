@@ -1,20 +1,21 @@
 import React, { Component } from 'react'
 import BirtdayInput from '../../../components/BirtdayInput'
 import FormLayout from '../../../components/layout/FormLayout'
-import {
-    Link
-} from "react-router-dom";
 import { City } from '../../../data/Location';
 import { RegisterForm } from '../../../common/ValidateForm'
+import RegisterModel from '../../../model/RegisterModel'
+import * as Error from '../../../common/Error'
+import * as Message from '../../../common/Message'
 
 class InfoStep extends Component {
 
     constructor(props) {
         super(props)
-        this._onClickSubmit = this._onClickSubmit.bind(this);
         this.state = {
             errorMsg: null
         }
+        this._submit = this._submit.bind(this)
+        this._setErrorMessage = this._setErrorMessage.bind(this)
     }
 
     componentDidMount() {
@@ -23,10 +24,6 @@ class InfoStep extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         if (this.props != nextProps) {
-            if (nextProps.app.register.statusStep3 < 0) {
-                nextState.errorMsg = "Đăng ký thất bại"
-            }
-
             if (nextProps.app.user != null && nextProps.app.user && !this.props.app.user) {
                 const user = nextProps.app.user;
                 nextState.name = user.name;
@@ -36,30 +33,40 @@ class InfoStep extends Component {
         return true;
     }
 
-
-    _onClickSubmit() {
+    _submit() {
         try {
-            let name = this.nameInputRef.value;
-            let mainAreaId = this.mainAreaRef.value;
-            let birthday = this.birthdayInputRef.getValue();
-
-            let data = { ...this.props.app.register };
-            if (RegisterForm.isValidBirthday(birthday)) {
-                data["birthday"] = parseInt(birthday.value / 1000);
+            let data = {
+                token: this.props.token,
+                name: this.nameInputRef.value,
+                location: parseInt(this.mainAreaRef.value),
             }
-            data["name"] = name;
-            data["location"] = parseInt(mainAreaId);
- 
+            let birthday = this.birthdayInputRef.getValue();
+            if (RegisterForm.isValidBirthday(birthday)) {
+                data.birthday = parseInt(birthday.value / 1000);
+            }
             if (RegisterForm.isValid2Create(data)) {
-                this.props.appActions.updateCustomer(data);
+                this.props.appActions.setStatusLoading(true);
+                RegisterModel.updateCustomer(data)
+                    .then((resp) => {
+                        if (resp.error == Error.COMMON.SUCCESS) {
+                            this.props.appActions.pushStateRegister(4);
+                        } else {
+                            this._setErrorMessage(Message.COMMON.REGISTER_FAILED)
+                        }
+                        this.props.appActions.setStatusLoading(false);
+                    })
+                    .catch((err) => {
+                        this._setErrorMessage(Message.COMMON.NETWORK_ERORR)
+                        this.props.appActions.setStatusLoading(false);
+                    })
             }
         } catch (e) {
             this.setState({ errorMsg: e })
         }
     }
 
-    toPolicy() {
-        window.location.href = "https://ktl6lowkv2obj.vcdn.cloud/static/%C4%90i%E1%BB%81u+kho%E1%BA%A3n+s%E1%BB%AD+d%E1%BB%A5ng.docx"
+    _setErrorMessage(msg) {
+        this.setState({ errorMsg: msg })
     }
 
     render() {
@@ -87,11 +94,11 @@ class InfoStep extends Component {
                 </div>
                 <div className="form-row prelative policy">
                     <input defaultChecked type="checkbox" />
-                    <span> Tôi đã đọc và đồng ý các&ensp;<a href="#" onClick={this.toPolicy}>điều khoản sử dụng và chính sách bảo mật </a>&ensp;của công ty </span>
+                    <span> Tôi đã đọc và đồng ý các&ensp;<a href="#">điều khoản sử dụng và chính sách bảo mật </a>&ensp;của công ty </span>
                 </div>
                 {this.state.errorMsg && <div className="msg-error"><span>*** {this.state.errorMsg}</span></div>}
                 <div className="btn-container">
-                    <button onClick={this._onClickSubmit} className="btn-insee btn-insee-bg">Đăng ký</button>
+                    <button onClick={this._submit} className="btn-insee btn-insee-bg">Đăng ký</button>
                 </div>
             </FormLayout>
         )

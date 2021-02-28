@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Suspense} from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as appActions from '../../actions/app'
@@ -7,18 +7,13 @@ import { UserRole } from '../../../components/enum/UserRole'
 import { CustomerStatus } from '../../../components/enum/CustomerStatus'
 import { City } from '../../../data/Location'
 import { ContentSideBar } from '../../../components/layout/SideBar'
-import FollowWidget from '../../../components/FollowWidget'
+const FollowWidget = React.lazy(() => import('../../../components/FollowWidget'));
+
 class ContractorInfo extends React.Component {
 
     constructor(props) {
         super(props);
-       
-    }
 
-   
-
-
-    componentDidMount() {
     }
 
     render() {
@@ -43,10 +38,12 @@ class ContractorInfo extends React.Component {
                                         <div className="col-lg-9">
                                             <div className="loadMore">
                                                 <div className="m-content">
-                                                    {user && !user.follower && 
-                                                    <div className="central-meta">
-                                                        <FollowWidget {...this.props}/>
-                                                    </div>
+                                                    {user && !user.follower &&
+                                                        <div className="central-meta">
+                                                            <Suspense fallback={<div>Loading...</div>}>
+                                                                <FollowWidget {...this.props} />
+                                                            </Suspense>
+                                                        </div>
                                                     }
                                                     <div className="central-meta">
                                                         <div className="about">

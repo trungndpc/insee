@@ -2,14 +2,14 @@ import React from 'react';
 import firebase from "firebase/app";
 import "firebase/auth";
 
-const config = {
-    apiKey: "AIzaSyAs4x1pmuienHn21ulZ4zuhweTFt4ujCEI",
-    authDomain: "insee-1ce3f.firebaseapp.com",
-    projectId: "insee-1ce3f",
-    storageBucket: "insee-1ce3f.appspot.com",
-    messagingSenderId: "471532250212",
-    appId: "1:471532250212:web:a6607b67a18dccb0a56b71",
-    measurementId: "G-72T8VS69CZ"
+var config = {
+    apiKey: "AIzaSyAEC96WyRueD1Ash54kgIHJ31BqGWHHS_4",
+    authDomain: "insee-nt.firebaseapp.com",
+    projectId: "insee-nt",
+    storageBucket: "insee-nt.appspot.com",
+    messagingSenderId: "1089546471836",
+    appId: "1:1089546471836:web:4275dfaa3fc5d7330a6059",
+    measurementId: "G-D60ZS1G34Q"
 };
 
 var isInitFirbase = false;
@@ -43,16 +43,18 @@ export default class Firebase extends React.Component {
     }
 
     sendOTP(phone, callback) {
+        console.log("sendOTP start.....")
         let recaptcha = this.dataRecaptcha ? this.dataRecaptcha : this.recaptcha();
+        console.log("sendOTP")
         firebase.auth().signInWithPhoneNumber(phone, recaptcha)
             .then(function (rs) {
                 this.dataConfirmation = rs;
                 callback(0)
             }.bind(this))
             .catch(function (err) {
-                console.log(err)
                 callback(-1)
-            }.bind(this))
+                this.dataRecaptcha = null;
+            }.bind(this).bind(this))
     }
 
     confirm(smsCode, callback) {

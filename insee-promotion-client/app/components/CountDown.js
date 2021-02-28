@@ -9,6 +9,7 @@ class CountDown extends Component {
         this.countdown = this.countdown.bind(this);
         this.done = this.done.bind(this);
         this.reset = this.reset.bind(this);
+        this.isExpired = this.isExpired.bind(this);
     }
 
     componentDidMount() {
@@ -51,6 +52,10 @@ class CountDown extends Component {
 
     done() {
         this.props.done && this.props.done();
+    }
+
+    isExpired() {
+        return this.state.count <= 0
     }
 
 

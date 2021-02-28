@@ -1,150 +1,101 @@
 import React, { Component } from 'react'
 import CountDown from '../../../components/CountDown'
 import FormLayout from '../../../components/layout/FormLayout'
+import OTPForm from '../../../components/OTPForm'
+import * as Error from '../../../common/Error'
+import * as Message from '../../../common/Message'
+import RegisterModel from '../../../model/RegisterModel'
 
-
-const SENDING_SMS = 1;
-const SENDING_SUCCESS = 2;
-const SENDING_FAILED = 3;
-
-const FM_NAME_INPUT = "smsCodeInput";
 class OTPStep extends Component {
 
     constructor(props) {
         super(props);
-        this._onKeyPress = this._onKeyPress.bind(this);
-        this.getSMSCode = this.getSMSCode.bind(this);
-        this._onSubmitSMSCode = this._onSubmitSMSCode.bind(this);
-        this.data = this.props.app.register;
-        this.getNextStep = this.getNextStep.bind(this);
-        this.resetInput = this.resetInput.bind(this);
-        this.counterEnd = this.counterEnd.bind(this);
-        this.sendOTP = this.sendOTP.bind(this);
-        this._onClickResetSMSCode = this._onClickResetSMSCode.bind(this);
-        this.confirmFailed = this.confirmFailed.bind(this);
         this.state = {
             errorMsg: null,
-            smsError: 0,
-            statusSending: SENDING_SUCCESS
         }
+        this.expires = this.expires.bind(this)
+        this._sendOTP = this._sendOTP.bind(this)
+        this._resetOTP = this._resetOTP.bind(this)
+        this._submit = this._submit.bind(this)
+        this._setErrorMessage = this._setErrorMessage.bind(this)
+        this._resetErrorMessage = this._resetErrorMessage.bind(this)
+        this._nextStep = this._nextStep.bind(this)
     }
 
     componentDidMount() {
         this.countDownRef.reset();
     }
 
-    getNextStep(token) {
-        this.props.setToken(token)
-        this.props.appActions.pushStateRegister(3);
+    expires() {
+        this._setErrorMessage(Message.OTP.EXPIRED_OTP)
     }
 
-    resetInput() {
-        for (var i = 1; i <= 6; i++) {
-            let inputRef = this[FM_NAME_INPUT + i];
-            inputRef.value = '';
-        }
-    }
-
-
-    sendOTP() {
-        let phone = this.props.phone;
-        if (phone) {
-            this.setState({ statusSending: SENDING_SMS })
-            this.props.firebase.sendOTP(phone, (err) => {
-                this.props.appActions.setStatusLoading(false);
-                if (err == 0) {
-                    this.setState({ statusSending: SENDING_SUCCESS })
-                    this.countDownRef.reset();
-                } else {
-                    this.setState({
-                        statusSending: SENDING_FAILED,
-                        errorMsg: "Gửi OTP thất bại, bạn vui lòng kiểm tra lại số điện thoại"
-                    })
-                }
-            })
-        }
-    }
-
-    _onClickResetSMSCode() {
-        console.log("_onClickResetSMSCode")
+    _sendOTP() {
         this.props.appActions.setStatusLoading(true);
-        this.sendOTP()
-        this.resetInput();
-        this.setState({
-            errorMsg: null,
-            smsError: 0,
+        this.props.firebase.sendOTP(this.props.phone, (err) => {
+            this.props.appActions.setStatusLoading(false);
+            if (err == Error.COMMON.SUCCESS) {
+                this.countDownRef.reset();
+            } else {
+                this._setErrorMessage(Message.OTP.SENDING_FAILED)
+            }
         })
     }
 
-    confirmFailed() {
-        this.setState({
-            smsError: -1,
-            errorMsg: 'Mã OTP không đúng vui lòng thử lại'
-        })
-        this.resetInput();
+    _resetOTP() {
+        this._sendOTP();
+        this.optForm.reset()
+        this._resetErrorMessage()
     }
 
-    _onSubmitSMSCode() {
-        if (this.state.smsError == 0 || this.state.smsError == -1) {
-            this.setState({ errorMsg: null })
-            let smsCode = this.getSMSCode();
-            if (smsCode == null || smsCode.length < 6) {
-                this.setState({ errorMsg: "Vui lòng nhập mã OTP" })
+    _submit() {
+        if (!this.countDownRef.isExpired()) {
+            this.props.appActions.setStatusLoading(true);
+            this._resetErrorMessage();
+            let code = this.optForm.getValue();
+            if (code == null || code.length < 6) {
+                this.props.appActions.setStatusLoading(false);
+                this._setErrorMessage(Message.OTP.PLEASE_INPUT_OTP)
                 return;
             }
-            this.props.firebase.confirm(smsCode, (err, token) => {
-                if (err == 0) {
-                    this.getNextStep(token)
+            this.props.firebase.confirm(code, (err, token) => {
+                if (err == Error.COMMON.SUCCESS) {
+                    token.user.getIdToken()
+                        .then((idToken) => {
+                            RegisterModel.login({ phone: this.props.phone, token: idToken })
+                                .then((resp) => {
+                                    this.props.appActions.setStatusLoading(false);
+                                    if (resp.error == Error.COMMON.SUCCESS) {
+                                        this._nextStep(idToken)
+                                    } else {
+                                        this._setErrorMessage(Message.COMMON.NETWORK_ERORR)
+                                    }
+                                })
+                                .catch((err) => {
+                                    this._setErrorMessage(Message.COMMON.NETWORK_ERORR)
+                                    this.props.appActions.setStatusLoading(false);
+                                })
+                        });
                 } else {
-                    this.confirmFailed()
+                    this.props.appActions.setStatusLoading(false);
+                    this._setErrorMessage(Message.OTP.WRONG_OTP)
+                    this.optForm.reset()
                 }
             })
         }
     }
 
-    _onKeyPress(key, index) {
-        if (key.key == 'Backspace') {
-            let prev = index - 1;
-            if (prev > 0) {
-                let prevRef = this[FM_NAME_INPUT + prev];
-                prevRef.focus();
-
-            }
-        } else if (key.key >= 0 && key.key <= 9) {
-            let next = index + 1;
-            if (next <= 6) {
-                let nextRef = this[FM_NAME_INPUT + next]
-                nextRef.focus();
-            }
-        }
+    _setErrorMessage(msg) {
+        this.setState({ errorMsg: msg })
     }
 
-    _onChange(e) {
-        if (e.target.value) {
-            e.target.value = e.target.value % 10;
-        } else {
-            e.target.value = null;
-        }
+    _resetErrorMessage() {
+        this.setState({ errorMsg: null })
     }
 
-    getSMSCode() {
-        let rs = "";
-        for (var i = 1; i <= 6; i++) {
-            let inputRef = this[FM_NAME_INPUT + i];
-            let value = inputRef.value;
-            if (!value) {
-                return null;
-            }
-            rs = rs + value;
-        }
-        return rs;
-    }
-
-    counterEnd() {
-        this.setState({
-            smsError: -10,
-            errorMsg: 'Mã OTP đã hết hạn, bấm Gửi Lại Mã để nhận OTP mới'
-        });
+    _nextStep(token) {
+        this.props.setToken(token)
+        this.props.appActions.pushStateRegister(3);
     }
 
     render() {
@@ -159,36 +110,17 @@ class OTPStep extends Component {
 
                 <div className="form-center">
                     <div style={{ padding: '20px 10px' }}>
-                        {this.state.statusSending == SENDING_SUCCESS &&
-                            <CountDown ref={e => this.countDownRef = e} count={120} done={this.counterEnd} />
-                        }
+                        <CountDown ref={e => this.countDownRef = e} count={120} done={this.expires} />
                     </div>
                     {this.state.errorMsg && <div className="error-msg">{this.state.errorMsg}</div>}
-                    <div className="wrap-input100 wrap-input25">
-                        <input ref={e => this.smsCodeInput1 = e} onChange={this._onChange} onKeyUp={key => { this._onKeyPress(key, 1) }} className="input100" type="number" />
-                    </div>
-                    <div className="wrap-input100 wrap-input25">
-                        <input ref={e => this.smsCodeInput2 = e} onChange={this._onChange} onKeyUp={key => { this._onKeyPress(key, 2) }} className="input100" type="number" />
-                    </div>
-                    <div className="wrap-input100 wrap-input25">
-                        <input ref={e => this.smsCodeInput3 = e} onChange={this._onChange} onKeyUp={key => { this._onKeyPress(key, 3) }} className="input100" type="number" />
-                    </div>
-                    <div className="wrap-input100 wrap-input25">
-                        <input ref={e => this.smsCodeInput4 = e} onChange={this._onChange} onKeyUp={key => { this._onKeyPress(key, 4) }} className="input100" type="number" />
-                    </div>
-                    <div className="wrap-input100 wrap-input25">
-                        <input ref={e => this.smsCodeInput5 = e} onChange={this._onChange} onKeyUp={key => { this._onKeyPress(key, 5) }} className="input100" type="number" />
-                    </div>
-                    <div className="wrap-input100 wrap-input25">
-                        <input ref={e => this.smsCodeInput6 = e} onChange={this._onChange} onKeyUp={key => { this._onKeyPress(key, 6) }} className="input100" type="number" />
-                    </div>
+                    <OTPForm ref={e => this.optForm = e} />
                 </div>
                 <div className="btn-container center">
                     <div className="btn-retry-send-code">
-                        <button onClick={this._onClickResetSMSCode} className="btn-insee btn-default-none-bg">Gửi lại mã</button>
+                        <button onClick={this._resetOTP} className="btn-insee btn-default-none-bg">Gửi lại mã</button>
                     </div>
                     <div className="btn-submit-otp">
-                        <button onClick={this._onSubmitSMSCode} className="btn-insee btn-insee-bg">Đăng ký</button>
+                        <button onClick={this._submit} className="btn-insee btn-insee-bg">Đăng ký</button>
                     </div>
                 </div>
             </FormLayout>

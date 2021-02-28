@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import PhoneUtil from '../../../utils/PhoneUtil'
 import FormLayout from '../../../components/layout/FormLayout'
 import { RegisterForm } from '../../../common/ValidateForm'
+import RegisterModel from '../../../model/RegisterModel'
+import * as Error from '../../../common/Error'
+import * as Message from '../../../common/Message'
 
 class PhoneStep extends Component {
 
@@ -10,44 +13,22 @@ class PhoneStep extends Component {
         this.state = {
             errorMsg: null
         }
-        this._onChangeInputPhone = this._onChangeInputPhone.bind(this);
+        this.phone = null;
+        this._formatPhone = this._formatPhone.bind(this);
         this._submit = this._submit.bind(this);
         this._sendOTP = this._sendOTP.bind(this)
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        let currentError = this.props.app.register.error;
-        let nextError = nextProps.app.register.error;
-        if (currentError != nextError) {
-            if (nextError == 0) {
-                this.props.setPhone(this.phone)
-                this._sendOTP();
-            }else{
-                nextState.errorMsg = "Số điện thoại đã được đăng ký"
-            }
-        }
-        return true;
-    }
-
-    _onChangeInputPhone(e) {
-        let value = e.target.value;
-        value = PhoneUtil.format(value);
-        if (value) {
-            if (value.length > 12) {
-                return;
-            }
-            this.phoneInputRef.value = value;
-        }
+        this._setErrorMessage = this._setErrorMessage.bind(this)
     }
 
     _sendOTP() {
         this.props.firebase.sendOTP(this.phone, (err) => {
-            if (err == 0) {
+            this.props.appActions.setStatusLoading(false);
+            if (err == Error.COMMON.SUCCESS) {
+                this.props.setPhone(this.phone)
                 this.props.appActions.pushStateRegister(2);
             } else {
-                this.setState({ errorMsg: 'Có lỗi xảy ra trong quá trình gửi mã OTP đến số điện thoại này' })
+                this._setErrorMessage(Message.OTP.SENDING_FAILED)
             }
-            this.props.appActions.setStatusLoading(false);
         })
     }
 
@@ -56,13 +37,36 @@ class PhoneStep extends Component {
             let phone = this.phoneInputRef.value;
             if (RegisterForm.isValidPhone(phone)) {
                 phone = PhoneUtil.standardized(phone);
-                this.props.appActions.setStatusLoading(true);
-                this.props.appActions.checkPhone(phone);
                 this.phone = phone;
+                this.props.appActions.setStatusLoading(true);
+                RegisterModel.checkPhone(phone)
+                    .then(resp => {
+                        if (resp.error == Error.COMMON.SUCCESS) {
+                            this._sendOTP();
+                        } else {
+                            this._setErrorMessage(Message.PHONE.PHONE_EXITS)
+                        }
+                    })
+                    .catch(err => {
+                        this._setErrorMessage(Message.COMMON.UNKOWN_ERROR)
+                    })
             }
         } catch (e) {
             this.setState({ errorMsg: e })
         }
+    }
+
+    _setErrorMessage(msg) {
+        this.setState({ errorMsg: msg })
+    }
+
+    _formatPhone(e) {
+        let value = e.target.value;
+        value = PhoneUtil.format(value);
+        if (value && value.length > 12) {
+            return;
+        }
+        this.phoneInputRef.value = value;
     }
 
     render() {
@@ -72,9 +76,9 @@ class PhoneStep extends Component {
                 <div className="form-container">
                     <div className="input-shell">
                         <img src={require('../../../resources/images/icon-phone.png')} />
-                        <input ref={e => this.phoneInputRef = e} onChange={this._onChangeInputPhone} placeholder="Vui lòng nhập số điện thoại" type="tel" pattern="[0-9]{4}.[0-9]{3}.[0-9]{3}" />
+                        <input ref={e => this.phoneInputRef = e} onChange={this._formatPhone} placeholder="Vui lòng nhập số điện thoại" type="tel" pattern="[0-9]{4}.[0-9]{3}.[0-9]{3}" />
                     </div>
-                    <div style={{ marginTop: '40px'}}>
+                    <div style={{ marginTop: '40px' }}>
                         {this.state.errorMsg && <span style={{ color: 'red', fontSize: 'medium' }}>*** {this.state.errorMsg}</span>}
                     </div>
                 </div>

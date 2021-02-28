@@ -17,7 +17,6 @@ var s3 = new AWS.S3({
 export default class S3Util {
 
   static createAlbum(parent, name, callback) {
-    console.log(name)
     name = name.trim();
     parent = parent.trim();
 

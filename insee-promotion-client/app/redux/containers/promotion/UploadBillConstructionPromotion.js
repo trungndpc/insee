@@ -10,18 +10,18 @@ import '../../../resources/css/mobile/main.css';
 import '../../../resources/css/mobile/me.css';
 import Loading from '../../../components/layout/Loading'
 import ImageInput from '../../../components/promotions/ImageInput'
-import S3Util from '../../../utils/S3Util'
 import { NOW_CONSTRUCTION } from '../../../components/enum/TypeConstruction'
 import SuccessCreateContruction from '../../../components/promotions/SuccessCreateContruction'
 import { NowConstructionForm } from '../../../common/ValidateForm'
 import SelectCement from '../../../components/promotions/SelectCement'
+import S3 from '../../../components/S3'
 const BILL_FOLDER = "bill"
 const IMAGE_INSEE_FOLDER = "img-insee"
+
 class UploadBillConstructionPromotion extends React.Component {
 
     constructor(props) {
         super(props)
-        S3Util.init();
         this.state = {
             errorMsg: null,
             address: '',
@@ -61,7 +61,7 @@ class UploadBillConstructionPromotion extends React.Component {
             nextState.quantity = nextProps.app.construction.quantity
             nextState.countBill = nextProps.app.construction.bills.length
             nextState.countImg = nextProps.app.construction.images.length,
-            nextState.cement = nextProps.app.construction.cement
+                nextState.cement = nextProps.app.construction.cement
         }
         return true;
     }
@@ -69,9 +69,9 @@ class UploadBillConstructionPromotion extends React.Component {
     uploadBill(fileList) {
         var uid = 25;
         return new Promise((resolve, reject) => {
-            S3Util.createAlbum(BILL_FOLDER, uid + "", (pathFolder) => {
+            this.s3.createAlbum(BILL_FOLDER, uid + "", (pathFolder) => {
                 let name = new Date().getTime();
-                let promoise = S3Util.addPhotos(pathFolder, fileList, name);
+                let promoise = this.s3.addPhotos(pathFolder, fileList, name);
                 promoise.then(values => {
                     resolve(values.map(value => value.Location))
                 }).catch(e => {
@@ -84,9 +84,9 @@ class UploadBillConstructionPromotion extends React.Component {
     uploadImgInsee(fileList) {
         var uid = 25;
         return new Promise((resolve, reject) => {
-            S3Util.createAlbum(IMAGE_INSEE_FOLDER, uid + "", (pathFolder) => {
+            this.s3.createAlbum(IMAGE_INSEE_FOLDER, uid + "", (pathFolder) => {
                 let name = new Date().getTime();
-                let promoise = S3Util.addPhotos(pathFolder, fileList, name);
+                let promoise = this.s3.addPhotos(pathFolder, fileList, name);
                 promoise.then(values => {
                     resolve(values.map(value => value.Location))
                 }).catch(e => {
@@ -104,7 +104,7 @@ class UploadBillConstructionPromotion extends React.Component {
             let location = this.locationInputRef.getValues();
             let store = this.storeInputRef.getValues();
             let agree = this.agreeRef.checked;
-            
+
             let cement = promotion.ruleAcceptedCement[0];
             if (this.typeCementRef) {
                 cement = this.typeCementRef.getValue();
@@ -163,7 +163,7 @@ class UploadBillConstructionPromotion extends React.Component {
             if (this.typeCementRef) {
                 cement = this.typeCementRef.getValue();
             }
-            
+
             let data = {
                 address: this.addressInputRef.value,
                 city: location.city,
@@ -215,7 +215,7 @@ class UploadBillConstructionPromotion extends React.Component {
                 <FormLayout {...this.props}>
                     <span className="contact100-form-title">
                         {promotion && promotion.title}
-                     <div className="line-bt" />
+                        <div className="line-bt" />
                     </span>
                     <div className="form-description">Vui lòng nhập thông tin để hoàn tất</div>
                     <div className="form-row">
@@ -230,21 +230,22 @@ class UploadBillConstructionPromotion extends React.Component {
                     </div>
                     <div className="form-row select-cement">
                         {promotion && promotion.ruleAcceptedCement && promotion.ruleAcceptedCement.length > 1 &&
-                            <SelectCement value={this.state.cement} ref={e => this.typeCementRef = e} options={promotion.ruleAcceptedCement}/>
+                            <SelectCement value={this.state.cement} ref={e => this.typeCementRef = e} options={promotion.ruleAcceptedCement} />
                         }
                     </div>
                     <div className="form-row">
                         <input value={this.state.quantity != 0 && this.state.quantity} onChange={e => this.setState({ quantity: e.target.value })} ref={e => this.quantityInputRef = e} className="insee-input" type="number" placeholder="Số lượng sản phẩm dùng cho công trình" />
                         {promotion && this.state.quantity != 0 && this.state.quantity < promotion.ruleQuantily && <p className="err-slsp">Vui lòng nhập số lượng sản phẩm lớn hơn yêu cầu là {promotion.ruleQuantily}</p>}
                     </div>
-                    <div className="form-row">
-                        <ImageInput value={this.state.countBill != 0 ? `${this.state.countBill} hóa đơn đã upload, bấm vào đây để upload thêm` : null} placeholder={'Hình ảnh hóa đơn/đơn hàng đã mua'} ref={e => this.billInputRef = e} />
-                        <p className="desc-bill">Lưu ý: Tổng số lượng trên hàng hóa bằng tổng số lượng sản phẩm đã nhập</p>
-                    </div>
-                    <div className="form-row">
-                        <ImageInput value={this.state.countImg != 0 ? `${this.state.countImg} hình ảnh đã upload, bấm vào đây để upload thêm` : null} placeholder={'Hình ảnh công trình có bao xi măng INSEE'} ref={e => this.imageInputRef = e} />
-                    </div>
-
+                    <S3 ref={e => this.s3 = e}>
+                        <div className="form-row">
+                            <ImageInput value={this.state.countBill != 0 ? `${this.state.countBill} hóa đơn đã upload, bấm vào đây để upload thêm` : null} placeholder={'Hình ảnh hóa đơn/đơn hàng đã mua'} ref={e => this.billInputRef = e} />
+                            <p className="desc-bill">Lưu ý: Tổng số lượng trên hàng hóa bằng tổng số lượng sản phẩm đã nhập</p>
+                        </div>
+                        <div className="form-row">
+                            <ImageInput value={this.state.countImg != 0 ? `${this.state.countImg} hình ảnh đã upload, bấm vào đây để upload thêm` : null} placeholder={'Hình ảnh công trình có bao xi măng INSEE'} ref={e => this.imageInputRef = e} />
+                        </div>
+                    </S3>
                     <div className="form-row prelative policy">
                         <input ref={e => this.agreeRef = e} defaultChecked={true} type="checkbox" />
                         <span>Tôi đồng ý cho nhân viên INSEE có thể tới công trình kiểm tra ngẫu nhiên</span>

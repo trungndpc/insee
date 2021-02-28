@@ -1,12 +1,13 @@
 const webpack = require('webpack');
-const autoprefixer = require('autoprefixer')
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserJSPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const config = require('./src/config/staging');
+const config = require('./app/config/staging');
+const version = "1.0.7";
+const public_static = "https://insee-client.wash-up.vn/static/";
 
 const CSSModuleLoader = {
   loader: 'css-loader',
@@ -23,41 +24,30 @@ const CSSLoader = {
   }
 }
 
-// const postCSSLoader = {
-//   loader: 'postcss-loader',
-//   options: {
-//     ident: 'postcss',
-//     sourceMap: true,
-//     plugins: () => [
-//       autoprefixer({
-//         overrideBrowserslist: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9']
-//       })
-//     ]
-//   }
-// }
-
 const postCSSLoader = {
   loader: 'postcss-loader',
   options: {
     ident: 'postcss',
-    sourceMap: true
+    sourceMap: true,
+    plugins: () => [
+      require('cssnano'),
+      require('autoprefixer'),
+    ]
   }
 }
-
-
-const version = "1.0.0.0";
 
 module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.css', '.png', '.jpg', '.gif', '.jpeg']
   },
-  mode: 'development',
-  devtool: 'cheap-module-eval-source-map',
-  entry: path.join(__dirname, "src", "index.js"),
+  mode: 'production',
+  devtool: 'source-map',
+  entry: path.join(__dirname, "app", "index.js"),
   output: {
     path: path.join(__dirname, "build"),
     filename: `main-${version}.js`,
-    publicPath: "/"
+    chunkFilename: `[name]-main-${version}.js`,
+    publicPath: "/static/"
   },
   optimization: {
     minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
@@ -71,20 +61,7 @@ module.exports = {
           loader: "babel-loader"
         }
       },
-      // {
-      //   test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/,
-      //   use: [{
-      //     loader: "file-loader",
-      //     options: {
-      //       name: "[name].[ext]",
-      //       // outputPath: './fonts',
-      //       // publicPath: '/static/fonts'
-      //       outputPath: './fonts',
-      //       publicPath: 'https://stc-ai-developers.zdn.vn/fonts'
-      //     }
-      //   }]
-      // },
-      // { test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/, loader: 'file-loader?name=fonts/[name].[ext]' },
+      { test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/, loader: 'file-loader?name=fonts/[name].[ext]' },
       { test: /\.svg$/, loader: 'url-loader' },
       {
         test: /\.scss$/,
@@ -126,97 +103,47 @@ module.exports = {
               ident: 'postcss',
               plugins: () => [
                 require('postcss-flexbugs-fixes'),
-                autoprefixer({
-                  overrideBrowserslist: [
-                    '>1%',
-                    'last 4 versions',
-                    'Firefox ESR',
-                    'not ie < 9' // React doesn't support IE8 anyway
-                  ],
-                  flexbox: 'no-2009'
-                })
+                require('cssnano'),
+                require('autoprefixer'),
               ]
             }
           },
         ]
       },
-      // {
-      //   test: /\.(jpg|jpeg|png|gif|mp3|wav)$/,
-      //   use: [
-      //     {
-      //       loader: "file-loader",
-      //       options: {
-      //         name: "[name].[ext]",
-      //         publicPath: '/static/image/',
-      //         outputPath: './image'
-      //       }
-      //     },
-      //   ]
-      // },
       {
-				test: /\.(jpg|jpeg|png|gif)$/,
-				use: [
-					{
-						loader: "file-loader",
-						options: {
-							name: "[name].[ext]",
-							publicPath: '/static/image/',
-							outputPath: './image'
-						}
-					},
-				]
+        test: /\.(jpg|jpeg|png|gif)$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]",
+              publicPath: public_static + "images/",
+              outputPath: './images'
+            }
+          },
+        ]
       },
       {
-				test: /\.(|mp4)$/,
-				use: [
-					{
-						loader: "file-loader",
-						options: {
-							name: "[name].[ext]",
-							publicPath: '/static/videos/',
-							outputPath: './videos'
-						}
-					},
-				]
-			},
-			{
-				test: /\.(|mp3|wav)$/,
-				use: [
-					{
-						loader: "file-loader",
-						options: {
-							name: "[name].[ext]",
-							publicPath: '/static/audio/',
-							outputPath: './audio'
-						}
-					},
-				]
-			},
-			{
-				test: /\.(woff(2)?|ttf|eot|otf)(\?v=\d+\.\d+\.\d+)?$/,
-				use: [
-					{
-						loader: 'file-loader',
-						options: {
-							name: "[name].[ext]",
+        test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: "[name].[ext]",
               outputPath: './fonts',
-              publicPath: '/static/fonts'
-							// publicPath: 'https://stc-ai-developers.zdn.vn/fonts/'
-						}
-					}
-				]
-			},
+              publicPath: public_static
+            }
+          }
+        ]
+      },
     ]
   },
-  devServer: {
-    historyApiFallback: true,
-    disableHostCheck: true
-  },
   plugins: [
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin(config),
     new HtmlWebpackPlugin({
       filename: "index.html",
-      template: path.join(__dirname, "src", "index.html")
+      template: path.join(__dirname, "public", "index.ejs")
     }),
     new MiniCssExtractPlugin({
       filename: `main-${version}.css`,

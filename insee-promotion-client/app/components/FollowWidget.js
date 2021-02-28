@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import '../resources/js/sdk.js'
 class FollowWidget extends Component {
 
 
@@ -20,7 +20,6 @@ class FollowWidget extends Component {
     }
 
     componentDidMount() {
-        console.log("xxxxxxx")
         if (!document.getElementById("widget-zalo-follow")) {
             let div = document.createElement("DIV");
             div.setAttribute("id", "widget-zalo-follow")

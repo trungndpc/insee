@@ -7,8 +7,10 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import autoprefixer from 'autoprefixer';
 import path from 'path';
 import config from './app/config/staging';
+import * as prjConfig from './package.json';
 
 export default {
+  mode: 'development',
   resolve: {
     extensions: ['*', '.js', '.jsx', '.json'],
     alias: {
@@ -22,7 +24,12 @@ export default {
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: './',
-    filename: '[name].js'
+    filename: 'main-' + prjConfig.version + '.js'
+  },
+  optimization: {
+    nodeEnv: 'production',
+    minimize: true,
+    mangleWasmImports: true,
   },
   plugins: [
     // Hash the files using MD5 so that their names change when the content changes.
@@ -32,7 +39,7 @@ export default {
     new webpack.DefinePlugin(config),
 
     // Generate an external css file with a hash in the filename
-    new ExtractTextPlugin('[name].[contenthash].css'),
+    new ExtractTextPlugin('main-' + prjConfig.version + '.css'),
 
     // Generate HTML file that contains references to generated bundles. See here for how this works: https://github.com/ampedandwired/html-webpack-plugin#basic-usage
     new HtmlWebpackPlugin({
@@ -53,10 +60,8 @@ export default {
       // Note that you can add custom options here if you need to handle other custom logic in index.html
       // To track JavaScript errors via TrackJS, sign up for a free trial at TrackJS.com and enter your token below.
       trackJSToken: ''
-    }),
+    }), 
 
-    // Minify JS
-    new webpack.optimize.UglifyJsPlugin({ sourceMap: false }),
 
     new webpack.LoaderOptionsPlugin({
       minimize: true,
@@ -80,7 +85,7 @@ export default {
       {test: /\.svg(\?v=\d+.\d+.\d+)?$/, loader: 'file-loader?name=fonts/[name].[ext]'},
       {test: /\.(jpe?g|png|gif)$/i, loader: 'file-loader?name=images/[name].[ext]'},
       {test: /\.ico$/, loader: 'file-loader?name=[name].[ext]'},
-      {test: /(\.css|\.scss|\.sass)$/, loader: ExtractTextPlugin.extract('css-loader!postcss-loader!sass-loader')}
+      {test: /(\.css|\.scss|\.sass)$/, loader: ExtractTextPlugin.extract('css-loader')}
     ]
   }
 };

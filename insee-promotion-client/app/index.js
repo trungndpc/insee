@@ -1,5 +1,5 @@
 /* eslint-disable import/default */
-import React, {Suspense} from 'react'
+import React, { Suspense } from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import configureStore from './redux/store/configure-store'
@@ -14,13 +14,12 @@ import {
 import ContractorInfo from './redux/containers/webapp/ContractorInfo';
 import Promotion from './redux/containers/webapp/Promotion'
 import Login from './redux/containers/Login'
-import UploadBillConstructionPromotion from './redux/containers/promotion/UploadBillConstructionPromotion'
 import IntroConstructionPromotion from './redux/containers/promotion/IntroConstructionPromotion'
-import ReportUploadBillConstructionPromotion from './redux/containers/promotion/ReportUploadBillConstructionPromotion'
 import GiftHistory from './redux/containers/webapp/GiftHistory'
 import GiftCard from './redux/containers/GiftCard'
 
-
+const ReportUploadBillConstructionPromotion = React.lazy(() => import('./redux/containers/promotion/ReportUploadBillConstructionPromotion'));
+const UploadBillConstructionPromotion = React.lazy(() => import('./redux/containers/promotion/UploadBillConstructionPromotion'));
 const Register = React.lazy(() => import('../app/redux/containers/register/index'));
 
 
@@ -36,12 +35,20 @@ function RouteApp() {
 
 function UploadBillConstructionPromotionRoute() {
   let { promotionId, constructionId } = useParams();
-  return <UploadBillConstructionPromotion promotionId={promotionId} constructionId={constructionId} />
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <UploadBillConstructionPromotion promotionId={promotionId} constructionId={constructionId} />
+    </Suspense>
+  )
 }
 
 function IntroConstructionPromotionRoute() {
   let { promotionId, constructionId } = useParams();
-  return <IntroConstructionPromotion promotionId={promotionId} constructionId={constructionId} />
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <IntroConstructionPromotion promotionId={promotionId} constructionId={constructionId} />
+    </Suspense>
+  )
 }
 
 function GiftMessageRoute() {
