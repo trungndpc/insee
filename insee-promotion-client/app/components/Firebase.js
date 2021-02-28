@@ -1,6 +1,7 @@
 import React from 'react';
 import firebase from "firebase/app";
 import "firebase/auth";
+
 const config = {
     apiKey: "AIzaSyAs4x1pmuienHn21ulZ4zuhweTFt4ujCEI",
     authDomain: "insee-1ce3f.firebaseapp.com",
@@ -10,6 +11,7 @@ const config = {
     appId: "1:471532250212:web:a6607b67a18dccb0a56b71",
     measurementId: "G-72T8VS69CZ"
 };
+
 var isInitFirbase = false;
 
 export default class Firebase extends React.Component {
@@ -48,6 +50,7 @@ export default class Firebase extends React.Component {
                 callback(0)
             }.bind(this))
             .catch(function (err) {
+                console.log(err)
                 callback(-1)
             }.bind(this))
     }

@@ -16,11 +16,13 @@ class PhoneStep extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (this.props != nextProps) {
-            if (nextProps.app.register.error == 0) {
-                this.props.approvalPhone(this.phone)
+        let currentError = this.props.app.register.error;
+        let nextError = nextProps.app.register.error;
+        if (currentError != nextError) {
+            if (nextError == 0) {
+                this.props.setPhone(this.phone)
                 this._sendOTP();
-            } else if (nextProps.app.register.error == 1) {
+            }else{
                 nextState.errorMsg = "Số điện thoại đã được đăng ký"
             }
         }
@@ -43,9 +45,9 @@ class PhoneStep extends Component {
             if (err == 0) {
                 this.props.appActions.pushStateRegister(2);
             } else {
-                this.props.appActions.pushStateRegister(2);
                 this.setState({ errorMsg: 'Có lỗi xảy ra trong quá trình gửi mã OTP đến số điện thoại này' })
             }
+            this.props.appActions.setStatusLoading(false);
         })
     }
 
@@ -54,6 +56,7 @@ class PhoneStep extends Component {
             let phone = this.phoneInputRef.value;
             if (RegisterForm.isValidPhone(phone)) {
                 phone = PhoneUtil.standardized(phone);
+                this.props.appActions.setStatusLoading(true);
                 this.props.appActions.checkPhone(phone);
                 this.phone = phone;
             }
@@ -63,7 +66,6 @@ class PhoneStep extends Component {
     }
 
     render() {
-        const isLoading = this.props.app.register.isLoading;
         return (
             <FormLayout {...this.props} copyright={true}>
                 <span className="contact100-form-title">Đăng ký<div className="line-bt" /> </span>
@@ -72,8 +74,8 @@ class PhoneStep extends Component {
                         <img src={require('../../../resources/images/icon-phone.png')} />
                         <input ref={e => this.phoneInputRef = e} onChange={this._onChangeInputPhone} placeholder="Vui lòng nhập số điện thoại" type="tel" pattern="[0-9]{4}.[0-9]{3}.[0-9]{3}" />
                     </div>
-                    <div style={{ height: '40px' }}>
-                        {(!isLoading && this.state.errorMsg) && <span style={{ color: 'red', fontSize: 'small' }}>*** {this.state.errorMsg}</span>}
+                    <div style={{ marginTop: '40px'}}>
+                        {this.state.errorMsg && <span style={{ color: 'red', fontSize: 'medium' }}>*** {this.state.errorMsg}</span>}
                     </div>
                 </div>
 

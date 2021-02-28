@@ -11,9 +11,10 @@ class CountDown extends Component {
         this.reset = this.reset.bind(this);
     }
 
-
     componentDidMount() {
-        this.countdown();
+        if (this.state.count > 0) {
+            this.countdown();
+        }
     }
 
     reset() {

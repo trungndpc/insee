@@ -16,7 +16,7 @@ class OTPStep extends Component {
         this.getSMSCode = this.getSMSCode.bind(this);
         this._onSubmitSMSCode = this._onSubmitSMSCode.bind(this);
         this.data = this.props.app.register;
-        this.goToNextStep = this.goToNextStep.bind(this);
+        this.getNextStep = this.getNextStep.bind(this);
         this.resetInput = this.resetInput.bind(this);
         this.counterEnd = this.counterEnd.bind(this);
         this.sendOTP = this.sendOTP.bind(this);
@@ -33,8 +33,9 @@ class OTPStep extends Component {
         this.countDownRef.reset();
     }
 
-    goToNextStep(token) {
-        console.log(token)
+    getNextStep(token) {
+        this.props.setToken(token)
+        this.props.appActions.pushStateRegister(3);
     }
 
     resetInput() {
@@ -65,19 +66,20 @@ class OTPStep extends Component {
     }
 
     _onClickResetSMSCode() {
+        console.log("_onClickResetSMSCode")
+        this.props.appActions.setStatusLoading(true);
         this.sendOTP()
         this.resetInput();
-        this.state = {
+        this.setState({
             errorMsg: null,
             smsError: 0,
-        }
-        this.props.appActions.setStatusLoading(true);
+        })
     }
 
     confirmFailed() {
         this.setState({
             smsError: -1,
-            errorMsg: 'OTP sai vui lòng thử lại'
+            errorMsg: 'Mã OTP không đúng vui lòng thử lại'
         })
         this.resetInput();
     }
@@ -90,10 +92,9 @@ class OTPStep extends Component {
                 this.setState({ errorMsg: "Vui lòng nhập mã OTP" })
                 return;
             }
-            console.log(this.props.firebase)
             this.props.firebase.confirm(smsCode, (err, token) => {
                 if (err == 0) {
-                    this.goToNextStep(token)
+                    this.getNextStep(token)
                 } else {
                     this.confirmFailed()
                 }
@@ -159,7 +160,7 @@ class OTPStep extends Component {
                 <div className="form-center">
                     <div style={{ padding: '20px 10px' }}>
                         {this.state.statusSending == SENDING_SUCCESS &&
-                            <CountDown ref={e => this.countDownRef = e} count={60} done={this.counterEnd} />
+                            <CountDown ref={e => this.countDownRef = e} count={120} done={this.counterEnd} />
                         }
                     </div>
                     {this.state.errorMsg && <div className="error-msg">{this.state.errorMsg}</div>}

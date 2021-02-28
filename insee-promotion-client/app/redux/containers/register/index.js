@@ -20,11 +20,17 @@ class Register extends React.Component {
   constructor(props) {
     super(props)
     this.phone = null
-    this.approvalPhone = this.approvalPhone.bind(this)
+    this.token = null
+    this.setPhone = this.setPhone.bind(this)
+    this.setToken = this.setToken.bind(this)
   }
 
-  approvalPhone(phone) {
+  setPhone(phone) {
     this.phone = phone;
+  }
+
+  setToken(token) {
+    this.token = token
   }
 
   render() {
@@ -32,12 +38,10 @@ class Register extends React.Component {
     return (
       <div>
         <Firebase ref={e => this.firebase = e} />
-        {data && data.step == 1 && <PhoneStep approvalPhone={this.approvalPhone} firebase={this.firebase} {...this.props} />}
-        {data && data.step == 2 && <OTPStep phone={this.phone} firebase={this.firebase} {...this.props} />}
-        {/* {data && data.step == 2 && <OTPStep {...this.props} />}
-        {data &&data.step == 3 && <InfoStep {...this.props} />}
-        {data && data.step == 4 && <CompletedStep {...this.props} />} */}
-        {/* <div id="recaptcha-container"></div> */}
+        {data && data.step == 1 && <PhoneStep setPhone={this.setPhone} firebase={this.firebase} {...this.props} />}
+        {data && data.step == 2 && <OTPStep setToken={this.setToken} phone={this.phone} firebase={this.firebase} {...this.props} />}
+        {data && data.step == 3 && <InfoStep token={this.token} {...this.props} />}
+        {data && data.step == 4 && <CompletedStep {...this.props} />}
         <Loading {...this.props} />
       </div>
     )

@@ -19,15 +19,15 @@ export default function app(state = initialState, action) {
       break
     }
     case type.APP.CHECK_PHONE_START: {
-      newState.register = { ...newState.register }
-      newState.isLoading = true;
       break;
     }
     case type.APP.CHECK_PHONE_END: {
       newState.register = { ...newState.register }
       newState.register = { ...newState.register }
       newState.register.error = action.payload;
-      newState.isLoading = false;
+      if (newState.register.error != 0) {
+        newState.isLoading = false;
+      }
       break;
     }
     case type.APP.UPDATE_CUSTOMER_START: {
