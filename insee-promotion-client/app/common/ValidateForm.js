@@ -1,4 +1,4 @@
-const vnf_regex_phone = /((09|03|07|08|05)+([0-9]{8})\b)/i;
+const vnf_regex_phone = /((|09|03|07|08|05)+([0-9]{8})\b)/i;
 export class NowConstructionForm {
 
     static getChangeAndValidate(data, construction, promotion) {
@@ -287,6 +287,7 @@ export class RegisterForm {
         if (!phone) {
             throw 'Vui lòng nhập số điện thoại'
         }
+        phone = phone.replace(/\./g,'');
         if (!vnf_regex_phone.test(phone)) {
             throw 'Số điện thoại không hợp lệ'
         }

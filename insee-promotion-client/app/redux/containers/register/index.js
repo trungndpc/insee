@@ -11,21 +11,34 @@ import OTPStep from './OTPStep';
 import InfoStep from './InfoStep';
 import CompletedStep from './CompletedStep';
 import Loading from '../../../components/layout/Loading'
+import Firebase from '../../../components/Firebase';
+
+
 
 class Register extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.phone = null
+    this.approvalPhone = this.approvalPhone.bind(this)
+  }
 
+  approvalPhone(phone) {
+    this.phone = phone;
+  }
 
   render() {
     const data = this.props.app.register;
     return (
       <div>
-        {(!data || data.step == 1) && <PhoneStep {...this.props}/>}
-        {data && data.step == 2 && <OTPStep {...this.props} />}
+        <Firebase ref={e => this.firebase = e} />
+        {data && data.step == 1 && <PhoneStep approvalPhone={this.approvalPhone} firebase={this.firebase} {...this.props} />}
+        {data && data.step == 2 && <OTPStep phone={this.phone} firebase={this.firebase} {...this.props} />}
+        {/* {data && data.step == 2 && <OTPStep {...this.props} />}
         {data &&data.step == 3 && <InfoStep {...this.props} />}
-        {data && data.step == 4 && <CompletedStep {...this.props} />}
-        <div id="recaptcha-container"></div>
-        <Loading {...this.props}/>
+        {data && data.step == 4 && <CompletedStep {...this.props} />} */}
+        {/* <div id="recaptcha-container"></div> */}
+        <Loading {...this.props} />
       </div>
     )
   }

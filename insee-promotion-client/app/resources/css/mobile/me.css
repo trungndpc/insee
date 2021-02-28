@@ -166,7 +166,8 @@ input[type=number] {
 
 .error-msg {
     color: red;
-    font-size: small;
+    font-size: medium;
+    padding: 20px 0px;
 }
 
 

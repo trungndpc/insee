@@ -1,5 +1,5 @@
 /* eslint-disable import/default */
-import React from 'react'
+import React, {Suspense} from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import configureStore from './redux/store/configure-store'
@@ -11,7 +11,6 @@ import {
   useParams
 } from "react-router-dom";
 
-import Register from '../app/redux/containers/register/index';
 import ContractorInfo from './redux/containers/webapp/ContractorInfo';
 import Promotion from './redux/containers/webapp/Promotion'
 import Login from './redux/containers/Login'
@@ -20,6 +19,10 @@ import IntroConstructionPromotion from './redux/containers/promotion/IntroConstr
 import ReportUploadBillConstructionPromotion from './redux/containers/promotion/ReportUploadBillConstructionPromotion'
 import GiftHistory from './redux/containers/webapp/GiftHistory'
 import GiftCard from './redux/containers/GiftCard'
+
+
+const Register = React.lazy(() => import('../app/redux/containers/register/index'));
+
 
 const store = configureStore()
 
@@ -37,13 +40,13 @@ function UploadBillConstructionPromotionRoute() {
 }
 
 function IntroConstructionPromotionRoute() {
-  let { promotionId,  constructionId} = useParams();
+  let { promotionId, constructionId } = useParams();
   return <IntroConstructionPromotion promotionId={promotionId} constructionId={constructionId} />
 }
 
 function GiftMessageRoute() {
   let { giftId } = useParams();
-  return <GiftCard giftId={giftId}/>
+  return <GiftCard giftId={giftId} />
 }
 
 function APP() {
@@ -53,7 +56,11 @@ function APP() {
       <Route path="/dang-nhap" >
         <Login />
       </Route>
-      <Route path="/dang-ky" component={Register} />
+      <Route path="/dang-ky">
+        <Suspense fallback={<div>Loading...</div>}>
+          <Register />
+        </Suspense>
+      </Route>
       <Route path="/khuyen-mai/:promotionId/cong-trinh-tiep-theo/:constructionId">
         <IntroConstructionPromotionRoute />
       </Route>
@@ -75,7 +82,7 @@ function APP() {
       <Route path="/chuc-mung/:giftId">
         <GiftMessageRoute />
       </Route>
-      <Route path="/lich-su" component={GiftHistory}/>
+      <Route path="/lich-su" component={GiftHistory} />
       <Route path="/test" component={ReportUploadBillConstructionPromotion} />
       <Route path="/" >
         <ContractorInfo />

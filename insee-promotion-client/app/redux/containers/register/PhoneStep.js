@@ -1,23 +1,26 @@
 import React, { Component } from 'react'
 import PhoneUtil from '../../../utils/PhoneUtil'
-import FirebaseUtil from '../../../utils/FirebaseUtil'
 import FormLayout from '../../../components/layout/FormLayout'
-import {RegisterForm} from '../../../common/ValidateForm'
+import { RegisterForm } from '../../../common/ValidateForm'
 
 class PhoneStep extends Component {
 
     constructor(props) {
         super(props)
-        this._onChangeInputPhone = this._onChangeInputPhone.bind(this);
-        this._submit = this._submit.bind(this);
         this.state = {
             errorMsg: null
         }
+        this._onChangeInputPhone = this._onChangeInputPhone.bind(this);
+        this._submit = this._submit.bind(this);
+        this._sendOTP = this._sendOTP.bind(this)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
         if (this.props != nextProps) {
-            if (nextProps.app.register.statusStep1 == 1) {
+            if (nextProps.app.register.error == 0) {
+                this.props.approvalPhone(this.phone)
+                this._sendOTP();
+            } else if (nextProps.app.register.error == 1) {
                 nextState.errorMsg = "Số điện thoại đã được đăng ký"
             }
         }
@@ -35,25 +38,28 @@ class PhoneStep extends Component {
         }
     }
 
+    _sendOTP() {
+        this.props.firebase.sendOTP(this.phone, (err) => {
+            if (err == 0) {
+                this.props.appActions.pushStateRegister(2);
+            } else {
+                this.props.appActions.pushStateRegister(2);
+                this.setState({ errorMsg: 'Có lỗi xảy ra trong quá trình gửi mã OTP đến số điện thoại này' })
+            }
+        })
+    }
+
     _submit() {
         try {
             let phone = this.phoneInputRef.value;
-            if (!phone) {
-                this.setState({ errorMsg: "Vui lòng nhập số điện thoại của bạn" })
-                return;
-            }
-            phone = phone.replace(/\./g,'');
             if (RegisterForm.isValidPhone(phone)) {
-                FirebaseUtil.init();
-                window.recaptchaVerifier = FirebaseUtil.recaptcha();
                 phone = PhoneUtil.standardized(phone);
-                this.phone = phone;
                 this.props.appActions.checkPhone(phone);
+                this.phone = phone;
             }
         } catch (e) {
             this.setState({ errorMsg: e })
         }
-
     }
 
     render() {

@@ -11,13 +11,6 @@ class CountDown extends Component {
         this.reset = this.reset.bind(this);
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        if (nextState.count == 0) {
-            this.done();
-            return false;
-        }
-        return true;
-    }
 
     componentDidMount() {
         this.countdown();
@@ -25,7 +18,7 @@ class CountDown extends Component {
 
     reset() {
         this.setState({
-            color: this.props.count
+            count: this.props.count
         })
     }
 
@@ -37,6 +30,7 @@ class CountDown extends Component {
             })
             if (count <= 0) {
                 clearInterval(x);
+                this.props.done()
             }
         }.bind(this), 1000);
     }

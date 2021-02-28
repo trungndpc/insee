@@ -10,34 +10,18 @@ export default function* app() {
   yield takeLatest(type.APP.LOGIN_ASYNC_ASYNC, loginAsync)
   yield takeLatest(type.APP.LOGIN_PASSWORD_ASYNC, loginWithPassAsync)
   yield takeLatest(type.APP.GET_PROFILE_USER_ASYNC, getProfileAsync)
+  yield takeLatest(type.APP.PUSH_STATE_REGISTER_ASYNC, pushStateRegisterAsync)
 }
 
+
+function* pushStateRegisterAsync(action) {
+  yield put({type: type.APP.PUSH_STATE_REGISTER, payload: action.step})
+}
 
 //Check phone
 function* checkPhoneAsync(action) {
   yield put({ type: type.APP.CHECK_PHONE_START })
   const resp = yield call(postCheckPhone, action.phone)
-  let data = []
-  if (resp.error == 0) {
-    data = [
-      {
-        name: "step",
-        value: 2
-      },
-      {
-        name: "phone",
-        value: action.phone
-      }
-    ]
-  } else {
-    data = [
-      {
-        name: "statusStep1",
-        value: resp.error
-      }
-    ]
-  }
-  yield put({ type: type.APP.PUSH_STATE_REGISTER, payload: data })
   yield put({ type: type.APP.CHECK_PHONE_END, payload: resp.error })
 }
 

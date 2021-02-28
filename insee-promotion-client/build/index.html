@@ -7,7 +7,6 @@
     <meta charset="utf-8" />
     <title>insee-promotion-client</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <script src="https://sp.zalo.me/plugins/sdk.js"></script>
 <link href="/main-1.0.6.css" rel="stylesheet"></head>
 
 <body>
@@ -17,20 +16,5 @@
         }
     </script>
     <div id="insee-promotion-client"></div>
-    <script>
-        function load(doc, tag, link) {
-            var el = doc.getElementsByTagName(tag)[0];
-            var script = doc.createElement(tag);
-            script.async = 1;
-            script.src = link;
-            el.parentNode.insertBefore(script, el)
-        }
-        load(document, 'script', '//gstatic.com/firebasejs/8.1.2/firebase-app.js');
-        load(document, 'script', '//gstatic.com/firebasejs/8.1.2/firebase-auth.js');
-        load(document, 'script', '//sdk.amazonaws.com/js/aws-sdk-2.821.0.min.js');
-    </script>
-<script type="text/javascript" src="/main-1.0.6.js"></script></body>
-
-
-
+<script type="text/javascript" src="/main.js"></script></body>
 </html>

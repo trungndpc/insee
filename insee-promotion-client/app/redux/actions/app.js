@@ -3,10 +3,10 @@
  */
 import * as type from './action-types'
 
-export function pushRegisterData(data) {
+export function pushStateRegister(step) {
   return {
-    type: type.APP.PUSH_DATA_REGISTER,
-    data: data
+    type: type.APP.PUSH_STATE_REGISTER_ASYNC,
+    step: step
   }
 }
 

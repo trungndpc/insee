@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import FirebaseUtil from '../../../utils/FirebaseUtil'
 import CountDown from '../../../components/CountDown'
 import FormLayout from '../../../components/layout/FormLayout'
 
@@ -20,25 +19,22 @@ class OTPStep extends Component {
         this.goToNextStep = this.goToNextStep.bind(this);
         this.resetInput = this.resetInput.bind(this);
         this.counterEnd = this.counterEnd.bind(this);
-        this.sendSMS = this.sendSMS.bind(this);
+        this.sendOTP = this.sendOTP.bind(this);
         this._onClickResetSMSCode = this._onClickResetSMSCode.bind(this);
         this.confirmFailed = this.confirmFailed.bind(this);
         this.state = {
             errorMsg: null,
             smsError: 0,
-            statusSending: -1
+            statusSending: SENDING_SUCCESS
         }
     }
 
     componentDidMount() {
-        this.sendSMS();
+        this.countDownRef.reset();
     }
 
-    goToNextStep(idToken) {
-        let data = { ...this.props.app.register }
-        data["phone"] = data["phone"];
-        data["idToken"] = idToken;
-        this.props.appActions.loginWithPhone(data);
+    goToNextStep(token) {
+        console.log(token)
     }
 
     resetInput() {
@@ -47,35 +43,33 @@ class OTPStep extends Component {
             inputRef.value = '';
         }
     }
-    sendSMS() {
-        let phone = this.data["phone"];
+
+
+    sendOTP() {
+        let phone = this.props.phone;
         if (phone) {
             this.setState({ statusSending: SENDING_SMS })
-            FirebaseUtil.sendSMS(window.recaptchaVerifier, phone, (err, confirmationResult) => {
+            this.props.firebase.sendOTP(phone, (err) => {
                 this.props.appActions.setStatusLoading(false);
                 if (err == 0) {
                     this.setState({ statusSending: SENDING_SUCCESS })
                     this.countDownRef.reset();
-                    this.confirmationResult = confirmationResult;
                 } else {
                     this.setState({
                         statusSending: SENDING_FAILED,
-                        smsError: -1,
                         errorMsg: "Gửi OTP thất bại, bạn vui lòng kiểm tra lại số điện thoại"
-                    });
+                    })
                 }
-            });
+            })
         }
     }
 
     _onClickResetSMSCode() {
-        this.sendSMS();
+        this.sendOTP()
         this.resetInput();
-
         this.state = {
             errorMsg: null,
             smsError: 0,
-            statusSending: -1
         }
         this.props.appActions.setStatusLoading(true);
     }
@@ -96,12 +90,13 @@ class OTPStep extends Component {
                 this.setState({ errorMsg: "Vui lòng nhập mã OTP" })
                 return;
             }
-            this.confirmationResult && FirebaseUtil.confirm(smsCode, this.confirmationResult, (result) => {
-                result.user.getIdToken().then(function (idToken) {
-                    this.goToNextStep(idToken);
-                }.bind(this));
-            }, (error) => {
-                this.confirmFailed();
+            console.log(this.props.firebase)
+            this.props.firebase.confirm(smsCode, (err, token) => {
+                if (err == 0) {
+                    this.goToNextStep(token)
+                } else {
+                    this.confirmFailed()
+                }
             })
         }
     }
@@ -114,7 +109,7 @@ class OTPStep extends Component {
                 prevRef.focus();
 
             }
-        } else if (key.key >= 0 && key.key <= 9){
+        } else if (key.key >= 0 && key.key <= 9) {
             let next = index + 1;
             if (next <= 6) {
                 let nextRef = this[FM_NAME_INPUT + next]
@@ -126,7 +121,7 @@ class OTPStep extends Component {
     _onChange(e) {
         if (e.target.value) {
             e.target.value = e.target.value % 10;
-        }else{
+        } else {
             e.target.value = null;
         }
     }
@@ -151,8 +146,6 @@ class OTPStep extends Component {
         });
     }
 
-
-
     render() {
         return (
             <FormLayout {...this.props}>
@@ -164,11 +157,9 @@ class OTPStep extends Component {
                             để hoàn tất truy cập vào hệ thống</div>
 
                 <div className="form-center">
-                    <div style={{padding: '20px 10px'}}>
-                        {
-                            (this.state.statusSending == SENDING_SUCCESS &&
-                                (this.state.smsError == 0 || this.state.smsError == -1))
-                            && <CountDown ref={e => this.countDownRef = e} count={60} done={this.counterEnd} />
+                    <div style={{ padding: '20px 10px' }}>
+                        {this.state.statusSending == SENDING_SUCCESS &&
+                            <CountDown ref={e => this.countDownRef = e} count={60} done={this.counterEnd} />
                         }
                     </div>
                     {this.state.errorMsg && <div className="error-msg">{this.state.errorMsg}</div>}
@@ -176,19 +167,19 @@ class OTPStep extends Component {
                         <input ref={e => this.smsCodeInput1 = e} onChange={this._onChange} onKeyUp={key => { this._onKeyPress(key, 1) }} className="input100" type="number" />
                     </div>
                     <div className="wrap-input100 wrap-input25">
-                        <input ref={e => this.smsCodeInput2 = e} onChange={this._onChange}  onKeyUp={key => { this._onKeyPress(key, 2) }} className="input100" type="number" />
+                        <input ref={e => this.smsCodeInput2 = e} onChange={this._onChange} onKeyUp={key => { this._onKeyPress(key, 2) }} className="input100" type="number" />
                     </div>
                     <div className="wrap-input100 wrap-input25">
-                        <input ref={e => this.smsCodeInput3 = e} onChange={this._onChange}  onKeyUp={key => { this._onKeyPress(key, 3) }} className="input100" type="number" />
+                        <input ref={e => this.smsCodeInput3 = e} onChange={this._onChange} onKeyUp={key => { this._onKeyPress(key, 3) }} className="input100" type="number" />
                     </div>
                     <div className="wrap-input100 wrap-input25">
-                        <input ref={e => this.smsCodeInput4 = e} onChange={this._onChange}  onKeyUp={key => { this._onKeyPress(key, 4) }} className="input100" type="number" />
+                        <input ref={e => this.smsCodeInput4 = e} onChange={this._onChange} onKeyUp={key => { this._onKeyPress(key, 4) }} className="input100" type="number" />
                     </div>
                     <div className="wrap-input100 wrap-input25">
-                        <input ref={e => this.smsCodeInput5 = e} onChange={this._onChange}  onKeyUp={key => { this._onKeyPress(key, 5) }} className="input100" type="number" />
+                        <input ref={e => this.smsCodeInput5 = e} onChange={this._onChange} onKeyUp={key => { this._onKeyPress(key, 5) }} className="input100" type="number" />
                     </div>
                     <div className="wrap-input100 wrap-input25">
-                        <input ref={e => this.smsCodeInput6 = e} onChange={this._onChange}  onKeyUp={key => { this._onKeyPress(key, 6) }} className="input100" type="number" />
+                        <input ref={e => this.smsCodeInput6 = e} onChange={this._onChange} onKeyUp={key => { this._onKeyPress(key, 6) }} className="input100" type="number" />
                     </div>
                 </div>
                 <div className="btn-container center">

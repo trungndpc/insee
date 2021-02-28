@@ -16,6 +16,8 @@
     "build-prod": "rm -rf ./build &&  NODE_ENV=production  webpack --config ./webpack.config.prod.js --mode production"
   },
   "dependencies": {
+    "@react-firebase/auth": "^0.2.10",
+    "firebase": "^8.2.9",
     "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-datepicker": "^3.3.0",
@@ -50,6 +52,7 @@
     "babel-loader": "^8.0.5",
     "babel-plugin-import": "^1.11.0",
     "babel-plugin-module-resolver": "^3.2.0",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "browserslist": "^4.6.6",
     "copy-webpack-plugin": "^5.1.1",

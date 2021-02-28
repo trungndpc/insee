@@ -7,7 +7,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const config = require('./app/config/production');
 const version = "1.0.6";
-const public_static = "https://ktl6lowkv2obj.vcdn.cloud/";
+const public_static = "/";
 
 const CSSModuleLoader = {
 	loader: 'css-loader',
@@ -45,7 +45,8 @@ module.exports = {
 	entry: path.join(__dirname, "app", "index.js"),
 	output: {
 		path: path.join(__dirname, "build"),
-		filename: `main-${version}.js`,
+		filename: 'main.js',
+        chunkFilename: '[name].js',
 		publicPath: "/"
 	},
 	optimization: {
@@ -116,7 +117,7 @@ module.exports = {
 						loader: "file-loader",
 						options: {
 							name: "[name].[ext]",
-							publicPath: public_static + "static/images/",
+							publicPath: public_static + "images/",
 							outputPath: './images'
 						}
 					},
