@@ -41,7 +41,7 @@ class WebAppLayout extends Component {
       <div className="theme-layout">
         <section style={{ zIndex: 50 }}>
           <div className="feature-photo">
-            <figure><img className="responsive" style={{ objectFit: 'cover' }} src={require('../../resources/images/banner.png')} alt="" /></figure>
+            <figure><img className="responsive" style={{ objectFit: 'cover' }} src={require('../../resources/images/banner.jpg')} alt="" /></figure>
             <div className="container-fluid">
               <div className="row merged">
                 <div className="col-avatar">
