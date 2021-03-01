@@ -17,6 +17,7 @@ import SelectCement from '../../../components/promotions/SelectCement'
 import S3 from '../../../components/S3'
 const BILL_FOLDER = "bill"
 const IMAGE_INSEE_FOLDER = "img-insee"
+import ReportUploadBillConstructionPromotion from '../promotion/ReportUploadBillConstructionPromotion'
 
 class UploadBillConstructionPromotion extends React.Component {
 
@@ -208,7 +209,7 @@ class UploadBillConstructionPromotion extends React.Component {
         const promotion = this.getPromotion();
         const crateedContruction = this.props.app.crateedContruction;
         if (crateedContruction) {
-            return <SuccessCreateContruction />
+            return <ReportUploadBillConstructionPromotion {...this.props}/>
         }
         return (
             <div>

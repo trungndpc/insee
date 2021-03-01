@@ -18,7 +18,8 @@ import IntroConstructionPromotion from './redux/containers/promotion/IntroConstr
 import GiftHistory from './redux/containers/webapp/GiftHistory'
 import GiftCard from './redux/containers/GiftCard'
 
-const ReportUploadBillConstructionPromotion = React.lazy(() => import('./redux/containers/promotion/ReportUploadBillConstructionPromotion'));
+import ReportUploadBillConstructionPromotion from './redux/containers/promotion/ReportUploadBillConstructionPromotion'
+// const ReportUploadBillConstructionPromotion = React.lazy(() => import('./redux/containers/promotion/ReportUploadBillConstructionPromotion'));
 const UploadBillConstructionPromotion = React.lazy(() => import('./redux/containers/promotion/UploadBillConstructionPromotion'));
 const Register = React.lazy(() => import('../app/redux/containers/register/index'));
 
