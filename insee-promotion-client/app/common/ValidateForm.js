@@ -258,8 +258,8 @@ export class IntroConstructionForm {
         if (!storeName) {
             throw 'Vui lòng nhập tên chủ nhà'
         }
-        if (storeName.length <= 5) {
-            throw 'Tên cửa hàng phải lớn hơn 5 ký tự'
+        if (storeName.length <= 3) {
+            throw 'Tên chủ nhà lớn hơn 3 ký tự'
         }
         return true;
     }

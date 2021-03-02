@@ -14,4 +14,10 @@ export default class ConstructionModel {
         });
     }
 
+    static getSummary(id) {
+        return new Promise((resolve, reject) => {
+            APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/construction/summary?id=${id}`, resolve, reject);
+        });
+    }
+
 }

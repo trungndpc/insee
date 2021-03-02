@@ -19,6 +19,7 @@ import { NEXT_CONSTRUCTION } from '../../../components/enum/TypeConstruction'
 import { IntroConstructionForm } from '../../../common/ValidateForm'
 import ConstructionModel from '../../../model/ConstructionModel'
 import PromotionModel from '../../../model/PromotionModel'
+import * as Error from '../../../common/Error'
 
 
 class Form extends React.Component {
@@ -96,6 +97,7 @@ class Form extends React.Component {
     _addOrUpdate(data) {
         ConstructionModel.addOrUpdate(data)
             .then((res) => {
+                console.log(res)
                 if (res.error == Error.COMMON.SUCCESS) {
                     const id = res.data.id;
                     window.pushHistory(`/khuyen-mai/cong-trinh-tiep-theo/${id}`)

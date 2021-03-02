@@ -9,9 +9,6 @@ import * as appActions from '../../actions/app'
 import FormLayout from '../../../components/layout/FormLayout'
 import LocationInput from '../../../components/promotions/LocationInput'
 import StoreInput from '../../../components/promotions/StoreInput'
-import '../../../resources/css/mobile/bootstrap.min.css';
-import '../../../resources/css/mobile/main.css';
-import '../../../resources/css/mobile/me.css';
 import Loading from '../../../components/layout/Loading'
 import ImageInput from '../../../components/promotions/ImageInput'
 import { NOW_CONSTRUCTION } from '../../../components/enum/TypeConstruction'
@@ -115,6 +112,7 @@ class FormUpload extends React.Component {
     _addOrUpdate(data) {
         ConstructionModel.addOrUpdate(data)
             .then((res) => {
+                this.props.appActions.setStatusLoading(false);
                 if (res.error == Error.COMMON.SUCCESS) {
                     const id = res.data.id;
                     window.pushHistory(`/khuyen-mai/up-hoa-don-nha-qua/${id}`)
@@ -123,6 +121,7 @@ class FormUpload extends React.Component {
                 }
             })
             .catch((err) => {
+                this.props.appActions.setStatusLoading(false);
                 this.setState({ errorMsg: '' })
             })
     }
@@ -131,6 +130,7 @@ class FormUpload extends React.Component {
         try {
             const promotion = this.state.promotion
             let data = this._getForm()
+            this.props.appActions.setStatusLoading(true);
             if (NowConstructionForm.isValid2Create(data, promotion)) {
                 let billFiles = this.billInputRef.getValue();
                 let imageFiles = this.imageInputRef.getValue();
@@ -145,6 +145,7 @@ class FormUpload extends React.Component {
             }
         } catch (e) {
             this.setState({ errorMsg: e })
+            this.props.appActions.setStatusLoading(false);
         }
     }
 
@@ -153,6 +154,7 @@ class FormUpload extends React.Component {
             let construction = this.state.construction;
             let promotion = this.state.promotion;
             let data = this._getForm()
+            this.props.appActions.setStatusLoading(true);
             let change = NowConstructionForm.getChangeAndValidate(data, construction, promotion);
             let billFiles = this.billInputRef.getValue()
             let imageFiles = this.imageInputRef.getValue()
@@ -174,6 +176,7 @@ class FormUpload extends React.Component {
             }
             this._addOrUpdate(change)
         } catch (e) {
+            this.props.appActions.setStatusLoading(false);
             this.setState({ errorMsg: e })
         }
     }

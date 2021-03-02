@@ -17,6 +17,8 @@ import Login from './redux/containers/Login'
 import GiftHistory from './redux/containers/webapp/GiftHistory'
 import GiftCard from './redux/containers/GiftCard'
 import DetailUploadBillPromotion from '../app/redux/containers/promotion/DetailUploadBillPromotion'
+import DetailIntroConstructionPromotion from '../app/redux/containers/promotion/DetailIntroConstructionPromotion'
+import ModuleLoading from './components/layout/ModuleLoading'
 
 const UploadBillPromotion = React.lazy(() => import('./redux/containers/promotion/UploadBillPromotion'));
 const Register = React.lazy(() => import('../app/redux/containers/register/index'));
@@ -36,8 +38,6 @@ function RouteApp() {
   return <div></div>
 }
 
-
-
 function GiftMessageRoute() {
   let { giftId } = useParams();
   return <GiftCard giftId={giftId} />
@@ -51,30 +51,33 @@ function APP() {
         <Login />
       </Route>
       <Route path="/dang-ky">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<ModuleLoading />}>
           <Register />
         </Suspense>
       </Route>
       <Route path="/khuyen-mai/:promotionId/cong-trinh-tiep-theo/:constructionId">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<ModuleLoading />}>
           <IntroConstructionPromotion />
         </Suspense>
       </Route>
       <Route path="/khuyen-mai/:promotionId/cong-trinh-tiep-theo">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<ModuleLoading />}>
           <IntroConstructionPromotion />
         </Suspense>
+      </Route>
+      <Route path="/khuyen-mai/cong-trinh-tiep-theo/:constructionId">
+        <DetailIntroConstructionPromotion />
       </Route>
       <Route path="/khuyen-mai/up-hoa-don-nha-qua/:constructionId">
         <DetailUploadBillPromotion />
       </Route>
       <Route path="/khuyen-mai/:promotionId/up-hoa-don-nha-qua/:constructionId">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<ModuleLoading />}>
           <UploadBillPromotion />
         </Suspense>
       </Route>
       <Route path="/khuyen-mai/:promotionId/up-hoa-don-nha-qua">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<ModuleLoading />}>
           <UploadBillPromotion />
         </Suspense>
       </Route>
@@ -91,11 +94,9 @@ function APP() {
       <Route path="/" >
         <ContractorInfo />
       </Route>
-
     </Switch>
   )
 }
-
 
 render(
   <Provider store={store}>
