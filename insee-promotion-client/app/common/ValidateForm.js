@@ -2,7 +2,7 @@ const vnf_regex_phone = /((|09|03|07|08|05)+([0-9]{8})\b)/i;
 export class NowConstructionForm {
 
     static getChangeAndValidate(data, construction, promotion) {
-        let change = {};
+        let change = {id: construction.id};
         if (data.address != construction.address) {
             if (this.isValidAddress(data.address)) {
                 change.address = data.address

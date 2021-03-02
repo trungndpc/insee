@@ -7,7 +7,7 @@ class SelectCement extends Component {
         super(props)
         this.state = {
             options: this.toOption(props.options),
-            value: null
+            value: 0
         }
         this.getValue = this.getValue.bind(this);
     }
@@ -38,11 +38,11 @@ class SelectCement extends Component {
 
     render() {
         return (
-            <select value={this.state.value} onChange={(event) => {this.setState({value: event.target.value})}} ref={e => this.selectRef = e}>
+            <select value={this.state.value} onChange={(event) => { this.setState({ value: event.target.value }) }} ref={e => this.selectRef = e}>
                 <option value={0}>Loại xi măng sử dụng</option>
-                {this.state.options && this.state.options.map(o => {
+                {this.state.options && this.state.options.map((o, index) => {
                     return (
-                        <option value={o.value}>{o.label}</option>
+                        <option key={index} value={o.value}>{o.label}</option>
                     )
                 })}
             </select>

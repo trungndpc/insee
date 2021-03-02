@@ -1,7 +1,7 @@
 import React from 'react'
 import FormLayout from '../../../components/layout/FormLayout'
 
-class ReportUploadBillConstructionPromotion extends React.Component {
+class DetailUploadBillPromotion extends React.Component {
 
     constructor(props) {
         super(props)
@@ -40,5 +40,5 @@ class ReportUploadBillConstructionPromotion extends React.Component {
     }
 }
 
-export default ReportUploadBillConstructionPromotion
+export default DetailUploadBillPromotion
 

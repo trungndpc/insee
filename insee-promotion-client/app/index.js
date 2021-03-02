@@ -14,15 +14,17 @@ import {
 import ContractorInfo from './redux/containers/webapp/ContractorInfo';
 import Promotion from './redux/containers/webapp/Promotion'
 import Login from './redux/containers/Login'
-import IntroConstructionPromotion from './redux/containers/promotion/IntroConstructionPromotion'
 import GiftHistory from './redux/containers/webapp/GiftHistory'
 import GiftCard from './redux/containers/GiftCard'
+import DetailUploadBillPromotion from '../app/redux/containers/promotion/DetailUploadBillPromotion'
 
-import ReportUploadBillConstructionPromotion from './redux/containers/promotion/ReportUploadBillConstructionPromotion'
-// const ReportUploadBillConstructionPromotion = React.lazy(() => import('./redux/containers/promotion/ReportUploadBillConstructionPromotion'));
-const UploadBillConstructionPromotion = React.lazy(() => import('./redux/containers/promotion/UploadBillConstructionPromotion'));
+const UploadBillPromotion = React.lazy(() => import('./redux/containers/promotion/UploadBillPromotion'));
 const Register = React.lazy(() => import('../app/redux/containers/register/index'));
+const IntroConstructionPromotion = React.lazy(() => import('./redux/containers/promotion/IntroConstructionPromotion'));
 
+import './resources/css/mobile/bootstrap.min.css';
+import './resources/css/mobile/main.css';
+import './resources/css/mobile/me.css';
 
 const store = configureStore()
 
@@ -34,23 +36,7 @@ function RouteApp() {
   return <div></div>
 }
 
-function UploadBillConstructionPromotionRoute() {
-  let { promotionId, constructionId } = useParams();
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <UploadBillConstructionPromotion promotionId={promotionId} constructionId={constructionId} />
-    </Suspense>
-  )
-}
 
-function IntroConstructionPromotionRoute() {
-  let { promotionId, constructionId } = useParams();
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <IntroConstructionPromotion promotionId={promotionId} constructionId={constructionId} />
-    </Suspense>
-  )
-}
 
 function GiftMessageRoute() {
   let { giftId } = useParams();
@@ -70,16 +56,27 @@ function APP() {
         </Suspense>
       </Route>
       <Route path="/khuyen-mai/:promotionId/cong-trinh-tiep-theo/:constructionId">
-        <IntroConstructionPromotionRoute />
+        <Suspense fallback={<div>Loading...</div>}>
+          <IntroConstructionPromotion />
+        </Suspense>
       </Route>
       <Route path="/khuyen-mai/:promotionId/cong-trinh-tiep-theo">
-        <IntroConstructionPromotionRoute />
+        <Suspense fallback={<div>Loading...</div>}>
+          <IntroConstructionPromotion />
+        </Suspense>
+      </Route>
+      <Route path="/khuyen-mai/up-hoa-don-nha-qua/:constructionId">
+        <DetailUploadBillPromotion />
       </Route>
       <Route path="/khuyen-mai/:promotionId/up-hoa-don-nha-qua/:constructionId">
-        <UploadBillConstructionPromotionRoute />
+        <Suspense fallback={<div>Loading...</div>}>
+          <UploadBillPromotion />
+        </Suspense>
       </Route>
       <Route path="/khuyen-mai/:promotionId/up-hoa-don-nha-qua">
-        <UploadBillConstructionPromotionRoute />
+        <Suspense fallback={<div>Loading...</div>}>
+          <UploadBillPromotion />
+        </Suspense>
       </Route>
       <Route path="/khach-hang" >
         <ContractorInfo />
@@ -91,7 +88,6 @@ function APP() {
         <GiftMessageRoute />
       </Route>
       <Route path="/lich-su" component={GiftHistory} />
-      <Route path="/test" component={ReportUploadBillConstructionPromotion} />
       <Route path="/" >
         <ContractorInfo />
       </Route>

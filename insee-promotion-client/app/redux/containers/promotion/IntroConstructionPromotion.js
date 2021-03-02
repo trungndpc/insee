@@ -1,21 +1,27 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+
+import {
+    useParams
+} from "react-router-dom";
+
 import * as appActions from '../../actions/app'
 import FormLayout from '../../../components/layout/FormLayout'
 import LocationInput from '../../../components/promotions/LocationInput'
 import OwnerInput from '../../../components/promotions/OwnerInput'
 import Project from '../../../data/Project'
 
-import '../../../resources/css/mobile/bootstrap.min.css';
-import '../../../resources/css/mobile/main.css';
-import '../../../resources/css/mobile/me.css';
+
 import MDatePicker from '../../../components/promotions/MDatePicker'
-import SuccessCreateContruction from '../../../components/promotions/SuccessCreateContruction'
 import Loading from '../../../components/layout/Loading'
 import { NEXT_CONSTRUCTION } from '../../../components/enum/TypeConstruction'
 import { IntroConstructionForm } from '../../../common/ValidateForm'
-class IntroConstructionPromotion extends React.Component {
+import ConstructionModel from '../../../model/ConstructionModel'
+import PromotionModel from '../../../model/PromotionModel'
+
+
+class Form extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -31,56 +37,84 @@ class IntroConstructionPromotion extends React.Component {
 
         }
         this.noteRequirRef = React.createRef();
-        this.submit = this.submit.bind(this)
-        this.update = this.update.bind(this)
+        this._getConstruction = this._getConstruction.bind(this)
+        this._getForm = this._getForm.bind(this)
+        this._addOrUpdate = this._addOrUpdate.bind(this)
+        this._submit = this._submit.bind(this)
+        this._update = this._update.bind(this)
+
     }
 
     componentDidMount() {
-        let constructionId = this.props.constructionId;
-        if (constructionId) {
-            this.props.appActions.getConstructionById(constructionId);
+        this._getConstruction()
+    }
+
+    _getConstruction() {
+        if (this.props.constructionId) {
+            ConstructionModel.get(this.props.constructionId)
+                .then(resp => {
+                    const construction = resp.data;
+                    this.setState({
+                        construction: construction,
+                        address: construction.address,
+                        city: construction.city,
+                        district: construction.district,
+                        ownerName: construction.name,
+                        ownerPhone: construction.phone,
+                        typeConstruction: construction.typeConstruction,
+                        estimateTimeStart: construction.estimateTimeStart,
+                        agreeValue: extra.agree[0]
+                    })
+                })
+                .catch(err => {
+                    //ERROR 
+                })
         }
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.app.construction && !this.props.app.construction) {
-            nextState.address = nextProps.app.construction.address
-            nextState.city = nextProps.app.construction.city
-            nextState.district = nextProps.app.construction.district
-            nextState.ownerName = nextProps.app.construction.name
-            nextState.ownerPhone = nextProps.app.construction.phone
-            nextState.typeConstruction = nextProps.app.construction.typeConstruction
-            nextState.estimateTimeStart = nextProps.app.construction.estimateTimeStart
-            nextState.agreeValue = nextProps.app.construction.extra.agree[0]
+    _getForm() {
+        let address = this.addressInputRef.value;
+        let location = this.locationInputRef.getValues();
+        let estimateTimeStart = this.dateInputRef.getValue();
+        let typeConstruction = this.typeProjectInputRef.value;
+        let owner = this.ownerInputRef.getValues();
+
+        return {
+            address: address,
+            city: location.city,
+            district: location.district,
+            estimateTimeStart: estimateTimeStart,
+            typeConstruction: typeConstruction,
+            name: owner.name,
+            phone: owner.phone,
+            extra: { agree: [parseInt(this.noteRequirRef.current.value)] },
+            promotionId: parseInt(this.props.promotionId),
+            type: NEXT_CONSTRUCTION.getType()
         }
-        return true;
     }
 
-    async submit() {
+    _addOrUpdate(data) {
+        ConstructionModel.addOrUpdate(data)
+            .then((res) => {
+                if (res.error == Error.COMMON.SUCCESS) {
+                    const id = res.data.id;
+                    window.pushHistory(`/khuyen-mai/cong-trinh-tiep-theo/${id}`)
+                } else {
+                    this.setState({ errorMsg: '' })
+                }
+            })
+            .catch((err) => {
+                this.setState({ errorMsg: '' })
+            })
+    }
+
+    async _submit() {
         try {
             await this.setState({ errorMsg: '' })
             this.props.appActions.setStatusLoading(true);
-
-            let address = this.addressInputRef.value;
-            let location = this.locationInputRef.getValues();
-            let estimateTimeStart = this.dateInputRef.getValue();
-            let typeConstruction = this.typeProjectInputRef.value;
-            let owner = this.ownerInputRef.getValues();
-
-            let data = {
-                address: address,
-                city: location.city,
-                district: location.district,
-                estimateTimeStart: estimateTimeStart,
-                typeConstruction: typeConstruction,
-                name: owner.name,
-                phone: owner.phone,
-                extra: { agree: [parseInt(this.noteRequirRef.current.value)] },
-                promotionId: parseInt(this.props.promotionId),
-                type: NEXT_CONSTRUCTION.getType()
-            }
+            let data = this._getForm()
             if (IntroConstructionForm.isValid2Create(data)) {
-                this.props.appActions.createNextContruction(data)
+                this._addOrUpdate(data)
             }
         } catch (e) {
             this.setState({ errorMsg: e })
@@ -88,27 +122,11 @@ class IntroConstructionPromotion extends React.Component {
         }
     }
 
-    async update() {
+    async _update() {
         try {
             await this.setState({ errorMsg: '' })
             this.props.appActions.setStatusLoading(true);
-
-            let address = this.addressInputRef.value;
-            let location = this.locationInputRef.getValues();
-            let estimateTimeStart = this.dateInputRef.getValue();
-            let typeConstruction = this.typeProjectInputRef.value;
-            let owner = this.ownerInputRef.getValues();
-
-            let data = {
-                address: address,
-                city: location.city,
-                district: location.district,
-                estimateTimeStart: estimateTimeStart,
-                typeConstruction: typeConstruction,
-                name: owner.name,
-                phone: owner.phone,
-                extra: { agree: [parseInt(this.noteRequirRef.current.value)] }
-            }
+            let data = this._getForm()
 
             let construction = this.props.app.construction;
             let change = IntroConstructionForm.getChangeAndValidate(data, construction);
@@ -116,20 +134,14 @@ class IntroConstructionPromotion extends React.Component {
                 throw 'Vui lòng cập nhật thông tin'
             }
             change.id = construction.id;
-            console.log(change)
-            this.props.appActions.createNextContruction(change)
+            this._addOrUpdate(change)
         } catch (e) {
             this.setState({ errorMsg: e })
             this.props.appActions.setStatusLoading(false);
         }
     }
 
-
     render() {
-        const crateedContruction = this.props.app.crateedContruction;
-        if (crateedContruction) {
-            return <SuccessCreateContruction />
-        }
         return (
             <div>
                 <FormLayout {...this.props}>
@@ -169,9 +181,9 @@ class IntroConstructionPromotion extends React.Component {
                     {this.state.errorMsg && <div className="msg-error"><span>*** {this.state.errorMsg}</span></div>}
                     <div className="btn-container">
                         {this.props.app.construction ?
-                            <button onClick={this.update} className="btn-insee btn-insee-bg">Cập nhật</button>
+                            <button onClick={this._update} className="btn-insee btn-insee-bg">Cập nhật</button>
                             :
-                            <button onClick={this.submit} className="btn-insee btn-insee-bg">Xác nhận</button>
+                            <button onClick={this._submit} className="btn-insee btn-insee-bg">Xác nhận</button>
                         }
                     </div>
                 </FormLayout>
@@ -194,7 +206,13 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
+
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(IntroConstructionPromotion)
+)((props) => {
+    let { promotionId, constructionId } = useParams();
+    return <Form promotionId={promotionId} constructionId={constructionId} {...props} />
+})
+
+

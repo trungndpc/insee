@@ -6,6 +6,7 @@ var bucketRegion = "us-east-2";
 var albumBucketName = "insee-promotion-vn";
 var IdentityPoolId = "us-east-2:576f9bed-553b-46e0-b874-1b72134451bb";
 var S3_INSTANCE;
+const FOLDER = "upload"
 class S3 extends Component {
 
     constructor(props) {
@@ -14,6 +15,7 @@ class S3 extends Component {
         this.createAlbum = this.createAlbum.bind(this)
         this.addPhoto = this.addPhoto.bind(this)
         this.addPhotos = this.addPhotos.bind(this)
+        this.upload = this.upload.bind(this)
     }
 
 
@@ -33,6 +35,19 @@ class S3 extends Component {
         }
     }
 
+    upload(fileList) {
+        return new Promise((resolve, reject) => {
+            this.createAlbum(FOLDER, 'user', (pathFolder) => {
+                let name = new Date().getTime();
+                let promoise = this.addPhotos(pathFolder, fileList, name);
+                promoise.then(values => {
+                    resolve(values.map(value => value.Location))
+                }).catch(e => {
+                    reject('Đã có lỗi xảy ra trong quá trình upload');
+                })
+            });
+        });
+    }
 
     createAlbum(parent, name, callback) {
         console.log(name)
