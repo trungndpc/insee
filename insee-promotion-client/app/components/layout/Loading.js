@@ -15,16 +15,18 @@ class Loading extends Component {
 
     render() {
         if (this.props.app.isLoading) {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0;
             return (
                 <div className="insee-app">
                     <div className="bg-loading"></div>
                     <img className="img-loading" src={require('../../resources/images/loading.gif')} />
                 </div>
             )
-        }else {
+        } else {
             return <div></div>
         }
-        
+
     }
 }
 

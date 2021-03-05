@@ -54,18 +54,24 @@ class Form extends React.Component {
         if (this.props.constructionId) {
             ConstructionModel.get(this.props.constructionId)
                 .then(resp => {
-                    const construction = resp.data;
-                    this.setState({
-                        construction: construction,
-                        address: construction.address,
-                        city: construction.city,
-                        district: construction.district,
-                        ownerName: construction.name,
-                        ownerPhone: construction.phone,
-                        typeConstruction: construction.typeConstruction,
-                        estimateTimeStart: construction.estimateTimeStart,
-                        agreeValue: extra.agree[0]
-                    })
+                    if (resp.error == Error.COMMON.SUCCESS) {
+                        const construction = resp.data;
+                        console.log(construction)
+                        this.setState({
+                            construction: construction,
+                            address: construction.address,
+                            city: construction.city,
+                            district: construction.district,
+                            ownerName: construction.name,
+                            ownerPhone: construction.phone,
+                            typeConstruction: construction.typeConstruction,
+                            estimateTimeStart: construction.estimateTimeStart,
+                            agreeValue: extra.agree[0]
+                        })
+                        console.log(this.state)
+                    } else {
+
+                    }
                 })
                 .catch(err => {
                     //ERROR 
@@ -144,6 +150,8 @@ class Form extends React.Component {
     }
 
     render() {
+        console.log("xxxxxxxxxxx")
+        console.log(this.state)
         return (
             <div>
                 <FormLayout {...this.props}>

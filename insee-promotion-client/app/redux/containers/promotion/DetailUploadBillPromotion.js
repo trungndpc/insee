@@ -43,17 +43,8 @@ class DetailUploadBillPromotion extends React.Component {
     }
 
     _changeUnit(kg) {
-        if (kg >= 1000) {
-            let ton = parseInt(kg / 1000);
-            if (ton * 1000 == kg) {
-                return `${ton} tấn C02`
-            } else {
-                let odd = kg - ton * 1000
-                return `${ton} tấn ${odd} kg CO2`
-            }
-        } else {
-            return `${kg} kg CO2`
-        }
+        var ton = parseFloat(kg / 1000).toFixed(2)
+        return `${ton} tấn CO2`
     }
 
     isShowCO2Message() {
@@ -83,7 +74,7 @@ class DetailUploadBillPromotion extends React.Component {
                             <img src={require('../../../resources/images/co2.png')} />
                         </div>
                     }
-                    {!this.state.isCalling && isSHOWCO2 && 
+                    {!this.state.isCalling && isSHOWCO2 &&
                         <p className="desc-sthk">Cùng Xi Măng INSEE giảm ô nhiễm môi trường trên hành trình Vững Xây Cuộc Sống!</p>
                     }
                     <div style={{ marginTop: '50px' }} className="btn-container">

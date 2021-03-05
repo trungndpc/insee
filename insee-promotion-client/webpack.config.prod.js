@@ -6,8 +6,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const config = require('./app/config/production');
-const version = "1.0.6";
-const public_static = "/";
+const version = "1.0.7";
+const public_static = "https://nhathau.insee.com.vn/static/";
 
 const CSSModuleLoader = {
 	loader: 'css-loader',
@@ -45,9 +45,9 @@ module.exports = {
 	entry: path.join(__dirname, "app", "index.js"),
 	output: {
 		path: path.join(__dirname, "build"),
-		filename: 'main.js',
-        chunkFilename: '[name].js',
-		publicPath: "/"
+		filename: `main-${version}.js`,
+		chunkFilename: `[name]-main-${version}.js`,
+		publicPath: "/static/"
 	},
 	optimization: {
 		minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],

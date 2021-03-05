@@ -227,7 +227,7 @@ class FormUpload extends React.Component {
                     {this.state.errorMsg && <div className="msg-error"><span>*** {this.state.errorMsg}</span></div>}
 
                     <div className="btn-container">
-                        {this.props.app.construction ?
+                        {this.state.construction ?
                             <button onClick={this._update} className="btn-insee btn-insee-bg">Cập nhật</button>
                             :
                             <button onClick={this._submit} className="btn-insee btn-insee-bg">Xác nhận</button>
