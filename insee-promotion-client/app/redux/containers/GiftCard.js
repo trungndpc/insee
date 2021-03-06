@@ -117,7 +117,8 @@ class PhoneCard extends React.Component {
         tooltip.style.display = "block";
 
         setTimeout(function() {
-            window.open('tel:*100*' + this.props.code + '#', '_system');
+            let value = encodeURIComponent('*100*' + this.props.code + '#')
+            window.open('tel:' + value, '_system');
         }.bind(this), 1000)
     }
 
