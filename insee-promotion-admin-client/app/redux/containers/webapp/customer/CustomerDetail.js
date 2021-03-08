@@ -81,6 +81,10 @@ class CustomerDetail extends Component {
                       <th>Trang thái</th>
                       <td style={{ color: `${status.getColor()}` }}>{status.getName()}</td>
                     </tr>
+                    <tr>
+                      <th>Thời gian</th>
+                      <td>{DateTimeUtil.diffTime(customer.createdTime)}</td>
+                    </tr>
                     {/* {status == APPROVED &&
                       <tr>
                         <th>Số  CT đã tham gia </th>

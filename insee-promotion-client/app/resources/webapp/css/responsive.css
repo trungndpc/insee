@@ -22,27 +22,50 @@
 /*--- tablet view ---*/
 
 @media screen and (max-width: 980px) {
-  
+    #main-menu {
+        margin-top: 250px;
+    }
 }
 
 @media screen and (max-width: 768px) {
+    #main-menu {
+        margin-top: 228px;
+    }
 }
 
 @media screen and (max-width: 640px) {
-   
+    #main-menu {
+        margin-top: 200px;
+    }
 }
 
 @media screen and (max-width: 480px) {
-   
+    #main-menu {
+        margin-top: 173px;
+    }
 }
 
-@media screen and (max-width: 420px) and (min-width: 361px) {
-   
+@media screen and (max-width: 420px) {
+    #main-menu {
+        margin-top: 160px;
+    }
+}
+
+@media screen and (max-width: 415px) {
+    #main-menu {
+        margin-top: 155px;
+    }
 }
 
 @media screen and (max-width: 360px) {
+    #main-menu {
+        margin-top: 143px;
+    }
 }
 
 @media screen and (max-width: 320px) {
+    #main-menu {
+        margin-top: 134px;
+    }
    
 }

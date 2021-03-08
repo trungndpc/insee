@@ -21,7 +21,7 @@ class BirtdayInput extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.default && nextProps.default != nextState.default && nextState.default == null) {
+        if (nextProps.default && nextProps.default != this.props.default && this.props.default == null) {
             const date = new Date(nextProps.default * 1000);
             let day = date.getDate()
             let year = date.getFullYear();
@@ -31,7 +31,7 @@ class BirtdayInput extends Component {
             nextState.month = month;
             return true;
         }
-        return this.state != nextState;
+        return true;
     }
 
     getValue() {

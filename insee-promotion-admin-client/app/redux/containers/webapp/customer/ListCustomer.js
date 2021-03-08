@@ -6,6 +6,7 @@ import {
 import { City } from '../../../../data/Location'
 import { Pagination } from 'antd';
 import 'antd/dist/antd.css';
+import DateTimeUtil from '../../../../utils/DateTimeUtil'
 
 class ListCustomer extends Component {
 
@@ -94,6 +95,7 @@ class ListCustomer extends Component {
                         <div className="col-md-7">
                           <h4>{item.fullName}</h4>
                           <ul>
+                            <li>{DateTimeUtil.diffTime(item.createdTime)}</li>
                             <li>{City.getName(item.mainAreaId)}</li>
                             <li style={{ color: `${status.getColor()}` }}>{status.getName()}</li>
                           </ul>

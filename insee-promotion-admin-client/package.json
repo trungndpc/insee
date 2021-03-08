@@ -1,6 +1,6 @@
 {
   "name": "insee-promotion-client",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A Javascript Framework for WebApp. React, Redux, Redux Saga, ES6, ...",
   "engines": {
     "npm": ">=6"
