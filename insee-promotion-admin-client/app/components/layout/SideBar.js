@@ -17,6 +17,9 @@ class SideBar extends Component {
                             <Link style={{color: pathname == '/' && '#b71c1c'}} to={"/"}>Thông tin tài khoản</Link>
                         </li>
                         <li>
+                            <Link style={{color: pathname == '/dashboard' && '#b71c1c'}} to={"/dashboard"}>Bảng Điều Khiển</Link>
+                        </li>
+                        <li>
                             <Link style={{color: pathname == '/post' && '#b71c1c'}} to={"/post"}>Bài viết</Link>
                         </li>
                         <li>

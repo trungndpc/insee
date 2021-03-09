@@ -16,6 +16,7 @@ import Post from './redux/containers/webapp/Post'
 import History from './redux/containers/webapp/History'
 import Customer from './redux/containers/webapp/Customer'
 import Construction from './redux/containers/webapp/Construction'
+import Dashboard from './redux/containers/webapp/Dashboard'
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import Alert from 'react-s-alert';
@@ -43,6 +44,7 @@ render(
         <Route path="/customer" component={Customer} />
         <Route exact path="/" component={Contractor} />
         <Route path="/login" component={Login} />
+        <Route path="/dashboard" component={Dashboard} />
       </Switch>
       <RouteApp />
     </Router>
