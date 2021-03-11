@@ -76,4 +76,9 @@ export default class DateTimeUtil {
         }
         return [date.getFullYear(), mon, day].join('-');
     }
+
+    static parseDate(str) {
+        let arr = str.split("-");
+        return new Date(arr[0], arr[1] - 1, arr[2]);
+    }
 }

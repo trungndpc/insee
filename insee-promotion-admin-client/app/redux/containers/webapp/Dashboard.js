@@ -4,32 +4,43 @@ import { bindActionCreators } from 'redux'
 import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
 import SideBar from '../../../components/layout/SideBar'
+import StatisticalModel from '../../../model/StatisticalModel'
+import RegisterDateChart from './dashboard/RegisterDateChart'
 
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
 
-const options = {
-    chart: {
-      type: 'spline'
-    },
-    title: {
-      text: 'My chart'
-    },
-    series: [
-      {
-        data: [1, 2, 1, 4, 3, 6]
-      }
-    ]
-  };
 
 class Dashboard extends React.Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            data: null
+        }
+        this.getDashboard = this.getDashboard.bind(this)
+    }
+
 
     componentDidMount() {
+        this.getDashboard()
+    }
+
+    getDashboard() {
+        StatisticalModel.getDashboard()
+            .then(resp => {
+                if (resp.error == 0) {
+                    this.setState({
+                        data: resp.data
+                    })
+                }
+
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     render() {
-        const user = this.props.app.user;
+        const data = this.state.data;
         return (
             <WebAppLayout {...this.props}>
                 <section>
@@ -45,22 +56,21 @@ class Dashboard extends React.Component {
                                             <div className="loadMore">
                                                 <div className="m-content">
                                                     <div className="central-meta">
-                                                        <div className="x_panel sum">
-                                                            <ul>
-                                                                <li> 1,245 <span>Tổng số nhà thầu</span> </li>
-                                                                <li> 535 <span>Nhà thầu chờ duyệt</span> </li>
-                                                                <li> 994 <span>Khuyến mãi chờ duyệt</span> </li>
-                                                            </ul>
-                                                        </div>
-                                                        <div className="x_panel">
-                                                            <div className="x_title">
-                                                                <h2>Nhà thầu đã đăng ký theo ngày</h2>
+                                                        {data &&
+                                                            <div className="x_panel sum">
+                                                                <ul>
+                                                                    <li> {data.total_register} <span>Tổng số nhà thầu</span> </li>
+                                                                    <li> {data.total_register_waiting} <span>Nhà thầu chờ duyệt</span> </li>
+                                                                    <li> {data.total_construction_waiting} <span>Khuyến mãi chờ duyệt</span> </li>
+                                                                </ul>
                                                             </div>
-                                                            <ul className="toolbox">
-                                                            </ul>
-                                                            <div className="x_content">
-                                                            <HighchartsReact highcharts={Highcharts} options={options} />
-                                                            </div>
+                                                        }
+                                                    </div>
+                                                    {data && <RegisterDateChart data={data.register_by_date} />}
+
+                                                    <div className="central-meta">
+                                                        <div className="x_panel ">
+
                                                         </div>
                                                     </div>
                                                 </div>
