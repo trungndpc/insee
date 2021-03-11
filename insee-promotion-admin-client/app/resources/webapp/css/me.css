@@ -515,3 +515,8 @@
     font-size: 15px;
     margin-top: 2px;
 }
+
+.popup {
+    max-height: 70% !important;
+    overflow: scroll !important;
+}

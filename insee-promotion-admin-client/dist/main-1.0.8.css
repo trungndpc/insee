@@ -58314,9 +58314,8 @@ blockquote,
 {
 	color: #b71c1c;	
 }
-svg{
-stroke: #fff;
-}
+
+
 path.icon{
 	fill: #fff;
 }
@@ -60755,5 +60754,32 @@ a.btn2:hover,
     width: 50px;
     height: 50px;
     cursor: pointer;
+}
+
+.x_panel.sum ul {
+    text-align: center;
+    list-style: outside none none;
+    margin: 0;
+    padding: 0;
+}
+
+.x_panel.sum ul li {
+    color: #232323;
+    font-size: 25px;
+    font-weight: 600;
+    padding: 15px 20px 13px;
+    text-align: center;
+    display: inline-block;
+}
+.x_panel.sum ul li span {
+    color: #969696;
+    display: list-item;
+    font-size: 15px;
+    margin-top: 2px;
+}
+
+.popup {
+    max-height: 70% !important;
+    overflow: scroll !important;
 }
 /*# sourceMappingURL=main-1.0.8.css.map*/
