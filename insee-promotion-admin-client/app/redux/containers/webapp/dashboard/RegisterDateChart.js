@@ -39,7 +39,7 @@ export default class RegisterDateChart extends React.PureComponent {
         if (data) {
             for (var i = data.length - 1; i >= 0; i--) {
                 dataSeries.push([data[i].date, data[i].total])
-                categories.push(DateTimeUtil.parseDate(data[i].date).getTime())
+                categories.push(DateTimeUtil.toStringNotYear(DateTimeUtil.parseDate(data[i].date)))
             }
         }
         console.log(categories)

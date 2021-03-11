@@ -520,3 +520,8 @@
     max-height: 70% !important;
     overflow: scroll !important;
 }
+
+.col50 {
+    width: 50%;
+    display: inline-block;
+}

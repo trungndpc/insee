@@ -47,6 +47,7 @@ export default class DateTimeUtil {
         ]
     }
 
+
     static getArrayYear() {
         let array = [];
         for (var i = 1920; i <= 2020; i++) {
@@ -80,5 +81,11 @@ export default class DateTimeUtil {
     static parseDate(str) {
         let arr = str.split("-");
         return new Date(arr[0], arr[1] - 1, arr[2]);
+    }
+
+    static toStringNotYear(date) {
+        let mon = date.getMonth() + 1;
+        let day = date.getDate();
+        return day + ', th' + mon;
     }
 }

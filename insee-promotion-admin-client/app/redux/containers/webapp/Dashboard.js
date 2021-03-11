@@ -6,8 +6,8 @@ import WebAppLayout from '../../../components/layout/WebAppLayout'
 import SideBar from '../../../components/layout/SideBar'
 import StatisticalModel from '../../../model/StatisticalModel'
 import RegisterDateChart from './dashboard/RegisterDateChart'
-
-
+import RegisterLocationChart from './dashboard/RegisterLocationChart'
+import ContructionLocationChart from './dashboard/ContructionLocationChart'
 
 class Dashboard extends React.Component {
 
@@ -66,13 +66,22 @@ class Dashboard extends React.Component {
                                                             </div>
                                                         }
                                                     </div>
-                                                    {data && <RegisterDateChart data={data.register_by_date} />}
 
                                                     <div className="central-meta">
                                                         <div className="x_panel ">
-
+                                                            <div className="col50">
+                                                                {data && <RegisterLocationChart data={data.register_by_location}/>}
+                                                            </div>
+                                                            <div className="col50">
+                                                                {data && <ContructionLocationChart data={data.construction_by_location} />}
+                                                            </div>
                                                         </div>
                                                     </div>
+
+
+                                                    {data && <RegisterDateChart data={data.register_by_date} />}
+
+                                                 
                                                 </div>
                                             </div>
                                         </div>
