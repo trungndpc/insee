@@ -29,7 +29,6 @@ class GiftCard extends React.Component {
         const gift = this.props.app.gift;
         const contractor = this.props.app.customer;
         const status = gift && GiftStatus.findByStatus(gift.status)
-        console.log(status)
         return (
             <FormLayout {...this.props}>
                 <div className="cm-title">
@@ -55,16 +54,10 @@ class GiftCard extends React.Component {
                         })}
                     </div>
                 }
-                {status && status == RECEIVED && 
-                <p style={{padding: '20px 40px'}}>***Hướng dẫn: Sử dụng bàn phím di động bấm: *100* (mã nạp thẻ) # OK</p>
+                {status && status == RECEIVED &&
+                    <p style={{ padding: '20px 0', textAlign: 'center' }}>Hướng dẫn: Sử dụng bàn phím di động bấm: <br/> <b>*100* (mã nạp thẻ) # OK</b></p>
                 }
-                <div className="cm-note">
-                    Lưu ý:
-                    <p>
-                        Phẩn thưởng chỉ có giá trị sử dụng 1 lần, nhà thầu nên sử dụng ngay và không chia sẻ với người khác.
-                    </p>
-                </div>
-
+                <p style={{textAlign: 'center'}}>Lưu ý: Phẩn thưởng chỉ có giá trị sử dụng 1 lần, nhà thầu nên sử dụng ngay và không chia sẻ với người khác.</p>
             </FormLayout>
         )
     }
@@ -116,7 +109,7 @@ class PhoneCard extends React.Component {
         document.execCommand("copy");
         tooltip.style.display = "block";
 
-        setTimeout(function() {
+        setTimeout(function () {
             let value = encodeURIComponent('*100*' + this.props.code + '#')
             window.open('tel:' + value, '_system');
         }.bind(this), 1000)

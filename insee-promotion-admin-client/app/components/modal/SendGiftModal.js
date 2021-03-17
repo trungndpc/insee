@@ -34,7 +34,7 @@ class SendGiftModal extends Component {
     }
 
     onChangeNumberCard(e) {
-        this.setState({numberCard: e.target.value})
+        this.setState({ numberCard: e.target.value })
     }
 
     _onClose() {
@@ -43,27 +43,19 @@ class SendGiftModal extends Component {
     }
 
     _onClickOK() {
-        let typeCard = this.typeCardRef.value;
         let name = this.nameRef.value;
         let cards = this.getValueCard();
-        if (typeCard == 0 ) {
-            this.setState({errorMsg: 'Vui lòng chọn loại thẻ'})
-            return;
-        }
         if (!name) {
-            this.setState({errorMsg: 'Vui lòng nhập tên'})
+            this.setState({ errorMsg: 'Vui lòng nhập tên' })
             return;
 
         }
         if (!cards) {
-            this.setState({errorMsg: 'Vui lòng nhập đủ thông tin các card'})
+            this.setState({ errorMsg: 'Vui lòng nhập đủ thông tin các card' })
             return;
         }
-        for(var card of cards) {
-            card.network = parseInt(typeCard)
-        }
         let data = {
-            network: parseInt(typeCard),
+            network: 1,
             name: name,
             cards: cards,
             customerId: this.props.customerId,
@@ -75,7 +67,7 @@ class SendGiftModal extends Component {
 
     getValueCard() {
         let rs = []
-        for(var i = 1; i <= this.state.numberCard; i++) {
+        for (var i = 1; i <= this.state.numberCard; i++) {
             let value = this.cardInputRef[i].getValue();
             if (!value) {
                 return;
@@ -87,7 +79,7 @@ class SendGiftModal extends Component {
 
     initArr(value) {
         let arr = [];
-        for(var i = 1; i <= value; i++) {
+        for (var i = 1; i <= value; i++) {
             arr.push(i);
         }
         return arr;
@@ -115,18 +107,13 @@ class SendGiftModal extends Component {
                                 </div>
                                 <div className="form">
                                     <input ref={e => this.nameRef = e} type="text" className="modal-input" placeholder="Thẻ cào trị giá 5 triệu đồng" />
-                                    <select ref={e => this.typeCardRef = e} className="modal-input">
-                                        <option value="1">Vietel</option>
-                                        <option value="2">Vinaphone</option>
-                                        <option value="3">Mobile Phone</option>
-                                    </select>
                                     <input ref={e => this.numberCardRef = e} onChange={this.onChangeNumberCard} value={this.state.numberCard} type="number" className="modal-input" placeholder="Số lượng thẻ" />
-                                    {this.state.numberCard <= 3 && this.initArr(this.state.numberCard).map((id) => {
+                                    {this.state.numberCard <= 5 && this.initArr(this.state.numberCard).map((id) => {
                                         return (
                                             <ItemCard key={id} ref={e => this.cardInputRef[id] = e} />
                                         )
                                     })}
-                                    <div style={{textAlign: 'right'}} className="errorMsg"><p>{this.state.errorMsg && this.state.errorMsg}</p></div>
+                                    <div style={{ textAlign: 'right' }} className="errorMsg"><p>{this.state.errorMsg && this.state.errorMsg}</p></div>
                                     <div className="container-btn">
                                         <button onClick={this._onClickOK} className="main-btn">Đồng ý</button>
                                     </div>
@@ -144,11 +131,12 @@ export default SendGiftModal
 
 class ItemCard extends Component {
     constructor(props) {
-        super(props) 
+        super(props)
         this.getValue = this.getValue.bind(this)
     }
 
     getValue() {
+        let network = this.typeCardRef.value;
         let name = this.nameRef.value;
         let seri = this.seriRef.value;
         let code = this.codeRef.value;
@@ -158,13 +146,19 @@ class ItemCard extends Component {
         return {
             name: name,
             seri: seri,
-            code: code
+            code: code,
+            network: network
         }
     }
 
     render() {
         return (
             <div className="gift-item">
+                <select ref={e => this.typeCardRef = e} className="modal-input">
+                    <option value="1">Vietel</option>
+                    <option value="2">Vinaphone</option>
+                    <option value="3">Mobile Phone</option>
+                </select>
                 <input ref={e => this.nameRef = e} type="text" className="modal-input" placeholder="Thẻ viettel 500" />
                 <input ref={e => this.seriRef = e} type="text" className="modal-input" placeholder="Seri" />
                 <input ref={e => this.codeRef = e} type="text" className="modal-input" placeholder="Code" />
