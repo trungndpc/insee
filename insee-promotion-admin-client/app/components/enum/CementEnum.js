@@ -24,11 +24,17 @@ export function findById(id) {
         case 11: return EASY_FLOW;
         case 12: return POWER_CAST;
         case 13: return PITU_FILL;
+        case 14: return TILE_GROUT_ULTRA;
+        case 15: return TILEFIX_PLUS_25KG;
+        case 16: return TILEFIX_PLUS_5KG;
     }
 }
 
 export function getList() {
-    return [POWERS, WALL_PRO, LAVILLA_EXTRA_CC40, EXTRA_DURABLE_HOUSING, POWER_FAST, QUICK_CAST, STABLE_SOIL, COMPACT_ROCK, EXTRA_DURABLE, MASS_POUR, EASY_FLOW, POWER_CAST, PITU_FILL]
+    return [POWERS, WALL_PRO, LAVILLA_EXTRA_CC40, EXTRA_DURABLE_HOUSING, 
+        POWER_FAST, QUICK_CAST, STABLE_SOIL, COMPACT_ROCK, EXTRA_DURABLE, 
+        MASS_POUR, EASY_FLOW, POWER_CAST, PITU_FILL,TILE_GROUT_ULTRA,
+        TILEFIX_PLUS_25KG, TILEFIX_PLUS_5KG]
 }
 
 export function getOption() {
@@ -51,3 +57,6 @@ export const MASS_POUR = new CementEnum(10, "INSEE Mass Pour", 2);
 export const EASY_FLOW = new CementEnum(11, "INSEE Easy Flow", 2);
 export const POWER_CAST = new CementEnum(12, "INSEE Power Cast", 2);
 export const PITU_FILL = new CementEnum(13, "INSEE Pitu Fill ", 2);
+export const TILE_GROUT_ULTRA = new CementEnum(14, "INSEE TileGrout Ultra+",2);
+export const TILEFIX_PLUS_25KG = new CementEnum(15, "INSEE TileFix Plus 25kg", 2);
+export const TILEFIX_PLUS_5KG = new CementEnum(16, "INSEE TileFix Plus 5kg", 2)
