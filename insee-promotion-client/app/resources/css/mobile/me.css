@@ -758,7 +758,7 @@ body {
 
 .code-cardphone {
     text-align: center;
-    font-size: 18px;
+    font-size: medium;
     width: calc(100% - 100px);
     font-weight: 600;
     background-color: #fafafa;

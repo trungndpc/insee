@@ -27,6 +27,7 @@ export default function* customer() {
   yield takeLatest(type.APP.GET_HISTORY_GIFT_BY_ID_ASYNC, getHistoryGiftByCustomerIdAsync)
   yield takeLatest(type.APP.GET_HISTORY_GIFT_ASYNC, getHistoryGiftAsync)
   yield takeLatest(type.APP.GET_LIST_PARTICIPATION_ASYNC, getListParticipationAsync)
+  yield takeLatest(type.APP.DELETE_CUSTOMER_ASYNC, deleteCustomerAsync)
 }
 
 
@@ -477,3 +478,23 @@ function getListParticipation(promotionId) {
     APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/history-by-promotion?promotionId=${promotionId}`, resolve, reject);
   });
 }
+
+//deleteCustomerAsync 
+function* deleteCustomerAsync(action) {
+  const resp = yield call(deleteCustomer, action.customerId);
+  if (resp.error == 0) {
+    AppUtils.push("/customer")
+    AlertUtils.showError("Deleted!!!")
+  }
+
+}
+
+function deleteCustomer(customerId) {
+  var body = {
+    id: customerId
+  }
+  return new Promise((resolve, reject) => {
+    APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/customer/delete`, JSON.stringify(body), resolve, reject);
+  });
+}
+

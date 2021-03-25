@@ -43,7 +43,7 @@ class S3 extends Component {
                 promoise.then(values => {
                     resolve(values.map(value => value.Location))
                 }).catch(e => {
-                    reject('Đã có lỗi xảy ra trong quá trình upload');
+                    reject('Đã có lỗi xảy ra trong quá trình upload ( ' + e + ' )');
                 })
             });
         });

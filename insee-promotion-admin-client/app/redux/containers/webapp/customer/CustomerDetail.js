@@ -8,6 +8,7 @@ import RejectCustomerModal from '../../../../components/modal/RejectCustomerModa
 import { findByStatus } from '../../../../components/enum/StatusConstruction'
 import { City } from '../../../../data/Location'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
+import AreYouSureModal from '../../../../components/modal/AreYouSureModal'
 
 class CustomerDetail extends Component {
 
@@ -15,12 +16,16 @@ class CustomerDetail extends Component {
     super(props)
     this.state = {
       isOpenApprovalModal: false,
-      isOpenRejectModal: false
+      isOpenRejectModal: false,
+      isDeleteUserModal: false
     }
     this._onClickOpenApprovalModal = this._onClickOpenApprovalModal.bind(this)
     this._onCloseApprovalModal = this._onCloseApprovalModal.bind(this)
     this._onClickOpenRejectModal = this._onClickOpenRejectModal.bind(this)
     this._onCloseRejectModal = this._onCloseRejectModal.bind(this)
+    this._onClickOpenDeleteModal = this._onClickOpenDeleteModal.bind(this)
+    this._onCloseDeleteModal = this._onCloseDeleteModal.bind(this)
+    this.deleteCustomer = this.deleteCustomer.bind(this)
   }
 
   _onClickOpenApprovalModal() {
@@ -31,6 +36,10 @@ class CustomerDetail extends Component {
     this.setState({ isOpenRejectModal: true })
   }
 
+  _onClickOpenDeleteModal() {
+    this.setState({isDeleteUserModal: true})
+  }
+
   _onCloseApprovalModal() {
     this.setState({ isOpenApprovalModal: false })
   }
@@ -39,8 +48,16 @@ class CustomerDetail extends Component {
     this.setState({ isOpenRejectModal: false })
   }
 
+  _onCloseDeleteModal() {
+    this.setState({isDeleteUserModal: false})
+  }
+
+  deleteCustomer() {
+    this.setState({isDeleteUserModal: false})
+    this.props.appActions.deleteCustomer(this.props.customerId)
+  }
+
   componentDidMount() {
-    console.log("Load ddddddd")
     this.props.appActions.getCustomerById(this.props.customerId)
     this.props.appActions.getHistoryByCustomerId(this.props.customerId);
   }
@@ -95,6 +112,12 @@ class CustomerDetail extends Component {
                 </table>
               }
             </div>
+          </div>
+
+          <div className="action-container">
+            <ui className="action-customer-detail">
+              <li><Link onClick={this._onClickOpenDeleteModal} style={{backgroundColor: '#9E9E9E'}} className="add-butn" data-ripple>Delete</Link></li>
+            </ui>
           </div>
 
           {status && status.getStatus() == NEED_REVIEW.getStatus() &&
@@ -177,6 +200,8 @@ class CustomerDetail extends Component {
           {customer &&
             <RejectCustomerModal {...this.props} id={customer.id} isOpen={this.state.isOpenRejectModal} onClose={this._onCloseRejectModal} />
           }
+          <AreYouSureModal isOpen={this.state.isDeleteUserModal} onOK={this.deleteCustomer} onClose={this._onCloseDeleteModal} />
+
           {/* <div className="popup-wraper3 active">
             <div className="popup">
               <span className="popup-closed"><i className="ti-close" /></span>

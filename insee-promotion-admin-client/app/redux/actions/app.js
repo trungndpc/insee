@@ -179,3 +179,10 @@ export function getListParticipation(postId) {
     promotionId: postId
   }
 }
+
+export function deleteCustomer(customerId) {
+  return {
+    type: type.APP.DELETE_CUSTOMER_ASYNC,
+    customerId: customerId
+  }
+}
