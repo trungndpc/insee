@@ -1,7 +1,7 @@
 
 local_dir=./
-server=washup@103.147.186.58
+server=stackops@61.28.229.63
 
-rsync -a $local_dir/build/ $server:/var/www/insee-client/html
-# rsync -a $local_dir/app/resources/fonts/ $server:/var/www/insee-client/html/
+rsync -a $local_dir/build/ $server:/var/www/dev-nhathau.insee.udev.com.vn/html
+rsync -a $local_dir/app/resources/fonts/ $server:/var/www/dev-nhathau.insee.udev.com.vn/html/
 
