@@ -166,7 +166,8 @@ function postToCreatePromotion(data) {
     timeStart: data.timeStart,
     timeEnd: data.timeEnd,
     ruleQuantily: data.ruleQuantily,
-    ruleAcceptedCement: data.ruleAcceptedCement
+    ruleAcceptedCement: data.ruleAcceptedCement,
+    ruleValueBill: data.ruleValueBill
   }
   if (data.postId) {
     body.id = data.postId

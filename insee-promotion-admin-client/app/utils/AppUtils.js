@@ -6,13 +6,12 @@ export default class AppUtils {
   }
 
   static toggleModal(isOpen) {
-    if(isOpen) {
+    if (isOpen) {
       document.body.className = 'open-modal'
-    }else {
+    } else {
       document.body.className = ''
     }
   }
-
 
 
 }

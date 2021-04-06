@@ -4,7 +4,7 @@ import {
 } from "react-router-dom";
 import ApprovalConstructionModal from '../../../../components/modal/ApprovalConstructionModal'
 import RejectConstructionModal from '../../../../components/modal/RejectConstructionModal'
-import { TypeConstruction, NEXT_CONSTRUCTION, NOW_CONSTRUCTION } from '../../../../components/enum/TypeConstruction'
+import { TypeConstruction, NEXT_CONSTRUCTION, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2 } from '../../../../components/enum/TypeConstruction'
 import ImgViewer from '../../../../components/layout/ImgViewer'
 import * as ImageStatus from '../../../../components/enum/ImageStatus'
 import * as ConstructionStatus from '../../../../components/enum/StatusConstruction'
@@ -16,6 +16,7 @@ import DateTimeUtil from '../../../../utils/DateTimeUtil'
 import * as CementEnum from '../../../../components/enum/CementEnum'
 import Project from '../../../../data/Project'
 import {City, District} from '../../../../data/Location'
+import CommonUtil from '../../../../utils/CommonUtil';
 
 class ConstructionDetail extends Component {
 
@@ -40,7 +41,6 @@ class ConstructionDetail extends Component {
     this._onClickOpenFormSendingGift = this._onClickOpenFormSendingGift.bind(this)
     this._onCloseFormSendingGift = this._onCloseFormSendingGift.bind(this)
     this.isApproval = true;
-    console.log(CementEnum.findById(2))
   }
 
   _onClickOpenApprovalModal() {
@@ -236,6 +236,12 @@ class ConstructionDetail extends Component {
                         <td>{DateTimeUtil.diffTime(construction.createdTime)}</td>
                       </tr>
                     }
+                    {construction && construction.valueBill &&
+                      <tr>
+                        <th>Giá trị hóa đơn</th>
+                        <td>{CommonUtil.formatMoney(construction.valueBill)}</td>
+                      </tr>
+                    }
                     {(construction && construction.extra) &&
                       <tr>
                         <th>Lưu ý</th>
@@ -274,7 +280,7 @@ class ConstructionDetail extends Component {
             </ui>
           </div>
 
-          {(type && type == NOW_CONSTRUCTION) &&
+          {(type && (type == NOW_CONSTRUCTION || type == NOW_CONSTRUCTION_V2)) &&
             <div className="central-meta">
               <h5 className="f-title bill">HÓA ĐƠN ({construction && construction.bills && construction.bills.length})</h5>
               <ul className="photos">

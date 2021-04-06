@@ -10,6 +10,7 @@ export class TypeConstruction{
         switch(type) {
             case 1 : return NEXT_CONSTRUCTION;
             case 2 : return NOW_CONSTRUCTION;
+            case 3 : return NOW_CONSTRUCTION_V2;
             default: return null;
         }
     }
@@ -23,3 +24,4 @@ export class TypeConstruction{
 
 export const NEXT_CONSTRUCTION = new TypeConstruction(1);
 export const NOW_CONSTRUCTION = new TypeConstruction(2);
+export const NOW_CONSTRUCTION_V2 = new TypeConstruction(3);

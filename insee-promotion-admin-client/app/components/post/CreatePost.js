@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TypeConstruction, NOW_CONSTRUCTION, NEXT_CONSTRUCTION } from '../enum/TypeConstruction'
+import { TypeConstruction, NOW_CONSTRUCTION, NEXT_CONSTRUCTION, NOW_CONSTRUCTION_V2 } from '../enum/TypeConstruction'
 import INSEEEditor from './INSEEEditor'
 import DateTimeUtil from '../../utils/DateTimeUtil'
 import AreYouSureModal from '../../components/modal/AreYouSureModal'
@@ -129,6 +129,15 @@ class CreatePromotion extends Component {
 
         }
 
+        if (this.state.typePromotion == NOW_CONSTRUCTION_V2) {
+            let ruleValueBill = this.ruleValueBillInputRef.value;
+            if (!ruleValueBill || ruleValueBill == 0) {
+                this.setState({ errorMsg: 'Vui lòng nhập giá trị đơn tối thiểu' })
+                return;
+            }
+            data.ruleValueBill = ruleValueBill;
+        }
+
         let fileList = this.coverRef.getValue();
         if (fileList) {
             let listImg = await this.uploadCover(fileList)
@@ -216,6 +225,12 @@ class CreatePromotion extends Component {
                                         <div className="ctk-row">
                                             <label className="ctk-editor-lable">Số lượng tối thiểu: </label>
                                             {isRender && <input defaultValue={promotion && promotion.ruleQuantily} className="ctk-editor-input" ref={e => this.ruleQuantilyInputRef = e} type="number" placeholder="Số lượng sản phẩm tối thiểu" />}
+                                        </div>
+                                    }
+                                    {this.state.typePromotion == NOW_CONSTRUCTION_V2 &&
+                                        <div className="ctk-row">
+                                            <label className="ctk-editor-lable">Giá trị đơn tối thiểu (k VND): </label>
+                                            {isRender && <input defaultValue={promotion && promotion.ruleValueBill} className="ctk-editor-input" ref={e => this.ruleValueBillInputRef = e} type="number" placeholder="Giá trị đơn tối thiểu" />}
                                         </div>
                                     }
                                 </form>

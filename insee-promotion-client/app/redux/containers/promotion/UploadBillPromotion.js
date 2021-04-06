@@ -11,7 +11,7 @@ import LocationInput from '../../../components/promotions/LocationInput'
 import StoreInput from '../../../components/promotions/StoreInput'
 import Loading from '../../../components/layout/Loading'
 import ImageInput from '../../../components/promotions/ImageInput'
-import { NOW_CONSTRUCTION } from '../../../components/enum/TypeConstruction'
+import { NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2, TypeConstruction } from '../../../components/enum/TypeConstruction'
 import { NowConstructionForm } from '../../../common/ValidateForm'
 import SelectCement from '../../../components/promotions/SelectCement'
 import S3 from '../../../components/S3'
@@ -19,6 +19,7 @@ import S3 from '../../../components/S3'
 import ConstructionModel from '../../../model/ConstructionModel'
 import PromotionModel from '../../../model/PromotionModel'
 import * as Error from '../../../common/Error'
+import ValueBillInput from '../../../components/promotions/ValueBillInput';
 
 class FormUpload extends React.Component {
 
@@ -36,7 +37,7 @@ class FormUpload extends React.Component {
             countBill: 0,
             cement: null
         }
-        
+
         this._getForm = this._getForm.bind(this)
         this._getPromotion = this._getPromotion.bind(this)
         this._getConstruction = this._getConstruction.bind(this)
@@ -51,26 +52,36 @@ class FormUpload extends React.Component {
     }
 
     _getForm() {
+        const  promotion = this.state.promotion;
+        const type = promotion && TypeConstruction.findByType(promotion.typePromotion)
+
         let location = this.locationInputRef.getValues();
         let store = this.storeInputRef.getValues();
         let agree = this.agreeRef.checked;
-        let cement = this.state.promotion.ruleAcceptedCement[0];
-        if (this.typeCementRef) {
-            cement = this.typeCementRef.getValue();
-        }
-
-        return {
+        let data = {
             address: this.addressInputRef.value,
             city: location.city,
             district: location.district,
             name: store.name,
             phone: store.phone,
-            quantity: this.quantityInputRef.value,
             extra: agree ? { agree: [1] } : {},
             promotionId: parseInt(this.props.promotionId),
-            cement: cement,
-            type: NOW_CONSTRUCTION.getType()
+            type: type.getType()
         }
+
+        if (type == NOW_CONSTRUCTION) {
+            let cement = this.state.promotion.ruleAcceptedCement[0];
+            if (this.typeCementRef) {
+                data.cement = this.typeCementRef.getValue();
+            }else {
+                data.cement = cement
+            }
+            data.quantity = this.quantityInputRef && this.quantityInputRef.value
+        } else {
+            data.valueBill = this.valueBillInputRef && this.valueBillInputRef.getValue()
+        }
+        console.log(data)
+        return data;
     }
 
     _getPromotion() {
@@ -98,6 +109,7 @@ class FormUpload extends React.Component {
                         storeName: construction.name,
                         storePhone: construction.phone,
                         quantity: construction.quantity,
+                        valueBill: construction.valueBill,
                         countBill: construction.bills.length,
                         countImg: construction.images.length,
                         cement: construction.cement
@@ -183,6 +195,7 @@ class FormUpload extends React.Component {
 
     render() {
         const promotion = this.state.promotion
+        const type = promotion && TypeConstruction.findByType(promotion.typePromotion)
         return (
             <div>
                 <FormLayout {...this.props}>
@@ -202,14 +215,23 @@ class FormUpload extends React.Component {
                         <StoreInput storeName={this.state.storeName} storePhone={this.state.storePhone} ref={e => this.storeInputRef = e} />
                     </div>
                     <div className="form-row select-cement">
-                        {promotion && promotion.ruleAcceptedCement && promotion.ruleAcceptedCement.length > 1 &&
+                        {promotion && type == NOW_CONSTRUCTION && promotion.ruleAcceptedCement && promotion.ruleAcceptedCement.length > 1 &&
                             <SelectCement value={this.state.cement} ref={e => this.typeCementRef = e} options={promotion.ruleAcceptedCement} />
                         }
                     </div>
-                    <div className="form-row">
-                        <input value={this.state.quantity != 0 && this.state.quantity} onChange={e => this.setState({ quantity: e.target.value })} ref={e => this.quantityInputRef = e} className="insee-input" type="number" placeholder="Số lượng sản phẩm dùng cho công trình" />
-                        {promotion && this.state.quantity != 0 && this.state.quantity < promotion.ruleQuantily && <p className="err-slsp">Vui lòng nhập số lượng sản phẩm lớn hơn yêu cầu là {promotion.ruleQuantily}</p>}
-                    </div>
+                    {type == NOW_CONSTRUCTION_V2 &&
+                        <div className="form-row">
+                            <ValueBillInput ref={e => this.valueBillInputRef = e} value={this.state.valueBill} rule={promotion && promotion.ruleValueBill}/>
+                            {/* <input value={this.state.valueBill != 0 && this.state.valueBill} onChange={e => this.setState({ valueBill: e.target.value })} ref={e => this.valueBillInputRef = e} className="insee-input" type="number" placeholder="Giá trị hóa đơn (nghìn đồng)" /> */}
+                            {/* {promotion && this.state.valueBill != 0 && this.state.valueBill < promotion.ruleValueBill && <p className="err-slsp">Vui lòng nhập giá trị hóa đơn tối thiểu {promotion.ruleValueBill} nghìn đồng</p>} */}
+                        </div>
+                    }
+                    {type == NOW_CONSTRUCTION &&
+                        <div className="form-row">
+                            <input value={this.state.quantity != 0 && this.state.quantity} onChange={e => this.setState({ quantity: e.target.value })} ref={e => this.quantityInputRef = e} className="insee-input" type="number" placeholder="Số lượng sản phẩm dùng cho công trình" />
+                            {promotion && this.state.quantity != 0 && this.state.quantity < promotion.ruleQuantily && <p className="err-slsp">Vui lòng nhập số lượng sản phẩm lớn hơn yêu cầu là {promotion.ruleQuantily}</p>}
+                        </div>
+                    }
                     <S3 ref={e => this.s3 = e}>
                         <div className="form-row">
                             <ImageInput value={this.state.countBill != 0 ? `${this.state.countBill} hóa đơn đã upload, bấm vào đây để upload thêm` : null} placeholder={'Hình ảnh hóa đơn/đơn hàng đã mua'} ref={e => this.billInputRef = e} />

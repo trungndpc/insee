@@ -867,3 +867,8 @@ body {
     color: #217346;
     font-weight: 500;
 }
+
+.err-slsp {
+    color: red;
+    font-size: small;
+}

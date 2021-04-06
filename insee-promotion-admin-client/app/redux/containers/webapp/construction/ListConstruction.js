@@ -4,7 +4,7 @@ import {
 } from "react-router-dom";
 import {City} from '../../../../data/Location'
 import * as StatusConstruction from '../../../../components/enum/StatusConstruction'
-import {NEXT_CONSTRUCTION, NOW_CONSTRUCTION} from '../../../../components/enum/TypeConstruction'
+import {NEXT_CONSTRUCTION, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2} from '../../../../components/enum/TypeConstruction'
 import {WAITING_APPROVAL, APPROVED, REJECTED, SEND_GIFT, RECIEVED} from '../../../../components/enum/StatusConstruction'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
 class ListConstruction extends Component {
@@ -49,7 +49,8 @@ class ListConstruction extends Component {
         <div className="inbox-lists">
           <div className="inbox-action">
             <ul>
-              <li onClick={() => this.onChangeType(NOW_CONSTRUCTION.getType())} className={`item-left ${this.state.type == NOW_CONSTRUCTION.getType() && 'active'}`}><label>Công trình hiện tại</label></li>
+              <li onClick={() => this.onChangeType(NOW_CONSTRUCTION.getType())} className={`item-left ${this.state.type == NOW_CONSTRUCTION.getType() && 'active'}`}><label>Upload hóa đơn (bags)</label></li>
+              <li onClick={() => this.onChangeType(NOW_CONSTRUCTION_V2.getType())} className={`item-left ${this.state.type == NOW_CONSTRUCTION_V2.getType() && 'active'}`}><label>Upload hóa đơn (VND)</label></li>
               <li onClick={() => this.onChangeType(NEXT_CONSTRUCTION.getType())} className={`item-left ${this.state.type == NEXT_CONSTRUCTION.getType() && 'active'}`}><label>Công trình tiếp theo</label></li>
               <li className="item-right">
                 <select onChange={this.onChangeStatus.bind(this)} value={this.state.status} class="form-control">

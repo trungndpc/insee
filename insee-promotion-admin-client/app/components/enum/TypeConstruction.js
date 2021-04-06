@@ -10,6 +10,7 @@ export class TypeConstruction{
         switch(type) {
             case 1 : return NEXT_CONSTRUCTION;
             case 2 : return NOW_CONSTRUCTION;
+            case 3 : return NOW_CONSTRUCTION_V2;
             default: return null;
         }
     }
@@ -18,6 +19,7 @@ export class TypeConstruction{
         switch(this.type) {
             case 1: return "Công trình tiếp theo";
             case 2: return "Upload hóa đơn nhận quà";
+            case 3: return "Upload hóa đơn nhận quà v2"
         }
     }
 
@@ -26,7 +28,7 @@ export class TypeConstruction{
     }
 
     static getList() {
-        return [NEXT_CONSTRUCTION, NOW_CONSTRUCTION]
+        return [NEXT_CONSTRUCTION, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2]
     }
 
 }
@@ -35,3 +37,4 @@ export class TypeConstruction{
 
 export const NEXT_CONSTRUCTION = new TypeConstruction(1);
 export const NOW_CONSTRUCTION = new TypeConstruction(2);
+export const NOW_CONSTRUCTION_V2 = new TypeConstruction(3);

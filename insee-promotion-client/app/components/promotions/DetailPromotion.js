@@ -32,7 +32,7 @@ class DetailPromotion extends Component {
                                     </div>
                                 </div>
                                 <div style={{ textAlign: 'center' }}>
-                                    {one && <Link onClick={() => {window.location.href = "/ping/test?promotionId=" + one.id}} to={"/#"}>
+                                    {one && <Link to={TypePromotion.getLink2Form(one.typePromotion, one.id)}>
                                         <button className="btn-insee btn-insee-bg post-btn">Tham gia ngay</button>
                                     </Link>
                                     }

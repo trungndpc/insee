@@ -1,8 +1,10 @@
+import { NOW_CONSTRUCTION } from "../components/enum/TypeConstruction";
+
 const vnf_regex_phone = /((|09|03|07|08|05)+([0-9]{8})\b)/i;
 export class NowConstructionForm {
 
     static getChangeAndValidate(data, construction, promotion) {
-        let change = {id: construction.id};
+        let change = { id: construction.id };
         if (data.address != construction.address) {
             if (this.isValidAddress(data.address)) {
                 change.address = data.address
@@ -31,15 +33,23 @@ export class NowConstructionForm {
             }
         }
 
-        if (data.cement != construction.cement) {
+        if (data.cement && data.cement != construction.cement) {
             if (this.isValidCement(data.cement)) {
                 change.cement = data.cement
             }
         }
 
-        if (data.quantity != construction.quantity) {
+        if (data.quantity && data.quantity != construction.quantity) {
             if (this.isValidQuantity(data.quantity, promotion.ruleQuantily)) {
                 change.quantity = data.quantity
+            } else {
+                return null;
+            }
+        }
+
+        if (data.valueBill && data.valueBill != construction.valueBill) {
+            if (this.isValidBillValue(data.valueBill, promotion.ruleValueBill)) {
+                change.valueBill = data.valueBill
             } else {
                 return null;
             }
@@ -50,19 +60,33 @@ export class NowConstructionForm {
                 change.extra = data.extra
             }
         }
-        
+
         return change;
     }
 
     static isValid2Create(form, promotion) {
-        return this.isValidAddress(form.address)
+        if (this.isValidAddress(form.address)
             && this.isValidCity(form.city)
             && this.isValidDistrict(form.district)
             && this.isValidStoreName(form.name)
             && this.isValidPhoneName(form.phone)
-            && this.isValidCement(form.cement)
-            && this.isValidQuantity(form.quantity, promotion.ruleQuantily)
-            && this.isValidPolicy(form.extra)
+            && this.isValidPolicy(form.extra)) {
+
+            if (promotion.typePromotion == NOW_CONSTRUCTION.getType()) {
+                if (!this.isValidQuantity(form.quantity, promotion.ruleQuantily)
+                    || !this.isValidCement(form.cement)) {
+                    return false;
+                }
+            } else {
+                if (!this.isValidBillValue(form.valueBill, promotion.ruleValueBill)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+
+
     }
 
     static isValidAddress(address) {
@@ -111,6 +135,17 @@ export class NowConstructionForm {
     static isValidQuantity(quantity, min) {
         if (!quantity || quantity == 0) {
             throw 'Vui lòng nhập số lượng sản phẩm'
+        }
+        if (quantity < min) {
+            return false;
+            // throw 'Số lượng sản phẩm phải đủ yêu cầu của chương trình'
+        }
+        return true;
+    }
+
+    static isValidBillValue(quantity, min) {
+        if (!quantity || quantity == 0) {
+            throw 'Vui lòng nhập giá trị hóa đơn'
         }
         if (quantity < min) {
             return false;
@@ -287,7 +322,7 @@ export class RegisterForm {
         if (!phone) {
             throw 'Vui lòng nhập số điện thoại'
         }
-        phone = phone.replace(/\./g,'');
+        phone = phone.replace(/\./g, '');
         if (!vnf_regex_phone.test(phone)) {
             throw 'Số điện thoại không hợp lệ'
         }
