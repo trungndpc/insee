@@ -80,7 +80,6 @@ class FormUpload extends React.Component {
         } else {
             data.valueBill = this.valueBillInputRef && this.valueBillInputRef.getValue()
         }
-        console.log(data)
         return data;
     }
 

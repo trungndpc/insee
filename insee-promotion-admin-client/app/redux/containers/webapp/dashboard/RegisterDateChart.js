@@ -42,7 +42,6 @@ export default class RegisterDateChart extends React.PureComponent {
                 categories.push(DateTimeUtil.toStringNotYear(DateTimeUtil.parseDate(data[i].date)))
             }
         }
-        console.log(categories)
         return {
             chart: {
                 type: 'column'

@@ -34,7 +34,6 @@ class ApprovalConstructionModal extends Component {
     }
 
     _onClickOK() {
-        console.log(this.props.id)
         this.props.appActions.updateStatusConstruction(this.props.id, APPROVED)
         this._onClose();
     }

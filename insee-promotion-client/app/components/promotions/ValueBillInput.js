@@ -24,7 +24,8 @@ class ValueBillInput extends Component {
     getValue() {
         let value = this.valueBillInputRef.value;
         if (value) {
-            value = value.toString().replaceAll(",", "");
+            value = value.replace(/\,/g, "");
+            value = value.replace(/\./g, "");
             return parseInt(value);
         }
         return value;
@@ -32,7 +33,9 @@ class ValueBillInput extends Component {
 
     onChangeValue() {
         let value = this.valueBillInputRef.value;
-        value = value && (value = value.toString().replaceAll(",", ""))
+        value = value && (value = value.replace(/\,/g, ""))
+        value = value && (value = value.replace(/\./g, ""))
+
         if (!value || Number.isNaN(parseInt(value))) {
             value = 0;
         }
@@ -47,7 +50,7 @@ class ValueBillInput extends Component {
         const rule = this.props.rule;
         return (
             <div style={{ width: '100%' }}>
-                <input value={this.state.valueBill != 0 ? this.state.valueBill : ''} onChange={this.onChangeValue} ref={e => this.valueBillInputRef = e} className="insee-input" type="text" placeholder="Giá trị hóa đơn (đồng)" />
+                <input value={this.state.valueBill != 0 ? this.state.valueBill : ''} onChange={this.onChangeValue} ref={e => this.valueBillInputRef = e} className="insee-input" type="text" placeholder="Giá trị hóa đơn sản phẩm INSEE (đồng)" />
                 {this.state.valueBill != 0 && this.state.valueBill < rule && <p className="err-slsp">Vui lòng nhập giá trị hóa đơn tối thiểu {rule.toLocaleString()} đồng</p>}
             </div>
         )

@@ -5,7 +5,6 @@ class INSEEEditor extends Component {
     constructor(props) {
         super(props)
         this.getValue = this.getValue.bind(this);
-        console.log(this.props.defaultValue)
     }
 
     componentDidMount() {

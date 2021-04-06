@@ -34,7 +34,6 @@ class ApprovalCustomerModal extends Component {
     }
 
     _onClickOK() {
-        console.log(this.props.id)
         let note = this.noteRef.value;
         this.props.appActions.updateStatusCustomer(this.props.id, APPROVED, note ? note : '')
         this._onClose();

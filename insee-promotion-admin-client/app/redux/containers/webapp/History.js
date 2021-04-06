@@ -17,7 +17,6 @@ class History extends React.Component {
 
     render() {
         const historyGift = this.props.app.historyGift;
-        console.log(historyGift)
         return (
             <WebAppLayout {...this.props}>
                 <section>

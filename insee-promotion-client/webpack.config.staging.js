@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const config = require('./app/config/staging');
-const version = "1.0.7";
+const version = "1.0.9";
 const public_static = "https://dev-nhathau.insee.udev.com.vn/static/";
 
 const CSSModuleLoader = {

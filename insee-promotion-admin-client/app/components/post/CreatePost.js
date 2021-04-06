@@ -229,8 +229,8 @@ class CreatePromotion extends Component {
                                     }
                                     {this.state.typePromotion == NOW_CONSTRUCTION_V2 &&
                                         <div className="ctk-row">
-                                            <label className="ctk-editor-lable">Giá trị đơn tối thiểu (k VND): </label>
-                                            {isRender && <input defaultValue={promotion && promotion.ruleValueBill} className="ctk-editor-input" ref={e => this.ruleValueBillInputRef = e} type="number" placeholder="Giá trị đơn tối thiểu" />}
+                                            <label className="ctk-editor-lable">Giá trị đơn tối thiểu: </label>
+                                            {isRender && <input defaultValue={promotion && promotion.ruleValueBill} className="ctk-editor-input" ref={e => this.ruleValueBillInputRef = e} type="number" placeholder="1.000.000" />}
                                         </div>
                                     }
                                 </form>

@@ -12,7 +12,6 @@ class ListPost extends Component {
 
     render() {
         let promotions = this.props.app.promotions;
-        console.log(promotions)
         return (
             <div className="loadMore">
                 <div className="m-content">
