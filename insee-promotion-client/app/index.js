@@ -19,6 +19,7 @@ import GiftCard from './redux/containers/GiftCard'
 import DetailUploadBillPromotion from '../app/redux/containers/promotion/DetailUploadBillPromotion'
 import DetailIntroConstructionPromotion from '../app/redux/containers/promotion/DetailIntroConstructionPromotion'
 import ModuleLoading from './components/layout/ModuleLoading'
+import ReferralCodeStep from './redux/containers/register/ReferralCodeStep'
 
 const UploadBillPromotion = React.lazy(() => import('./redux/containers/promotion/UploadBillPromotion'));
 const Register = React.lazy(() => import('../app/redux/containers/register/index'));
@@ -91,6 +92,7 @@ function APP() {
         <GiftMessageRoute />
       </Route>
       <Route path="/lich-su" component={GiftHistory} />
+      <Route path="/ma-gioi-thieu" component={ReferralCodeStep}/>
       <Route path="/" >
         <ContractorInfo />
       </Route>

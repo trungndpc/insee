@@ -30,9 +30,9 @@ class FormLayout extends Component {
     render() {
         return (
             <div className="container-contact100 login-page">
-                <div className="wrap-contact100">
+                <div style={{height: '100%'}} className="wrap-contact100">
                     <div style={{ minHeight: this.minHeight + 'px', paddingBottom: this.state.pBottom + 'px'}} className="contact100-form validate-form form insee-wrap">
-                        <div ref={e => this.contenRef = e}>
+                        <div style={{height: '100%'}} ref={e => this.contenRef = e}>
                          {this.props.children}
                         </div>
                     </div>
