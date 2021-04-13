@@ -938,3 +938,22 @@ body {
     margin-left: calc((20% - 15px) / 2);
     margin-right: calc((20% - 15px) / 2);
 }
+
+.modal-qrcode {
+    background-color: #111111b5;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999;
+}
+
+.modal-qrcode img {
+    width: 80%;
+    height: auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
