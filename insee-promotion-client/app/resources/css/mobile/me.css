@@ -957,3 +957,43 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+
+.lr-content {
+    text-align: center;
+    padding-top: 20px;
+    position: relative;
+}
+
+.lr-content  .wheel {
+    width: 90%;
+    height: auto;
+}
+
+.marker {
+    transform: rotate(90deg);
+    position: absolute;
+    right: 0;
+    top: calc(50% - 42px);
+}
+
+.btn-roll-container {
+    text-align: center;
+    padding: 30px;
+}
+
+.blur {
+    animation: blur 10s;
+}
+  
+@keyframes blur {
+0% {
+    filter: blur(1.5px);
+}
+80% {
+    filter: blur(1.5px);
+}
+100% {
+    filter: blur(0px);
+}
+}

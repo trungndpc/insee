@@ -28,6 +28,7 @@ const IntroConstructionPromotion = React.lazy(() => import('./redux/containers/p
 import './resources/css/mobile/bootstrap.min.css';
 import './resources/css/mobile/main.css';
 import './resources/css/mobile/me.css';
+import LuckyRotation from './redux/containers/LuckyRotation';
 
 const store = configureStore()
 
@@ -90,6 +91,9 @@ function APP() {
       </Route>
       <Route path="/chuc-mung/:giftId">
         <GiftMessageRoute />
+      </Route>
+      <Route path="/test">
+        <LuckyRotation />
       </Route>
       <Route path="/lich-su" component={GiftHistory} />
       <Route path="/ma-gioi-thieu" component={ReferralCodeStep}/>

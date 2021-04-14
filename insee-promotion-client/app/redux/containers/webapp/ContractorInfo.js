@@ -187,7 +187,6 @@ class QRCodeModal extends React.PureComponent {
     }
 
     componentDidMount() {
-        console.log("event....")
         document.addEventListener('click', this.handleClick)
     }
 
