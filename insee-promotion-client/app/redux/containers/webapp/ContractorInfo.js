@@ -61,6 +61,10 @@ class ContractorInfo extends React.Component {
                                                                             <th>Vai trò</th>
                                                                             <td>{UserRole.findByRoleId(user.roleId).getName()}</td>
                                                                         </tr>
+                                                                        <tr>
+                                                                            <th>Mã giới thiệu</th>
+                                                                            <td><b>{user.referralCode}</b> <i className="fa fa-qrcode"></i> </td>
+                                                                        </tr>
                                                                     </tbody>
                                                                 </table>
                                                             }

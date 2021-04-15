@@ -32,4 +32,10 @@ export default class RegisterModel {
             APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/authen/login`, JSON.stringify(body), resolve, reject);
         });
     }
+
+    static isValidReferralCode(code) {
+        return new Promise((resolve, reject) => {
+            APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/user/is-valid-referral-code?code=` + code, resolve, reject);
+        });
+    }
 }
