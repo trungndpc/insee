@@ -15,7 +15,7 @@ import ClientNote from '../../../../components/enum/ClientNote'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
 import * as CementEnum from '../../../../components/enum/CementEnum'
 import Project from '../../../../data/Project'
-import {City, District} from '../../../../data/Location'
+import { City, District } from '../../../../data/Location'
 import CommonUtil from '../../../../utils/CommonUtil';
 
 class ConstructionDetail extends Component {
@@ -160,7 +160,8 @@ class ConstructionDetail extends Component {
                     </tr>
                     <tr>
                       <th>Tỉnh / Huyện </th>
-                      <td>{construction && `${City.getName(construction.city)} / ${District.getName(construction.district)}`}</td>
+                      {(construction && construction.city != 0) && <td>`${City.getName(construction.city)} / ${District.getName(construction.district)}`</td>}
+                      {(construction && construction.city == 0) && <td style={{cursor: 'pointer'}}> ...................</td> }
                     </tr>
                     {type == NEXT_CONSTRUCTION &&
                       <tr>
@@ -181,7 +182,9 @@ class ConstructionDetail extends Component {
                     {type == NOW_CONSTRUCTION &&
                       <tr>
                         <th>Tên cửa hàng: </th>
-                        <td>{construction && construction.name}</td>
+                        {(construction && construction.name) && <td> { construction.name  }</td>}
+                        {(construction && !construction.name) && <td style={{cursor: 'pointer'}}> ..................... </td>}
+
                       </tr>
                     }
                     {type == NOW_CONSTRUCTION &&

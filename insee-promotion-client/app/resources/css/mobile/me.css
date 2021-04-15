@@ -938,3 +938,62 @@ body {
     margin-left: calc((20% - 15px) / 2);
     margin-right: calc((20% - 15px) / 2);
 }
+
+.modal-qrcode {
+    background-color: #111111b5;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999;
+}
+
+.modal-qrcode img {
+    width: 80%;
+    height: auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.lr-content {
+    text-align: center;
+    padding-top: 20px;
+    position: relative;
+}
+
+.lr-content  .wheel {
+    width: 90%;
+    height: auto;
+}
+
+.marker {
+    transform: rotate(90deg);
+    position: absolute;
+    right: 0;
+    top: calc(50% - 42px);
+}
+
+.btn-roll-container {
+    text-align: center;
+    padding: 30px;
+}
+
+.blur {
+    animation: blur 10s;
+}
+  
+@keyframes blur {
+0% {
+    filter: blur(1.5px);
+}
+80% {
+    filter: blur(1.5px);
+}
+100% {
+    filter: blur(0px);
+}
+}
