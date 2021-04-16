@@ -15,7 +15,6 @@ import ContractorInfo from './redux/containers/webapp/ContractorInfo';
 import Promotion from './redux/containers/webapp/Promotion'
 import Login from './redux/containers/Login'
 import GiftHistory from './redux/containers/webapp/GiftHistory'
-import GiftCard from './redux/containers/GiftCard'
 import DetailUploadBillPromotion from '../app/redux/containers/promotion/DetailUploadBillPromotion'
 import DetailIntroConstructionPromotion from '../app/redux/containers/promotion/DetailIntroConstructionPromotion'
 import ModuleLoading from './components/layout/ModuleLoading'
@@ -28,7 +27,6 @@ const IntroConstructionPromotion = React.lazy(() => import('./redux/containers/p
 import './resources/css/mobile/bootstrap.min.css';
 import './resources/css/mobile/main.css';
 import './resources/css/mobile/me.css';
-import LuckyRotation from './redux/containers/LuckyRotation';
 import Gift from './redux/containers/gift'
 
 const store = configureStore()
@@ -39,11 +37,6 @@ function RouteApp() {
     history.push(path);
   }
   return <div></div>
-}
-
-function GiftMessageRoute() {
-  let { giftId } = useParams();
-  return <GiftCard giftId={giftId} />
 }
 
 function APP() {
@@ -92,12 +85,6 @@ function APP() {
       </Route>
       <Route path="/chuc-mung/:giftId">
         <Gift />
-      </Route>
-      {/* <Route path="/chuc-mung/:giftId">
-        <GiftMessageRoute />
-      </Route> */}
-      <Route path="/test">
-        <LuckyRotation />
       </Route>
       <Route path="/lich-su" component={GiftHistory} />
       <Route path="/ma-gioi-thieu" component={ReferralCodeStep}/>

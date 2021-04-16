@@ -1,12 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as appActions from '../actions/app'
-import { RECEIVED, GiftStatus, WAITING_RECEIVE } from '../../components/enum/GiftStatus'
-import FormLayout from '../../components/layout/FormLayout'
-import { NetworkCardPhoneEnum, VIETEL_CARD, VINAPHONE_CARD, MOBILE_PHONE } from '../../components/enum/NetworkCardPhoneEnum'
+import * as appActions from '../../actions/app'
+import { RECEIVED, GiftStatus, WAITING_RECEIVE } from '../../../components/enum/GiftStatus'
+import { NetworkCardPhoneEnum, VIETEL_CARD, VINAPHONE_CARD} from '../../../components/enum/NetworkCardPhoneEnum'
 
-class GiftCard extends React.Component {
+class PhoneCardGift extends React.Component {
 
     constructor(props) {
         super(props)
@@ -14,11 +13,6 @@ class GiftCard extends React.Component {
             errorMsg: null,
         }
         this.show = this.show.bind(this)
-    }
-
-    componentDidMount() {
-        this.props.appActions.getCustomer();
-        this.props.appActions.getGiftById(this.props.giftId);
     }
 
     show() {
@@ -30,7 +24,7 @@ class GiftCard extends React.Component {
         const contractor = this.props.app.customer;
         const status = gift && GiftStatus.findByStatus(gift.status)
         return (
-            <FormLayout {...this.props}>
+            <div>
                 <div className="cm-title">
                     <h3>CHÚC MỪNG <br /> Anh {contractor && contractor.fullName}</h3>
                 </div>
@@ -55,10 +49,10 @@ class GiftCard extends React.Component {
                     </div>
                 }
                 {status && status == RECEIVED &&
-                    <p style={{ padding: '20px 0', textAlign: 'center' }}>Hướng dẫn: Sử dụng bàn phím di động bấm: <br/> <b>*100* (mã nạp thẻ) # OK</b></p>
+                    <p style={{ padding: '20px 0', textAlign: 'center' }}>Hướng dẫn: Sử dụng bàn phím di động bấm: <br /> <b>*100* (mã nạp thẻ) # OK</b></p>
                 }
-                <p style={{textAlign: 'center'}}>Lưu ý: Phẩn thưởng chỉ có giá trị sử dụng 1 lần, nhà thầu nên sử dụng ngay và không chia sẻ với người khác.</p>
-            </FormLayout>
+                <p style={{ textAlign: 'center' }}>Lưu ý: Phẩn thưởng chỉ có giá trị sử dụng 1 lần, nhà thầu nên sử dụng ngay và không chia sẻ với người khác.</p>
+            </div>
         )
     }
 }
@@ -78,7 +72,7 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(GiftCard)
+)(PhoneCardGift)
 
 
 
@@ -92,11 +86,11 @@ class PhoneCard extends React.Component {
     getImage() {
         let network = NetworkCardPhoneEnum.findById(this.props.network);
         if (network == VINAPHONE_CARD) {
-            return require('../../resources/images/vinaphone.png');
+            return require('../../../resources/images/vinaphone.png');
         } else if (network == VIETEL_CARD) {
-            return require('../../resources/images/vietel.png');
+            return require('../../../resources/images/vietel.png');
         } else {
-            return require('../../resources/images/mobi.png');
+            return require('../../../resources/images/mobi.png');
         }
     }
 

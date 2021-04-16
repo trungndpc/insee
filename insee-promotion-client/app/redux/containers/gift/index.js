@@ -5,7 +5,9 @@ import * as appActions from '../../actions/app'
 import { withRouter } from 'react-router';
 import FormLayout from '../../../components/layout/FormLayout'
 import Loading from '../../../components/layout/Loading'
-import TypeGift from '../../../components/enum/T'
+import {TypeGift, CARD_PHONE_TYPE_GIFT, LUCKY_ROTATION_TYPE_GIFT} from '../../../components/enum/TypeGift'
+import LuckyRotation  from '../gift/LuckyRotation'
+import PhoneCardGift from '../gift/PhoneCardGift'
 
 class Gift extends React.Component {
 
@@ -19,17 +21,21 @@ class Gift extends React.Component {
     }
 
     componentDidMount() {
-        // this.props.appActions.getCustomer();
+        this.props.appActions.getCustomer();
         this.props.appActions.getGiftById(this.state.giftId);
     }
 
 
     render() {
         const gift = this.props.app.gift;
-        const type = gift && gift.type
+        var type = gift && TypeGift.findByType(gift.type)
+        if (!type) {
+            type = LUCKY_ROTATION_TYPE_GIFT;
+        }
         return (
             <FormLayout {...this.props}>
-                
+                {type == LUCKY_ROTATION_TYPE_GIFT && <LuckyRotation giftId={this.state.giftId} {...this.props} />}
+                {type === CARD_PHONE_TYPE_GIFT && <PhoneCardGift giftId={this.state.giftId} {...this.props} />}
                 <Loading {...this.props} />
             </FormLayout>
         )
