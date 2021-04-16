@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import AppUtils from '../../utils/AppUtils'
-import { extend } from 'lodash'
+import { TypeGift, CARD_PHONE, LUCKY_DRAW_ROTATION } from '../../components/enum/TypeGift'
+import GiftModel from '../../model/GiftModel'
 
 class SendGiftModal extends Component {
 
@@ -9,7 +10,10 @@ class SendGiftModal extends Component {
         this.state = {
             isOpen: this.props.isOpen,
             numberCard: 1,
-            errorMsg: null
+            errorMsg: null,
+            typeGift: CARD_PHONE.getType(),
+            giftName: null,
+            deg: 0
         }
         if (this.props.isOpen) {
             AppUtils.toggleModal(this.props.isOpen)
@@ -19,6 +23,8 @@ class SendGiftModal extends Component {
         this._onClickOK = this._onClickOK.bind(this)
         this.onChangeNumberCard = this.onChangeNumberCard.bind(this);
         this.getValueCard = this.getValueCard.bind(this);
+        this._handleChangeTypeGift = this._handleChangeTypeGift.bind(this);
+        this.randomGift = this.randomGift.bind(this)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -43,26 +49,58 @@ class SendGiftModal extends Component {
     }
 
     _onClickOK() {
-        let name = this.nameRef.value;
-        let cards = this.getValueCard();
-        if (!name) {
-            this.setState({ errorMsg: 'Vui lòng nhập tên' })
-            return;
-
-        }
-        if (!cards) {
-            this.setState({ errorMsg: 'Vui lòng nhập đủ thông tin các card' })
-            return;
-        }
         let data = {
             network: 1,
-            name: name,
-            cards: cards,
             customerId: this.props.customerId,
             constructionId: this.props.constructionId,
+            type : this.state.typeGift
         }
+        if (this.state.typeGift == CARD_PHONE.getType()) {
+            let name = this.nameRef.value;
+            let cards = this.getValueCard();
+            if (!name) {
+                this.setState({ errorMsg: 'Vui lòng nhập tên' })
+                return;
+
+            }
+            if (!cards) {
+                this.setState({ errorMsg: 'Vui lòng nhập đủ thông tin các card' })
+                return;
+            }
+
+            data.network = 1;
+            data.name = name;
+            data.cards = cards;
+        }
+
+        if (this.state.typeGift == LUCKY_DRAW_ROTATION.getType()) {
+            data.name = 'Vòng quay may mắn'
+            let deg = this.state.deg;
+            if (!deg || deg == -1) {
+                this.setState({ errorMsg: 'Vui lòng bấm random để chọn quà' })
+                return;
+            }
+            data.rotation = {
+                excepted : deg
+            }
+        }
+
         this.props.appActions.createGift(data);
-        this.props.onClose && this.props.onClose()
+        this.props.onClose && this.props.onClose();
+    }
+
+    _handleChangeTypeGift(event) {
+        this.setState({ typeGift: event.target.value });
+    }
+
+    randomGift() {
+        this.setState({ giftName: null, deg: null })
+        GiftModel.randomGift()
+            .then(resp => {
+                if (resp.error == 0) {
+                    this.setState({ giftName: resp.data.name, deg: resp.data.deg })
+                }
+            })
     }
 
     getValueCard() {
@@ -106,13 +144,27 @@ class SendGiftModal extends Component {
                                     <div className="clearfix"></div>
                                 </div>
                                 <div className="form">
-                                    <input ref={e => this.nameRef = e} type="text" className="modal-input" placeholder="Thẻ cào trị giá 5 triệu đồng" />
-                                    <input ref={e => this.numberCardRef = e} onChange={this.onChangeNumberCard} value={this.state.numberCard} type="number" className="modal-input" placeholder="Số lượng thẻ" />
-                                    {this.state.numberCard <= 5 && this.initArr(this.state.numberCard).map((id) => {
-                                        return (
-                                            <ItemCard key={id} ref={e => this.cardInputRef[id] = e} />
-                                        )
-                                    })}
+                                    <select onChange={this._handleChangeTypeGift} value={this.state.typeGift} className="modal-input">
+                                        <option value="1">Thẻ cào</option>
+                                        <option value="2">Vòng quay may mắn</option>
+                                    </select>
+                                    {this.state.typeGift == CARD_PHONE.getType() &&
+                                        <div>
+                                            <input ref={e => this.nameRef = e} type="text" className="modal-input" placeholder="Thẻ cào trị giá 5 triệu đồng" />
+                                            <input ref={e => this.numberCardRef = e} onChange={this.onChangeNumberCard} value={this.state.numberCard} type="number" className="modal-input" placeholder="Số lượng thẻ" />
+                                            {this.state.numberCard <= 5 && this.initArr(this.state.numberCard).map((id) => {
+                                                return (
+                                                    <ItemCard key={id} ref={e => this.cardInputRef[id] = e} />
+                                                )
+                                            })}
+                                        </div>
+                                    }
+                                    {this.state.typeGift == LUCKY_DRAW_ROTATION.getType() &&
+                                        <div className="lucky-rotaion-container">
+                                            <div className="lucky-rotaion-name ">{this.state.giftName}</div>
+                                            <button onClick={this.randomGift} className="main-btn">Random</button>
+                                        </div>
+                                    }
                                     <div style={{ textAlign: 'right' }} className="errorMsg"><p>{this.state.errorMsg && this.state.errorMsg}</p></div>
                                     <div className="container-btn">
                                         <button onClick={this._onClickOK} className="main-btn">Đồng ý</button>

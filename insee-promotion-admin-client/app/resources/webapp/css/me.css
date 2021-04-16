@@ -525,3 +525,16 @@
     width: 50%;
     display: inline-block;
 }
+
+
+.lucky-rotaion-container {
+    text-align: center;
+}
+
+
+.lucky-rotaion-name {
+    padding: 20px;
+    font-size: medium;
+    font-weight: 600;
+    color: #096dd9;
+}
