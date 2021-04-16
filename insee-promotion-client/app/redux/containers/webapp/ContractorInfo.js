@@ -81,24 +81,6 @@ class ContractorInfo extends React.Component {
                                                                     </table>
                                                                 }
                                                             </div>
-                                                            {user &&
-                                                                <table className="table table-responsive table-info-contractor">
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <th>Họ và tên</th>
-                                                                            <td>{user.name}</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <th>Vai trò</th>
-                                                                            <td>{UserRole.findByRoleId(user.roleId).getName()}</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <th>Mã giới thiệu</th>
-                                                                            <td><b>{user.referralCode}</b> <i className="fa fa-qrcode"></i> </td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            }
                                                         </div>
 
                                                         {contractor && <div className="central-meta">

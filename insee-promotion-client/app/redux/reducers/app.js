@@ -147,10 +147,12 @@ export default function app(state = initialState, action) {
       break;
     }
     case type.APP.GET_GIFT_BY_ID_START: {
+      newState.isLoading = true;
       newState.gift = null;
       break;
     }
     case type.APP.GET_GIFT_BY_ID_END: {
+      newState.isLoading = false;
       newState.gift = action.payload;
       break;
     }
