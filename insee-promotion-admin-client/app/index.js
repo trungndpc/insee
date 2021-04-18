@@ -13,7 +13,7 @@ import {
 import Login from '../app/redux/containers/webapp/Login';
 import Contractor from './redux/containers/webapp/Contractor';
 import Post from './redux/containers/webapp/Post'
-import History from './redux/containers/webapp/History'
+import Gift from './redux/containers/webapp/Gift'
 import Customer from './redux/containers/webapp/Customer'
 import Construction from './redux/containers/webapp/Construction'
 import Dashboard from './redux/containers/webapp/Dashboard'
@@ -39,7 +39,7 @@ render(
     <Router>
       <Switch>
         <Route path="/construction" component={Construction} />
-        <Route path="/history" component={History}/>
+        <Route path="/gift" component={Gift}/>
         <Route path="/post" component={Post} />
         <Route path="/customer" component={Customer} />
         <Route exact path="/" component={Contractor} />

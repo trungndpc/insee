@@ -9,6 +9,7 @@ import { findByStatus } from '../../../../components/enum/StatusConstruction'
 import { City } from '../../../../data/Location'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
 import AreYouSureModal from '../../../../components/modal/AreYouSureModal'
+import {TypeCustomer, CONTRUCTOR, RETAILER} from '../../../../components/enum/TypeCustomer'
 
 class CustomerDetail extends Component {
 
@@ -66,18 +67,17 @@ class CustomerDetail extends Component {
 
   render() {
     const customer = this.props.app.customer;
+    const user = this.props.app.user;
     const historyByCustomer = this.props.app.historyByCustomer;
-    var status;
-    if (customer) {
-      status = CustomerStatusEnum.findByStatus(customer.finalStatus);
-    }
+    const status = customer && CustomerStatusEnum.findByStatus(customer.finalStatus);
+    const type = user && TypeCustomer.findByType(user.roleId)
     return (
       <div className="loadMore">
         <div className="m-content">
           <div className="central-meta">
             <div className="about">
               <div className="personal">
-                <h5 className="f-title">THÔNG TIN NHÀ THẦU</h5>
+                <h5 className="f-title">{`THÔNG TIN ${type == CONTRUCTOR ? 'NHÀ THẦU' : 'CỬA HÀNG'}`}</h5>
               </div>
               {customer &&
                 <table className="table table-responsive table-info-contractor">
@@ -91,7 +91,7 @@ class CustomerDetail extends Component {
                       <td>{customer.phone}</td>
                     </tr>
                     <tr>
-                      <th>Khu vực thi công</th>
+                      <th>Khu vực</th>
                       <td>{City.getName(customer.mainAreaId)}</td>
                     </tr>
                     <tr>

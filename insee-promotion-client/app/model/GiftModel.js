@@ -14,6 +14,14 @@ export default class GiftModel {
         });
     }
 
+    static rolledGiftById(id, rs) {
+        return new Promise((resolve, reject) => {
+            APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/gift/roll?id=${id}&rs=${rs}`, resolve, reject);
+        });
+    }
+
+
+
     static getListHistoryGift() {
         return new Promise((resolve, reject) => {
             APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/gift/me`, resolve, reject);

@@ -538,3 +538,32 @@
     font-weight: 600;
     color: #096dd9;
 }
+
+.spstatus {
+    color: #fff;
+    background-color: #1890ff;
+    border-radius: 20px;
+    padding: 2px 14px;
+}
+
+.input-c  {
+    background-color: #fff;
+    border: none;
+    border-bottom: 1px dotted;
+}
+
+.input-c:disabled {
+    border: none;
+}
+
+.select-c {
+    border: none;
+    background-color: #fff;
+    border-bottom: 1px dotted;
+    padding-right: 10px;
+}
+
+.select-c:disabled {
+    border: none;
+    color: black;
+}

@@ -4,15 +4,15 @@ import { bindActionCreators } from 'redux'
 import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
 import SideBar from '../../../components/layout/SideBar'
-import ListConstruction from './construction/ListConstruction'
-import DetailConstruction from './construction/DetailConstruction'
+import ListGirt from './gift/ListGift'
 import {
     Switch,
     Route,
     useParams,
 } from "react-router-dom";
 
-class Construction extends React.Component {
+
+class Gift extends React.Component {
 
     render() {
         return (
@@ -28,11 +28,11 @@ class Construction extends React.Component {
                                         </div>
                                         <div className="col-lg-9">
                                             <Switch>
-                                                <Route exact path="/construction/:constructionId">
-                                                    <DetailConstruction {...this.props} />
-                                                </Route>
-                                                <Route path="/construction">
-                                                    <ListConstruction {...this.props} />
+                                                {/* <Route exact path="/construction/:constructionId">
+                                                    <ConstructionDetailRoute {...this.props} />
+                                                </Route> */}
+                                                <Route path="/gift">
+                                                    <ListGirt {...this.props} />
                                                 </Route>
                                             </Switch>
                                         </div>
@@ -62,4 +62,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Construction)
+)(Gift)

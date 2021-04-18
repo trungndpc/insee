@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import {
   Link
 } from "react-router-dom";
-import {City} from '../../../../data/Location'
+import { City } from '../../../../data/Location'
 import * as StatusConstruction from '../../../../components/enum/StatusConstruction'
-import {NEXT_CONSTRUCTION, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2} from '../../../../components/enum/TypeConstruction'
-import {WAITING_APPROVAL, APPROVED, REJECTED, SEND_GIFT, RECIEVED} from '../../../../components/enum/StatusConstruction'
+import { NEXT_CONSTRUCTION, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2 } from '../../../../components/enum/TypeConstruction'
+import { WAITING_APPROVAL, APPROVED, REJECTED, SEND_GIFT, RECIEVED } from '../../../../components/enum/StatusConstruction'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
 class ListConstruction extends Component {
 
@@ -27,19 +27,20 @@ class ListConstruction extends Component {
     this.load(this.state.type, this.state.status)
   }
 
-  onChangeType(type) {
-    this.setState({type: type})
+  onChangeType(event) {
+    let type = event.target.value;
+    this.setState({ type: type })
     this.load(type, this.state.status);
   }
 
   onChangeStatus(event) {
-    let status =  event.target.value;
-    this.setState({status: status});
+    let status = event.target.value;
+    this.setState({ status: status });
     this.load(this.state.type, status);
   }
 
   load(type, status) {
-    this.props.appActions.getListConstruction(type, status == 0 ? null : status );
+    this.props.appActions.getListConstruction(type, status == 0 ? null : status);
   }
 
   render() {
@@ -49,10 +50,16 @@ class ListConstruction extends Component {
         <div className="inbox-lists">
           <div className="inbox-action">
             <ul>
-              <li onClick={() => this.onChangeType(NOW_CONSTRUCTION.getType())} className={`item-left ${this.state.type == NOW_CONSTRUCTION.getType() && 'active'}`}><label>Upload hóa đơn (bags)</label></li>
-              <li onClick={() => this.onChangeType(NOW_CONSTRUCTION_V2.getType())} className={`item-left ${this.state.type == NOW_CONSTRUCTION_V2.getType() && 'active'}`}><label>Upload hóa đơn (VND)</label></li>
-              <li onClick={() => this.onChangeType(NEXT_CONSTRUCTION.getType())} className={`item-left ${this.state.type == NEXT_CONSTRUCTION.getType() && 'active'}`}><label>Công trình tiếp theo</label></li>
-              <li className="item-right">
+              <li>
+                <label>Loại khuyến mãi</label>
+                <select onChange={this.onChangeType} value={this.state.type} class="form-control">
+                  <option value={NOW_CONSTRUCTION.getType()}>Upload hóa đơn (bags)</option>
+                  <option value={NOW_CONSTRUCTION_V2.getType()}>Upload hóa đơn (VND)</option>
+                  <option value={NEXT_CONSTRUCTION.getType()}>Công trình tiếp theo</option>
+                </select>
+              </li>
+              <li>
+                <label>Trạng thái</label>
                 <select onChange={this.onChangeStatus.bind(this)} value={this.state.status} class="form-control">
                   <option value={0}>Tất cả</option>
                   <option value={WAITING_APPROVAL.getStatus()}>Chờ duyệt</option>
@@ -64,19 +71,7 @@ class ListConstruction extends Component {
               </li>
             </ul>
           </div>
-          {/* <div className="mesages-lists">
-            <form method="post">
-              <input type="text" placeholder="Search" />
-            </form>
-          </div> */}
         </div>
-        {/* <div className="frnds" style={{margin: '28px 0px'}}>
-          <ul className="nav nav-tabs">
-          <li className="nav-item"><a className={this.state.currentStatus == 10 ? 'active' : ''} >Tất cả</a></li>
-          <li className="nav-item"><a className={this.state.currentStatus == 2 ? 'active' : ''} >Chờ duyệt</a><span>60</span></li>
-          <li className="nav-item"><a className={this.state.currentStatus == 1 ? 'active' : ''} >Đã duyệt</a><span>20</span></li>
-        </ul> 
-        </div> */}
 
         <div className="tab-content">
           <div className="tab-pane active fade show" id="frends">
@@ -94,14 +89,14 @@ class ListConstruction extends Component {
                         <div className="col-md-7">
                           <h4>{item.address}</h4>
                           <ul>
-                            <li>{City.getName(item.city)}</li>
+                            {item.city && <li>{City.getName(item.city)}</li>}
                             <li>{item.phone}</li>
                             <li>{StatusConstruction.findByStatus(item.status).getName()}</li>
                             <li>{DateTimeUtil.diffTime(item.updatedTime)}</li>
                           </ul>
                         </div>
                         <div className="col-md-4 action">
-                          <Link to={`/construction/${item.id}`} className="add-butn" data-ripple>Xem chi tiết</Link>
+                          <Link to={`/construction/${item.id}`} className="add-butn" data-ripple>Chi tiết</Link>
                         </div>
 
                       </div>
@@ -109,7 +104,7 @@ class ListConstruction extends Component {
                   </li>
                 )
               })}
-              {constructions && constructions.list.length == 0 && <div style={{textAlign: 'center'}}>Không có công trình nào ở đây</div>}
+              {constructions && constructions.list.length == 0 && <div style={{ textAlign: 'center' }}>Không có công trình nào ở đây</div>}
 
             </ul>
             {/* <div className="lodmore"><button className="btn-view btn-load-more" /></div> */}

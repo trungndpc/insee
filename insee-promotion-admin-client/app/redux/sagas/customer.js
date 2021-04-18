@@ -3,6 +3,7 @@ import * as type from '../actions/action-types'
 import APIUtils from '../../utils/APIUtils'
 import AlertUtils from '../../utils/AlertUtils'
 import AppUtils from '../../utils/AppUtils'
+import GiftModel from '../../model/GiftModel'
 
 export default function* customer() {
   yield takeLatest(type.APP.CHECK_PHONE_ASYNC, checkPhoneAsync)
@@ -414,7 +415,9 @@ function postCreateGift(data) {
     name: data.name,
     customerId: data.customerId,
     constructionId: data.constructionId,
-    cards: data.cards
+    cards: data.cards,
+    type: data.type,
+    rotation: data.rotation
   }
   return new Promise((resolve, reject) => {
     APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/gift/create`, JSON.stringify(body), resolve, reject);
@@ -457,15 +460,10 @@ function getHistoryGiftByCustomerId(id) {
 //getHistoryGiftAsync 
 function* getHistoryGiftAsync(action) {
   yield put({ type: type.APP.GET_HISTORY_GIFT_START })
-  const resp = yield call(getHistoryGift)
+  const resp = yield call(GiftModel.getList)
   yield put({ type: type.APP.GET_HISTORY_GIFT_END, payload: resp.data })
 }
 
-function getHistoryGift() {
-  return new Promise((resolve, reject) => {
-    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/gift/history`, resolve, reject);
-  });
-}
 
 //getListParticipationAsync
 function* getListParticipationAsync(action) {

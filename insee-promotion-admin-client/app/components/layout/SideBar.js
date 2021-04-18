@@ -26,10 +26,10 @@ class SideBar extends Component {
                             <Link style={{color: pathname == '/customer' && '#b71c1c'}} to={"/customer"}>Nhà thầu</Link>
                         </li>
                         <li>
-                            <Link style={{color: pathname == '/construction' && '#b71c1c'}} to={"/construction"}>Duyệt khuyến mãi</Link>
+                            <Link style={{color: pathname == '/construction' && '#b71c1c'}} to={"/construction"}>Khuyến mãi</Link>
                         </li>
                         <li>
-                            <Link style={{color: pathname == '/history' && '#b71c1c'}} to={"/history"} >Lịch sử </Link>
+                            <Link style={{color: pathname == '/gift' && '#b71c1c'}} to={"/gift"} >Quà tặng</Link>
                         </li>
                     </ul>
                 </div>

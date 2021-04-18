@@ -7,6 +7,8 @@ import { City } from '../../../../data/Location'
 import { Pagination } from 'antd';
 import 'antd/dist/antd.css';
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
+import {TypeCustomer, CONTRUCTOR, RETAILER} from '../../../../components/enum/TypeCustomer'
+
 
 class ListCustomer extends Component {
 
@@ -30,13 +32,14 @@ class ListCustomer extends Component {
   }
 
   load(status, location, page) {
-    this.props.appActions.getListCustomerByStatus(status ? status : this.state.status, 
-      location ? location : this.state.location, 
+    this.props.appActions.getListCustomerByStatus(status ? status : this.state.status,
+      location ? location : this.state.location,
       page != null ? page : this.state.page, this.state.pageSize);
   }
 
-  onChangeStatus(status) {
-    this.setState({ status: status, page: 0})
+  onChangeStatus(event) {
+    let status = event.target.value;
+    this.setState({ status: status, page: 0 })
     this.load(status, null, 0);
   }
 
@@ -60,23 +63,31 @@ class ListCustomer extends Component {
     let customers = this.props.app.customers;
     return (
       <div className="frnds">
-        <ul className="nav nav-tabs">
-          <li onClick={() => { this.onChangeStatus(10) }} className="nav-item"><a className={this.state.status == 10 ? 'active' : ''} >Tất cả</a></li>
-          <li onClick={() => { this.onChangeStatus(NEED_REVIEW.getStatus()) }} className="nav-item"><a className={this.state.status == 2 ? 'active' : ''} >Chờ duyệt</a></li>
-          <li onClick={() => { this.onChangeStatus(DO_NOT_HAVE_ACCOUNT.getStatus()) }} className="nav-item"><a className={this.state.status == 1 ? 'active' : ''} >Chưa có tài khoản</a></li>
-          <li onClick={() => { this.onChangeStatus(APPROVED.getStatus()) }} className="nav-item"><a className={this.state.status == 4 ? 'active' : ''}>Đã duyệt</a></li>
-        </ul>
-        <div style={{ float: 'right' }}>
-          <select onChange={this.onChangeLocation} value={this.state.location} style={{ width: '150px' }} className="form-control">
-            <option value={0}>Tất cả</option>
-            {City.getList().map((item, index) => {
-              return (
-                <option key={index} value={item.key}>{item.value}</option>
-              )
-            })}
-          </select>
+        <div className="inbox-lists">
+          <div className="inbox-action">
+            <ul>
+              <li>
+                <label>Trạng thái</label>
+                <select onChange={this.onChangeStatus} value={this.state.type} class="form-control">
+                  <option value={10}>Tất cả</option>
+                  <option value={NEED_REVIEW.getStatus()}>Chờ duyệt</option>
+                  <option value={APPROVED.getStatus()}>Đã duyệt</option>
+                </select>
+              </li>
+              <li>
+                <label>Tỉnh thành</label>
+                <select onChange={this.onChangeLocation} value={this.state.location} className="form-control">
+                  <option value={0}>Tất cả</option>
+                  {City.getList().map((item, index) => {
+                    return (
+                      <option key={index} value={item.key}>{item.value}</option>
+                    )
+                  })}
+                </select>
+              </li>
+            </ul>
+          </div>
         </div>
-
         {/* Tab panes */}
         <div className="tab-content">
           <div className="tab-pane active fade show" id="frends">
@@ -95,6 +106,7 @@ class ListCustomer extends Component {
                         <div className="col-md-7">
                           <h4>{item.fullName}</h4>
                           <ul>
+                            {/* <li>{TypeCustomer.get()}</li> */}
                             <li>{DateTimeUtil.diffTime(item.createdTime)}</li>
                             <li>{City.getName(item.mainAreaId)}</li>
                             <li style={{ color: `${status.getColor()}` }}>{status.getName()}</li>
@@ -112,7 +124,7 @@ class ListCustomer extends Component {
 
             </ul>
             <div className="paging-container">
-            {customers && <Pagination defaultCurrent={1} current={this.state.page + 1} onChange={this.onChangePage} total={customers.totalPage * customers.pageSize} /> }
+              {customers && <Pagination defaultCurrent={1} current={this.state.page + 1} onChange={this.onChangePage} total={customers.totalPage * customers.pageSize} />}
             </div>
           </div>
         </div>

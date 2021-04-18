@@ -18,7 +18,7 @@ import Project from '../../../../data/Project'
 import { City, District } from '../../../../data/Location'
 import CommonUtil from '../../../../utils/CommonUtil';
 
-class ConstructionDetail extends Component {
+class NowConstruction extends Component {
 
   constructor(props) {
     super(props)
@@ -28,18 +28,18 @@ class ConstructionDetail extends Component {
       isCanApproval: true,
       errorMsg: null,
       isAreYouSureModal: false,
-      isSendingGift: false
+      isSendingGift: false,
+      isEditing: true,
+      construction: this.props.construction
     }
+
     this._onClickOpenApprovalModal = this._onClickOpenApprovalModal.bind(this)
-    this._onCloseApprovalModal = this._onCloseApprovalModal.bind(this)
     this._onClickOpenRejectModal = this._onClickOpenRejectModal.bind(this)
-    this._onCloseRejectModal = this._onCloseRejectModal.bind(this)
     this.updateStatusImg = this.updateStatusImg.bind(this)
     this.updateConstruction = this.updateConstruction.bind(this)
-    this._onCloseAreUSureModal = this._onCloseAreUSureModal.bind(this)
     this._onClickOpenAreYouSureModal = this._onClickOpenAreYouSureModal.bind(this)
     this._onClickOpenFormSendingGift = this._onClickOpenFormSendingGift.bind(this)
-    this._onCloseFormSendingGift = this._onCloseFormSendingGift.bind(this)
+    this._onChangeInput = this._onChangeInput.bind(this)
     this.isApproval = true;
   }
 
@@ -68,28 +68,11 @@ class ConstructionDetail extends Component {
     this.setState({ isAreYouSureModal: true })
   }
 
-  _onCloseApprovalModal() {
-    this.setState({ isOpenApprovalModal: false })
-  }
-
-  _onCloseRejectModal() {
-    this.setState({ isOpenRejectModal: false })
-  }
-
-  _onCloseAreUSureModal() {
-    this.setState({ isAreYouSureModal: false })
-  }
-
   _onClickOpenFormSendingGift() {
     this.setState({ isSendingGift: true })
   }
 
-  _onCloseFormSendingGift() {
-    this.setState({ isSendingGift: false })
-  }
-
   componentDidMount() {
-    this.props.appActions.getConstruction(this.props.constructionId)
     this.props.appActions.getListLabel()
   }
 
@@ -133,9 +116,15 @@ class ConstructionDetail extends Component {
   }
 
 
+  _onChangeInput(name, value) {
+    let construction = { ...this.state.construction }
+    construction[name] = value
+    this.setState({ construction: construction })
+  }
+
 
   render() {
-    const construction = this.props.app.construction;
+    const construction = this.state.construction
     const labels = this.props.app.labels;
     const labelOptions = labels && labels.map(e => { return { value: e.id, label: e.name } })
     const type = construction && TypeConstruction.findByType(construction.type)
@@ -156,77 +145,52 @@ class ConstructionDetail extends Component {
                   <tbody>
                     <tr>
                       <th>Địa chỉ</th>
-                      <td>{construction && construction.address}</td>
+                      <td>{construction && <input onChange={(e) => this._onChangeInput('address', e.target.value)} disabled={this.state.isEditing ? '' : 'disabled'} className="input-c" value={this.state.construction.address} />}</td>
                     </tr>
                     <tr>
                       <th>Tỉnh / Huyện </th>
-                      {(construction && construction.city != 0) && <td>`${City.getName(construction.city)} / ${District.getName(construction.district)}`</td>}
-                      {(construction && construction.city == 0) && <td style={{cursor: 'pointer'}}> ...................</td> }
+                      {/* {(construction && construction.city != 0) && */}
+                      <td>
+                        <select disabled={this.state.isEditing ? '' : 'disabled'} className="select-c" value={construction.city}>
+                          <option>HO CHI MINH</option>
+                          <option>HA NOI</option>
+                        </select>
+                        <span style={{ padding: '0px 10px' }}> / </span>
+                        <select disabled={this.state.isEditing ? '' : 'disabled'} className="select-c" value={construction.city}>
+                          <option>HO CHI MINH</option>
+                          <option>HA NOI</option>
+                        </select>
+                      </td>
                     </tr>
-                    {type == NEXT_CONSTRUCTION &&
-                      <tr>
-                        <th>Tên: </th>
-                        <td>{construction && construction.name}</td>
-                      </tr>
-                    }
-                    {type == NEXT_CONSTRUCTION &&
-                      <tr>
-                        <th>SDT: </th>
-                        <td>{construction && construction.phone}</td>
-                      </tr>
-                    }
+
                     <tr>
                       <th>Nhà thầu</th>
                       <td style={{ color: '#b71c1c' }}>{construction && <Link to={'/customer/' + construction.user.customerId}>{construction.user.name}</Link>}</td>
                     </tr>
-                    {type == NOW_CONSTRUCTION &&
-                      <tr>
-                        <th>Tên cửa hàng: </th>
-                        {(construction && construction.name) && <td> { construction.name  }</td>}
-                        {(construction && !construction.name) && <td style={{cursor: 'pointer'}}> ..................... </td>}
-
-                      </tr>
-                    }
-                    {type == NOW_CONSTRUCTION &&
-                      <tr>
-                        <th>SDT cửa hàng: </th>
-                        <td>{construction && construction.phone}</td>
-                      </tr>
-                    }
-                    {type == NEXT_CONSTRUCTION &&
-                      <tr>
-                        <th>Thời gian khởi công: </th>
-                        <td>{construction && new Date(construction.estimateTimeStart * 1000).toDateString()}</td>
-                      </tr>
-                    }
-                    {type == NEXT_CONSTRUCTION &&
-                      <tr>
-                        <th>Loại công trình: </th>
-                        <td>{construction && Project.getName(construction.typeConstruction)}</td>
-                      </tr>
-                    }
-                    {type == NOW_CONSTRUCTION &&
-                      <tr>
-                        <th>Loại xi măng</th>
-                        <td>{construction && CementEnum.findById(construction.cement).name}</td>
-                      </tr>
-                    }
-                    {type == NOW_CONSTRUCTION &&
-                      <tr>
-                        <th>Số lượng sản phẩm: </th>
-                        <td>{construction && construction.quantity}</td>
-                      </tr>
-                    }
+                    <tr>
+                      <th>Tên cửa hàng: </th>
+                      <td>{construction && <input disabled={this.state.isEditing ? '' : 'disabled'} className="input-c" value={construction.name} />}</td>
+                    </tr>
+                    <tr>
+                      <th>SDT cửa hàng: </th>
+                      <td>{construction && <input disabled={this.state.isEditing ? '' : 'disabled'} className="input-c" value={construction.phone} />}</td>
+                    </tr>
+                    <tr>
+                      <th>Loại xi măng</th>
+                      <td>{construction && CementEnum.findById(construction.cement).name}</td>
+                    </tr>
+                    <tr>
+                      <th>Số lượng sản phẩm: </th>
+                      <td>{construction && <input disabled={this.state.isEditing ? '' : 'disabled'} type="number" className="input-c" value={construction.quantity} />}</td>
+                    </tr>
                     <tr>
                       <th>Trạng thái</th>
                       <td>{status && status.getName()}</td>
                     </tr>
-                    {type == NOW_CONSTRUCTION &&
-                      <tr>
-                        <th>Đã duyệt</th>
-                        <td>{construction && construction.bills && this.countApproved(construction.bills)} hóa đơn,  {construction && construction.images && this.countApproved(construction.images)} hình ảnh</td>
-                      </tr>
-                    }
+                    <tr>
+                      <th>Đã duyệt</th>
+                      <td>{construction && construction.bills && this.countApproved(construction.bills)} hóa đơn,  {construction && construction.images && this.countApproved(construction.images)} hình ảnh</td>
+                    </tr>
                     {(construction && construction.label) &&
                       <tr>
                         <th>Label</th>
@@ -262,6 +226,8 @@ class ConstructionDetail extends Component {
               }
             </div>
           </div>
+
+
           {this.state.errorMsg && <div className="errorMsg-right">{this.state.errorMsg}</div>}
           <div className="action-container">
             <ui className="action-customer-detail">
@@ -283,56 +249,65 @@ class ConstructionDetail extends Component {
             </ui>
           </div>
 
-          {(type && (type == NOW_CONSTRUCTION || type == NOW_CONSTRUCTION_V2)) &&
-            <div className="central-meta">
-              <h5 className="f-title bill">HÓA ĐƠN ({construction && construction.bills && construction.bills.length})</h5>
-              <ul className="photos">
-                {construction && construction.bills && construction.bills.map((item, index) => {
-                  return (
-                    <li key={item.id}>
-                      <a className="strip" href="#">
-                        <img onClick={() => { this.imgViewerRef.open(item, 1) }} src={item.link} alt="" />
-                        {item.status == ImageStatus.REJECTED.getStatus() && <div style={{ color: ImageStatus.ImageStatus.getColor(item.status) }} className="status">Reject</div>}
-                      </a>
-                    </li>
-                  )
-                })
-                }
+          <div className="central-meta">
+            <h5 className="f-title bill">HÓA ĐƠN ({construction && construction.bills && construction.bills.length})</h5>
+            <ul className="photos">
+              {construction && construction.bills && construction.bills.map((item, index) => {
+                return (
+                  <li key={item.id}>
+                    <a className="strip" href="#">
+                      <img onClick={() => { this.imgViewerRef.open(item, 1) }} src={item.link} alt="" />
+                      {item.status == ImageStatus.REJECTED.getStatus() && <div style={{ color: ImageStatus.ImageStatus.getColor(item.status) }} className="status">Reject</div>}
+                    </a>
+                  </li>
+                )
+              })
+              }
 
-              </ul>
-              <h5 className="f-title bill">HÌNH ẢNH CÓ XI MĂNG INSEE ({construction && construction.images && construction.images.length})</h5>
-              <ul className="photos">
-                {construction && construction.images && construction.images.map((item, index) => {
-                  return (
-                    <li key={item.id}>
-                      <a className="strip" href="#">
-                        <img onClick={() => { this.imgViewerRef.open(item, 2) }} src={item.link} alt="" />
-                        {item.status == ImageStatus.REJECTED.getStatus() && <div style={{ color: ImageStatus.ImageStatus.getColor(item.status) }} className="status">Reject</div>}
-                      </a>
-                    </li>
-                  )
-                })
-                }
-              </ul>
-            </div>
-          }
+            </ul>
+            <h5 className="f-title bill">HÌNH ẢNH CÓ XI MĂNG INSEE ({construction && construction.images && construction.images.length})</h5>
+            <ul className="photos">
+              {construction && construction.images && construction.images.map((item, index) => {
+                return (
+                  <li key={item.id}>
+                    <a className="strip" href="#">
+                      <img onClick={() => { this.imgViewerRef.open(item, 2) }} src={item.link} alt="" />
+                      {item.status == ImageStatus.REJECTED.getStatus() && <div style={{ color: ImageStatus.ImageStatus.getColor(item.status) }} className="status">Reject</div>}
+                    </a>
+                  </li>
+                )
+              })
+              }
+            </ul>
+          </div>
 
           <ImgViewer ref={e => this.imgViewerRef = e} updateStatus={this.updateStatusImg} />
 
           {construction &&
-            <ApprovalConstructionModal {...this.props} id={construction.id} isOpen={this.state.isOpenApprovalModal} onClose={this._onCloseApprovalModal} />
+            <ApprovalConstructionModal {...this.props}
+              id={construction.id}
+              isOpen={this.state.isOpenApprovalModal}
+              onClose={() => this.setState({ isOpenApprovalModal: false })} />
           }
           {construction &&
-            <RejectConstructionModal {...this.props} id={construction.id} isOpen={this.state.isOpenRejectModal} onClose={this._onCloseRejectModal} />
+            <RejectConstructionModal {...this.props}
+              id={construction.id}
+              isOpen={this.state.isOpenRejectModal}
+              onClose={() => { this.setState({ isOpenRejectModal: false }) }} />
           }
           {construction &&
-            <SendGiftModal {...this.props} constructionId={construction.id} customerId={construction.user.customerId} isOpen={this.state.isSendingGift} onClose={this._onCloseFormSendingGift} />
+            <SendGiftModal {...this.props} constructionId={construction.id}
+              customerId={construction.user.customerId}
+              isOpen={this.state.isSendingGift}
+              onClose={() => { this.setState({ isSendingGift: false }) }} />
           }
-          <AreYouSureModal isOpen={this.state.isAreYouSureModal} onOK={this.updateConstruction} onClose={this._onCloseAreUSureModal} />
+          <AreYouSureModal isOpen={this.state.isAreYouSureModal}
+            onOK={this.updateConstruction}
+            onClose={() => this.setState({ isAreYouSureModal: false })} />
         </div>
       </div>
     )
   }
 }
 
-export default ConstructionDetail
+export default NowConstruction

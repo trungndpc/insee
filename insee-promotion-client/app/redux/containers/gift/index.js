@@ -29,9 +29,6 @@ class Gift extends React.Component {
     render() {
         const gift = this.props.app.gift;
         var type = gift && TypeGift.findByType(gift.type)
-        if (!type) {
-            type = LUCKY_ROTATION_TYPE_GIFT;
-        }
         return (
             <FormLayout {...this.props}>
                 {type == LUCKY_ROTATION_TYPE_GIFT && <LuckyRotation giftId={this.state.giftId} {...this.props} />}

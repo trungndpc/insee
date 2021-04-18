@@ -50,7 +50,6 @@ class SendGiftModal extends Component {
 
     _onClickOK() {
         let data = {
-            network: 1,
             customerId: this.props.customerId,
             constructionId: this.props.constructionId,
             type : this.state.typeGift
@@ -84,7 +83,6 @@ class SendGiftModal extends Component {
                 excepted : deg
             }
         }
-
         this.props.appActions.createGift(data);
         this.props.onClose && this.props.onClose();
     }

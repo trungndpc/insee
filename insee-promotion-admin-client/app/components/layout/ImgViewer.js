@@ -33,7 +33,7 @@ class ImgViewer extends Component {
     onClickUpdateStatus() {
         let billId = this.billIdRef && this.billIdRef.value;
         let weigh = this.weighRef && this.weighRef.value;
-        this.props.updateStatus && this.props.updateStatus(this.state.type, this.state.item.id, this.state.isChecked ? APPROVED.getStatus() : REJECTED.getStatus(), billId, weigh)
+        this.props.appActions.updateStatusImage(this.state.type, this.state.item.id, this.state.isChecked ? APPROVED.getStatus() : REJECTED.getStatus(), billId, weigh)
     }
 
     render() {
