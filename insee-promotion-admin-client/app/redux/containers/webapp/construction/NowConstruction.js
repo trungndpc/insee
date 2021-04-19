@@ -4,7 +4,6 @@ import {
 } from "react-router-dom";
 import ApprovalConstructionModal from '../../../../components/modal/ApprovalConstructionModal'
 import RejectConstructionModal from '../../../../components/modal/RejectConstructionModal'
-import { TypeConstruction, NEXT_CONSTRUCTION, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2 } from '../../../../components/enum/TypeConstruction'
 import ImgViewer from '../../../../components/layout/ImgViewer'
 import * as ImageStatus from '../../../../components/enum/ImageStatus'
 import * as ConstructionStatus from '../../../../components/enum/StatusConstruction'
@@ -14,9 +13,10 @@ import AreYouSureModal from '../../../../components/modal/AreYouSureModal'
 import ClientNote from '../../../../components/enum/ClientNote'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
 import * as CementEnum from '../../../../components/enum/CementEnum'
-import Project from '../../../../data/Project'
 import { City, District } from '../../../../data/Location'
 import CommonUtil from '../../../../utils/CommonUtil';
+import ConstructionModel from '../../../../model/ConstructionModel';
+import AlertUtils from '../../../../utils/AlertUtils'
 
 class NowConstruction extends Component {
 
@@ -29,43 +29,22 @@ class NowConstruction extends Component {
       errorMsg: null,
       isAreYouSureModal: false,
       isSendingGift: false,
-      isEditing: true,
       construction: this.props.construction
     }
-
-    this._onClickOpenApprovalModal = this._onClickOpenApprovalModal.bind(this)
-    this._onClickOpenRejectModal = this._onClickOpenRejectModal.bind(this)
-    this.updateStatusImg = this.updateStatusImg.bind(this)
-    this.updateConstruction = this.updateConstruction.bind(this)
-    this._onClickOpenAreYouSureModal = this._onClickOpenAreYouSureModal.bind(this)
-    this._onClickOpenFormSendingGift = this._onClickOpenFormSendingGift.bind(this)
     this._onChangeInput = this._onChangeInput.bind(this)
-    this.isApproval = true;
+    this._approval = this._approval.bind(this)
+    this.updateConstruction = this.updateConstruction.bind(this)
+    this.imgViewerRef = {};
+    this.billViewerRef = {};
   }
 
-  _onClickOpenApprovalModal() {
-    if (!this.isApproval) {
+  _approval(is_approved) {
+    let construction = this.props.construction;
+    if (!this.isCanApproval(construction.bills, construction.images)) {
       this.setState({ errorMsg: 'Vui lòng duyệt hết hóa đơn và hình ảnh nhà thầu upload lên.' });
-      return false;
-    }
-    this.setState({ isOpenApprovalModal: true })
-  }
-
-  _onClickOpenRejectModal() {
-    if (!this.isApproval) {
-      this.setState({ errorMsg: 'Vui lòng duyệt hết hóa đơn và hình ảnh nhà thầu upload lên.' });
-      return false;
-    }
-    this.setState({ isOpenRejectModal: true })
-  }
-
-  _onClickOpenAreYouSureModal() {
-    let lable = this.labelRef.getValue();
-    if (!lable) {
-      this.setState({ errorMsg: 'Vui lòng chọn Label' })
       return;
     }
-    this.setState({ isAreYouSureModal: true })
+    is_approved ? (this.setState({ isOpenApprovalModal: true })) : (this.setState({ isOpenRejectModal: true }));
   }
 
   _onClickOpenFormSendingGift() {
@@ -94,25 +73,30 @@ class NowConstruction extends Component {
     return true;
   }
 
-  updateStatusImg(type, id, status, billId, weigh) {
-    this.props.appActions.updateStatusImage(id, type, status, this.props.constructionId, billId, weigh);
-    this.imgViewerRef.close()
-  }
-
   updateConstruction() {
-    const construction = this.props.app.construction;
+    const construction = this.state.construction
     let data = {
-      id: construction.id
+      id: construction.id,
+      city: (construction.city && construction.city != 0) ? construction.city : undefined,
+      district: (construction.district && construction.district != 0) ? construction.district : undefined,
+      name: construction.name,
+      phone: construction.phone,
+      address: construction.address,
+      cement: construction.cement,
+      quantity: construction.quantity
     }
-    let lable = this.labelRef.getValue();
-    if (lable.__isNew__) {
-      data.labelName = lable.value,
-        data.labelType = 1
-    } else {
-      data.labelId = lable.value
+
+    if (this.labelRef) {
+      let value = this.labelRef.getValue();
+      value && (value.__isNew__ ? (data.labelName = value.value) : (data.labelId = value.value));
     }
+
+    ConstructionModel.update(data)
+      .then(resp => {
+        AlertUtils.showSuccess('Updated')
+        this.props.appActions.getConstruction(this.state.construction.id)
+      })
     this.setState({ isAreYouSureModal: false })
-    this.props.appActions.updateConstruction(data);
   }
 
 
@@ -127,11 +111,8 @@ class NowConstruction extends Component {
     const construction = this.state.construction
     const labels = this.props.app.labels;
     const labelOptions = labels && labels.map(e => { return { value: e.id, label: e.name } })
-    const type = construction && TypeConstruction.findByType(construction.type)
     const status = construction && ConstructionStatus.findByStatus(construction.status);
-    if (construction && construction.bills && construction.images) {
-      this.isApproval = this.isCanApproval(construction.bills, construction.images);
-    }
+    const is_editing = status == ConstructionStatus.WAITING_APPROVAL
     return (
       <div className="loadMore">
         <div className="m-content">
@@ -145,20 +126,23 @@ class NowConstruction extends Component {
                   <tbody>
                     <tr>
                       <th>Địa chỉ</th>
-                      <td>{construction && <input onChange={(e) => this._onChangeInput('address', e.target.value)} disabled={this.state.isEditing ? '' : 'disabled'} className="input-c" value={this.state.construction.address} />}</td>
+                      <td >{construction && <input onChange={(e) => this._onChangeInput('address', e.target.value)} disabled={is_editing ? '' : 'disabled'} className="input-c" value={this.state.construction.address} />}</td>
                     </tr>
                     <tr>
                       <th>Tỉnh / Huyện </th>
-                      {/* {(construction && construction.city != 0) && */}
                       <td>
-                        <select disabled={this.state.isEditing ? '' : 'disabled'} className="select-c" value={construction.city}>
-                          <option>HO CHI MINH</option>
-                          <option>HA NOI</option>
+                        <select onChange={(e) => this._onChangeInput('city', e.target.value)} disabled={is_editing ? '' : 'disabled'} className="select-c" value={this.state.construction.city}>
+                          <option value={0}>None</option>
+                          {City.getList().map((item) => (
+                            <option value={item.key} key={item.key}>{item.value}</option>
+                          ))}
                         </select>
                         <span style={{ padding: '0px 10px' }}> / </span>
-                        <select disabled={this.state.isEditing ? '' : 'disabled'} className="select-c" value={construction.city}>
-                          <option>HO CHI MINH</option>
-                          <option>HA NOI</option>
+                        <select onChange={(e) => this._onChangeInput('district', e.target.value)} disabled={is_editing ? '' : 'disabled'} className="select-c" value={this.state.construction.district}>
+                          <option value={0}>None</option>
+                          {District.getList(this.state.construction.city).map((item) => (
+                            <option value={item.key} key={item.key}>{item.value}</option>
+                          ))}
                         </select>
                       </td>
                     </tr>
@@ -169,11 +153,11 @@ class NowConstruction extends Component {
                     </tr>
                     <tr>
                       <th>Tên cửa hàng: </th>
-                      <td>{construction && <input disabled={this.state.isEditing ? '' : 'disabled'} className="input-c" value={construction.name} />}</td>
+                      <td>{construction && <input onChange={(e) => this._onChangeInput('name', e.target.value)} disabled={is_editing ? '' : 'disabled'} className="input-c" value={this.state.construction.name} />}</td>
                     </tr>
                     <tr>
                       <th>SDT cửa hàng: </th>
-                      <td>{construction && <input disabled={this.state.isEditing ? '' : 'disabled'} className="input-c" value={construction.phone} />}</td>
+                      <td>{construction && <input onChange={(e) => this._onChangeInput('phone', e.target.value)} disabled={is_editing ? '' : 'disabled'} className="input-c" value={this.state.construction.phone} />}</td>
                     </tr>
                     <tr>
                       <th>Loại xi măng</th>
@@ -181,7 +165,7 @@ class NowConstruction extends Component {
                     </tr>
                     <tr>
                       <th>Số lượng sản phẩm: </th>
-                      <td>{construction && <input disabled={this.state.isEditing ? '' : 'disabled'} type="number" className="input-c" value={construction.quantity} />}</td>
+                      <td>{construction && <input onChange={(e) => this._onChangeInput('quantity', e.target.value)} disabled={is_editing ? '' : 'disabled'} type="number" className="input-c" value={this.state.construction.quantity} />}</td>
                     </tr>
                     <tr>
                       <th>Trạng thái</th>
@@ -191,12 +175,15 @@ class NowConstruction extends Component {
                       <th>Đã duyệt</th>
                       <td>{construction && construction.bills && this.countApproved(construction.bills)} hóa đơn,  {construction && construction.images && this.countApproved(construction.images)} hình ảnh</td>
                     </tr>
-                    {(construction && construction.label) &&
-                      <tr>
-                        <th>Label</th>
-                        <td className="label">#{construction.label.name}</td>
-                      </tr>
-                    }
+                    <tr>
+                      <th>Label</th>
+                      <td className="label">
+                        {construction.label && (`#${construction.label.name}`)}
+                        {!construction.label &&
+                          <ReactSelect className="label-select-c" placeholder="Gắn nhãn công trình giúp hệ thống phục vụ bản tốt hơn" options={labelOptions} ref={e => this.labelRef = e} />
+                        }
+                      </td>
+                    </tr>
                     {construction && construction.createdTime &&
                       <tr>
                         <th>Thời gian tạo</th>
@@ -218,12 +205,6 @@ class NowConstruction extends Component {
                   </tbody>
                 </table>
               }
-              {(labelOptions && construction && !construction.label) &&
-                <div className="input-extra">
-                  <div className="th">Nhãn công trình</div>
-                  <div className="td"><ReactSelect placeholder="Gắn nhãn công trình giúp hệ thống phục vụ bản tốt hơn" options={labelOptions} ref={e => this.labelRef = e} /></div>
-                </div>
-              }
             </div>
           </div>
 
@@ -231,20 +212,17 @@ class NowConstruction extends Component {
           {this.state.errorMsg && <div className="errorMsg-right">{this.state.errorMsg}</div>}
           <div className="action-container">
             <ui className="action-customer-detail">
-              {construction && !construction.label &&
-                <li><Link onClick={this._onClickOpenAreYouSureModal} className="add-butn">Cập nhật</Link></li>
+              {status == ConstructionStatus.WAITING_APPROVAL &&
+                <li><Link onClick={() => { this.setState({ isAreYouSureModal: true }) }} className="add-butn">Cập nhật</Link></li>
               }
-              {construction
-                && construction.label &&
-                (construction.status == ConstructionStatus.WAITING_APPROVAL.getStatus()
-                  || construction.status == ConstructionStatus.RE_SUBMIT.getStatus()) &&
+              {status == ConstructionStatus.WAITING_APPROVAL &&
                 <div>
-                  <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn">Chấp nhận</Link></li>
-                  <li><Link onClick={this._onClickOpenRejectModal} className="add-butn">Không chấp nhận</Link></li>
+                  <li><Link onClick={() => this._approval(true)} style={{ backgroundColor: '#2196F3' }} className="add-butn">Chấp nhận</Link></li>
+                  <li><Link onClick={() => this._approval(false)} style={{ backgroundColor: '#9E9E9E' }} className="add-butn">Không chấp nhận</Link></li>
                 </div>
               }
-              {construction && construction.status == ConstructionStatus.APPROVED.getStatus() &&
-                <li><Link onClick={this._onClickOpenFormSendingGift} className="add-butn">Gửi quà</Link></li>
+              {status == ConstructionStatus.APPROVED &&
+                <li><Link onClick={() => this.setState({isSendingGift: true})} className="add-butn">Gửi quà</Link></li>
               }
             </ui>
           </div>
@@ -256,9 +234,10 @@ class NowConstruction extends Component {
                 return (
                   <li key={item.id}>
                     <a className="strip" href="#">
-                      <img onClick={() => { this.imgViewerRef.open(item, 1) }} src={item.link} alt="" />
+                      <img onClick={() => { this.billViewerRef[item.id].open(item, 1) }} src={item.link} alt="" />
                       {item.status == ImageStatus.REJECTED.getStatus() && <div style={{ color: ImageStatus.ImageStatus.getColor(item.status) }} className="status">Reject</div>}
                     </a>
+                    <ImgViewer ref={(e) => { this.billViewerRef[item.id] = e }} constructionId={construction.id} {...this.props} />
                   </li>
                 )
               })
@@ -271,9 +250,10 @@ class NowConstruction extends Component {
                 return (
                   <li key={item.id}>
                     <a className="strip" href="#">
-                      <img onClick={() => { this.imgViewerRef.open(item, 2) }} src={item.link} alt="" />
+                      <img onClick={() => { this.imgViewerRef[item.id].open(item, 2) }} src={item.link} alt="" />
                       {item.status == ImageStatus.REJECTED.getStatus() && <div style={{ color: ImageStatus.ImageStatus.getColor(item.status) }} className="status">Reject</div>}
                     </a>
+                    <ImgViewer ref={(e) => { this.imgViewerRef[item.id] = e }} constructionId={construction.id} {...this.props} />
                   </li>
                 )
               })
@@ -281,7 +261,7 @@ class NowConstruction extends Component {
             </ul>
           </div>
 
-          <ImgViewer ref={e => this.imgViewerRef = e} updateStatus={this.updateStatusImg} />
+
 
           {construction &&
             <ApprovalConstructionModal {...this.props}

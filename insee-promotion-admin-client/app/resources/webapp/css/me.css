@@ -33,12 +33,21 @@
     margin-top: -140px !important;
  }
 
+ .table-info-contractor {
+     position: relative;
+     display: table;
+ }
+
  .table-info-contractor th{
      border: none;
  }
 
  .table-info-contractor td{
     border: none;
+}
+
+.table-info-contractor td .input-c {
+    width: 100%;
 }
 
 
@@ -566,4 +575,14 @@
 .select-c:disabled {
     border: none;
     color: black;
+}
+
+.label-select-c .css-yk16xz-control{
+    border: none;
+    border-bottom: 1px dotted black;
+    border-radius: 0px;
+}
+
+.label-select-c  .css-1hb7zxy-IndicatorsContainer {
+    display: none;
 }

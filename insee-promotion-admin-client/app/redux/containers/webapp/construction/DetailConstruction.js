@@ -20,7 +20,6 @@ class DetailConstruction extends Component {
     render() {
         const construction = this.props.app.construction
         const type = construction && TypeConstruction.findByType(construction.type)
-        console.log(construction)
         return (
             <div>
                 {construction &&  type == NEXT_CONSTRUCTION && <NextConstruction construction={construction} {...this.props}/>}

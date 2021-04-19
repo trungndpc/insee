@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import AppUtils from '../../utils/AppUtils'
+import AlertUtils from '../../utils/AlertUtils'
+import ConstructionModel from '../../model/ConstructionModel'
 
 const APPROVED = 2;
 class ApprovalConstructionModal extends Component {
@@ -34,7 +36,11 @@ class ApprovalConstructionModal extends Component {
     }
 
     _onClickOK() {
-        this.props.appActions.updateStatusConstruction(this.props.id, APPROVED)
+        ConstructionModel.updateStatus(this.props.id, APPROVED)
+        .then(resp => {
+            AlertUtils.showSuccess('Approved')
+            this.props.appActions.getConstruction(this.props.id)
+        })
         this._onClose();
     }
 
@@ -50,10 +56,6 @@ class ApprovalConstructionModal extends Component {
                         <div className="Rpt-meta">
                             <span style={{ color: '#fa6342' }}>Bạn có chắc xác nhận công trình này?</span>
                             <div method="post">
-                                {/* <div>
-                                    <label>Ghi chú</label>
-                                    <textarea ref={e => this.noteRef = e} rows={2} defaultValue={""} />
-                                </div> */}
                                 <div className="btn-bar">
                                     <a onClick={this._onClickOK} className="add-butn" >Đồng ý</a>
                                     <a onClick={this._onClose} className="add-butn cancel">Đóng</a>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import AppUtils from '../../utils/AppUtils'
 
+
 const APPROVED = 2;
 class ApprovalCustomerModal extends Component {
 

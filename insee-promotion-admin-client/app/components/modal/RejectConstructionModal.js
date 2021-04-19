@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
 import AppUtils from '../../utils/AppUtils'
+import AlertUtils from '../../utils/AlertUtils'
+import ConstructionModel from '../../model/ConstructionModel'
+
+
 
 const REJECTED = 3;
 class RejectConstructionModal extends Component {
@@ -34,8 +38,12 @@ class RejectConstructionModal extends Component {
     }
 
     _onClickOK() {
-        let note = this.noteRef.value;
-        this.props.appActions.updateStatusConstruction(this.props.id, REJECTED, note)
+        ConstructionModel.updateStatus(this.props.id, REJECTED)
+        .then(resp => {
+            AlertUtils.showSuccess('Rejected')
+            this.props.appActions.getConstruction(this.props.id)
+        })
+        this._onClose();
         this._onClose();
     }
 
