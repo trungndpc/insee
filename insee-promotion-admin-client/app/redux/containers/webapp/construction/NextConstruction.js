@@ -12,6 +12,8 @@ import ClientNote from '../../../../components/enum/ClientNote'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
 import Project from '../../../../data/Project'
 import { City, District } from '../../../../data/Location'
+import ConstructionModel from '../../../../model/ConstructionModel'
+import AlertUtils from '../../../../utils/AlertUtils'
 
 class ConstructionDetail extends Component {
 
@@ -24,13 +26,14 @@ class ConstructionDetail extends Component {
       errorMsg: null,
       isAreYouSureModal: false,
       isSendingGift: false,
-      isEditing: true,
+      isEditing: false,
       construction: this.props.construction
     }
     this.updateConstruction = this.updateConstruction.bind(this)
     this._onClickOpenFormSendingGift = this._onClickOpenFormSendingGift.bind(this)
     this._onCloseFormSendingGift = this._onCloseFormSendingGift.bind(this)
     this._onChangeInput = this._onChangeInput.bind(this)
+    this._approval = this._approval.bind(this)
     this.isApproval = true;
   }
 
@@ -50,19 +53,22 @@ class ConstructionDetail extends Component {
 
 
   updateConstruction() {
-    const construction = this.props.app.construction;
+    const construction = this.state.construction
     let data = {
-      id: construction.id
+      id: construction.id,
     }
-    let lable = this.labelRef.getValue();
-    if (lable.__isNew__) {
-      data.labelName = lable.value,
-        data.labelType = 1
-    } else {
-      data.labelId = lable.value
+
+    if (this.labelRef) {
+      let value = this.labelRef.getValue();
+      value && (value.__isNew__ ? (data.labelName = value.value) : (data.labelId = value.value));
     }
+
+    ConstructionModel.update(data)
+      .then(resp => {
+        AlertUtils.showSuccess('Updated')
+        this.props.appActions.getConstruction(this.state.construction.id)
+      })
     this.setState({ isAreYouSureModal: false })
-    this.props.appActions.updateConstruction(data);
   }
 
 
@@ -70,6 +76,10 @@ class ConstructionDetail extends Component {
     let construction = { ...this.state.construction }
     construction[name] = value
     this.setState({ construction: construction })
+  }
+
+  _approval(is_approved) {
+    is_approved ? (this.setState({ isOpenApprovalModal: true })) : (this.setState({ isOpenRejectModal: true }));
   }
 
 
@@ -158,16 +168,13 @@ class ConstructionDetail extends Component {
           {this.state.errorMsg && <div className="errorMsg-right">{this.state.errorMsg}</div>}
           <div className="action-container">
             <ui className="action-customer-detail">
-              {construction && !construction.label &&
-                <li><Link onClick={this._onClickOpenAreYouSureModal} className="add-butn">Cập nhật</Link></li>
+              {status == ConstructionStatus.WAITING_APPROVAL && !construction.label &&
+                <li><Link onClick={() => { this.setState({ isAreYouSureModal: true }) }} className="add-butn">Cập nhật</Link></li>
               }
-              {construction
-                && construction.label &&
-                (construction.status == ConstructionStatus.WAITING_APPROVAL.getStatus()
-                  || construction.status == ConstructionStatus.RE_SUBMIT.getStatus()) &&
+              {status == ConstructionStatus.WAITING_APPROVAL &&
                 <div>
-                  <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn">Chấp nhận</Link></li>
-                  <li><Link onClick={this._onClickOpenRejectModal} className="add-butn">Không chấp nhận</Link></li>
+                  <li><Link onClick={() => this._approval(true)} style={{ backgroundColor: '#2196F3' }} className="add-butn">Chấp nhận</Link></li>
+                  <li><Link onClick={() => this._approval(false)} style={{ backgroundColor: '#9E9E9E' }} className="add-butn">Không chấp nhận</Link></li>
                 </div>
               }
               {construction && construction.status == ConstructionStatus.APPROVED.getStatus() &&
@@ -177,15 +184,26 @@ class ConstructionDetail extends Component {
           </div>
 
           {construction &&
-            <ApprovalConstructionModal {...this.props} id={construction.id} isOpen={this.state.isOpenApprovalModal} onClose={this._onCloseApprovalModal} />
+            <ApprovalConstructionModal {...this.props}
+              id={construction.id}
+              isOpen={this.state.isOpenApprovalModal}
+              onClose={() => this.setState({ isOpenApprovalModal: false })} />
           }
           {construction &&
-            <RejectConstructionModal {...this.props} id={construction.id} isOpen={this.state.isOpenRejectModal} onClose={this._onCloseRejectModal} />
+            <RejectConstructionModal {...this.props}
+              id={construction.id}
+              isOpen={this.state.isOpenRejectModal}
+              onClose={() => { this.setState({ isOpenRejectModal: false }) }} />
           }
           {construction &&
-            <SendGiftModal {...this.props} constructionId={construction.id} customerId={construction.user.customerId} isOpen={this.state.isSendingGift} onClose={this._onCloseFormSendingGift} />
+            <SendGiftModal {...this.props} constructionId={construction.id}
+              customerId={construction.user.customerId}
+              isOpen={this.state.isSendingGift}
+              onClose={() => { this.setState({ isSendingGift: false }) }} />
           }
-          <AreYouSureModal isOpen={this.state.isAreYouSureModal} onOK={this.updateConstruction} onClose={this._onCloseAreUSureModal} />
+          <AreYouSureModal isOpen={this.state.isAreYouSureModal}
+            onOK={this.updateConstruction}
+            onClose={() => this.setState({ isAreYouSureModal: false })} />
         </div>
       </div>
     )
