@@ -91,11 +91,13 @@ export function updateStatusCustomer(id, status, note) {
   }
 }
 
-export function getListConstruction(typeConstruction, status) {
+export function getListConstruction(typeConstruction, status, page, pageSize) {
   return {
     type: type.APP.GET_LIST_CONSTRUCTION_ASYNC,
     typeConstruction: typeConstruction,
-    status: status
+    status: status,
+    page: page,
+    pageSize: pageSize
   }
 }
 

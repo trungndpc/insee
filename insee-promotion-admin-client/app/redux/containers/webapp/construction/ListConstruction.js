@@ -2,11 +2,14 @@ import React, { Component } from 'react'
 import {
   Link
 } from "react-router-dom";
-import {City} from '../../../../data/Location'
+import { City } from '../../../../data/Location'
 import * as StatusConstruction from '../../../../components/enum/StatusConstruction'
-import {NEXT_CONSTRUCTION, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2} from '../../../../components/enum/TypeConstruction'
-import {WAITING_APPROVAL, APPROVED, REJECTED, SEND_GIFT, RECIEVED} from '../../../../components/enum/StatusConstruction'
+import { NEXT_CONSTRUCTION, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2 } from '../../../../components/enum/TypeConstruction'
+import { WAITING_APPROVAL, APPROVED, REJECTED, SEND_GIFT, RECIEVED } from '../../../../components/enum/StatusConstruction'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
+import { Pagination } from 'antd';
+import 'antd/dist/antd.css';
+
 class ListConstruction extends Component {
 
 
@@ -21,25 +24,34 @@ class ListConstruction extends Component {
     }
     this.onChangeType = this.onChangeType.bind(this)
     this.onChangeStatus = this.onChangeStatus.bind(this)
+    this.onChangePage = this.onChangePage.bind(this)
   }
 
   componentDidMount() {
-    this.load(this.state.type, this.state.status)
+    this.load(this.state.type, this.state.status, this.state.page, this.state.pageSize)
   }
 
   onChangeType(type) {
-    this.setState({type: type})
-    this.load(type, this.state.status);
+    this.setState({ type: type })
+    this.load(type, this.state.status, this.state.page, this.state.pageSize);
   }
 
   onChangeStatus(event) {
-    let status =  event.target.value;
-    this.setState({status: status});
-    this.load(this.state.type, status);
+    let status = event.target.value;
+    this.setState({ status: status });
+    this.load(this.state.type, status, this.state.page, this.state.pageSize);
   }
 
-  load(type, status) {
-    this.props.appActions.getListConstruction(type, status == 0 ? null : status );
+  onChangePage(pageNumber, pageSize) {
+    pageNumber = pageNumber - 1
+    this.setState({
+      page: pageNumber
+    })
+    this.load(this.state.type, this.state.status, pageNumber, this.state.pageSize)
+  }
+
+  load(type, status, page, pageSize) {
+    this.props.appActions.getListConstruction(type, status == 0 ? null : status, page, pageSize);
   }
 
   render() {
@@ -109,10 +121,12 @@ class ListConstruction extends Component {
                   </li>
                 )
               })}
-              {constructions && constructions.list.length == 0 && <div style={{textAlign: 'center'}}>Không có công trình nào ở đây</div>}
+              {constructions && constructions.list.length == 0 && <div style={{ textAlign: 'center' }}>Không có công trình nào ở đây</div>}
 
             </ul>
-            {/* <div className="lodmore"><button className="btn-view btn-load-more" /></div> */}
+            <div className="paging-container">
+              {constructions && <Pagination defaultCurrent={1} current={this.state.page + 1} onChange={this.onChangePage} total={constructions.totalPage * constructions.pageSize} />}
+            </div>
           </div>
         </div>
       </div>
