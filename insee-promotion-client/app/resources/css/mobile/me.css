@@ -829,17 +829,19 @@ body {
 
   #main-menu {
     z-index:0;
-    transform: translateY(-100%);
+    display: none;
+    /* transform: translateY(-100%);
     -webkit-transform: translateY(-100%);
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
     -o-transition: all 0.5s ease-in-out;
-    transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out; */
   }
 
   #main-menu.showmenu{
-    transform: translateY(0);
-    -webkit-transform: translateY(0);
+      display: block;
+    /* transform: translateY(0);
+    -webkit-transform: translateY(0); */
 }
 
 .say-thank {
@@ -996,4 +998,33 @@ body {
 100% {
     filter: blur(0px);
 }
+}
+
+.modal-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* width: 50%; */
+    width: 90%;
+    background-color: #fff;
+    padding: 40px;
+    padding-bottom: 10px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 -10px 45px rgb(0 0 0 / 25%);
+    -moz-box-shadow: 0 -10px 45px rgba(0,0,0,.25);
+    box-shadow: 0 -10px 45px rgb(0 0 0 / 25%);
+}
+
+.modal-close-btn {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btn-small {
+    font-size: small;
+    height: 35px;
 }

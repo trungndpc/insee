@@ -86,7 +86,7 @@ class ContractorInfo extends React.Component {
                                                         {contractor && <div className="central-meta">
                                                             <div className="about">
                                                                 <div className="personal">
-                                                                    <h5 className="f-title">THÔNG TIN NHÀ THẦU</h5>
+                                                                    <h5 className="f-title">THÔNG TIN CHI TIẾT</h5>
                                                                 </div>
                                                                 {contractor &&
                                                                     <table className="table table-responsive table-info-contractor">
@@ -115,16 +115,22 @@ class ContractorInfo extends React.Component {
                                                                                     <td><span className="volume">{contractor.volumeCiment}</span> bao xi măng INSEE</td>
                                                                                 </tr>
                                                                             }
-                                                                            {contractor.volumeCiment > 700 &&
+                                                                            {/* {contractor.volumeCiment > 700 &&
                                                                                 <tr>
                                                                                     <th>Chứng chỉ</th>
                                                                                     <td className="ntx">Nhà thầu xanh</td>
                                                                                 </tr>
-                                                                            }
+                                                                            } */}
                                                                             {contractor && contractor.note &&
                                                                                 <tr>
                                                                                     <th>Ghi chú</th>
                                                                                     <td>{contractor.note}</td>
+                                                                                </tr>
+                                                                            }
+                                                                            {contractor && contractor.point &&
+                                                                                <tr>
+                                                                                    <th>Điểm tích lũy</th>
+                                                                                    <td>{contractor.point}</td>
                                                                                 </tr>
                                                                             }
                                                                         </tbody>

@@ -58,11 +58,11 @@ class ReferralCodeStep extends Component {
                         <div className="input-refferal-code">
                             <input ref={e => this.referralCodeInputRef = e} placeholder="Nhập mã giới thiệu tại đây" type="number" />
                         </div>
-                        <div style={{ marginTop: '40px' }}>
+                        <div style={{ marginTop: '30px' }}>
                             {this.state.errorMsg && <span style={{ color: 'red', fontSize: 'medium' }}>*** {this.state.errorMsg}</span>}
                         </div>
                     </div>
-
+                    
                     <div className="btn-container center">
                         <div className="btn-submit-otp">
                             <button onClick={this.checkValid} className="btn-insee btn-insee-bg">Xác nhận</button>
@@ -70,6 +70,9 @@ class ReferralCodeStep extends Component {
                         <div className="btn-retry-send-code btn-skip">
                             <button onClick={this.onSkip} className="btn-insee btn-default-none-bg">Bỏ qua</button>
                         </div>
+                    </div>
+                    <div className="form-referral note">
+                        <p>*** Vui lòng nhấn nút bỏ qua nếu không có mã giới thiệu</p>
                     </div>
                 </div>
                 <Loading {...this.props} />

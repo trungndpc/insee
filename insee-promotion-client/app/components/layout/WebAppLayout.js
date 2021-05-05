@@ -72,8 +72,8 @@ class WebAppLayout extends Component {
         </section>
         <div id="main-menu" className={`topnav  ${this.state.isShowMobileBar ? 'showmenu' : ''}`}>
           <ContentSideBar onClickToLink={this._onClickToLink} />
-          {this.props.children}
         </div>
+        {this.props.children}
       </div>
     )
   }
