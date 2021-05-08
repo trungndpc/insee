@@ -7,7 +7,7 @@ import { City } from '../../../../data/Location'
 import { Pagination } from 'antd';
 import 'antd/dist/antd.css';
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
-import {TypeCustomer, CONTRUCTOR, RETAILER} from '../../../../components/enum/TypeCustomer'
+import { TypeCustomer, CONTRUCTOR, RETAILER } from '../../../../components/enum/TypeCustomer'
 
 
 class ListCustomer extends Component {
@@ -19,45 +19,52 @@ class ListCustomer extends Component {
       page: 0,
       pageSize: 10,
       location: 0,
-      status: 10
+      status: 0,
+      phone: null
     }
     this.load = this.load.bind(this)
     this.onChangeLocation = this.onChangeLocation.bind(this);
-    this.onChangeStatus = this.onChangeStatus.bind(this)
-    this.onChangePage = this.onChangePage.bind(this)
+    this.onChangeStatus = this.onChangeStatus.bind(this);
+    this.onChangePage = this.onChangePage.bind(this);
+    this.onChangePhone = this.onChangePhone.bind(this);
   }
 
   componentDidMount() {
     this.load();
   }
 
-  load(status, location, page) {
-    this.props.appActions.getListCustomerByStatus(status ? status : this.state.status,
-      location ? location : this.state.location,
-      page != null ? page : this.state.page, this.state.pageSize);
+  load(status, location, phone, page) {
+    this.props.appActions.getListCustomerByStatus(status != 0 ? status : null,
+      location != 0 ? location : null,
+      phone != null ? phone : null,
+      page != null ? page : this.state.page,
+      this.state.pageSize);
   }
 
   onChangeStatus(event) {
     let status = event.target.value;
     this.setState({ status: status, page: 0 })
-    this.load(status, null, 0);
+    this.load(status, this.state.location, this.state.phone, 0);
   }
 
-  onChangePage(pageNumber, pageSize) {
+  onChangePage(pageNumber) {
     pageNumber = pageNumber - 1
-    console.log(pageNumber)
-    this.setState({
-      page: pageNumber
-    })
-    this.load(null, null, pageNumber)
+    this.setState({ page: pageNumber })
+    this.load(this.state.status, this.state.location, this.state.phone, pageNumber)
   }
 
   onChangeLocation(event) {
     let location = event.target.value;
-    this.setState({ location: location, page: 0 });
-    this.load(null, location, 0);
+    this.setState({ location: location, page: 0, phone: null });
+    this.load(this.state.status, location, null, 0);
   }
 
+
+  onChangePhone(event) {
+    let phone = event.target.value;
+    this.setState({ status: 0, location: 0, page: 0 });
+    this.load(0, 0, phone);
+  }
 
   render() {
     let customers = this.props.app.customers;
@@ -69,7 +76,7 @@ class ListCustomer extends Component {
               <li>
                 <label>Trạng thái</label>
                 <select onChange={this.onChangeStatus} value={this.state.type} class="form-control">
-                  <option value={10}>Tất cả</option>
+                  <option value={0}>Tất cả</option>
                   <option value={NEED_REVIEW.getStatus()}>Chờ duyệt</option>
                   <option value={APPROVED.getStatus()}>Đã duyệt</option>
                 </select>
@@ -85,6 +92,14 @@ class ListCustomer extends Component {
                   })}
                 </select>
               </li>
+              <li>
+                <label>Tìm kiếm</label>
+                <div className="search-field">
+                  <div className="search-field__input">
+                    <input onChange={this.onChangePhone} value={this.state.phone}  className="js-term search-field__input-field" type="search" placeholder="Phone" />
+                  </div>
+                </div>
+              </li>
             </ul>
           </div>
         </div>
@@ -93,7 +108,7 @@ class ListCustomer extends Component {
           <div className="tab-pane active fade show" id="frends">
             <ul className="nearby-contct">
               {customers && customers.list && customers.list.map(function (item, key) {
-                let status = CustomerStatusEnum.findByStatus(item.finalStatus);
+                let status = CustomerStatusEnum.findByStatus(item.status);
                 return (
                   <li key={key}>
                     <div className="nearly-pepls">

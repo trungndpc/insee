@@ -61,7 +61,36 @@ class Dashboard extends React.Component {
                                                                 <ul>
                                                                     <li> {data.total_register} <span>Tổng số nhà thầu</span> </li>
                                                                     <li> {data.total_register_waiting} <span>Nhà thầu chờ duyệt</span> </li>
-                                                                    <li> {data.total_construction_waiting} <span>Khuyến mãi chờ duyệt</span> </li>
+                                                                </ul>
+                                                            </div>
+                                                        }
+                                                    </div>
+
+                                                    <div className="central-meta">
+                                                        {data &&
+                                                            <div className="x_panel sum">
+                                                                <ul>
+                                                                    <li> {data.total_construction} <span>Tổng số đơn</span> </li>
+                                                                </ul>
+                                                                <ul>
+                                                                    <li> {data.total_register_waiting} <span>Chờ duyệt</span> </li>
+                                                                    <li> {data.total_construction_approved} <span>Chờ gửi quà</span> </li>
+                                                                    <li> {data.total_construction_rejected} <span>Đã từ chối</span> </li>
+                                                                    <li> {data.total_construction_received_gift} <span>Đã nhận quà</span> </li>
+                                                                </ul>
+                                                            </div>
+                                                        }
+                                                    </div>
+
+                                                    <div className="central-meta">
+                                                        {data &&
+                                                            <div className="x_panel sum">
+                                                                <ul>
+                                                                    <li> {data.total_gift} <span>Tổng số quà tặng</span> </li>
+                                                                </ul>
+                                                                <ul>
+                                                                    <li> {data.total_card_gift} <span>Thẻ cào điện thoại</span> </li>
+                                                                    <li> {data.total_lucky_rotation} <span>Thẻ cào điện thoại</span> </li>
                                                                 </ul>
                                                             </div>
                                                         }

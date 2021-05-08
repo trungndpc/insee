@@ -8,10 +8,9 @@ export class CustomerStatusEnum{
 
     static findByStatus(status) {
         switch(status) {
-            case 1 : return DO_NOT_HAVE_ACCOUNT;
-            case 2 : return NEED_REVIEW;
+            case 1 : return NEED_REVIEW;
+            case 2 : return APPROVED;
             case 3 : return REJECTED;
-            case 4 : return APPROVED;
             default: return null;
         }
     }
@@ -22,26 +21,23 @@ export class CustomerStatusEnum{
 
     getColor() {
         switch(this.status) {
-            case 1 : return '#778899';
-            case 2 : return '#b71c1c';
+            case 1 : return '#b71c1c';
+            case 2 : return '#778899';
             case 3 : return '#778899';
-            case 4 : return '#088dcd';
             default: return null;
         }
     }
 
     getName() {
         switch(this.status) {
-            case 1 : return 'Chưa có tài khoản';
-            case 2 : return 'Cần xem xét';
-            case 3 : return 'Đã từ chối';
-            case 4 : return 'Đã chấp nhận';
+            case 1 : return 'Cần xem xét';
+            case 2 : return 'Đã chấp nhận';
+            case 3 : return 'Từ chối';
             default: return null;
         }
     }
 }
 
-export const DO_NOT_HAVE_ACCOUNT = new CustomerStatusEnum(1);
-export const NEED_REVIEW = new CustomerStatusEnum(2);
+export const NEED_REVIEW = new CustomerStatusEnum(1);
+export const APPROVED = new CustomerStatusEnum(2);
 export const REJECTED = new CustomerStatusEnum(3);
-export const APPROVED = new CustomerStatusEnum(4);

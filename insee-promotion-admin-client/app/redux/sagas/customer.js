@@ -229,21 +229,23 @@ function getListCustomerAll(page, pageSize) {
 
 function* getListCustomerByStatusAsync(action) {
   yield put({ type: type.APP.GET_LIST_CUSTOMER_BY_STATUS_START })
-  const resp = yield call(getListCustomerByStatus, action.status, action.location, action.page, action.pageSize)
+  const resp = yield call(getListCustomerByStatus, action.status, action.location, action.phone, action.page, action.pageSize)
   yield put({ type: type.APP.GET_LIST_CUSTOMER_BY_STATUS_END, payload: resp.data })
 }
 
-function getListCustomerByStatus(status, location, page, pageSize) {
-  let statusQuery = status != 10 ? 'status=' + status : null;
-  let locationQuery = location != 0 ? 'location=' + location : null;
+function getListCustomerByStatus(status, location, phone, page, pageSize) {
   let query = '';
-  if (statusQuery && locationQuery) {
-    query = '&' +  statusQuery + '&' + locationQuery;
-  }else if (statusQuery && !locationQuery) {
-    query = '&' + statusQuery;
-  }else if (!statusQuery && locationQuery) {
-    query = '&' + locationQuery;
+  if (phone) {
+    query = '&phone=' + phone
+  } else {
+    if (status && status != 0) {
+      query = query + '&status=' + status
+    }
+    if (location && location != 0) {
+      query = query + '&location=' + location
+    }
   }
+
   return new Promise((resolve, reject) => {
     APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/customer/find-by?page=${page}&pageSize=${pageSize}` + query, resolve, reject);
   });
@@ -285,7 +287,7 @@ function* getListConstructionAsync(action) {
 
 function getListConstruction(type, status) {
   return new Promise((resolve, reject) => {
-    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/list?type=${type}${status ? '&status=' + status : ''}`, resolve, reject);
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/list?${type ? '&type=' + type + '&' : ''}${status ? 'status=' + status : ''}`, resolve, reject);
   });
 }
 
@@ -455,7 +457,7 @@ function getHistoryGiftByCustomerId(id) {
   return new Promise((resolve, reject) => {
     APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/history?customerId=${id}`, resolve, reject);
   });
-} 
+}
 
 //getHistoryGiftAsync 
 function* getHistoryGiftAsync(action) {
@@ -467,7 +469,7 @@ function* getHistoryGiftAsync(action) {
 
 //getListParticipationAsync
 function* getListParticipationAsync(action) {
-  yield put({ type: type.APP.GET_LIST_PARTICIPATION_START})
+  yield put({ type: type.APP.GET_LIST_PARTICIPATION_START })
   const resp = yield call(getListParticipation, action.promotionId)
   yield put({ type: type.APP.GET_LIST_PARTICIPATION_END, payload: resp.data })
 }

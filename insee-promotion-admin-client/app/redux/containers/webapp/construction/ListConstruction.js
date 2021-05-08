@@ -7,6 +7,7 @@ import * as StatusConstruction from '../../../../components/enum/StatusConstruct
 import { NEXT_CONSTRUCTION, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2 } from '../../../../components/enum/TypeConstruction'
 import { WAITING_APPROVAL, APPROVED, REJECTED, SEND_GIFT, RECIEVED } from '../../../../components/enum/StatusConstruction'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
+import { time } from 'highcharts';
 class ListConstruction extends Component {
 
 
@@ -17,42 +18,51 @@ class ListConstruction extends Component {
       pageSize: 10,
       currentStatus: 10,
       status: 0,
-      type: NOW_CONSTRUCTION.getType()
+      type: 0,
+      phone : null
     }
     this.onChangeType = this.onChangeType.bind(this)
     this.onChangeStatus = this.onChangeStatus.bind(this)
+    this.onChangePhone = this.onChangePhone.bind(this)
   }
 
   componentDidMount() {
-    this.load(this.state.type, this.state.status)
+    this.load(this.state.type, this.state.status, this.state.phone)
   }
 
   onChangeType(event) {
     let type = event.target.value;
     this.setState({ type: type })
-    this.load(type, this.state.status);
+    this.load(type, this.state.status, this.state.phone);
   }
 
   onChangeStatus(event) {
     let status = event.target.value;
     this.setState({ status: status });
-    this.load(this.state.type, status);
+    this.load(this.state.type, status, this.state.phone);
+  }
+
+  onChangePhone(event) {
+    let phone = event.target.value;
+    this.setState({status: 0, type: 0})
+    this.load(0, 0, phone);
   }
 
   load(type, status) {
-    this.props.appActions.getListConstruction(type, status == 0 ? null : status);
+    this.props.appActions.getListConstruction(type == 0 ? null : type, status == 0 ? null : status);
   }
 
   render() {
     let constructions = this.props.app.constructions;
     return (
       <div className="frnds">
-        <div className="inbox-lists">
+        <div className="inbox-lists inbox-list-construction">
           <div className="inbox-action">
             <ul>
               <li>
                 <label>Loại khuyến mãi</label>
                 <select onChange={this.onChangeType} value={this.state.type} class="form-control">
+                  <option value={0}>Tất cả</option>
                   <option value={NOW_CONSTRUCTION.getType()}>Upload hóa đơn (bags)</option>
                   <option value={NOW_CONSTRUCTION_V2.getType()}>Upload hóa đơn (VND)</option>
                   <option value={NEXT_CONSTRUCTION.getType()}>Công trình tiếp theo</option>
@@ -69,8 +79,18 @@ class ListConstruction extends Component {
                   <option value={RECIEVED.getStatus()}>Đã nhận</option>
                 </select>
               </li>
+              <li>
+                <label>Tìm kiếm</label>
+                <div className="search-field">
+                  <div className="search-field__input">
+                    <input className="js-term search-field__input-field" type="search" placeholder="Phone" />
+                  </div>
+                </div>
+              </li>
             </ul>
+
           </div>
+
         </div>
 
         <div className="tab-content">
@@ -89,7 +109,7 @@ class ListConstruction extends Component {
                         <div className="col-md-7">
                           <h4>{item.address}</h4>
                           <ul>
-                            {item.city && <li>{City.getName(item.city)}</li>}
+                            {item.user && <li>{item.user.name}</li>}
                             <li>{item.phone}</li>
                             <li>{StatusConstruction.findByStatus(item.status).getName()}</li>
                             <li>{DateTimeUtil.diffTime(item.updatedTime)}</li>

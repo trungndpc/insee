@@ -69,7 +69,8 @@ class CustomerDetail extends Component {
     const customer = this.props.app.customer;
     const user = this.props.app.user;
     const historyByCustomer = this.props.app.historyByCustomer;
-    const status = customer && CustomerStatusEnum.findByStatus(customer.finalStatus);
+    const status = customer && CustomerStatusEnum.findByStatus(customer.status);
+    console.log(status)
     const type = user && TypeCustomer.findByType(user.roleId)
     return (
       <div className="loadMore">

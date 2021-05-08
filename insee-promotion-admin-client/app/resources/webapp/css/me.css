@@ -586,3 +586,27 @@
 .label-select-c  .css-1hb7zxy-IndicatorsContainer {
     display: none;
 }
+
+.inbox-list-construction li {
+    width: 185px;
+}
+
+.inbox-list-construction select{
+    font-size: 1em;
+    padding: 0px 10px;
+}
+
+.inbox-list-construction select.form-control:not([size]):not([multiple]) {
+    height: calc(2.15rem + 1px);
+}
+
+
+.search-field input {
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    height: calc(2.15rem + 1px);
+    border-radius: 0.25rem;
+    padding-left: 10px;
+}

@@ -72,13 +72,14 @@ export function getListCustomerAll(page, pageSize) {
   }
 }
 
-export function getListCustomerByStatus(status, location, page, pageSize) {
+export function getListCustomerByStatus(status, location, phone, page, pageSize) {
   return {
     type: type.APP.GET_LIST_CUSTOMER_BY_STATUS_ASYNC,
     page: page,
     pageSize: pageSize,
     status : status,
-    location: location
+    location: location,
+    phone: phone
   }
 }
 
