@@ -55,7 +55,6 @@ class ListParticipationPost extends Component {
                                 {participations && participations.list.length == 0 && <div style={{ textAlign: 'center' }}>Không có công trình nào ở đây</div>}
 
                             </ul>
-                            {/* <div className="lodmore"><button className="btn-view btn-load-more" /></div> */}
                         </div>
                     </div>
                 </div>

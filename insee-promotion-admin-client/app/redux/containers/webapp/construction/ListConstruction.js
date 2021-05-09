@@ -7,7 +7,8 @@ import * as StatusConstruction from '../../../../components/enum/StatusConstruct
 import { NEXT_CONSTRUCTION, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2 } from '../../../../components/enum/TypeConstruction'
 import { WAITING_APPROVAL, APPROVED, REJECTED, SEND_GIFT, RECIEVED } from '../../../../components/enum/StatusConstruction'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
-import { time } from 'highcharts';
+import { Pagination } from 'antd';
+
 class ListConstruction extends Component {
 
 
@@ -19,37 +20,58 @@ class ListConstruction extends Component {
       currentStatus: 10,
       status: 0,
       type: 0,
-      phone : null
+      phone: null
     }
     this.onChangeType = this.onChangeType.bind(this)
     this.onChangeStatus = this.onChangeStatus.bind(this)
     this.onChangePhone = this.onChangePhone.bind(this)
+    this.search = this.search.bind(this);
+    this.onChangePage = this.onChangePage.bind(this)
   }
 
   componentDidMount() {
-    this.load(this.state.type, this.state.status, this.state.phone)
+    this.load(this.state.type, this.state.status, this.state.page, this.state.pageSize)
   }
 
   onChangeType(event) {
     let type = event.target.value;
-    this.setState({ type: type })
-    this.load(type, this.state.status, this.state.phone);
+    this.setState({ type: type, page: 0, phone: null })
+    this.load(type, this.state.status, 0, this.state.pageSize);
   }
 
   onChangeStatus(event) {
     let status = event.target.value;
-    this.setState({ status: status });
-    this.load(this.state.type, status, this.state.phone);
+    this.setState({ status: status, page: 0, phone: null })
+    this.load(this.state.type, status, 0, this.state.pageSize);
   }
 
   onChangePhone(event) {
     let phone = event.target.value;
-    this.setState({status: 0, type: 0})
-    this.load(0, 0, phone);
+    this.setState({phone: phone})
+    if (!phone) {
+      this.load(this.state.type, this.state.status, this.state.page, this.state.pageSize)
+    } else {
+      this.setState({ status: 0, type: 0 })
+      this.search(phone, 0, this.state.pageSize)
+    }
   }
 
-  load(type, status) {
-    this.props.appActions.getListConstruction(type == 0 ? null : type, status == 0 ? null : status);
+  onChangePage(pageNumber) {
+    pageNumber = pageNumber - 1
+    this.setState({ page: pageNumber })
+    if (this.state.phone) {
+      this.search(this.state.phone, pageNumber, this.state.pageSize)
+    } else {
+      this.load(this.state.type, this.state.status, this.state.page, this.state.pageSize)
+    }
+  }
+
+  load(type, status, page, pageSize) {
+    this.props.appActions.getListConstruction(type == 0 ? null : type, status == 0 ? null : status, page, pageSize);
+  }
+
+  search(phone, page, pageSize) {
+    this.props.appActions.searchConstructionByPhoneCustomer(phone, page, pageSize)
   }
 
   render() {
@@ -83,7 +105,7 @@ class ListConstruction extends Component {
                 <label>Tìm kiếm</label>
                 <div className="search-field">
                   <div className="search-field__input">
-                    <input className="js-term search-field__input-field" type="search" placeholder="Phone" />
+                    <input onChange={this.onChangePhone} value={this.state.phone} className="js-term search-field__input-field" type="search" placeholder="Phone" />
                   </div>
                 </div>
               </li>
@@ -127,7 +149,9 @@ class ListConstruction extends Component {
               {constructions && constructions.list.length == 0 && <div style={{ textAlign: 'center' }}>Không có công trình nào ở đây</div>}
 
             </ul>
-            {/* <div className="lodmore"><button className="btn-view btn-load-more" /></div> */}
+            <div className="paging-container">
+              {constructions && <Pagination defaultCurrent={1} current={this.state.page + 1} onChange={this.onChangePage} total={constructions.totalPage * constructions.pageSize} />}
+            </div>
           </div>
         </div>
       </div>

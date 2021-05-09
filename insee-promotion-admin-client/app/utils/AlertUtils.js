@@ -3,6 +3,9 @@ import Alert from 'react-s-alert';
 export default class AlertUtils {
   static CREATE_PROMOTION_SUCCESS = 'Thành công';
   static CREATE_PROMOTION_FAILED = 'Thất bại'
+  static DELETE_PROMOTION_SUCCESS = 'Xóa thành công';
+  static DELETE_PROMOTION_FAILED = 'Xóa thất bại';
+
 
   static showSuccess(message) {
     Alert.success(message, {

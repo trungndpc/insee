@@ -11,13 +11,16 @@ export default function* customer() {
   yield takeLatest(type.APP.GET_CUSTOMER_BY_ID_ASYNC, getCustomerByIdAsync)
   yield takeLatest(type.APP.GET_LIST_PROMOTION_ASYNC, getListPromotionAsync)
   yield takeLatest(type.APP.CREATE_PROMOTION_ASYNC, createPromotionAsync)
+  yield takeLatest(type.APP.DELETE_PROMOTION_ASYNC, deletePromotionAsync)
   yield takeLatest(type.APP.GET_PROMOTION_BY_ID_ASYNC, getPromotionByIdAsync)
   yield takeLatest(type.APP.LOGIN_ASYNC, loginAsync)
   yield takeLatest(type.APP.GET_PROFILE_ASYNC, getProfileAsync)
   yield takeLatest(type.APP.GET_LIST_CUSTOMER_ALL_ASYNC, getListCustomerAllAsync)
   yield takeLatest(type.APP.GET_LIST_CUSTOMER_BY_STATUS_ASYNC, getListCustomerByStatusAsync)
   yield takeLatest(type.APP.UPDATE_STATUS_CUSTOMER_ASYNC, updateStatusCustomerAsync)
+  yield takeLatest(type.APP.UPDATE_ROLE_CUSTOMER_ASYNC, updateRoleCustomerAsync)
   yield takeLatest(type.APP.GET_LIST_CONSTRUCTION_ASYNC, getListConstructionAsync)
+  yield takeLatest(type.APP.SEARCH_PHONE_BY_CONSTRUCTION_ASYNC, searchConstructionByPhoneCustomerAsync)
   yield takeLatest(type.APP.GET_CONSTRUCTION_ASYNC, getConstructionAsync)
   yield takeLatest(type.APP.UPDATE_STATUS_IMAGE_ASYNC, updateStatusImageAsync)
   yield takeLatest(type.APP.UPDATE_STATUS_CONSTRUCTION_ASYNC, updateStatusConstructionAsync)
@@ -178,6 +181,29 @@ function postToCreatePromotion(data) {
   });
 }
 
+//deletePromotionAsync 
+function* deletePromotionAsync(action) {
+  yield put({ type: type.APP.DELETE_PROMOTION_START })
+  let resp = yield call(deletePromotion, action.id)
+  if (resp.error == 0) {
+    resp = yield call(getPromotion, resp.data)
+    yield put({ type: type.APP.GET_LIST_PROMOTION_END, payload: resp.data })
+    AlertUtils.showSuccess(AlertUtils.DELETE_PROMOTION_SUCCESS)
+  } else {
+    AlertUtils.showError(AlertUtils.DELETE_PROMOTION_FAILED)
+  }
+}
+
+function deletePromotion(id) {
+  var body = {
+    id: id
+  }
+  return new Promise((resolve, reject) => {
+    APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/post/delete`, JSON.stringify(body), resolve, reject);
+  });
+}
+
+
 //loginAsync 
 function* loginAsync(action) {
   yield put({ type: type.APP.LOGIN_START })
@@ -278,16 +304,55 @@ function postUpdateStatusCustomer(id, status, note) {
   });
 }
 
+
+//updateRoleCustomerAsync 
+function* updateRoleCustomerAsync(action) {
+  yield put({ type: type.APP.UPDATE_ROLE_CUSTOMER_START })
+  const resp = yield call(postUpdateRoleCustomer, action.id, action.role)
+  if (resp.error == 0) {
+    AlertUtils.showSuccess("Cập nhật thành công")
+    const customerResp = yield call(getCustomerById, action.id)
+    yield put({ type: type.APP.GET_CUSTOMER_BY_ID_END, payload: customerResp.data })
+  } else {
+    AlertUtils.showError("Vui lòng thử lại")
+  }
+  yield put({ type: type.APP.UPDATE_ROLE_CUSTOMER_END, payload: resp.data })
+}
+
+function postUpdateRoleCustomer(id, role) {
+  var body = {
+    id: id,
+    role: role,
+  }
+  return new Promise((resolve, reject) => {
+    APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/customer/update-role`, JSON.stringify(body), resolve, reject);
+  });
+}
+
 //getListConstructionAsync
 function* getListConstructionAsync(action) {
   yield put({ type: type.APP.GET_LIST_CONSTRUCTION_START })
-  const resp = yield call(getListConstruction, action.typeConstruction, action.status)
+  const resp = yield call(getListConstruction, action.type_construction, action.status, action.page, action.pageSize)
   yield put({ type: type.APP.GET_LIST_CONSTRUCTION_END, payload: resp.data })
 }
 
-function getListConstruction(type, status) {
+function getListConstruction(type, status, page, pageSize) {
   return new Promise((resolve, reject) => {
-    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/list?${type ? '&type=' + type + '&' : ''}${status ? 'status=' + status : ''}`, resolve, reject);
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/list?page=${page}&pageSize=${pageSize}${type ? '&type=' + type + '&' : ''}${status ? '&status=' + status : ''}`, resolve, reject);
+  });
+}
+
+//searchConstructionByPhoneCustomerAsync
+function* searchConstructionByPhoneCustomerAsync(action) {
+  yield put({ type: type.APP.SEARCH_PHONE_BY_CONSTRUCTION_START })
+  const resp = yield call(searchConstructionByPhoneCustomer, action.phone, action.page, action.pageSize)
+  yield put({ type: type.APP.GET_LIST_CONSTRUCTION_END, payload: resp.data })
+}
+
+
+function searchConstructionByPhoneCustomer(phone, page, pageSize) {
+  return new Promise((resolve, reject) => {
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/search?page=${page}&pageSize=${pageSize}&phone=${phone}`, resolve, reject);
   });
 }
 

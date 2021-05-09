@@ -9,7 +9,7 @@ import { findByStatus } from '../../../../components/enum/StatusConstruction'
 import { City } from '../../../../data/Location'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
 import AreYouSureModal from '../../../../components/modal/AreYouSureModal'
-import {TypeCustomer, CONTRUCTOR, RETAILER} from '../../../../components/enum/TypeCustomer'
+import { TypeCustomer, CONTRUCTOR, RETAILER } from '../../../../components/enum/TypeCustomer'
 
 class CustomerDetail extends Component {
 
@@ -18,7 +18,8 @@ class CustomerDetail extends Component {
     this.state = {
       isOpenApprovalModal: false,
       isOpenRejectModal: false,
-      isDeleteUserModal: false
+      isDeleteUserModal: false,
+      isEditing: false
     }
     this._onClickOpenApprovalModal = this._onClickOpenApprovalModal.bind(this)
     this._onCloseApprovalModal = this._onCloseApprovalModal.bind(this)
@@ -27,6 +28,7 @@ class CustomerDetail extends Component {
     this._onClickOpenDeleteModal = this._onClickOpenDeleteModal.bind(this)
     this._onCloseDeleteModal = this._onCloseDeleteModal.bind(this)
     this.deleteCustomer = this.deleteCustomer.bind(this)
+    this.onClickSave = this.onClickSave.bind(this)
   }
 
   _onClickOpenApprovalModal() {
@@ -38,7 +40,7 @@ class CustomerDetail extends Component {
   }
 
   _onClickOpenDeleteModal() {
-    this.setState({isDeleteUserModal: true})
+    this.setState({ isDeleteUserModal: true })
   }
 
   _onCloseApprovalModal() {
@@ -50,11 +52,11 @@ class CustomerDetail extends Component {
   }
 
   _onCloseDeleteModal() {
-    this.setState({isDeleteUserModal: false})
+    this.setState({ isDeleteUserModal: false })
   }
 
   deleteCustomer() {
-    this.setState({isDeleteUserModal: false})
+    this.setState({ isDeleteUserModal: false })
     this.props.appActions.deleteCustomer(this.props.customerId)
   }
 
@@ -63,15 +65,18 @@ class CustomerDetail extends Component {
     this.props.appActions.getHistoryByCustomerId(this.props.customerId);
   }
 
+  onClickSave() {
+    let role = this.roleSelectRef.value;
+    this.setState({isEditing: false})
+    this.props.appActions.updateRoleCustomer(this.props.customerId, role);
+  }
 
 
   render() {
     const customer = this.props.app.customer;
-    const user = this.props.app.user;
     const historyByCustomer = this.props.app.historyByCustomer;
     const status = customer && CustomerStatusEnum.findByStatus(customer.status);
-    console.log(status)
-    const type = user && TypeCustomer.findByType(user.roleId)
+    const type = customer && TypeCustomer.findByType(customer.user.roleId)
     return (
       <div className="loadMore">
         <div className="m-content">
@@ -103,6 +108,21 @@ class CustomerDetail extends Component {
                       <th>Thời gian</th>
                       <td>{DateTimeUtil.diffTime(customer.createdTime)}</td>
                     </tr>
+                    <tr>
+                      <th>Loại tài khoản</th>
+                      {!this.state.isEditing &&
+                        <td>{type.getName()} <span onClick={() => {this.setState({isEditing: true})}} className="icon-edit fas fa-edit"></span></td>
+                      }
+                      {this.state.isEditing &&
+                        <td>
+                          <select ref={e => this.roleSelectRef = e} defaultValue={type.getType()}>
+                            <option value={CONTRUCTOR.getType()}>Nhà Thầu</option>
+                            <option value={RETAILER.getType()}>Cửa hàng</option>
+                          </select>
+                          <span onClick={this.onClickSave} className="icon-edit-save icon-edit fas fa-check"></span>
+                        </td>
+                      }
+                    </tr>
                     {/* {status == APPROVED &&
                       <tr>
                         <th>Số  CT đã tham gia </th>
@@ -114,18 +134,19 @@ class CustomerDetail extends Component {
               }
             </div>
           </div>
-
+          {/* 
           <div className="action-container">
             <ui className="action-customer-detail">
               <li><Link onClick={this._onClickOpenDeleteModal} style={{backgroundColor: '#9E9E9E'}} className="add-butn" data-ripple>Delete</Link></li>
             </ui>
-          </div>
+          </div> */}
 
           {status && status.getStatus() == NEED_REVIEW.getStatus() &&
             <div className="action-container">
               <ui className="action-customer-detail">
-                <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Approval</Link></li>
-                <li><Link onClick={this._onClickOpenRejectModal} className="add-butn" data-ripple>Reject</Link></li>
+                <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Chấp nhận</Link></li>
+                <li><Link onClick={this._onClickOpenRejectModal} className="add-butn" data-ripple>Từ chối</Link></li>
+                <li><Link onClick={this._onClickOpenDeleteModal} style={{ backgroundColor: '#9E9E9E' }} className="add-butn" data-ripple>Delete</Link></li>
               </ui>
             </div>
           }
@@ -133,12 +154,12 @@ class CustomerDetail extends Component {
           {status && status.getStatus() == REJECTED.getStatus() &&
             <div className="action-container">
               <ui className="action-customer-detail">
-                <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Approval</Link></li>
+                <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Chấp nhận</Link></li>
               </ui>
             </div>
           }
 
-          <div className="central-meta">
+          {/* <div className="central-meta">
             <div className="about">
               <div className="personal">
                 <h5 className="f-title">TÀI KHOẢN</h5>
@@ -154,7 +175,7 @@ class CustomerDetail extends Component {
                 </table>
               }
             </div>
-          </div>
+          </div> */}
 
           {historyByCustomer && historyByCustomer.length > 0 &&
             <div className="central-meta">

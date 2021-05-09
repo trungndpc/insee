@@ -92,11 +92,30 @@ export function updateStatusCustomer(id, status, note) {
   }
 }
 
-export function getListConstruction(typeConstruction, status) {
+export function updateRoleCustomer(id, role) {
+  return {
+    type: type.APP.UPDATE_ROLE_CUSTOMER_ASYNC,
+    id: id,
+    role: role
+  }
+}
+
+export function getListConstruction(type_construction, status, page, pageSize) {
   return {
     type: type.APP.GET_LIST_CONSTRUCTION_ASYNC,
-    typeConstruction: typeConstruction,
-    status: status
+    type_construction: type_construction,
+    status: status,
+    page: page,
+    pageSize: pageSize
+  }
+}
+
+export function searchConstructionByPhoneCustomer(phone, page, pageSize) {
+  return {
+    type: type.APP.SEARCH_PHONE_BY_CONSTRUCTION_ASYNC,
+    phone: phone,
+    page: page,
+    pageSize: pageSize
   }
 }
 
@@ -152,6 +171,13 @@ export function updateStatusPromotion(id) {
   return {
     type: type.APP.UPDATE_STATUS_PROMOTION_ASYNC,
     id: id,
+  }
+}
+
+export function deletePromotion(id) {
+  return {
+    type: type.APP.DELETE_PROMOTION_ASYNC,
+    id: id
   }
 }
 

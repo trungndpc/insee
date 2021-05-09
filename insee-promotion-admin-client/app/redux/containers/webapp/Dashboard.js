@@ -73,7 +73,7 @@ class Dashboard extends React.Component {
                                                                     <li> {data.total_construction} <span>Tổng số đơn</span> </li>
                                                                 </ul>
                                                                 <ul>
-                                                                    <li> {data.total_register_waiting} <span>Chờ duyệt</span> </li>
+                                                                    <li> {data.total_construction_waiting} <span>Chờ duyệt</span> </li>
                                                                     <li> {data.total_construction_approved} <span>Chờ gửi quà</span> </li>
                                                                     <li> {data.total_construction_rejected} <span>Đã từ chối</span> </li>
                                                                     <li> {data.total_construction_received_gift} <span>Đã nhận quà</span> </li>
