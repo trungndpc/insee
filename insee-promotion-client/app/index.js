@@ -19,6 +19,7 @@ import DetailUploadBillPromotion from '../app/redux/containers/promotion/DetailU
 import DetailIntroConstructionPromotion from '../app/redux/containers/promotion/DetailIntroConstructionPromotion'
 import ModuleLoading from './components/layout/ModuleLoading'
 import ReferralCodeStep from './redux/containers/register/ReferralCodeStep'
+import Retailers from './redux/containers/webapp/Retailers'
 
 const UploadBillPromotion = React.lazy(() => import('./redux/containers/promotion/UploadBillPromotion'));
 const Register = React.lazy(() => import('../app/redux/containers/register/index'));
@@ -87,7 +88,10 @@ function APP() {
         <Gift />
       </Route>
       <Route path="/lich-su" component={GiftHistory} />
-      <Route path="/ma-gioi-thieu" component={ReferralCodeStep}/>
+      <Route path="/ma-gioi-thieu" component={ReferralCodeStep} />
+      <Route path="/ds-cua-hang">
+        <Retailers />
+      </Route>
       <Route path="/" >
         <ContractorInfo />
       </Route>

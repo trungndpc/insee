@@ -1028,3 +1028,26 @@ body {
     font-size: small;
     height: 35px;
 }
+
+.retailers-rs .loadMore{
+    width: 100%;
+}
+
+.retailers-rs .name-retailer {
+    font-size: 1em;
+}
+.retailers-rs .icon {
+    margin-right: 5px;
+}
+
+.retailers-rs .phone {
+    color:#007bff;
+}
+
+.retailers-rs ul li {
+    background: #fdfdfd none repeat scroll 0 0;
+    border: 1px solid #ede9e9;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 5px;
+}

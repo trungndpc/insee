@@ -61,7 +61,7 @@ export class District {
     }
 
     static getList(cityId) {
-        if (cityId == 0) {
+        if (!cityId || cityId == 0) {
             return []
         }
         let city = data[cityId];

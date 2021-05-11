@@ -8,7 +8,7 @@ class LocationInput extends Component {
         super(props)
         this.state = {
             city : 0,
-            district: 0
+            district: 52
         }
         this.getValues = this.getValues.bind(this);
     }
