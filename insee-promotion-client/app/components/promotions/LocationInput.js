@@ -11,6 +11,7 @@ class LocationInput extends Component {
             district: 52
         }
         this.getValues = this.getValues.bind(this);
+        this.onChange = this.onChange.bind(this)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -35,12 +36,18 @@ class LocationInput extends Component {
         }
     }
 
+    onChange() {
+        let city = this.cityInputRef.value;
+        let district = this.districtInputRef.value;
+        this.props.onChange && this.props.onChange(city, district)
+    }
+
     render() {
         const districts = District.getList(this.state.city)
         return (
             <div className="location-input">
                 <div style={{ float: 'left' }} className="location-input-city">
-                    <select value={this.state.city} onChange={e => this.setState({city: e.target.value})} ref={e => this.cityInputRef = e}>
+                    <select onChange={this.onChange} value={this.state.city} onChange={e => {this.setState({city: e.target.value}); this.onChange()}} ref={e => this.cityInputRef = e}>
                         <option value={0}>Tỉnh</option>
                         {list && list.map(function (item, index) {
                             return <option key={index} value={item.key}>{item.value}</option>
@@ -48,7 +55,7 @@ class LocationInput extends Component {
                     </select>
                 </div>
                 <div style={{ float: 'right' }} className="location-input-district">
-                    <select value={this.state.district} onChange={e => this.setState({district: e.target.value})} ref={e => this.districtInputRef = e}>
+                    <select  value={this.state.district} onChange={e => {this.setState({district: e.target.value}); this.onChange()}} ref={e => this.districtInputRef = e}>
                         <option value={0}>Quận</option>
                         {districts && districts.map(function(item, index){
                             return <option key={index} value={item.key}>{item.value}</option>

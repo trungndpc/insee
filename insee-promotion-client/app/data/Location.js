@@ -28,12 +28,10 @@ for (const key in data) {
     let city = data[key];
     let districts = city["districts"];
     for (const disKey in districts) {
-        let oDistrict = { key: disKey, value: { name: districts[disKey].name, cityId: key } }
+        let oDistrict = { key: districts[disKey].id, value: { name: districts[disKey].name, cityId: key } }
         listDistrict.push(oDistrict);
     }
 }
-
-
 
 export class City {
 
@@ -50,12 +48,11 @@ export class City {
         return listCity
     }
 }
-
 export class District {
     static getName(districtId) {
         for (const key in listDistrict) {
-            if (key == districtId) {
-                return listDistrict[key].name
+            if (listDistrict[key].key == districtId) {
+                return listDistrict[key].value.name
             }
         }
     }
