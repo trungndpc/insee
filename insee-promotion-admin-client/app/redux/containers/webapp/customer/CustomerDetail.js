@@ -67,7 +67,7 @@ class CustomerDetail extends Component {
 
   onClickSave() {
     let role = this.roleSelectRef.value;
-    this.setState({isEditing: false})
+    this.setState({ isEditing: false })
     this.props.appActions.updateRoleCustomer(this.props.customerId, role);
   }
 
@@ -111,7 +111,7 @@ class CustomerDetail extends Component {
                     <tr>
                       <th>Loại tài khoản</th>
                       {!this.state.isEditing &&
-                        <td>{type.getName()} <span onClick={() => {this.setState({isEditing: true})}} className="icon-edit fas fa-edit"></span></td>
+                        <td>{type.getName()} <span onClick={() => { this.setState({ isEditing: true }) }} className="icon-edit fas fa-edit"></span></td>
                       }
                       {this.state.isEditing &&
                         <td>
@@ -141,15 +141,13 @@ class CustomerDetail extends Component {
             </ui>
           </div> */}
 
-          {status && status.getStatus() == NEED_REVIEW.getStatus() &&
-            <div className="action-container">
-              <ui className="action-customer-detail">
-                <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Chấp nhận</Link></li>
-                <li><Link onClick={this._onClickOpenRejectModal} className="add-butn" data-ripple>Từ chối</Link></li>
-                <li><Link onClick={this._onClickOpenDeleteModal} style={{ backgroundColor: '#9E9E9E' }} className="add-butn" data-ripple>Delete</Link></li>
-              </ui>
-            </div>
-          }
+          <div className="action-container">
+            <ui className="action-customer-detail">
+              {status && status.getStatus() == NEED_REVIEW.getStatus() && <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Chấp nhận</Link></li>}
+              {status && status.getStatus() == NEED_REVIEW.getStatus() && <li><Link onClick={this._onClickOpenRejectModal} className="add-butn" data-ripple>Từ chối</Link></li>}
+              <li><Link onClick={this._onClickOpenDeleteModal} style={{ backgroundColor: '#9E9E9E' }} className="add-butn" data-ripple>Delete</Link></li>
+            </ui>
+          </div>
 
           {status && status.getStatus() == REJECTED.getStatus() &&
             <div className="action-container">

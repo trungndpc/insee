@@ -17,7 +17,7 @@ class Retailers extends React.Component {
             district: 0,
             page: 0,
             pageSize: 10,
-            list: null
+            list: []
         }
         this.scroll = this.scroll.bind(this)
         this.find = this.find.bind(this)
@@ -25,17 +25,15 @@ class Retailers extends React.Component {
     }
 
 
-    shouldComponentUpdate(nextProp, nextState) {
-        if (nextProp.app.user != null && !this.props.app.user) {
-            nextState.city = nextProp.app.user.customer.mainAreaId
-            this.find(nextState.city, this.props.district, this.state.page, this.state.pageSize)
-        }
-        return true
-    }
-
-
     componentDidMount() {
-        this.find(this.state.city, this.state.district, this.state.page, this.state.pageSize)
+        this.checkUserInterval = setInterval(function () {
+            if (this.props.app.user) {
+                this.setState({ city: this.props.app.user.customer.mainAreaId })
+                this.find(this.props.app.user.customer.mainAreaId, this.state.district,
+                    this.state.page, this.state.pageSize)
+                clearInterval(this.checkUserInterval)
+            }
+        }.bind(this), 50);
     }
 
     componentWillMount() {
@@ -67,13 +65,9 @@ class Retailers extends React.Component {
         RetailerModel.find(city, district, page, pageSize)
             .then(resp => {
                 if (resp.error == 0) {
-                    // let list = [...this.state.list]
-                    //     list.push.apply(list, resp.data.list)
-                    //     console.log(list.length)
-                    //     this.setState({ index: list.length, list: list })
-
-
-                    this.setState({ retailers: resp.data })
+                    let list = [...this.state.list]
+                    list.push.apply(list, resp.data.list)
+                    this.setState({ list: list })
                 }
             })
             .catch(err => {
@@ -82,13 +76,15 @@ class Retailers extends React.Component {
     }
 
     onChangeLocationInput(city, district) {
+        let newState = {page : 0, list: []};
+        city && (newState.city = city);
+        district && (newState.district = district);
+        this.setState(newState)
         this.find(city, district, 0, this.state.pageSize)
     }
 
     render() {
-        const retailers = this.state.retailers;
-        const list_retailer = retailers && retailers.list;
-        const pageSize = retailers && retailers.pageSize;
+        const list_retailer = this.state.list
         const user = this.props.app.user;
         return (
             <div>
@@ -104,7 +100,7 @@ class Retailers extends React.Component {
                                                     <div className="widget">
                                                         <h4 className="widget-title">Thông tin</h4>
                                                         <ContentSideBar />
-                                                    </div>{/* Shortcuts */}
+                                                    </div>
                                                 </aside>
                                             </div>
                                             {user &&
@@ -117,7 +113,9 @@ class Retailers extends React.Component {
                                                                         <h5 style={{ textAlign: 'center' }} className="f-title">CỬA HÀNG GẦN BẠN</h5>
                                                                     </div>
                                                                     <div className="form-row">
-                                                                        <LocationInput onChange={this.onChangeLocationInput} city={this.state.city} ref={e => this.locationInputRef = e} />
+                                                                        {this.state.city != 0 &&
+                                                                            <LocationInput onChange={this.onChangeLocationInput} city={this.state.city} />
+                                                                        }
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -132,7 +130,6 @@ class Retailers extends React.Component {
                                             <div className="loadMore">
                                                 <div className="m-content">
                                                     {(!list_retailer || list_retailer.length == 0) && <div style={{ textAlign: 'center' }}>Danh sánh cửa hàng chưa được cập nhật tại khu vực này.</div>}
-                                                    {/* <div className="central-meta"> */}
                                                     {(list_retailer && list_retailer.length > 0) &&
                                                         <ul className="nearby-contct">
                                                             {list_retailer.map((item, index) => {
@@ -140,13 +137,12 @@ class Retailers extends React.Component {
                                                                 item.district && (address = address + " - " + District.getName(item.district + ''))
                                                                 item.city && (address = address + " - " + City.getName(item.city))
                                                                 return (
-                                                                    <li>
+                                                                    <li key={index}>
                                                                         <div className="nearly-pepls">
                                                                             <div className="pepl-info">
                                                                                 <h5 className="name-retailer">{item.name && item.name.trim()}</h5>
                                                                                 <p className="phone"><span className="icon fa fa-phone"></span>{item.homePhone && ("0" + item.homePhone.trim())}</p>
                                                                                 <p><span className="icon fa fa-map-marker"></span>{address}</p>
-                                                                                {/* <em><i className="fa fa-map-marker" />400m away</em> */}
                                                                             </div>
                                                                         </div>
                                                                     </li>
@@ -155,7 +151,6 @@ class Retailers extends React.Component {
                                                             })}
                                                         </ul>
                                                     }
-                                                    {/* </div> */}
                                                 </div>
                                             </div>
                                         </div>
