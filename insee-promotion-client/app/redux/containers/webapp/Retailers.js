@@ -7,6 +7,7 @@ import { ContentSideBar } from '../../../components/layout/SideBar'
 import LocationInput from '../../../components/promotions/LocationInput'
 import RetailerModel from '../../../model/RetailerModel'
 import { City, District } from '../../../data/Location'
+import * as CementEnum from '../../../components/enum/CementEnum'
 
 class Retailers extends React.Component {
 
@@ -76,7 +77,7 @@ class Retailers extends React.Component {
     }
 
     onChangeLocationInput(city, district) {
-        let newState = {page : 0, list: []};
+        let newState = { page: 0, list: [] };
         city && (newState.city = city);
         district && (newState.district = district);
         this.setState(newState)
@@ -143,6 +144,14 @@ class Retailers extends React.Component {
                                                                                 <h5 className="name-retailer">{item.name && item.name.trim()}</h5>
                                                                                 <p className="phone"><span className="icon fa fa-phone"></span>{item.homePhone && ("0" + item.homePhone.trim())}</p>
                                                                                 <p><span className="icon fa fa-map-marker"></span>{address}</p>
+                                                                                {item.products && <p>Sản phẩm: </p>}
+                                                                                <ul>
+                                                                                    {item.products && item.products.map((product, pindex) => {
+                                                                                        return (
+                                                                                            <li>{CementEnum.findById(product).name}</li>
+                                                                                        )
+                                                                                    })}
+                                                                                </ul>
                                                                             </div>
                                                                         </div>
                                                                     </li>

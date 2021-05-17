@@ -100,7 +100,7 @@ export function updateRoleCustomer(id, role) {
   }
 }
 
-export function getListConstruction(type_construction, status, page, pageSize) {
+export function getListConstruction(typeConstruction, status, page, pageSize) {
   return {
     type: type.APP.GET_LIST_CONSTRUCTION_ASYNC,
     typeConstruction: typeConstruction,

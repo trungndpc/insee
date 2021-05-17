@@ -161,7 +161,7 @@ class NowConstruction extends Component {
                     </tr>
                     <tr>
                       <th>Loại xi măng</th>
-                      <td>{construction && CementEnum.findById(construction.cement).name}</td>
+                      <td>{construction && CementEnum.findById(construction.cement) && CementEnum.findById(construction.cement).name}</td>
                     </tr>
                     <tr>
                       <th>Số lượng sản phẩm: </th>
