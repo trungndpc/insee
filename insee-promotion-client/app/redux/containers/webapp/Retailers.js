@@ -8,6 +8,7 @@ import LocationInput from '../../../components/promotions/LocationInput'
 import RetailerModel from '../../../model/RetailerModel'
 import { City, District } from '../../../data/Location'
 import * as CementEnum from '../../../components/enum/CementEnum'
+import GeoModel from '../../../model/GeoModel'
 
 class Retailers extends React.Component {
 
@@ -23,10 +24,12 @@ class Retailers extends React.Component {
         this.scroll = this.scroll.bind(this)
         this.find = this.find.bind(this)
         this.onChangeLocationInput = this.onChangeLocationInput.bind(this)
+        this.setLocation = this.setLocation.bind(this)
     }
 
 
     componentDidMount() {
+        this.getLocation()
         this.checkUserInterval = setInterval(function () {
             if (this.props.app.user) {
                 this.setState({ city: this.props.app.user.customer.mainAreaId })
@@ -45,6 +48,65 @@ class Retailers extends React.Component {
         window.removeEventListener('scroll', this.scroll, false);
     }
 
+    getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(this.setLocation);
+        } 
+    }
+
+    getDistrictAndCity(resp) {
+        let rs = {};
+        let results = resp.results;
+        for(var i = 0; i < results.length; i++) {
+            var result = results[i];
+            let types = result.types;
+            if (types.length == 2 &&  types[0] == 'establishment' && types[1] == 'point_of_interest') {
+                let address_components = result.address_components;
+                for(var j = 0; j < address_components.length; j++) {
+                    let address_component = address_components[j];
+                    if (address_component.types[0] == 'administrative_area_level_2') {
+                        rs.district = address_component.short_name;
+                    }
+                    if (address_component.types[0] == 'administrative_area_level_1') {
+                        rs.city = address_component.short_name
+                    }
+                }
+                return rs;
+            }
+        }
+    }
+
+    setLocation(position) {
+        let lat = position.coords.latitude;
+        let lon = position.coords.longitude;
+        console.log("lat: " + lat + " - lon: " + lon )
+        GeoModel.getLocation(lat, lon)
+        .then(resp => {
+            let location = this.getDistrictAndCity(resp);
+            console.log(location)
+            let district = location.district;
+            let city = location.city;
+            GeoModel.detectId(city, district)
+            .then(resp => {
+                if (resp.error >= 0) {
+                    let district_id = resp.data.district;
+                    let city_id = resp.data.city;
+                    if (district_id > 0 && city_id > 0) {
+                        this.setState({district: district_id, city: city_id})
+                        this.find(city_id, district_id,
+                            this.state.page, this.state.pageSize)
+                    } 
+                } 
+                console.log(resp)
+            })
+            .catch(error => {
+
+            })
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
 
     scroll() {
         let innerHeight = window.innerHeight;
@@ -77,11 +139,14 @@ class Retailers extends React.Component {
     }
 
     onChangeLocationInput(city, district) {
-        let newState = { page: 0, list: [] };
-        city && (newState.city = city);
-        district && (newState.district = district);
-        this.setState(newState)
-        this.find(city, district, 0, this.state.pageSize)
+        if (city && city != this.state.city) {
+            this.setState({city: city, district: 0, page: 0, list: []})
+            this.find(city, 0, 0, this.state.pageSize)
+        }
+        if (district && district != this.state.district) {
+            this.setState({district: district, page: 0, list: []})
+            this.find(this.state.city, district, 0, this.state.pageSize)
+        }
     }
 
     render() {
@@ -115,7 +180,7 @@ class Retailers extends React.Component {
                                                                     </div>
                                                                     <div className="form-row">
                                                                         {this.state.city != 0 &&
-                                                                            <LocationInput onChange={this.onChangeLocationInput} city={this.state.city} />
+                                                                            <LocationInput onChange={this.onChangeLocationInput} district={this.state.district} city={this.state.city} />
                                                                         }
                                                                     </div>
                                                                 </div>

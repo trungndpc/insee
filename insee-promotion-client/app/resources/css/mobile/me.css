@@ -1051,3 +1051,9 @@ body {
     padding: 15px;
     margin-bottom: 5px;
 }
+
+.retailers-rs ul li ul li {
+    padding: 8px;
+    color: #3a3a3a;
+    font-size: 0.85em;
+}
