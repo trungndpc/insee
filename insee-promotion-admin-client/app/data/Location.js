@@ -68,7 +68,7 @@ export class District {
             return []
         }
         let city = data[cityId];
-        let districts = city.districts;
+        let districts = city ? city.districts : [];
         let rs = []
         for (const district of districts) {
             let o = { key: district.id, value: district.name }

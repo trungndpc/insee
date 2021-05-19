@@ -5,11 +5,18 @@ import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
 import SideBar from '../../../components/layout/SideBar'
 import ListGirt from './gift/ListGift'
+import GiftDetail from './gift/GiftDetail'
+
 import {
     Switch,
     Route,
     useParams,
 } from "react-router-dom";
+
+function GiftDetailRoute(props) {
+    let { giftId } = useParams();
+    return <GiftDetail giftId={giftId} {...props} />
+}
 
 
 class Gift extends React.Component {
@@ -28,9 +35,9 @@ class Gift extends React.Component {
                                         </div>
                                         <div className="col-lg-9">
                                             <Switch>
-                                                {/* <Route exact path="/construction/:constructionId">
-                                                    <ConstructionDetailRoute {...this.props} />
-                                                </Route> */}
+                                                <Route exact path="/gift/:giftId">
+                                                    <GiftDetailRoute {...this.props} />
+                                                </Route>
                                                 <Route path="/gift">
                                                     <ListGirt {...this.props} />
                                                 </Route>

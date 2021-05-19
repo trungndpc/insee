@@ -556,7 +556,7 @@
 }
 
 .input-c  {
-    background-color: #fff;
+    background-color: #fdfdfd;
     border: none;
     border-bottom: 1px dotted;
 }
@@ -565,9 +565,13 @@
     border: none;
 }
 
+.css-yk16xz-control {
+    background-color: #fdfdfd !important;
+}
+
 .select-c {
     border: none;
-    background-color: #fff;
+    background-color: #fdfdfd;
     border-bottom: 1px dotted;
     padding-right: 10px;
 }

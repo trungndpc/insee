@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import AppUtils from '../../utils/AppUtils'
-import { TypeGift, CARD_PHONE, LUCKY_DRAW_ROTATION } from '../../components/enum/TypeGift'
+import { TypeGift, CARD_PHONE, LUCKY_DRAW_ROTATION, VOUCHER } from '../../components/enum/TypeGift'
 import GiftModel from '../../model/GiftModel'
 
 class SendGiftModal extends Component {
@@ -13,18 +13,22 @@ class SendGiftModal extends Component {
             errorMsg: null,
             typeGift: CARD_PHONE.getType(),
             giftName: null,
+            numberVoucher: 1,
             deg: 0
         }
         if (this.props.isOpen) {
             AppUtils.toggleModal(this.props.isOpen)
         }
         this.cardInputRef = [];
+        this.voucherInputRef = [];
         this._onClose = this._onClose.bind(this)
         this._onClickOK = this._onClickOK.bind(this)
         this.onChangeNumberCard = this.onChangeNumberCard.bind(this);
         this.getValueCard = this.getValueCard.bind(this);
         this._handleChangeTypeGift = this._handleChangeTypeGift.bind(this);
         this.randomGift = this.randomGift.bind(this)
+        this.onChangeNumberVoucher = this.onChangeNumberVoucher.bind(this)
+        this.getValueVoucher = this.getValueVoucher.bind(this)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -43,6 +47,10 @@ class SendGiftModal extends Component {
         this.setState({ numberCard: e.target.value })
     }
 
+    onChangeNumberVoucher(e) {
+        this.setState({ numberVoucher: e.target.value })
+    }
+
     _onClose() {
         AppUtils.toggleModal(false)
         this.props.onClose && this.props.onClose()
@@ -52,7 +60,7 @@ class SendGiftModal extends Component {
         let data = {
             customerId: this.props.customerId,
             constructionId: this.props.constructionId,
-            type : this.state.typeGift
+            type: this.state.typeGift
         }
         if (this.state.typeGift == CARD_PHONE.getType()) {
             let name = this.nameRef.value;
@@ -80,10 +88,31 @@ class SendGiftModal extends Component {
                 return;
             }
             data.rotation = {
-                excepted : deg
+                excepted: deg
             }
         }
-        this.props.appActions.createGift(data);
+
+        if (this.state.typeGift == VOUCHER.getType()) {
+            let name = this.nameGiftVoucherRef.value;
+            let vouchers = this.getValueVoucher()
+
+            if (!name) {
+                this.setState({ errorMsg: 'Vui lòng nhập tên' })
+                return;
+
+            }
+            if (!vouchers) {
+                this.setState({ errorMsg: 'Vui lòng nhập đủ thông tin các vouchers' })
+                return;
+            }
+
+            data.name = name;
+            data.vouchers = vouchers;
+
+        }
+        // this.props.appActions.createGift(data);
+
+        console.log(data)
         this.props.onClose && this.props.onClose();
     }
 
@@ -105,6 +134,18 @@ class SendGiftModal extends Component {
         let rs = []
         for (var i = 1; i <= this.state.numberCard; i++) {
             let value = this.cardInputRef[i].getValue();
+            if (!value) {
+                return;
+            }
+            rs.push(value);
+        }
+        return rs;
+    }
+
+    getValueVoucher() {
+        let rs = []
+        for (var i = 1; i <= this.state.numberVoucher; i++) {
+            let value = this.voucherInputRef[i].getValue();
             if (!value) {
                 return;
             }
@@ -145,6 +186,8 @@ class SendGiftModal extends Component {
                                     <select onChange={this._handleChangeTypeGift} value={this.state.typeGift} className="modal-input">
                                         <option value="1">Thẻ cào</option>
                                         <option value="2">Vòng quay may mắn</option>
+                                        <option value="3">Voucher</option>
+
                                     </select>
                                     {this.state.typeGift == CARD_PHONE.getType() &&
                                         <div>
@@ -161,6 +204,17 @@ class SendGiftModal extends Component {
                                         <div className="lucky-rotaion-container">
                                             <div className="lucky-rotaion-name ">{this.state.giftName}</div>
                                             <button onClick={this.randomGift} className="main-btn">Random</button>
+                                        </div>
+                                    }
+                                    {this.state.typeGift == VOUCHER.getType() &&
+                                        <div>
+                                            <input ref={e => this.nameGiftVoucherRef = e} type="text" className="modal-input" placeholder="Phiếu mua hàng" />
+                                            <input ref={e => this.numberTypeVoucherCardRef = e} onChange={this.onChangeNumberVoucher} value={this.state.numberVoucher} type="number" className="modal-input" placeholder="Số loại voucher" />
+                                            {this.state.numberVoucher <= 5 && this.initArr(this.state.numberVoucher).map((id) => {
+                                                return (
+                                                    <ItemVoucher key={id} ref={e => this.voucherInputRef[id] = e}  />
+                                                )
+                                            })}
                                         </div>
                                     }
                                     <div style={{ textAlign: 'right' }} className="errorMsg"><p>{this.state.errorMsg && this.state.errorMsg}</p></div>
@@ -216,3 +270,36 @@ class ItemCard extends Component {
         )
     }
 }
+
+class ItemVoucher extends Component {
+    constructor(props) {
+        super(props)
+        this.getValue = this.getValue.bind(this)
+    }
+
+    getValue() {
+        let voucher = this.voucherRef.value;
+        let quantily = this.numberVoucherItem.value;
+        if (!voucher || !quantily) {
+            return;
+        }
+        return {
+            voucher: voucher,
+            quantily: quantily,
+        }
+    }
+
+    render() {
+        return (
+            <div className="gift-item">
+                <select ref={e => this.voucherRef = e} className="modal-input">
+                    <option value="1">Điện máy xanh 20%</option>
+                    <option value="2">Mũ bảo hiểm VINA</option>
+                    <option value="3">Nồi cơm điện</option>
+                </select>
+                <input ref={e => this.numberVoucherItem = e} style={{ marginBottom: '5px' }} type="text" className="modal-input" placeholder="Số lượng" />
+            </div>
+        )
+
+    }
+} 

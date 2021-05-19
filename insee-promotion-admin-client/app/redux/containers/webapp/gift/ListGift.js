@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { GiftStatus, WAITING_RECEIVE, RECEIVED, ROLLED } from '../../../../components/enum/GiftStatus'
+import { GiftStatus, WAITING_RECEIVE, RECEIVED, ROLLED, WAITING_SENT } from '../../../../components/enum/GiftStatus'
 import GiftModel from '../../../../model/GiftModel';
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
 import { Pagination } from 'antd';
@@ -75,12 +75,14 @@ class ListGirt extends Component {
                   <option value={-1}>Tất cả</option>
                   <option value={1}>Thẻ điện thoại</option>
                   <option value={2}>Vòng quay may mắn</option>
+                  <option value={3}>Voucher</option>
                 </select>
               </li>
               <li>
                 <label>Trạng thái:</label>
                 <select onChange={this._onChangeStatus} value={this.state.status} className="form-control">
                   <option value={-1}>Tất cả</option>
+                  <option value={WAITING_SENT.getStatus()}>Chờ gửi</option>
                   <option value={WAITING_RECEIVE.getStatus()}>Chờ nhận</option>
                   <option value={ROLLED.getStatus()}>Đã Quay</option>
                   <option value={RECEIVED.getStatus()}>Đã Nhận</option>
@@ -108,7 +110,7 @@ class ListGirt extends Component {
                           </ul>
                         </div>
                         <div className="col-md-3 action">
-                          <Link to={`/construction/${item.construction.id}`} className="add-butn" data-ripple>Chi tiết</Link>
+                          <Link to={`/gift/${item.id}`} className="add-butn" data-ripple>Chi tiết</Link>
                         </div>
                       </div>
                     </div>
