@@ -46,7 +46,7 @@ export function getOption() {
 
 export const POWERS = new CementEnum(1, "INSEE Power-S", 1);
 export const WALL_PRO = new CementEnum(2, "INSEE Wall Pro", 1);
-export const LAVILLA_EXTRA_CC40 = new CementEnum(3, "Lavilla Xtra CC40", 1);
+export const LAVILLA_EXTRA_CC40 = new CementEnum(3, "Lavilla Xtra", 1);
 export const EXTRA_DURABLE_HOUSING = new CementEnum(4, "INSEE Extra Durable", 1);
 export const POWER_FAST = new CementEnum(5, "INSEE Power Fast ", 1);
 export const QUICK_CAST = new CementEnum(6, "INSEE Quick Cast ", 2);
