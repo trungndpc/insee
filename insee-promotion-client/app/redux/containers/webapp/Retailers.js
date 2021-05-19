@@ -60,7 +60,8 @@ class Retailers extends React.Component {
         for(var i = 0; i < results.length; i++) {
             var result = results[i];
             let types = result.types;
-            if (types.length == 2 &&  types[0] == 'establishment' && types[1] == 'point_of_interest') {
+            if ((types.length >= 2 &&  types[0] == 'establishment' && types[1] == 'point_of_interest')
+            || (types.length >= 2 && types[0] == 'administrative_area_level_2' && types[1] == 'political')) {
                 let address_components = result.address_components;
                 for(var j = 0; j < address_components.length; j++) {
                     let address_component = address_components[j];
@@ -82,6 +83,7 @@ class Retailers extends React.Component {
         console.log("lat: " + lat + " - lon: " + lon )
         GeoModel.getLocation(lat, lon)
         .then(resp => {
+            console.log(resp)
             let location = this.getDistrictAndCity(resp);
             console.log(location)
             let district = location.district;
@@ -92,7 +94,7 @@ class Retailers extends React.Component {
                     let district_id = resp.data.district;
                     let city_id = resp.data.city;
                     if (district_id > 0 && city_id > 0) {
-                        this.setState({district: district_id, city: city_id})
+                        this.setState({district: district_id, city: city_id, list: []})
                         this.find(city_id, district_id,
                             this.state.page, this.state.pageSize)
                     } 
@@ -100,7 +102,7 @@ class Retailers extends React.Component {
                 console.log(resp)
             })
             .catch(error => {
-
+                console.log(error)
             })
         })
         .catch(err => {
