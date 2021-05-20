@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const config = require('./app/config/production');
-const version = "1.1.7";
+const version = "1.1.8";
 const public_static = "https://nhathau.insee.com.vn/static/";
 
 const CSSModuleLoader = {
