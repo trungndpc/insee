@@ -112,7 +112,6 @@ class SendGiftModal extends Component {
         }
         // this.props.appActions.createGift(data);
 
-        console.log(data)
         this.props.onClose && this.props.onClose();
     }
 
@@ -279,13 +278,13 @@ class ItemVoucher extends Component {
 
     getValue() {
         let voucher = this.voucherRef.value;
-        let quantily = this.numberVoucherItem.value;
-        if (!voucher || !quantily) {
+        let quantity = this.numberVoucherItem.value;
+        if (!voucher || !quantity) {
             return;
         }
         return {
-            voucher: voucher,
-            quantily: quantily,
+            name: voucher,
+            quantity: quantity,
         }
     }
 
