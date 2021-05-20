@@ -16,4 +16,20 @@ export default class GiftModel {
         });
     }
 
+    static get(id) {
+        let url = process.env.DOMAIN + `/api/admin/gift/get?id=${id}`
+        return new Promise((resolve, reject) => {
+            APIUtils.getJSONWithCredentials(url, resolve, reject);
+        });
+    }
+
+    static updateStatus(id, status) {
+        var body = {
+            status: status
+        }
+        return new Promise((resolve, reject) => {
+            APIUtils.postJSONWithoutCredentials(process.env.DOMAIN + `/api/admin/gift/update-status?id=${id}`, JSON.stringify(body), resolve, reject);
+        });
+    }
+
 }
