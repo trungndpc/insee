@@ -80,7 +80,6 @@ class Retailers extends React.Component {
     setLocation(position) {
         let lat = position.coords.latitude;
         let lon = position.coords.longitude;
-        console.log("lat: " + lat + " - lon: " + lon )
         GeoModel.getLocation(lat, lon)
         .then(resp => {
             console.log(resp)
@@ -204,12 +203,22 @@ class Retailers extends React.Component {
                                                                 let address = item.address && item.address.trim()
                                                                 item.district && (address = address + " - " + District.getName(item.district + ''))
                                                                 item.city && (address = address + " - " + City.getName(item.city))
+                                                                let phone = item.homePhone;
+                                                                if (!phone) {
+                                                                    phone = item.mobilePhone;
+                                                                }
+                                                                if (phone) {
+                                                                    phone = phone.trim();
+                                                                    if (!phone.startsWith("0")) {
+                                                                        phone = "0" + phone;
+                                                                    }
+                                                                }
                                                                 return (
                                                                     <li key={index}>
                                                                         <div className="nearly-pepls">
                                                                             <div className="pepl-info">
                                                                                 <h5 className="name-retailer">{item.name && item.name.trim()}</h5>
-                                                                                <p className="phone"><span className="icon fa fa-phone"></span>{item.homePhone && ("0" + item.homePhone.trim())}</p>
+                                                                                <p className="phone"><span className="icon fa fa-phone"></span>{phone}</p>
                                                                                 <p><span className="icon fa fa-map-marker"></span>{address}</p>
                                                                                 {item.products && <p>Sản phẩm: </p>}
                                                                                 <ul>
