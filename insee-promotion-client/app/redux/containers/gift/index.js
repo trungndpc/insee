@@ -5,9 +5,10 @@ import * as appActions from '../../actions/app'
 import { withRouter } from 'react-router';
 import FormLayout from '../../../components/layout/FormLayout'
 import Loading from '../../../components/layout/Loading'
-import {TypeGift, CARD_PHONE_TYPE_GIFT, LUCKY_ROTATION_TYPE_GIFT} from '../../../components/enum/TypeGift'
+import {TypeGift, CARD_PHONE_TYPE_GIFT, LUCKY_ROTATION_TYPE_GIFT, VOUCHER_TYPE_GIFT} from '../../../components/enum/TypeGift'
 import LuckyRotation  from '../gift/LuckyRotation'
 import PhoneCardGift from '../gift/PhoneCardGift'
+import VoucherGift from '../gift/VoucherGift'
 
 class Gift extends React.Component {
 
@@ -32,7 +33,8 @@ class Gift extends React.Component {
         return (
             <FormLayout {...this.props}>
                 {type == LUCKY_ROTATION_TYPE_GIFT && <LuckyRotation giftId={this.state.giftId} {...this.props} />}
-                {type === CARD_PHONE_TYPE_GIFT && <PhoneCardGift giftId={this.state.giftId} {...this.props} />}
+                {type == CARD_PHONE_TYPE_GIFT && <PhoneCardGift giftId={this.state.giftId} {...this.props} />}
+                {type == VOUCHER_TYPE_GIFT && <VoucherGift giftId={this.state.giftId} {...this.props} /> }
                 <Loading {...this.props} />
             </FormLayout>
         )

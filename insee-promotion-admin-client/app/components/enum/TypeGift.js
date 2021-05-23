@@ -16,12 +16,16 @@ export class  TypeGift {
     }
 
 
-    getName(id) {
-        switch(id) {
+    getName() {
+        switch(this.type) {
             case 1 : return "Thẻ cào"
             case 2 : return "Vòng quay may mắn"
             case 3 : return "Voucher"
         }
+    }
+
+    static getList() {
+        return [CARD_PHONE, LUCKY_DRAW_ROTATION, VOUCHER]
     }
     
 }

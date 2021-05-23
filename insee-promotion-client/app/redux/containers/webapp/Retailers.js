@@ -80,7 +80,6 @@ class Retailers extends React.Component {
     setLocation(position) {
         let lat = position.coords.latitude;
         let lon = position.coords.longitude;
-        console.log("lat: " + lat + " - lon: " + lon )
         GeoModel.getLocation(lat, lon)
         .then(resp => {
             console.log(resp)

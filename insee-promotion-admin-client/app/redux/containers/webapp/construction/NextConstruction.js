@@ -196,7 +196,9 @@ class ConstructionDetail extends Component {
               onClose={() => { this.setState({ isOpenRejectModal: false }) }} />
           }
           {construction &&
-            <SendGiftModal {...this.props} constructionId={construction.id}
+            <SendGiftModal {...this.props} 
+              constructionId={construction.id}
+              promotionId={construction.promotionId}
               customerId={construction.user.customerId}
               isOpen={this.state.isSendingGift}
               onClose={() => { this.setState({ isSendingGift: false }) }} />

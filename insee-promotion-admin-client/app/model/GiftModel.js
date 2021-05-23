@@ -28,8 +28,15 @@ export default class GiftModel {
             status: status
         }
         return new Promise((resolve, reject) => {
-            APIUtils.postJSONWithoutCredentials(process.env.DOMAIN + `/api/admin/gift/update-status?id=${id}`, JSON.stringify(body), resolve, reject);
+            APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/gift/update-status?id=${id}`, JSON.stringify(body), resolve, reject);
         });
     }
+
+    static create(data) {
+        return new Promise((resolve, reject) => {
+            APIUtils.postJSONWithCredentials(process.env.DOMAIN + `/api/admin/gift/create`, JSON.stringify(data), resolve, reject);
+        });
+    }
+
 
 }

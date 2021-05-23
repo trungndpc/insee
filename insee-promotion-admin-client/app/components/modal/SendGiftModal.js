@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import AppUtils from '../../utils/AppUtils'
 import { TypeGift, CARD_PHONE, LUCKY_DRAW_ROTATION, VOUCHER } from '../../components/enum/TypeGift'
 import GiftModel from '../../model/GiftModel'
+import AlertUtils from '../../utils/AlertUtils'
+import PromotionModel from '../../model/PromotionModel'
 
 class SendGiftModal extends Component {
 
@@ -9,9 +11,10 @@ class SendGiftModal extends Component {
         super(props)
         this.state = {
             isOpen: this.props.isOpen,
+            promotion: null,
             numberCard: 1,
             errorMsg: null,
-            typeGift: CARD_PHONE.getType(),
+            typeGift: null,
             giftName: null,
             numberVoucher: 1,
             deg: 0
@@ -29,6 +32,11 @@ class SendGiftModal extends Component {
         this.randomGift = this.randomGift.bind(this)
         this.onChangeNumberVoucher = this.onChangeNumberVoucher.bind(this)
         this.getValueVoucher = this.getValueVoucher.bind(this)
+        this.loadPromotion = this.loadPromotion.bind(this)
+    }
+
+    componentDidMount() {
+        this.loadPromotion();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -41,6 +49,16 @@ class SendGiftModal extends Component {
             return true;
         }
         return false;
+    }
+
+    loadPromotion() {
+        PromotionModel.get(this.props.promotionId)
+            .then(resp => {
+                if (resp.error == 0) {
+                    console.log(this.state.typeGift)
+                    this.setState({ typeGift: resp.data.typeGift })
+                }
+            })
     }
 
     onChangeNumberCard(e) {
@@ -110,13 +128,19 @@ class SendGiftModal extends Component {
             data.vouchers = vouchers;
 
         }
+        GiftModel.create(data)
+            .then(resp => {
+                if (resp.error == 0) {
+                    AlertUtils.showSuccess("Thành công")
+                }
+                this._onClose()
+            })
         // this.props.appActions.createGift(data);
 
-        this.props.onClose && this.props.onClose();
     }
 
     _handleChangeTypeGift(event) {
-        this.setState({ typeGift: event.target.value });
+        // this.setState({ typeGift: parseInt(event.target.value) });
     }
 
     randomGift() {
@@ -182,11 +206,10 @@ class SendGiftModal extends Component {
                                     <div className="clearfix"></div>
                                 </div>
                                 <div className="form">
-                                    <select onChange={this._handleChangeTypeGift} value={this.state.typeGift} className="modal-input">
+                                    <select disabled onChange={this._handleChangeTypeGift} value={this.state.typeGift} className="modal-input">
                                         <option value="1">Thẻ cào</option>
                                         <option value="2">Vòng quay may mắn</option>
                                         <option value="3">Voucher</option>
-
                                     </select>
                                     {this.state.typeGift == CARD_PHONE.getType() &&
                                         <div>
@@ -211,7 +234,7 @@ class SendGiftModal extends Component {
                                             <input ref={e => this.numberTypeVoucherCardRef = e} onChange={this.onChangeNumberVoucher} value={this.state.numberVoucher} type="number" className="modal-input" placeholder="Số loại voucher" />
                                             {this.state.numberVoucher <= 5 && this.initArr(this.state.numberVoucher).map((id) => {
                                                 return (
-                                                    <ItemVoucher key={id} ref={e => this.voucherInputRef[id] = e}  />
+                                                    <ItemVoucher key={id} ref={e => this.voucherInputRef[id] = e} />
                                                 )
                                             })}
                                         </div>

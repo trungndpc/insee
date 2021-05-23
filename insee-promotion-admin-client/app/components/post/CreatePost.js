@@ -7,6 +7,7 @@ import InputImage from '../InputImage'
 import S3Util from '../../utils/S3Util'
 import CementMultiSelect from '../post/CementMultiSelect'
 import LocationMultiSelect from '../post/LocationMultiSelect'
+import { TypeGift, CARD_PHONE } from '../enum/TypeGift'
 const FOLDER_COVER_S3 = 'static/images/cover';
 
 
@@ -18,13 +19,15 @@ class CreatePromotion extends Component {
             data: 'Hello from TrungND',
             errorMsg: null,
             isAreYouSureModal: false,
-            typePromotion: NOW_CONSTRUCTION
+            typePromotion: NOW_CONSTRUCTION,
+            typeGift: CARD_PHONE
         }
         this._onClickSave = this._onClickSave.bind(this)
         this._onClickPublic = this._onClickPublic.bind(this)
         this._onClosePublicModal = this._onClosePublicModal.bind(this)
         this.onPublicPost = this.onPublicPost.bind(this)
         this._onChangeTypePromotion = this._onChangeTypePromotion.bind(this)
+        this._onChangeTypeGift = this._onChangeTypeGift.bind(this)
     }
 
     componentDidMount() {
@@ -55,6 +58,13 @@ class CreatePromotion extends Component {
         let type = parseInt(e.target.value);
         this.setState({
             typePromotion: TypeConstruction.findByType(type)
+        })
+    }
+
+    _onChangeTypeGift(e) {
+        let type = parseInt(e.target.value);
+        this.setState({
+            typeGift: TypeGift.findById(type)
         })
     }
 
@@ -105,6 +115,7 @@ class CreatePromotion extends Component {
             summary: summary,
             content: content,
             typePromotion: this.state.typePromotion.getType(),
+            typeGift: this.state.typeGift.getType(),
             location: location,
             timeStart: new Date(timeStart).getTime() / 1000,
             timeEnd: new Date(timeEnd).getTime() / 1000,
@@ -210,6 +221,15 @@ class CreatePromotion extends Component {
                                         <label className="ctk-editor-lable">Loại khuyến mãi: </label>
                                         {isRender && <select disabled={isUpdate} onChange={this._onChangeTypePromotion} defaultValue={promotion ? promotion.typePromotion : this.state.typePromotion.getType()} className="ctk-editor-input" ref={e => this.typePromotionRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp">
                                             {TypeConstruction.getList().map((item, index) => {
+                                                return <option key={index} value={item.getType()}>{item.getName()}</option>
+                                            })}
+                                        </select>
+                                        }
+                                    </div>
+                                    <div className="ctk-row">
+                                        <label className="ctk-editor-lable">Loại Quà tặng: </label>
+                                        {isRender && <select disabled={isUpdate} onChange={this._onChangeTypeGift} defaultValue={promotion ? promotion.typeGift : this.state.typeGift.getType()} className="ctk-editor-input" ref={e => this.typeGiftRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp">
+                                            {TypeGift.getList().map((item, index) => {
                                                 return <option key={index} value={item.getType()}>{item.getName()}</option>
                                             })}
                                         </select>

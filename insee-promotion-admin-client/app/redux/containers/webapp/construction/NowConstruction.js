@@ -208,7 +208,6 @@ class NowConstruction extends Component {
             </div>
           </div>
 
-
           {this.state.errorMsg && <div className="errorMsg-right">{this.state.errorMsg}</div>}
           <div className="action-container">
             <ui className="action-customer-detail">
@@ -276,7 +275,9 @@ class NowConstruction extends Component {
               onClose={() => { this.setState({ isOpenRejectModal: false }) }} />
           }
           {construction &&
-            <SendGiftModal {...this.props} constructionId={construction.id}
+            <SendGiftModal {...this.props} 
+              promotionId={construction.promotionId}
+              constructionId={construction.id}
               customerId={construction.user.customerId}
               isOpen={this.state.isSendingGift}
               onClose={() => { this.setState({ isSendingGift: false }) }} />
