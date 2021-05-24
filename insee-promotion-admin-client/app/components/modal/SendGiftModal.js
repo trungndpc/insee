@@ -133,9 +133,9 @@ class SendGiftModal extends Component {
                 if (resp.error == 0) {
                     AlertUtils.showSuccess("Thành công")
                 }
+                this.props.appActions.getConstruction(this.props.constructionId)
                 this._onClose()
             })
-        // this.props.appActions.createGift(data);
 
     }
 

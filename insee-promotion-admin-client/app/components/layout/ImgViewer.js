@@ -18,7 +18,8 @@ class ImgViewer extends Component {
         }
         this.open = this.open.bind(this)
         this.close = this.close.bind(this)
-        this.onClickUpdateStatus = this.onClickUpdateStatus.bind(this)
+        this.reject = this.reject.bind(this)
+        this.approval = this.approval.bind(this)
     }
 
     open(item, type) {
@@ -31,13 +32,27 @@ class ImgViewer extends Component {
         this.setState({ isShow: false })
     }
 
-    onClickUpdateStatus() {
+    reject() {
         let data = {};
         data.id = this.state.item.id;
         this.billIdRef && (data.labelId = this.billIdRef.value);
         this.weighRef && (data.volumeCiment = this.weighRef.value);
         data.type = this.state.type;
-        data.status = this.state.isChecked ? APPROVED.getStatus() : REJECTED.getStatus();
+        data.status = REJECTED.getStatus();
+        ImageModel.updateStatus(data)
+            .then(resp => {
+                this.close()
+                this.props.appActions.getConstruction(this.props.constructionId)
+            })
+    }
+
+    approval() {
+        let data = {};
+        data.id = this.state.item.id;
+        this.billIdRef && (data.labelId = this.billIdRef.value);
+        this.weighRef && (data.volumeCiment = this.weighRef.value);
+        data.type = this.state.type;
+        data.status = APPROVED.getStatus();
         ImageModel.updateStatus(data)
             .then(resp => {
                 this.close()
@@ -66,8 +81,6 @@ class ImgViewer extends Component {
                                             <div className="setting-row">
                                                 <span>Bạn có chắc?</span>
                                                 <p>Đã đủ tiêu chí của chương trình</p>
-                                                <input checked={this.state.isChecked} onChange={() => this.setState({ isChecked: !this.state.isChecked })} type="checkbox" id="switch00" />
-                                                <label htmlFor="switch00" data-on-label="Có" data-off-label="Không" />
                                             </div>
                                             {this.state.type == 1 &&
                                                 <div className="setting-row">
@@ -82,8 +95,9 @@ class ImgViewer extends Component {
                                                 </div>
                                             }
                                             <div className="submit-btns">
-                                                <button onClick={() => this.setState({ mode: MODE_PREVIEW })} type="button" className="mtr-btn"><span>Xem lại</span></button>
-                                                <button onClick={this.onClickUpdateStatus} style={{ marginLeft: '30px' }} type="button" className="mtr-btn"><span>Save</span></button>
+                                                <button onClick={() => this.setState({ mode: MODE_PREVIEW })} style={{color: '#bfbfbf'}} type="button" className="mtr-btn"><span>Xem lại</span></button>
+                                                <button onClick={this.reject} style={{ marginLeft: '30px' }} style={{color: 'red', margin: '0 20px'}} type="button" className="mtr-btn"><span>Từ chối</span></button>
+                                                <button onClick={this.approval} style={{ marginLeft: '30px' }} type="button" className="mtr-btn"><span>Chấp nhận</span></button>
                                             </div>
                                         </div>
                                     </div>

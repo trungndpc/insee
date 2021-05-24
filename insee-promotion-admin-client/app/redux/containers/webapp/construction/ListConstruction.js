@@ -15,7 +15,7 @@ class ListConstruction extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      page: 0,
+      page: 1,
       pageSize: 10,
       currentStatus: 10,
       status: 0,
@@ -35,14 +35,14 @@ class ListConstruction extends Component {
 
   onChangeType(event) {
     let type = event.target.value;
-    this.setState({ type: type, page: 0, phone: null })
-    this.load(type, this.state.status, 0, this.state.pageSize);
+    this.setState({ type: type, page: 1, phone: null })
+    this.load(type, this.state.status, 1, this.state.pageSize);
   }
 
   onChangeStatus(event) {
     let status = event.target.value;
-    this.setState({ status: status, page: 0, phone: null })
-    this.load(this.state.type, status, 0, this.state.pageSize);
+    this.setState({ status: status, page: 1, phone: null })
+    this.load(this.state.type, status, 1, this.state.pageSize);
   }
 
   onChangePhone(event) {
@@ -51,27 +51,26 @@ class ListConstruction extends Component {
     if (!phone) {
       this.load(this.state.type, this.state.status, this.state.page, this.state.pageSize)
     } else {
-      this.setState({ status: 0, type: 0 })
-      this.search(phone, 0, this.state.pageSize)
+      this.setState({ status: 0, type: 0, page: 1 })
+      this.search(phone, 1, this.state.pageSize)
     }
   }
 
   onChangePage(pageNumber) {
-    pageNumber = pageNumber - 1
     this.setState({ page: pageNumber })
     if (this.state.phone) {
       this.search(this.state.phone, pageNumber, this.state.pageSize)
     } else {
-      this.load(this.state.type, this.state.status, this.state.page, this.state.pageSize)
+      this.load(this.state.type, this.state.status, pageNumber, this.state.pageSize)
     }
   }
 
   load(type, status, page, pageSize) {
-    this.props.appActions.getListConstruction(type == 0 ? null : type, status == 0 ? null : status, page, pageSize);
+    this.props.appActions.getListConstruction(type == 0 ? null : type, status == 0 ? null : status, page - 1, pageSize);
   }
 
   search(phone, page, pageSize) {
-    this.props.appActions.searchConstructionByPhoneCustomer(phone, page, pageSize)
+    this.props.appActions.searchConstructionByPhoneCustomer(phone, page - 1, pageSize)
   }
 
   render() {
@@ -150,7 +149,7 @@ class ListConstruction extends Component {
 
             </ul>
             <div className="paging-container">
-              {constructions && <Pagination defaultCurrent={1} current={this.state.page + 1} onChange={this.onChangePage} total={constructions.totalPage * constructions.pageSize} />}
+              {constructions && <Pagination defaultCurrent={1} current={this.state.page} onChange={this.onChangePage} total={constructions.totalPage * constructions.pageSize} />}
             </div>
           </div>
         </div>

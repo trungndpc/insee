@@ -37,7 +37,6 @@ class ConstructionDetail extends Component {
     this.isApproval = true;
   }
 
-
   _onClickOpenFormSendingGift() {
     this.setState({ isSendingGift: true })
   }
