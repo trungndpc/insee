@@ -1,8 +1,9 @@
 export class CementEnum {
-    constructor(id, name, group) {
+    constructor(id, name, group, color) {
         this.id = id;
         this.name = name;
         this.group = group;
+        this.color = color;
     }
 
 
@@ -44,19 +45,19 @@ export function getOption() {
     });
 }
 
-export const POWERS = new CementEnum(1, "INSEE Power-S", 1);
-export const WALL_PRO = new CementEnum(2, "INSEE Wall Pro", 1);
-export const LAVILLA_EXTRA_CC40 = new CementEnum(3, "Lavilla Xtra", 1);
-export const EXTRA_DURABLE_HOUSING = new CementEnum(4, "INSEE Extra Durable", 1);
-export const POWER_FAST = new CementEnum(5, "INSEE Power Fast ", 1);
-export const QUICK_CAST = new CementEnum(6, "INSEE Quick Cast ", 2);
-export const STABLE_SOIL = new CementEnum(7, "INSEE Stable Soil ", 2);
-export const COMPACT_ROCK = new CementEnum(8, "INSEE Compact Rock ", 2);
-export const EXTRA_DURABLE = new CementEnum(9, "INSEE Extra Durable ", 2);
-export const MASS_POUR = new CementEnum(10, "INSEE Mass Pour", 2);
-export const EASY_FLOW = new CementEnum(11, "INSEE Easy Flow", 2);
-export const POWER_CAST = new CementEnum(12, "INSEE Power Cast", 2);
-export const PITU_FILL = new CementEnum(13, "INSEE Pitu Fill ", 2);
-export const TILE_GROUT_ULTRA = new CementEnum(14, "INSEE TileGrout Ultra+",2);
-export const TILEFIX_PLUS_25KG = new CementEnum(15, "INSEE TileFix Plus 25kg", 2);
-export const TILEFIX_PLUS_5KG = new CementEnum(16, "INSEE TileFix Plus 5kg", 2)
+export const POWERS = new CementEnum(1, "INSEE Power-S", 1, '#dc3545');
+export const WALL_PRO = new CementEnum(2, "INSEE Wall Pro", 1 , '#007bff');
+export const LAVILLA_EXTRA_CC40 = new CementEnum(3, "Lavilla Xtra", 1, '#28a745');
+export const EXTRA_DURABLE_HOUSING = new CementEnum(4, "INSEE Extra Durable", 1, '#3a3a3a');
+export const POWER_FAST = new CementEnum(5, "INSEE Power Fast ", 1, '#3a3a3a');
+export const QUICK_CAST = new CementEnum(6, "INSEE Quick Cast ", 2, '#3a3a3a');
+export const STABLE_SOIL = new CementEnum(7, "INSEE Stable Soil ", 2, '#3a3a3a');
+export const COMPACT_ROCK = new CementEnum(8, "INSEE Compact Rock ", 2, '#3a3a3a');
+export const EXTRA_DURABLE = new CementEnum(9, "INSEE Extra Durable ", 2, '#3a3a3a');
+export const MASS_POUR = new CementEnum(10, "INSEE Mass Pour", 2, '#3a3a3a');
+export const EASY_FLOW = new CementEnum(11, "INSEE Easy Flow", 2, '#3a3a3a');
+export const POWER_CAST = new CementEnum(12, "INSEE Power Cast", 2, '#3a3a3a');
+export const PITU_FILL = new CementEnum(13, "INSEE Pitu Fill ", 2, '#3a3a3a');
+export const TILE_GROUT_ULTRA = new CementEnum(14, "INSEE TileGrout Ultra+",2, '#3a3a3a');
+export const TILEFIX_PLUS_25KG = new CementEnum(15, "INSEE TileFix Plus 25kg", 2, '#3a3a3a');
+export const TILEFIX_PLUS_5KG = new CementEnum(16, "INSEE TileFix Plus 5kg", 2, '#3a3a3a')
