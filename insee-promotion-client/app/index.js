@@ -20,6 +20,7 @@ import DetailIntroConstructionPromotion from '../app/redux/containers/promotion/
 import ModuleLoading from './components/layout/ModuleLoading'
 import ReferralCodeStep from './redux/containers/register/ReferralCodeStep'
 import Retailers from './redux/containers/webapp/Retailers'
+import PredictFootbalPromotion from './redux/containers/promotion/PredictFootbalPromotion'
 
 const UploadBillPromotion = React.lazy(() => import('./redux/containers/promotion/UploadBillPromotion'));
 const Register = React.lazy(() => import('../app/redux/containers/register/index'));
@@ -71,6 +72,11 @@ function APP() {
       <Route path="/khuyen-mai/:promotionId/up-hoa-don-nha-qua/:constructionId">
         <Suspense fallback={<ModuleLoading />}>
           <UploadBillPromotion />
+        </Suspense>
+      </Route>
+      <Route path="/khuyen-mai/:promotionId/du-doan-ket-qua-bong-da">
+        <Suspense fallback={<ModuleLoading />}>
+          <PredictFootbalPromotion />
         </Suspense>
       </Route>
       <Route path="/khuyen-mai/:promotionId/up-hoa-don-nha-qua">

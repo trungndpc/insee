@@ -3,26 +3,25 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
-import ListPromotion from '../../../components/promotions/ListPromotion'
+import SideBar from '../../../components/layout/SideBar'
+import ListMatch from './match/ListMatch'
+import MatchDetail from './match/MatchDetail'
+
 import {
     Switch,
     Route,
-    Link,
-    useParams
+    useParams,
 } from "react-router-dom";
-import {SideBar} from '../../../components/layout/SideBar'
-import DetailPromotion from '../../../components/promotions/DetailPromotion'
 
 
-function DetailPromotionRoute(props) {
-    let { postId } = useParams();
-    return <DetailPromotion postId={postId} {...props} />
+
+function MatchDetailRoute(props) {
+    let { matchId } = useParams();
+    return <MatchDetail matchId={matchId} {...props} />
 }
 
-class Promotion extends React.Component {
 
-    componentDidMount() {
-    }
+class Match extends React.Component {
 
     render() {
         return (
@@ -36,14 +35,13 @@ class Promotion extends React.Component {
                                         <div className="col-lg-3">
                                             <SideBar />
                                         </div>
-                                        <div style={{padding: 0}} className="col-lg-9">
-
+                                        <div className="col-lg-9">
                                             <Switch>
-                                                <Route path="/khuyen-mai/:postId">
-                                                    <DetailPromotionRoute {...this.props} />
+                                                <Route exact path="/match/:matchId">
+                                                    <MatchDetailRoute {...this.props} />
                                                 </Route>
-                                                <Route path="/khuyen-mai">
-                                                    <ListPromotion {...this.props} />
+                                                <Route path="/match">
+                                                    <ListMatch {...this.props} />
                                                 </Route>
                                             </Switch>
                                         </div>
@@ -73,4 +71,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Promotion)
+)(Match)

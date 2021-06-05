@@ -1060,3 +1060,71 @@ body {
     color: #3a3a3a;
     font-size: 0.85em;
 }
+
+.team {
+    display: block;
+    text-align: center;
+}
+
+.team .team-one {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.team .team-two {
+    display: inline-block;
+    margin-left: 10px;
+}
+.team.done .team-one img {
+    float: right;
+    margin-top: 5px;
+}
+
+.team.done .team-two img {
+    float: left;
+    margin-top: 5px;
+}
+
+.team img {
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    display: inline-block;
+}
+.team h5 {
+    display: inline-block;
+    font-size: 0.90em;
+    padding: 0 5px;
+    font-weight: 400;
+    padding-top: 10px;
+}
+
+.team-icon {
+    display: inline-block;
+    margin: 0 15px;
+}
+
+.football-header {
+    padding: 5px 0px;
+}
+.football-header p {
+    display: inline-block;
+    padding-right: 10px;
+}
+
+.football-header .time {
+    font-weight: 600;
+}
+.football-header .status {
+    color: #dc3545;
+}
+
+.football ul li {
+    padding-top: 0 !important;
+    padding-bottom: 0;
+}
+
+.football-footer p {
+    text-align: center;
+    padding: 9px 10px;
+}

@@ -150,8 +150,6 @@ class Form extends React.Component {
     }
 
     render() {
-        console.log("xxxxxxxxxxx")
-        console.log(this.state)
         return (
             <div>
                 <FormLayout {...this.props}>

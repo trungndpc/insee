@@ -26,7 +26,11 @@ export default class DateTimeUtil {
         }
     
         return moment.unix(time).format('DD/MM/YYYY');
-      }
+    }
+
+    static parseTime(time) {
+        return moment.unix(time).format("HH:mm - DD/MM");
+    }
 
       
 

@@ -196,7 +196,7 @@ class Retailers extends React.Component {
                                                                     <div className="form-row select-cement">
                                                                         <select value={this.state.cement} onChange={this.onChangeCement} ref={e => this.productInputRef = e}>
                                                                             <option value={0}>Tất cả xi măng</option>
-                                                                            {CementEnum.getList().map((item, index) => {
+                                                                            {CementEnum.getListForRetailer().map((item, index) => {
                                                                                 return (
                                                                                     <option value={item.id}>{item.name}</option>
                                                                                 )

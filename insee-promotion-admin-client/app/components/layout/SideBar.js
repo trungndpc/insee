@@ -23,6 +23,12 @@ class SideBar extends Component {
                             <Link style={{color: pathname == '/post' && '#b71c1c'}} to={"/post"}>Bài viết</Link>
                         </li>
                         <li>
+                            <Link style={{color: pathname == '/match' && '#b71c1c'}} to={"/match"}>Bóng đá</Link>
+                        </li>
+                        <li>
+                            <Link style={{color: pathname == '/introduction' && '#b71c1c'}} to={"/introduction"}>Giới thiệu thành viên</Link>
+                        </li>
+                        <li>
                             <Link style={{color: pathname == '/customer' && '#b71c1c'}} to={"/customer"}>Nhà thầu</Link>
                         </li>
                         <li>

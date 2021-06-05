@@ -8,6 +8,7 @@ import { NEXT_CONSTRUCTION, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2 } from '../../
 import { WAITING_APPROVAL, APPROVED, REJECTED, SEND_GIFT, RECIEVED } from '../../../../components/enum/StatusConstruction'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
 import { Pagination } from 'antd';
+import {WraperTypeConstruction} from '../../../../components/enum/WraperTypeConstruction'
 
 class ListConstruction extends Component {
 
@@ -66,7 +67,11 @@ class ListConstruction extends Component {
   }
 
   load(type, status, page, pageSize) {
-    this.props.appActions.getListConstruction(type == 0 ? null : type, status == 0 ? null : status, page - 1, pageSize);
+    console.log(type)
+    let wrapperType = type != null && WraperTypeConstruction.findById(parseInt(type));
+    this.props.appActions.getListConstruction(wrapperType ? wrapperType.typeConstructions : null
+      , wrapperType ? wrapperType.typeGifts : null
+      , status == 0 ? null : status, page - 1, pageSize);
   }
 
   search(phone, page, pageSize) {
@@ -80,13 +85,15 @@ class ListConstruction extends Component {
         <div className="inbox-lists inbox-list-construction">
           <div className="inbox-action">
             <ul>
-              <li>
+              <li style={{width: '230px'}}>
                 <label>Loại khuyến mãi</label>
                 <select onChange={this.onChangeType} value={this.state.type} class="form-control">
                   <option value={0}>Tất cả</option>
-                  <option value={NOW_CONSTRUCTION.getType()}>Upload hóa đơn (bags)</option>
-                  <option value={NOW_CONSTRUCTION_V2.getType()}>Upload hóa đơn (VND)</option>
-                  <option value={NEXT_CONSTRUCTION.getType()}>Công trình tiếp theo</option>
+                  {WraperTypeConstruction.getList().map((item, key) => {
+                    return (
+                      <option value={item.id}>{item.name}</option>
+                    )
+                  })}
                 </select>
               </li>
               <li>

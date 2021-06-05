@@ -90,7 +90,8 @@ class Dashboard extends React.Component {
                                                                 </ul>
                                                                 <ul>
                                                                     <li> {data.total_card_gift} <span>Thẻ cào điện thoại</span> </li>
-                                                                    <li> {data.total_lucky_rotation} <span>Thẻ cào điện thoại</span> </li>
+                                                                    <li> {data.total_lucky_rotation} <span>Vòng quay may mắn</span> </li>
+                                                                    <li> {data.total_voucher} <span>Voucher</span> </li>
                                                                 </ul>
                                                             </div>
                                                         }

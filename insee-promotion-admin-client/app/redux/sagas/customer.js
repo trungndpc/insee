@@ -332,13 +332,14 @@ function postUpdateRoleCustomer(id, role) {
 //getListConstructionAsync
 function* getListConstructionAsync(action) {
   yield put({ type: type.APP.GET_LIST_CONSTRUCTION_START })
-  const resp = yield call(getListConstruction, action.type_construction, action.status, action.page, action.pageSize)
+  const resp = yield call(getListConstruction, action.typeConstructions, action.typeGifts, action.status, action.page, action.pageSize)
   yield put({ type: type.APP.GET_LIST_CONSTRUCTION_END, payload: resp.data })
 }
 
-function getListConstruction(type, status, page, pageSize) {
+function getListConstruction(types, typeGifts, status, page, pageSize) {
+  console.log(types)
   return new Promise((resolve, reject) => {
-    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/list?page=${page}&pageSize=${pageSize}${type ? '&type=' + type + '&' : ''}${status ? '&status=' + status : ''}`, resolve, reject);
+    APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/list?page=${page}&pageSize=${pageSize}${types ? '&types=' + types  : ''}${typeGifts ? '&gifts=' + typeGifts : ''}${status ? '&status=' + status : ''}`, resolve, reject);
   });
 }
 

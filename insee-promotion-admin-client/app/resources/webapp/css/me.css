@@ -614,3 +614,63 @@
     border-radius: 0.25rem;
     padding-left: 10px;
 }
+
+.info-match {
+    text-align: center;
+}
+
+.team {
+    display: inline-block;
+}
+.team.team-one {
+    padding-right: 20px;
+}
+
+.team.team-two {
+    padding-left: 20px;
+}
+
+.info-match.done .team.team-two img{
+    float: left;
+}
+
+
+.info-match.done .team.team-one img {
+    float: right;
+}
+
+.team h5 p {
+    font-size: 1.2em;
+    font-weight: 600;
+}    
+
+.team.win h5 p  {
+    color: red;
+}
+
+.team h5 input  {
+    width: 41px;
+    border: none;
+    border-bottom: 1px dotted;
+    color: black;
+    text-align: center;
+}
+
+.team img {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin: 10px 20px;
+}
+.team h5 {
+    display: inline-block;
+    font-size: 1em;
+}
+
+.status-match {
+    text-align: center;
+}
+
+.match-detail {
+    margin-top: 0;
+}

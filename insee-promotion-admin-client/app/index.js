@@ -17,9 +17,11 @@ import Gift from './redux/containers/webapp/Gift'
 import Customer from './redux/containers/webapp/Customer'
 import Construction from './redux/containers/webapp/Construction'
 import Dashboard from './redux/containers/webapp/Dashboard'
+import Match from './redux/containers/webapp/Match'
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import Alert from 'react-s-alert';
+import Introduction from './redux/containers/webapp/Introduction';
 
 
 
@@ -42,6 +44,8 @@ render(
         <Route path="/gift" component={Gift}/>
         <Route path="/post" component={Post} />
         <Route path="/customer" component={Customer} />
+        <Route path="/match" component={Match} />
+        <Route path="/introduction" component={Introduction} />
         <Route exact path="/" component={Contractor} />
         <Route path="/login" component={Login} />
         <Route path="/dashboard" component={Dashboard} />

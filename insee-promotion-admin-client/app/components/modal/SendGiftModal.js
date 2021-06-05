@@ -4,6 +4,7 @@ import { TypeGift, CARD_PHONE, LUCKY_DRAW_ROTATION, VOUCHER } from '../../compon
 import GiftModel from '../../model/GiftModel'
 import AlertUtils from '../../utils/AlertUtils'
 import PromotionModel from '../../model/PromotionModel'
+import CustomerModel from '../../model/CustomerModel'
 
 class SendGiftModal extends Component {
 
@@ -14,9 +15,10 @@ class SendGiftModal extends Component {
             promotion: null,
             numberCard: 1,
             errorMsg: null,
-            typeGift: null,
+            typeGift: this.props.typeGift ? this.props.typeGift : null,
             giftName: null,
             numberVoucher: 1,
+            customer: null,
             deg: 0
         }
         if (this.props.isOpen) {
@@ -33,10 +35,12 @@ class SendGiftModal extends Component {
         this.onChangeNumberVoucher = this.onChangeNumberVoucher.bind(this)
         this.getValueVoucher = this.getValueVoucher.bind(this)
         this.loadPromotion = this.loadPromotion.bind(this)
+        this.loadCustomer = this.loadCustomer.bind(this)
     }
 
     componentDidMount() {
         this.loadPromotion();
+        this.loadCustomer();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -52,13 +56,21 @@ class SendGiftModal extends Component {
     }
 
     loadPromotion() {
-        PromotionModel.get(this.props.promotionId)
+        this.props.promotionId && PromotionModel.get(this.props.promotionId)
             .then(resp => {
                 if (resp.error == 0) {
-                    console.log(this.state.typeGift)
                     this.setState({ typeGift: resp.data.typeGift })
                 }
             })
+    }
+
+    loadCustomer() {
+        CustomerModel.get(this.props.customerId).
+        then(resp => {
+            if (resp.error == 0) {
+                this.setState({customer: resp.data})
+            }
+        })
     }
 
     onChangeNumberCard(e) {
@@ -78,8 +90,11 @@ class SendGiftModal extends Component {
         let data = {
             customerId: this.props.customerId,
             constructionId: this.props.constructionId,
+            predictId: this.props.predictId,
+            amountPoint: this.props.amountPoint,
             type: this.state.typeGift
         }
+
         if (this.state.typeGift == CARD_PHONE.getType()) {
             let name = this.nameRef.value;
             let cards = this.getValueCard();
@@ -133,7 +148,9 @@ class SendGiftModal extends Component {
                 if (resp.error == 0) {
                     AlertUtils.showSuccess("Thành công")
                 }
-                this.props.appActions.getConstruction(this.props.constructionId)
+                if (this.props.constructionId) {
+                    this.props.appActions.getConstruction(this.props.constructionId)
+                }
                 this._onClose()
             })
 
@@ -186,7 +203,8 @@ class SendGiftModal extends Component {
     }
 
     render() {
-        const construction = this.props.app.construction;
+
+        const customer = this.state.customer;
         return (
             <div className={`popup-wraper3 ${this.state.isOpen && 'active'}`}>
                 <div className="popup creat-group">
@@ -198,10 +216,10 @@ class SendGiftModal extends Component {
                         <div className="group-adding">
                             <div className="friend-group">
                                 <div className="change-photo">
-                                    <figure><img src={construction.user.avatar} alt="" /></figure>
+                                    <figure><img src={customer && customer.avatar} alt="" /></figure>
                                     <div className="edit-img">
-                                        <p><span>Nhà thầu: </span> {construction.user.name}</p>
-                                        <p><span>SDT: </span> {construction.user.phone}</p>
+                                        <p><span>Nhà thầu: </span> {customer && customer.fullName}</p>
+                                        <p><span>SDT: </span> {customer && customer.phone}</p>
                                     </div>
                                     <div className="clearfix"></div>
                                 </div>

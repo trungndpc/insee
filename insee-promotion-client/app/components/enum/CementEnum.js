@@ -38,6 +38,10 @@ export function getList() {
         TILEFIX_PLUS_25KG, TILEFIX_PLUS_5KG]
 }
 
+export function getListForRetailer() {
+    return [POWERS, WALL_PRO, LAVILLA_EXTRA_CC40, EXTRA_DURABLE_HOUSING]
+}
+
 export function getOption() {
     const list = getList();
     return list.map(item => {
