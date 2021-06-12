@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import {
   Link
 } from "react-router-dom";
-import { City } from '../../../../data/Location'
 import * as StatusConstruction from '../../../../components/enum/StatusConstruction'
-import { NEXT_CONSTRUCTION, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2 } from '../../../../components/enum/TypeConstruction'
 import { WAITING_APPROVAL, APPROVED, REJECTED, SEND_GIFT, RECIEVED } from '../../../../components/enum/StatusConstruction'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
 import { Pagination } from 'antd';
@@ -153,7 +151,6 @@ class ListConstruction extends Component {
                 )
               })}
               {constructions && constructions.list.length == 0 && <div style={{ textAlign: 'center' }}>Không có công trình nào ở đây</div>}
-
             </ul>
             <div className="paging-container">
               {constructions && <Pagination defaultCurrent={1} current={this.state.page} onChange={this.onChangePage} total={constructions.totalPage * constructions.pageSize} />}

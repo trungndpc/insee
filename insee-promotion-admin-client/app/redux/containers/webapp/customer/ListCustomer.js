@@ -7,7 +7,6 @@ import { City } from '../../../../data/Location'
 import { Pagination } from 'antd';
 import 'antd/dist/antd.css';
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
-import { TypeCustomer, CONTRUCTOR, RETAILER } from '../../../../components/enum/TypeCustomer'
 
 
 class ListCustomer extends Component {

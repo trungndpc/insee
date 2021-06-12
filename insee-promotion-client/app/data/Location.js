@@ -1,5 +1,7 @@
 // import data from './data_location.json'
-import data from './data_province_2.json'
+// import data from './data_province_2.json'
+import data from './data_province_3.json'
+
 
 function compare(a, b) {
     if (a.value < b.value) {

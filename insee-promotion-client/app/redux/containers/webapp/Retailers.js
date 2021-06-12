@@ -121,7 +121,7 @@ class Retailers extends React.Component {
         scrollTop = Math.abs(scrollTop)
         if (innerHeight + scrollTop + 500 >= scrollHeight) {
             let page = this.state.page + 1;
-            this.find(this.state.city, this.state.district, page, this.state.pageSize)
+            this.find(this.state.city, this.state.district, this.state.cement, page, this.state.pageSize)
             this.setState({ page: page })
         }
     }

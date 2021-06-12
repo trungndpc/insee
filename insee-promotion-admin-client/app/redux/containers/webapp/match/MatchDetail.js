@@ -11,6 +11,7 @@ import { PredictStatus, SUCCESS } from '../../../../components/enum/PredictStatu
 import AreYouSureModal from '../../../../components/modal/AreYouSureModal'
 import SendGiftModal from '../../../../components/modal/SendGiftModal'
 import AlertUtils from '../../../../utils/AlertUtils';
+import { Pagination } from 'antd';
 
 class MatchDetail extends Component {
 
@@ -23,18 +24,21 @@ class MatchDetail extends Component {
       isUpdateResultModal: false,
       msg: null,
       predict_to_send_gift: null,
-      isSendingGift: false
+      isSendingGift: false,
+      page: 1,
+      pageSize: 10
     }
     this.getGift = this.getGift.bind(this)
     this.getListPredict = this.getListPredict.bind(this)
     this.onClickUpdateResultModal = this.onClickUpdateResultModal.bind(this)
     this.updateResult = this.updateResult.bind(this)
     this.onClickSendGift = this.onClickSendGift.bind(this)
+    this.onChangePage = this.onChangePage.bind(this)
   }
 
   componentDidMount() {
     this.getGift(this.props.matchId)
-    this.getListPredict(this.props.matchId)
+    this.getListPredict(this.props.matchId, this.state.page, this.state.pageSize)
   }
 
   getGift(id) {
@@ -46,8 +50,8 @@ class MatchDetail extends Component {
       })
   }
 
-  getListPredict(id) {
-    PredictModel.find(id)
+  getListPredict(id, page, pageSize) {
+    PredictModel.find(id, page - 1, pageSize)
       .then(resp => {
         if (resp.error == 0) {
           this.setState({
@@ -85,6 +89,11 @@ class MatchDetail extends Component {
           this.getListPredict(this.props.matchId)
         }
       })
+  }
+
+  onChangePage(pageNumber) {
+    this.setState({ page: pageNumber })
+    this.getListPredict(this.props.matchId, pageNumber, this.state.pageSize)
   }
 
 
@@ -149,7 +158,7 @@ class MatchDetail extends Component {
                 <table className="table">
                   <thead className=" insee-color">
                     <tr className="insee-color">
-                      <th scope="col">STT</th>
+                      <th scope="col">ID</th>
                       <th scope="col">Nhà thầu</th>
                       <th scope="col">Dự đoán</th>
                       <th scope="col">Kết quả</th>
@@ -163,7 +172,7 @@ class MatchDetail extends Component {
                       let predictStatus = PredictStatus.findById(item.status);
                       return (
                         <tr key={key}>
-                          <th scope="row">{key + 1}</th>
+                          <th scope="row">{item.id}</th>
                           <td>{item.customer.fullName}</td>
                           <td>{`${item.teamOneScore} - ${item.teamTwoScore}`}</td>
                           <td>{predictStatus.name}</td>
@@ -176,6 +185,11 @@ class MatchDetail extends Component {
                 </table>
               </div>
             </div>
+            {page_predict && 
+            <div className="paging-container">
+              <Pagination defaultCurrent={1} current={this.state.page} total={page_predict.totalPage * page_predict.pageSize} onChange={this.onChangePage} />
+            </div>
+            }
           </div>
           <AreYouSureModal isOpen={this.state.isUpdateResultModal}
             onOK={this.updateResult}

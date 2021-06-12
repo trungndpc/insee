@@ -65,6 +65,7 @@ class ListMatch extends Component {
                 <label>Giải đấu:</label>
                 <select onChange={this._onChangeSeason} className="form-control">
                   <option value={1}>Vòng Loại Wordcup</option>
+                  <option value={2}>EURO 2021</option>
                 </select>
               </li>
               <li>
@@ -110,8 +111,12 @@ class ListMatch extends Component {
                             <ul>
                               <li>{DateTimeUtil.parseTime(item.timeStart)}</li>
                               <li style={{ color: 'green' }}>{matchStatus.name}</li>
+                              <li>{item.totalPredict} người tham gia</li>
                               {matchStatus.id == DONE.id &&
-                                <li>10 người tham gia</li>
+                                <li>{item.totalFailedPredict} người dự đoán sai</li>
+                              }
+                              {matchStatus.id == DONE.id &&
+                                <li style={{color: 'red'}}>{item.totalSuccessPredict} người dự đoán trúng</li>
                               }
                             </ul>
                           </div>

@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import {
+    Link,
     useParams
 } from "react-router-dom";
 
@@ -11,6 +12,7 @@ import WebAppLayout from '../../../components/layout/WebAppLayout'
 import MatchModel from '../../../model/MatchModel'
 import { DONE, MatchStatus } from '../../../components/enum/MatchStatus';
 import DateTimeUtil from '../../../utils/DateTimeUtil'
+import PromotionModel from '../../../model/PromotionModel'
 
 class PredictFootbalPromotion extends React.Component {
 
@@ -20,20 +22,38 @@ class PredictFootbalPromotion extends React.Component {
             matches: null
         }
         this.loadData = this.loadData.bind(this)
+        this.onClickJoin = this.onClickJoin.bind(this)
 
     }
 
     componentDidMount() {
-        this.loadData(1);
+        this.loadData();
     }
 
-    loadData(season) {
-        MatchModel.find(season)
-            .then(resp => {
-                if (resp.error == 0) {
-                    this.setState({ matches: resp.data })
-                }
-            })
+    loadData() {
+        PromotionModel.get(this.props.promotionId)
+        .then(resp => {
+            if (resp.data) {
+                MatchModel.find(resp.data.season)
+                .then(resp => {
+                    if (resp.error == 0) {
+                        this.setState({ matches: resp.data })
+                    }
+                })
+            }
+        })
+      
+    }
+
+    onClickJoin(matchId) {
+        MatchModel.join(this.props.promotionId, matchId)
+        .then(resp => {
+            if (resp.error == 0) {
+                let link = "https://zalo.me/" + resp.data;
+                console.log(link)
+                window.location.href = link;
+            }
+        })
     }
 
 
@@ -74,8 +94,8 @@ class PredictFootbalPromotion extends React.Component {
                                                                     <div className="nearly-pepls">
                                                                         <div className="pepl-info">
                                                                             <div className="football-header">
-                                                                                <p style={{ color: matchStatus.color }} className="time">{DateTimeUtil.hourAndMinute(item.timeStart) + "'"}</p>
-                                                                                <p style={{ color: matchStatus.color }} className="status">{matchStatus.name}</p>
+                                                                                <p style={{ color: matchStatus.color }} className="time">{DateTimeUtil.hourAndMinute(item.timeStart)}</p>
+                                                                                {/* <p style={{ color: matchStatus.color }} className="status">{matchStatus.name}</p> */}
                                                                             </div>
                                                                             <div className="team done">
                                                                                 <div className="team-one">
@@ -98,7 +118,7 @@ class PredictFootbalPromotion extends React.Component {
                                                                                 {strPredict ?
                                                                                     <p>{strPredict}</p>
                                                                                     :
-                                                                                    <p>Click vào đây để dự đoán</p>
+                                                                                    <p><Link style={{color: '#b71c1c'}} onClick={() => {this.onClickJoin(item.id)}}>Click vào đây để dự đoán</Link></p>
                                                                                 }
                                                                             </div>
                                                                         </div>
@@ -134,8 +154,13 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
+
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(PredictFootbalPromotion)
+)((props) => {
+    let { promotionId} = useParams();
+    return <PredictFootbalPromotion promotionId={promotionId} {...props} />
+})
+
 

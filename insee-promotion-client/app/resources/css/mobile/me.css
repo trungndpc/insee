@@ -1068,12 +1068,16 @@ body {
 
 .team .team-one {
     display: inline-block;
-    margin-right: 10px;
+    width: 50%;
+    text-align: right;
+    padding-right: 10px;
 }
 
 .team .team-two {
     display: inline-block;
-    margin-left: 10px;
+    width: 50%;
+    text-align: left;
+    padding-left: 10px;
 }
 .team.done .team-one img {
     float: right;

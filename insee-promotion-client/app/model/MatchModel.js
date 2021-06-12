@@ -7,4 +7,10 @@ export default class MatchModel {
             APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/match/find?season=${season}`, resolve, reject);
         });
     }
+    
+    static join(promotionId, matchId) {
+        return new Promise((resolve, reject) => {
+            APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/match/join?promotionId=${promotionId}&matchId=${matchId}`, resolve, reject);
+        });
+    }
 }
