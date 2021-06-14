@@ -26,6 +26,7 @@ class ListIntroduction extends Component {
         this.onChangeRole = this.onChangeRole.bind(this)
         this.onChangeLocation = this.onChangeLocation.bind(this)
         this.openGiftModal = this.openGiftModal.bind(this)
+        this.onChangePage = this.onChangePage.bind(this)
 
     }
 
@@ -58,6 +59,13 @@ class ListIntroduction extends Component {
         console.log("xxxxxxx")
         this.setState({ exchange: exchange, isSendingGift: true })
     }
+
+
+    onChangePage(pageNumber, pageSize) {
+        this.setState({ page: pageNumber })
+        this.getList(this.state.location, this.state.roleId, pageNumber, this.state.pageSize)
+    }
+
 
 
     render() {
@@ -117,7 +125,7 @@ class ListIntroduction extends Component {
                                                     <td>{item.point}</td>
                                                     {item.point >= 500 ?
                                                         <td>{<Link onClick={() => { this.openGiftModal({ customerId: item.id, amountPoint: 500 }) }} className="add-butn">Gửi quà</Link>}</td>
-                                                        : 
+                                                        :
                                                         <td></td>
                                                     }
                                                 </tr>
@@ -127,7 +135,7 @@ class ListIntroduction extends Component {
                                 </table>
                             </div>
                             <div className="paging-container">
-                                {page_customers && <Pagination defaultCurrent={1} current={this.state.page} onChange={this._onChangePage} total={page_customers.totalPage * page_customers.pageSize} />}
+                                {page_customers && <Pagination defaultCurrent={1} current={this.state.page} onChange={this.onChangePage} total={page_customers.totalPage * page_customers.pageSize} />}
                             </div>
                         </div>
                     </div>

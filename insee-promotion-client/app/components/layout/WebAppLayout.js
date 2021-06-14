@@ -70,10 +70,13 @@ class WebAppLayout extends Component {
             </div>
           </div>
         </section>
-        <div id="main-menu" className={`topnav  ${this.state.isShowMobileBar ? 'showmenu' : ''}`}>
-          <ContentSideBar onClickToLink={this._onClickToLink} />
-        </div>
-        {this.props.children}
+        {contractor && contractor.status == 2 &&
+          <div id="main-menu" className={`topnav  ${this.state.isShowMobileBar ? 'showmenu' : ''}`}>
+            <ContentSideBar onClickToLink={this._onClickToLink} />
+          </div>
+        }
+        {contractor && contractor.status != 2 && <div style={{ textAlign: 'center', marginTop: '250px' }}>Vui lòng chờ xác nhận</div>}
+        {contractor && contractor.status == 2 && this.props.children}
       </div>
     )
   }
