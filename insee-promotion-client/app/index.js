@@ -30,6 +30,7 @@ import './resources/css/mobile/bootstrap.min.css';
 import './resources/css/mobile/main.css';
 import './resources/css/mobile/me.css';
 import Gift from './redux/containers/gift'
+import Loyalty from './redux/containers/webapp/Loyalty';
 
 const store = configureStore()
 
@@ -86,6 +87,9 @@ function APP() {
       </Route>
       <Route path="/khach-hang" >
         <ContractorInfo />
+      </Route>
+      <Route path="/loyalty">
+        <Loyalty />
       </Route>
       <Route path="/khuyen-mai" >
         <Promotion />

@@ -1132,3 +1132,192 @@ body {
     text-align: center;
     padding: 9px 10px;
 }
+
+.loyalty .f-title {
+    margin-bottom: 0;
+}
+
+.loyalty .ton-title {
+    color: #868e96;
+    font-size: 15px;
+}
+
+.loyalty .ton-info{
+    padding: 40px 0px;
+}
+
+.loyalty .ton {
+    font-size: 45px;
+    font-weight: 600;
+}
+
+
+.ton-process {
+    padding: 0 8px;
+    margin-bottom: 40px;
+}
+
+.cdt-step-progressbar.horizontal {
+    width: 100%;
+    flex-direction: row;
+} 
+
+.cdt-step-progressbar {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    counter-reset: step;
+    display: flex;
+    flex-direction: column;
+}
+.cdt-step-progressbar li.active.fix-last-active {
+    border-color: #c7c7c7;
+}
+
+
+.cdt-step-progressbar li {
+    padding: 7px 0 40px 40px;
+    border-left: 1px solid var(--color-lower);
+    position: relative;
+    color: var(--color-lower);
+    font-size: 15px;
+}
+
+.cdt-step-progressbar li.active .indicator, .cdt-step-progressbar.horizontal li.active .indicator {
+    border-color: #FF0000;
+    color: #fff;
+}
+
+.cdt-step-progressbar li.active .indicator {
+    background-color: #FF0000;
+}
+
+.cdt-step-progressbar.horizontal li:first-child::after {
+    content: none;
+}
+
+
+.cdt-step-progressbar.horizontal li.active:first-child::after {
+    content: none;
+}
+
+.cdt-step-progressbar.horizontal li .indicator {
+    position: absolute;
+    /* left: 50%; */
+    left: 0;
+    top: 0;
+    transform: translate(-50%,-50%);
+}
+
+.cdt-step-progressbar li .indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #c7c7c7;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border: 1px solid #c7c7c7;
+    color: #707070;
+    transform: translate(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.cdt-step-progressbar li .title {
+    position: absolute;
+    left: -5px;
+    width: 60px;
+}
+
+
+.cdt-step-progressbar li.active .title, .cdt-step-progressbar.horizontal li.active .title {
+    color: black;
+    font-weight: 600;
+
+}
+
+
+.cdt-step-progressbar.horizontal li:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: #707070;
+    top: -2px;
+    left: 0;
+    z-index: 1;
+}
+
+.cdt-step-progressbar.horizontal li.active::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: #FF0000;
+    top: -2px;
+    left: 0;
+    z-index: 1;
+}
+
+.cdt-step-progressbar.horizontal li.active::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: #FF0000;
+    top: -2px;
+    left: 0;
+    z-index: 1;
+}
+
+
+.cdt-step-progressbar.horizontal li::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: #707070;
+    top: -2px;
+    left: 0;
+    z-index: 1;
+}
+
+.cdt-step-progressbar.horizontal li {
+    color: #707070;
+    padding-left: 0;
+    padding-top: 40px;
+    border-left: none;
+    text-align: left;
+}
+
+.cdt-step-progressbar li {
+    padding: 7px 0 40px 40px;
+    position: relative;
+}
+
+
+.tb-point {
+    width: 100px;
+    display: flex;
+    /* float: left; */
+    font-weight: 600;
+}
+
+.loyalty .desc {
+    border-radius: 12px;
+    background-color: #ddd;
+    padding: 18px;
+}
+
+.loyalty .desc  h4 {
+    padding-bottom: 15px;
+}
+
+.loyalty .desc table {
+    font-size: 1.0em;
+}
+
