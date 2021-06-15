@@ -1132,3 +1132,13 @@ body {
     text-align: center;
     padding: 9px 10px;
 }
+
+
+.leadboad .hd {
+    text-align: center;
+    font-size: 12px;
+    padding-top: 24px;
+    color: #b71c1c;
+    font-weight: 600;
+    line-height: 21px;
+}
