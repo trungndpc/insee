@@ -70,7 +70,7 @@ class PredictFootbalPromotion extends React.Component {
                                         <div className="row merged20">
                                             <div className="loadMore">
                                                 <div className="m-content">
-                                                    <ul className="nearby-contct ">
+                                                    {/* <ul className="nearby-contct ">
                                                         {matches && matches.map((item, index) => {
                                                             let matchStatus = MatchStatus.findById(item.status)
                                                             let strPredict = null;
@@ -95,7 +95,6 @@ class PredictFootbalPromotion extends React.Component {
                                                                         <div className="pepl-info">
                                                                             <div className="football-header">
                                                                                 <p style={{ color: matchStatus.color }} className="time">{DateTimeUtil.hourAndMinute(item.timeStart)}</p>
-                                                                                {/* <p style={{ color: matchStatus.color }} className="status">{matchStatus.name}</p> */}
                                                                             </div>
                                                                             <div className="team done">
                                                                                 <div className="team-one">
@@ -126,7 +125,26 @@ class PredictFootbalPromotion extends React.Component {
                                                                 </li>
                                                             )
                                                         })}
-                                                    </ul>
+                                                    </ul> */}
+                                                    <div className="leadboard">
+                                                        <div className="banner">
+                                                            <img src={require('../../../resources/images/euro2021.png')}/>
+                                                        </div>
+                                                        <div className="content">
+                                                            <h4 className="hd">DANH SÁCH TRÚNG THƯỞNG CHƯƠNG TRÌNH <br/>"DỰ ĐOÁN KẾT QUẢ EURO CÙNG INSEE"</h4>
+                                                        </div>
+                                                        <div>
+                                                            <table>
+                                                                <thead>
+                                                                    <th>
+                                                                        <td>STT</td>
+                                                                        <td>Tên</td>
+                                                                        <td>Tỉnh</td>
+                                                                    </th>
+                                                                </thead>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
