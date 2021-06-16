@@ -43,7 +43,7 @@ class ContractorInfo extends React.Component {
                                                     <div className="widget">
                                                         <h4 className="widget-title">Thông tin</h4>
                                                         <ContentSideBar />
-                                                    </div>{/* Shortcuts */}
+                                                    </div>
                                                 </aside>
                                             </div>{/* sidebar */}
                                             <div className="col-lg-9">
