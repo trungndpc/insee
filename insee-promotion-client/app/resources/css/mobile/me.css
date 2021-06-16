@@ -1124,7 +1124,7 @@ body {
 }
 
 .football ul li {
-    padding-top: 0 !important;
+    padding-top: 0;
     padding-bottom: 0;
 }
 
@@ -1321,12 +1321,45 @@ body {
     font-size: 1.0em;
 }
 
-
-.leadboad .hd {
+ .hd {
     text-align: center;
-    font-size: 12px;
+    font-size: 0.92em;
     padding-top: 24px;
     color: #b71c1c;
     font-weight: 600;
     line-height: 21px;
+}
+.tbcontent {
+    text-align: center;
+}
+
+.tbcontent th {
+    text-align: center;
+}
+
+.tbcontent th {
+    padding: 10px 0px;
+    color: #fff;
+    background-color: #b71c1c;
+}
+
+.tbcontent tr td{
+    padding: 10px 0px;
+}
+
+.sub-menu {
+    width: 100%;
+}
+
+.sub-menu li {
+    float: left;
+    display: inline-block;
+    width: 50%;
+    padding: 10px 0 !important;
+    padding-top: 10px !important;
+    text-align: center;
+}
+
+.sub-menu li.active {
+    font-weight: 600;
 }
