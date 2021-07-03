@@ -80,6 +80,11 @@ function APP() {
           <PredictFootbalPromotion />
         </Suspense>
       </Route>
+      <Route path="/khuyen-mai/:promotionId/loyalty">
+        <Suspense fallback={<ModuleLoading />}>
+          <Loyalty />
+        </Suspense>
+      </Route>
       <Route path="/khuyen-mai/:promotionId/up-hoa-don-nha-qua">
         <Suspense fallback={<ModuleLoading />}>
           <UploadBillPromotion />
@@ -87,9 +92,6 @@ function APP() {
       </Route>
       <Route path="/khach-hang" >
         <ContractorInfo />
-      </Route>
-      <Route path="/loyalty">
-        <Loyalty />
       </Route>
       <Route path="/khuyen-mai" >
         <Promotion />

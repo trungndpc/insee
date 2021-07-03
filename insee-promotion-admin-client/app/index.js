@@ -22,6 +22,7 @@ import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import Alert from 'react-s-alert';
 import Introduction from './redux/containers/webapp/Introduction';
+import Loyalty from './redux/containers/webapp/Loyalty';
 
 
 
@@ -49,6 +50,7 @@ render(
         <Route exact path="/" component={Contractor} />
         <Route path="/login" component={Login} />
         <Route path="/dashboard" component={Dashboard} />
+        <Route path="/loyalty" component={Loyalty} />
       </Switch>
       <RouteApp />
     </Router>

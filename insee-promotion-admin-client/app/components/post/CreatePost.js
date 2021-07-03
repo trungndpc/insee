@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TypeConstruction, NOW_CONSTRUCTION, NEXT_CONSTRUCTION, NOW_CONSTRUCTION_V2 } from '../enum/TypeConstruction'
+import { TypePromotion, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2, LOYALTY } from '../enum/TypePromotion'
 import INSEEEditor from './INSEEEditor'
 import DateTimeUtil from '../../utils/DateTimeUtil'
 import AreYouSureModal from '../../components/modal/AreYouSureModal'
@@ -40,7 +40,7 @@ class CreatePromotion extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         if (nextProps.app.promotion != this.props.app.promotion) {
             if (nextProps.app.promotion) {
-                nextState.typePromotion = TypeConstruction.findByType(nextProps.app.promotion.typePromotion)
+                nextState.typePromotion = TypePromotion.findByType(nextProps.app.promotion.typePromotion)
             }
         }
         return true;
@@ -57,7 +57,7 @@ class CreatePromotion extends Component {
     _onChangeTypePromotion(e) {
         let type = parseInt(e.target.value);
         this.setState({
-            typePromotion: TypeConstruction.findByType(type)
+            typePromotion: TypePromotion.findByType(type)
         })
     }
 
@@ -220,22 +220,24 @@ class CreatePromotion extends Component {
                                     <div className="ctk-row">
                                         <label className="ctk-editor-lable">Loại khuyến mãi: </label>
                                         {isRender && <select disabled={isUpdate} onChange={this._onChangeTypePromotion} defaultValue={promotion ? promotion.typePromotion : this.state.typePromotion.getType()} className="ctk-editor-input" ref={e => this.typePromotionRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp">
-                                            {TypeConstruction.getList().map((item, index) => {
+                                            {TypePromotion.getList().map((item, index) => {
                                                 return <option key={index} value={item.getType()}>{item.getName()}</option>
                                             })}
                                         </select>
                                         }
                                     </div>
-                                    <div className="ctk-row">
-                                        <label className="ctk-editor-lable">Loại Quà tặng: </label>
-                                        {isRender && <select disabled={isUpdate} onChange={this._onChangeTypeGift} defaultValue={promotion ? promotion.typeGift : this.state.typeGift.getType()} className="ctk-editor-input" ref={e => this.typeGiftRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp">
-                                            {TypeGift.getList().map((item, index) => {
-                                                return <option key={index} value={item.getType()}>{item.getName()}</option>
-                                            })}
-                                        </select>
-                                        }
-                                    </div>
-                                    {this.state.typePromotion == NOW_CONSTRUCTION &&
+                                    {this.state.typePromotion != LOYALTY &&
+                                        <div className="ctk-row">
+                                            <label className="ctk-editor-lable">Loại Quà tặng: </label>
+                                            {isRender && <select disabled={isUpdate} onChange={this._onChangeTypeGift} defaultValue={promotion ? promotion.typeGift : this.state.typeGift.getType()} className="ctk-editor-input" ref={e => this.typeGiftRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp">
+                                                {TypeGift.getList().map((item, index) => {
+                                                    return <option key={index} value={item.getType()}>{item.getName()}</option>
+                                                })}
+                                            </select>
+                                            }
+                                        </div>
+                                    }
+                                    {(this.state.typePromotion == NOW_CONSTRUCTION || this.state.typePromotion == LOYALTY || this.state.typePromotion == NOW_CONSTRUCTION_V2) &&
                                         <div className="ctk-row">
                                             <label className="ctk-editor-lable">Loại xi măng </label>
                                             {isRender && <div className="ctk-editor-input c1"> <CementMultiSelect defaultValue={promotion && promotion.ruleAcceptedCement} ref={e => this.cementRef = e} /> </div>}

@@ -203,7 +203,7 @@ class SendGiftModal extends Component {
     }
 
     render() {
-
+        console.log(this.state.typeGift)
         const customer = this.state.customer;
         return (
             <div className={`popup-wraper3 ${this.state.isOpen && 'active'}`}>

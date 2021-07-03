@@ -10,6 +10,7 @@ import { City } from '../../../../data/Location'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
 import AreYouSureModal from '../../../../components/modal/AreYouSureModal'
 import { TypeCustomer, CONTRUCTOR, RETAILER } from '../../../../components/enum/TypeCustomer'
+import LoyaltyModel from '../../../../model/LoyaltyModel';
 
 class CustomerDetail extends Component {
 
@@ -19,7 +20,9 @@ class CustomerDetail extends Component {
       isOpenApprovalModal: false,
       isOpenRejectModal: false,
       isDeleteUserModal: false,
-      isEditing: false
+      isEditing: false,
+      loyalty: null,
+      tab: location.hash.substr(1) ? location.hash.substr(1) : 1
     }
     this._onClickOpenApprovalModal = this._onClickOpenApprovalModal.bind(this)
     this._onCloseApprovalModal = this._onCloseApprovalModal.bind(this)
@@ -29,6 +32,7 @@ class CustomerDetail extends Component {
     this._onCloseDeleteModal = this._onCloseDeleteModal.bind(this)
     this.deleteCustomer = this.deleteCustomer.bind(this)
     this.onClickSave = this.onClickSave.bind(this)
+    this.getLoyalty = this.getLoyalty.bind(this)
   }
 
   _onClickOpenApprovalModal() {
@@ -60,9 +64,19 @@ class CustomerDetail extends Component {
     this.props.appActions.deleteCustomer(this.props.customerId)
   }
 
+  getLoyalty() {
+    LoyaltyModel.get(this.props.customerId)
+      .then(resp => {
+        if (resp.error == 0) {
+          this.setState({ loyalty: resp.data })
+        }
+      })
+  }
+
   componentDidMount() {
     this.props.appActions.getCustomerById(this.props.customerId)
     this.props.appActions.getHistoryByCustomerId(this.props.customerId);
+    this.getLoyalty()
   }
 
   onClickSave() {
@@ -74,7 +88,10 @@ class CustomerDetail extends Component {
 
   render() {
     const customer = this.props.app.customer;
-    const historyByCustomer = this.props.app.historyByCustomer;
+    let historyByCustomer = this.props.app.historyByCustomer;
+    if (historyByCustomer && this.state.tab == 2) {
+      historyByCustomer = historyByCustomer.filter(e => e.type == 4);
+    }
     const status = customer && CustomerStatusEnum.findByStatus(customer.status);
     const type = customer && TypeCustomer.findByType(customer.user.roleId)
     return (
@@ -123,24 +140,18 @@ class CustomerDetail extends Component {
                         </td>
                       }
                     </tr>
-                    {/* {status == APPROVED &&
+                    {this.state.loyalty && this.state.loyalty[0] &&
                       <tr>
-                        <th>Số  CT đã tham gia </th>
-                        <td>10 / 15 </td>
+                        <th>Tích lũy</th>
+                        <td>{this.state.loyalty[0].ton / 1000} (tấn)</td>
                       </tr>
-                    } */}
+                    }
+
                   </tbody>
                 </table>
               }
             </div>
           </div>
-          {/* 
-          <div className="action-container">
-            <ui className="action-customer-detail">
-              <li><Link onClick={this._onClickOpenDeleteModal} style={{backgroundColor: '#9E9E9E'}} className="add-butn" data-ripple>Delete</Link></li>
-            </ui>
-          </div> */}
-
           <div className="action-container">
             <ui className="action-customer-detail">
               {status && status.getStatus() == NEED_REVIEW.getStatus() && <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Chấp nhận</Link></li>}
@@ -157,39 +168,27 @@ class CustomerDetail extends Component {
             </div>
           }
 
-          {/* <div className="central-meta">
-            <div className="about">
-              <div className="personal">
-                <h5 className="f-title">TÀI KHOẢN</h5>
-              </div>
-              {customer &&
-                <table className="table table-responsive table-info-contractor">
-                  <tbody>
-                    <tr>
-                      <th>Phone</th>
-                      <td>{customer.phone}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              }
-            </div>
-          </div> */}
-
-          {historyByCustomer && historyByCustomer.length > 0 &&
+          {historyByCustomer &&
             <div className="central-meta">
               <div className="about">
                 <div className="personal">
-                  <h5 className="f-title">Danh sách các chương trình đã tham gia</h5>
+                  <ul className="tab-construction">
+                    <li onClick={() => { this.setState({ tab: 1 }) }} className={this.state.tab == 1 && 'active'}>Công trình</li>
+                    <li onClick={() => { this.setState({ tab: 2 }) }} className={this.state.tab == 2 && 'active'}>Loyalty</li>
+                  </ul>
                 </div>
                 <div className="col-lg-12 col-sm-12 pading0">
                   <table className="table">
                     <thead className=" insee-color">
                       <tr className="insee-color">
                         <th scope="col">STT</th>
-                        <th scope="col">Chương trình khuyến mãi</th>
-                        <th scope="col">Quà tặng</th>
+                        <th scope="col">Công trình</th>
+                        {this.state.tab == 2 &&
+                          <th scope="col">Số bao</th>
+                        }
                         <th scope="col">Tình trạng</th>
                         <th scope="col">Thời gian</th>
+                        <td></td>
                       </tr>
                     </thead>
                     <tbody>
@@ -198,17 +197,21 @@ class CustomerDetail extends Component {
                         return (
                           <tr key={index}>
                             <th scope="row">{index + 1}</th>
-                            <td>{item.promotion.title}</td>
-                            <td>{item.gift && item.gift.name}</td>
+                            <td>{item.address}</td>
+                            {this.state.tab == 2 &&
+                              <td>{item.quantity}</td>
+                            }
                             <td>{status}</td>
                             <td>{DateTimeUtil.diffTime(item.updatedTime)}</td>
+                            <td>
+                              <Link to={`/construction/${item.id}`} className="add-butn" data-ripple>Chi tiết</Link>
+                            </td>
                           </tr>
                         )
                       })}
-
-
                     </tbody>
                   </table>
+                  {historyByCustomer.length == 0 && <div style={{ textAlign: 'center' }}>Chưa có công trình</div>}
                 </div>
               </div>
             </div>
@@ -221,30 +224,6 @@ class CustomerDetail extends Component {
             <RejectCustomerModal {...this.props} id={customer.id} isOpen={this.state.isOpenRejectModal} onClose={this._onCloseRejectModal} />
           }
           <AreYouSureModal isOpen={this.state.isDeleteUserModal} onOK={this.deleteCustomer} onClose={this._onCloseDeleteModal} />
-
-          {/* <div className="popup-wraper3 active">
-            <div className="popup">
-              <span className="popup-closed"><i className="ti-close" /></span>
-              <div className="popup-meta">
-                <div className="popup-head">
-                  <h5>Ghi chú</h5>
-                </div>
-                <div className="Rpt-meta">
-                  <span style={{color: '#fa6342'}}>We're sorry something's wrong. How can we help?</span>
-                  <div method="post">
-                    <div>
-                      <label>Write about Report</label>
-                      <textarea placeholder="write someting about Post" rows={2} defaultValue={""} />
-                    </div>
-                    <div className="btn-bar">
-                      <a className="add-butn" >Submit</a>
-                      <a className="add-butn cancel">Close</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
 
         </div>
       </div>

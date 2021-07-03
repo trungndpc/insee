@@ -16,6 +16,8 @@ export class StatusConstruction {
             case 4 : return 'Đã gửi quà'
             case 5 : return "Đã nhận quà"
             case 6 : return 'Đã chỉnh sữa lại'
+            case 7 : return 'Đã xác nhận'
+            case 8 : return 'Cần duyệt thêm'
         }
     }
 
@@ -31,6 +33,8 @@ export function findByStatus(status) {
         case 4 : return SEND_GIFT;
         case 5 : return RECIEVED;
         case 6 : return RE_SUBMIT;
+        case 7 : return VERIFIRED;
+        case 8 : return NEED_APPROVAL_AGAIN;
     }
 }
 export const WAITING_APPROVAL = new StatusConstruction(1);
@@ -39,5 +43,7 @@ export const REJECTED = new StatusConstruction(3);
 export const SEND_GIFT = new StatusConstruction(4);
 export const RECIEVED = new StatusConstruction(5);
 export const RE_SUBMIT = new StatusConstruction(6);
+export const VERIFIRED = new StatusConstruction(7);
+export const NEED_APPROVAL_AGAIN = new StatusConstruction(8);
 
 

@@ -12,6 +12,7 @@ import AreYouSureModal from '../../../../components/modal/AreYouSureModal'
 import SendGiftModal from '../../../../components/modal/SendGiftModal'
 import AlertUtils from '../../../../utils/AlertUtils';
 import { Pagination } from 'antd';
+import PromotionModel from '../../../../model/PromotionModel';
 
 class MatchDetail extends Component {
 
@@ -197,11 +198,14 @@ class MatchDetail extends Component {
 
           {this.state.predict_to_send_gift && 
           <SendGiftModal {...this.props} 
-              promotionId={this.state.predict_to_send_gift.promotionId}
+              promotionId={this.state.predict_to_send_gift.seasonId}
               predictId={this.state.predict_to_send_gift.id}
               customerId={this.state.predict_to_send_gift.customer.id}
               isOpen={this.state.isSendingGift}
-              onClose={() => { this.setState({ isSendingGift: false }) }} />
+              onClose={() => { 
+                this.getListPredict(this.props.matchId, this.state.page, this.state.pageSize)
+                this.setState({ isSendingGift: false }) 
+              }} />
           }
         </div>
       </div>

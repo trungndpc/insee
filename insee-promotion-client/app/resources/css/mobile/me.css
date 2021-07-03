@@ -1133,20 +1133,21 @@ body {
     padding: 9px 10px;
 }
 
-.loyalty .f-title {
+.f-title {
     margin-bottom: 0;
+    padding-bottom: 17px;
 }
 
-.loyalty .ton-title {
+ .ton-title {
     color: #868e96;
     font-size: 15px;
 }
 
-.loyalty .ton-info{
+ .ton-info{
     padding: 40px 0px;
 }
 
-.loyalty .ton {
+ .ton {
     font-size: 45px;
     font-weight: 600;
 }
@@ -1362,4 +1363,8 @@ body {
 
 .sub-menu li.active {
     font-weight: 600;
+}
+
+.loyalty-main .ton-info {
+    padding-top: 10px;
 }

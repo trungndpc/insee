@@ -4,10 +4,28 @@ import { bindActionCreators } from 'redux'
 import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
 import { SideBar } from '../../../components/layout/SideBar'
+import LoyaltyModel from '../../../model/LoyaltyModel'
+import LoyaltyBoard from '../../../components/layout/LoyaltyBoard'
 
 class Loyalty extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            loyalty: null
+        }
+    }
+
+    componentDidMount() {
+        LoyaltyModel.me()
+            .then(resp => {
+                if (resp.error == 0 && resp.data.length > 0) {
+                    this.setState({ loyalty: resp.data[0] })
+                }
+            })
+    }
 
     render() {
+        const loyalty = this.state.loyalty
         return (
             <WebAppLayout {...this.props}>
                 <section>
@@ -25,38 +43,10 @@ class Loyalty extends React.Component {
                                                     <div className="central-meta">
                                                         <div className="about">
                                                             <div className="personal">
-                                                                <h5 className="f-title ">CHƯƠNG TRÌNH TÍCH LŨY</h5>
+                                                                <h5 className="f-title" style={{paddingBottom: '0px'}}>CHƯƠNG TRÌNH TÍCH LŨY</h5>
                                                                 <div className="line-bt" />
+                                                                {loyalty && <LoyaltyBoard loyalty={loyalty} /> }
 
-                                                                <div className="ton-info">
-                                                                    <h5 className="ton-title">Số tấn đã tích lũy</h5>
-                                                                    <h3 className="ton">250 <span style={{ fontSize: '20px' }}> tấn</span></h3>
-                                                                </div>
-
-                                                                <div className="ton-process">
-                                                                    <ul className="cdt-step-progressbar horizontal">
-                                                                        <li  className="active " style={{width: '20%'}}>
-                                                                            <span className="indicator"></span>
-                                                                            <span className="title">Công trình đầu tiên</span>
-                                                                        </li>
-                                                                        <li className="active " style={{width: '20%'}}>
-                                                                            <span className="indicator"></span>
-                                                                            <span className="title">100</span>
-                                                                        </li>
-                                                                        <li className="active fix-last-active" style={{width: '25%'}}>
-                                                                            <span className="indicator"></span>
-                                                                            <span className="title">200</span>
-                                                                        </li>
-                                                                        <li style={{width: '25%'}}>
-                                                                            <span className="indicator"></span>
-                                                                            <span className="title">350</span>
-                                                                        </li>
-                                                                        <li style={{width: '25%'}}>
-                                                                            <span className="indicator"></span>
-                                                                            <span className="title">500</span>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
                                                                 <div className="desc">
                                                                     <h4>Phần Thưởng</h4>
                                                                     <table>

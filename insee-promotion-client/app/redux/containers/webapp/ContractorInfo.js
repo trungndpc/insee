@@ -3,10 +3,13 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
-import { UserRole } from '../../../components/enum/UserRole'
+import { UserRole, RETAILER, CONTRUCTOR } from '../../../components/enum/UserRole'
 import { CustomerStatus } from '../../../components/enum/CustomerStatus'
 import { City } from '../../../data/Location'
 import { ContentSideBar } from '../../../components/layout/SideBar'
+import LoyaltyModel from '../../../model/LoyaltyModel'
+import LoyaltyBoard from '../../../components/layout/LoyaltyBoard'
+import { Link } from 'react-router-dom'
 const FollowWidget = React.lazy(() => import('../../../components/FollowWidget'));
 
 class ContractorInfo extends React.Component {
@@ -14,9 +17,15 @@ class ContractorInfo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showQRCode: false
+            showQRCode: false,
+            loyalty: null
         }
         this.toggleQRCode = this.toggleQRCode.bind(this)
+        this.loadLoyalty = this.loadLoyalty.bind(this)
+    }
+
+    componentDidMount() {
+        this.loadLoyalty()
     }
 
     toggleQRCode() {
@@ -25,9 +34,21 @@ class ContractorInfo extends React.Component {
         })
     }
 
+    loadLoyalty() {
+        LoyaltyModel.me()
+            .then(resp => {
+                if (resp.error == 0 && resp.data.length > 0) {
+                    this.setState({ loyalty: resp.data[0] })
+                }
+            })
+    }
+
+
+
     render() {
         const user = this.props.app.user;
         const contractor = user && user.customer;
+        const loyalty = this.state.loyalty;
         return (
             <div>
                 {this.state.showQRCode && <QRCodeModal outClick={this.toggleQRCode} user={user} />}
@@ -57,32 +78,20 @@ class ContractorInfo extends React.Component {
                                                                 </Suspense>
                                                             </div>
                                                         }
-                                                        <div className="central-meta">
-                                                            <div className="about">
-                                                                <div className="personal">
-                                                                    <h5 className="f-title">THÔNG TIN TÀI KHOẢN </h5>
-                                                                </div>
-                                                                {user &&
-                                                                    <table className="table table-responsive table-info-contractor">
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <th>Họ và tên</th>
-                                                                                <td>{user.name}</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <th>Vai trò</th>
-                                                                                <td>{UserRole.findByRoleId(user.roleId).getName()}</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <th>Mã giới thiệu</th>
-                                                                                <td onClick={this.toggleQRCode}>{user.referralCode}<i style={{ marginLeft: '10px' }} className="fa fa-qrcode"></i></td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                }
-                                                            </div>
-                                                        </div>
 
+                                                        {loyalty &&
+                                                            <div className="about loyalty-main">
+                                                                <div className="personal">
+                                                                    <div className="central-meta">
+                                                                        <LoyaltyBoard loyalty={loyalty} />
+                                                                        <div style={{textAlign: 'center'}}>
+                                                                            <Link to={'/khuyen-mai/' + loyalty.promotionId + '/loyalty'} style={{color: '#004085'}}>Xem chi tiết</Link>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        }
                                                         {contractor && <div className="central-meta">
                                                             <div className="about">
                                                                 <div className="personal">
@@ -91,10 +100,12 @@ class ContractorInfo extends React.Component {
                                                                 {contractor &&
                                                                     <table className="table table-responsive table-info-contractor">
                                                                         <tbody>
-                                                                            <tr>
-                                                                                <th>Nhà thầu</th>
-                                                                                <td>{contractor.fullName}</td>
-                                                                            </tr>
+                                                                            {user &&
+                                                                                <tr>
+                                                                                    <th>{user.roleId == CONTRUCTOR.getRoleId() ? 'Nhà thầu' : 'Cửa hàng'}</th>
+                                                                                    <td>{contractor.fullName}</td>
+                                                                                </tr>
+                                                                            }
                                                                             <tr>
                                                                                 <th>SDT</th>
                                                                                 <td>{contractor.phone}</td>
@@ -115,12 +126,6 @@ class ContractorInfo extends React.Component {
                                                                                     <td><span className="volume">{contractor.volumeCiment}</span> bao xi măng INSEE</td>
                                                                                 </tr>
                                                                             }
-                                                                            {/* {contractor.volumeCiment > 700 &&
-                                                                                <tr>
-                                                                                    <th>Chứng chỉ</th>
-                                                                                    <td className="ntx">Nhà thầu xanh</td>
-                                                                                </tr>
-                                                                            } */}
                                                                             {contractor && contractor.note &&
                                                                                 <tr>
                                                                                     <th>Ghi chú</th>
@@ -131,6 +136,12 @@ class ContractorInfo extends React.Component {
                                                                                 <tr>
                                                                                     <th>Điểm tích lũy</th>
                                                                                     <td>{contractor.point}</td>
+                                                                                </tr>
+                                                                            }
+                                                                            {user &&
+                                                                                <tr>
+                                                                                    <th>Mã giới thiệu</th>
+                                                                                    <td onClick={this.toggleQRCode}>{user.referralCode}<i style={{ marginLeft: '10px' }} className="fa fa-qrcode"></i></td>
                                                                                 </tr>
                                                                             }
                                                                         </tbody>
@@ -186,7 +197,7 @@ class QRCodeModal extends React.PureComponent {
         if (!this.imgRef.current.contains(target)) {
             if (!this.justInit) {
                 this.props.outClick && this.props.outClick();
-            }else {
+            } else {
                 this.justInit = false;
             }
         }

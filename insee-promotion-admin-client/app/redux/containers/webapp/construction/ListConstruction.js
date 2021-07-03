@@ -102,7 +102,10 @@ class ListConstruction extends Component {
                   <option value={APPROVED.getStatus()}>Đã duyệt</option>
                   <option value={REJECTED.getStatus()}>Đã từ chối</option>
                   <option value={SEND_GIFT.getStatus()}>Đã gửi quà</option>
-                  <option value={RECIEVED.getStatus()}>Đã nhận</option>
+                  <option value={RECIEVED.getStatus()}>Đã nhận quà</option>
+                  <option value={StatusConstruction.VERIFIRED.getStatus()}>Đã xác nhận</option>
+                  <option value={StatusConstruction.NEED_APPROVAL_AGAIN.getStatus()}>Chờ duyệt thêm</option>
+
                 </select>
               </li>
               <li>

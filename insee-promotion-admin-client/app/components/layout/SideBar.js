@@ -26,6 +26,9 @@ class SideBar extends Component {
                             <Link style={{color: pathname == '/match' && '#b71c1c'}} to={"/match"}>Bóng đá</Link>
                         </li>
                         <li>
+                            <Link style={{color: pathname == '/loyalty' && '#b71c1c'}} to={"/loyalty"}>Loyalty</Link>
+                        </li>
+                        <li>
                             <Link style={{color: pathname == '/introduction' && '#b71c1c'}} to={"/introduction"}>Giới thiệu thành viên</Link>
                         </li>
                         <li>
