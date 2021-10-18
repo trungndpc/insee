@@ -74,7 +74,7 @@ class ListCustomer extends Component {
             <ul>
               <li>
                 <label>Trạng thái</label>
-                <select onChange={this.onChangeStatus} value={this.state.type} class="form-control">
+                <select onChange={this.onChangeStatus} value={this.state.type} className="form-control">
                   <option value={0}>Tất cả</option>
                   <option value={NEED_REVIEW.getStatus()}>Chờ duyệt</option>
                   <option value={APPROVED.getStatus()}>Đã duyệt</option>
@@ -95,7 +95,7 @@ class ListCustomer extends Component {
                 <label>Tìm kiếm</label>
                 <div className="search-field">
                   <div className="search-field__input">
-                    <input onChange={this.onChangePhone} value={this.state.phone}  className="js-term search-field__input-field" type="search" placeholder="Phone" />
+                    <input onChange={this.onChangePhone} value={this.state.phone ? this.state.phone : ''}  className="js-term search-field__input-field" type="search" placeholder="Phone" />
                   </div>
                 </div>
               </li>

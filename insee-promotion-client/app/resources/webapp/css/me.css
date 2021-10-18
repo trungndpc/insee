@@ -22,10 +22,6 @@
     color: #fff;
 }
 
-.feature-photo figure img {
-    max-height: 300px;
-}
-
 .friend-name {
     padding-left: 0;
 }
@@ -105,35 +101,48 @@
     text-transform: initial;
     padding: 0 40px;
 }
+
+.btn-share {
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0px;
+    padding: 10px 0px;
+    display: inline-block;
+    width: 100%;
+    background-color: #fff;
+}
 .post .g-post-classic > figure {
     margin: 0;
 }
 
 .g-post-meta {
     padding: 0 5px;
+    font-size: 1.1rem;
 }
 .g-post-meta h4  {
     padding-top: 10px;
     margin: 0;
+    font-size: 100%;
 }
 .g-post-meta h4 a {
-    font-size: medium;
+    font-size: 100%;
     font-weight: 600;
     text-transform: uppercase;
 }
 
 .g-post-classic .summary-rules {
-    color: #175ba9;
-    font-size: 0.8rem;
+    color: #28a745;
+    font-size: 90%;
     margin-bottom: 5px;
     line-height: 15px;
 }
 
 .g-post-classic .post-summary {
-    font-size: 1.0rem;
+    font-size: 95%;
     padding: 10px 0px;
     margin: 0;
     line-height: 1.5;
+    color: #333;
 }
 
 .photos > li a img {
@@ -193,8 +202,8 @@
 }
 
 .empty-container p {
-    font-size: medium;
-    color: #212529;
+    font-size: 1.1rem;
+    color: #333;
 }
 
 .insee-input:focus {
@@ -213,19 +222,25 @@
     padding: revert;
 }
 
+.cke-content li span{ 
+    font-size: 1.1rem !important;
+}
+
 .table-info-contractor {
-    font-size: medium;
+    color: #333;
+    font-size: 1.15rem;
     display: table !important;
+    margin-bottom: 0 !important;
 }
 
 .table-info-contractor tbody th {
     padding: 12px 0px;
     font-size: 100%;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .table-info-contractor tbody td {
-    font-weight: 400;
+    font-weight: 500;
     font-size: 100%;
     text-align: right;
 }
@@ -234,3 +249,16 @@
     padding: 10px 0px;
 }
 
+.form-referral.note p {
+    font-size: 1rem;
+}
+
+.empty-loyalty-construction-container {
+    text-align: center;
+    padding: 50px 0px;
+}
+
+.empty-loyalty-construction-container h4 {
+    font-size: 1.1rem;
+    font-weight: 400;
+}

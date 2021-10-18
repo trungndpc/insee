@@ -197,7 +197,7 @@ class FormUpload extends React.Component {
         const type = promotion && TypeConstruction.findByType(promotion.typePromotion)
         return (
             <div>
-                <FormLayout {...this.props}>
+                <FormLayout className="whitepg" {...this.props}>
                     <span className="contact100-form-title">
                         {promotion && promotion.title}
                         <div className="line-bt" />

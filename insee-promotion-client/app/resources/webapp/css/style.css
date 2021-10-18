@@ -3,6 +3,8 @@
 
 html, body {
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    font-size: 95%;
+    min-height: 100vh;
 }
 
 body {
@@ -57,12 +59,6 @@ img {
     width: 100%;
 }
 
-section {
-    float: left;
-    position: relative;
-    width: 100%;
-}
-
 .gap {
     position: relative;
     width: 100%;
@@ -109,18 +105,12 @@ iframe {
 
 .feature-photo {
     display: block;
-    position: relative;
-    width: 100%;
 }
 
-.feature-photo > figure {
-    margin-bottom: 0;
+.feature-photo >  img {
+    height: 100px;
 }
 
-.feature-photo > figure img {
-    display: inline-block;
-    width: 100%;
-}
 
 .user-avatar {
     border: 5px solid rgba(255, 255, 255, 0.99);
@@ -129,9 +119,8 @@ iframe {
     overflow: hidden;
     position: absolute;
     bottom: 0;
-    width: 100px;
-    height: 100px;
-    z-index: 1000;
+    width: 75px;
+    height: 75px;
     margin-bottom: 10px;
 }
 
@@ -151,46 +140,25 @@ iframe {
 }
 
 .timeline-info {
-    background: #fff none repeat scroll 0 0;
-    display: block;
-    line-height: 59px;
-    width: 100%;
+    padding-top: 5px;
+    margin-left: 85px;
+    margin-right: 50px;
 }
 
-.timeline-info > ul {
-    display: inline-block;
-    list-style: outside none none;
-    margin-bottom: 0;
-    padding-left: 10px;
-    vertical-align: middle;
-    width: 100%;
-}
-
-.timeline-info > ul li {
-    display: inline-block;
-    position: relative;
-}
-
-.timeline-info .admin-name > span {
-    bottom: 14px;
-    color: #3a3a3a;
-    font-size: 0.9rem;
-    line-height: 5px;
-    position: absolute;
-    left: 0;
-}
-
-.timeline-info .admin-name > h5 {
-    color: #b71c1c;
-    display: inline-block;
-    font-size: 1.3rem;
+.timeline-info > .name {
     font-weight: 500;
-    margin-bottom: 0;
+    color: black;
+    font-size: 1.25rem;
+    line-height: 27px;
     vertical-align: super;
     overflow: hidden;
     white-space: nowrap;
 }
 
+.timeline-info > .loca {
+    font-size: 0.95rem;
+    line-height: 20px;
+}
 .sidebar {
     display: table;
     float: none;
@@ -264,15 +232,15 @@ iframe {
 }
 
 .f-title {
-    font-size: 1.0rem;
+    margin-bottom: 0px;
+    padding-bottom: 15px;
+    padding-top: 8px;
+    font-size: 1.15rem;
     font-weight: 500;
     text-transform: capitalize;
-    color: #424242;
-    margin-bottom: 20px;
-    margin-top: 10px;
+    color: #222;
     position: relative;
     display: inline-block;
-    width: 100%;
     text-align: left;
 }
 
@@ -327,19 +295,16 @@ iframe {
 }
 
 .post-title {
-    /* border-bottom: 1px solid #e0e0e0 !important; */
     display: inline-block;
-    /* margin-bottom: 15px; */
     padding-bottom: 15px;
     width: 100%;
 }
 
 .post-title > h4 {
-    font-size: 1.2rem;
     font-weight: 500;
     line-height: 26px;
     text-transform: capitalize;
-    color: #222;
+    font-size: 1em;
 }
 
 .post-title > h4 a {
@@ -349,7 +314,9 @@ iframe {
     -moz-transition: all 0.2s linear 0s;
     -ms-transition: all 0.2s linear 0s;
     -o-transition: all 0.2s linear 0s;
+    font-size: 100%;
     transition: all 0.2s linear 0s;
+    color: #333 !important;
 }
 
 .post-title .p-date {

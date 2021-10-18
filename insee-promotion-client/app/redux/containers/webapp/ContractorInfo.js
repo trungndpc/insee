@@ -116,7 +116,7 @@ class ContractorInfo extends React.Component {
                                                                             </tr>
                                                                             <tr>
                                                                                 <th>Trạng thái</th>
-                                                                                <td style={{ color: `${CustomerStatus.findByStatus(contractor.status).getColor()}` }}>
+                                                                                <td>
                                                                                     {CustomerStatus.findByStatus(contractor.status).getName()}
                                                                                 </td>
                                                                             </tr>
@@ -140,8 +140,8 @@ class ContractorInfo extends React.Component {
                                                                             }
                                                                             {user &&
                                                                                 <tr>
-                                                                                    <th>Mã giới thiệu</th>
-                                                                                    <td onClick={this.toggleQRCode}>{user.referralCode}<i style={{ marginLeft: '10px' }} className="fa fa-qrcode"></i></td>
+                                                                                    <th style={{color: '#28a745'}}>Mã giới thiệu</th>
+                                                                                    <td style={{color: '#28a745'}} onClick={this.toggleQRCode}>{user.referralCode}<i style={{ marginLeft: '10px' }} className="fa fa-qrcode"></i></td>
                                                                                 </tr>
                                                                             }
                                                                         </tbody>

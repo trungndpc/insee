@@ -6,7 +6,7 @@ import ApprovalConstructionModal from '../../../../components/modal/ApprovalCons
 import RejectConstructionModal from '../../../../components/modal/RejectConstructionModal'
 import * as ConstructionStatus from '../../../../components/enum/StatusConstruction'
 import ReactSelect from '../../../../components/layout/ReactSelect'
-import SendGiftModal from '../../../../components/modal/SendGiftModal'
+import GiftModal from '../../../../components/modal/gift/GiftModal'
 import AreYouSureModal from '../../../../components/modal/AreYouSureModal'
 import ClientNote from '../../../../components/enum/ClientNote'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
@@ -25,31 +25,19 @@ class ConstructionDetail extends Component {
       isCanApproval: true,
       errorMsg: null,
       isAreYouSureModal: false,
-      isSendingGift: false,
       isEditing: false,
       construction: this.props.construction
     }
     this.updateConstruction = this.updateConstruction.bind(this)
-    this._onClickOpenFormSendingGift = this._onClickOpenFormSendingGift.bind(this)
-    this._onCloseFormSendingGift = this._onCloseFormSendingGift.bind(this)
     this._onChangeInput = this._onChangeInput.bind(this)
     this._approval = this._approval.bind(this)
+    this.getConstruction = this.getConstruction.bind(this)
     this.isApproval = true;
-  }
-
-  _onClickOpenFormSendingGift() {
-    this.setState({ isSendingGift: true })
-  }
-
-  _onCloseFormSendingGift() {
-    this.setState({ isSendingGift: false })
   }
 
   componentDidMount() {
     this.props.appActions.getListLabel()
   }
-
-
 
   updateConstruction() {
     const construction = this.state.construction
@@ -80,6 +68,12 @@ class ConstructionDetail extends Component {
   _approval(is_approved) {
     is_approved ? (this.setState({ isOpenApprovalModal: true })) : (this.setState({ isOpenRejectModal: true }));
   }
+
+  getConstruction(constructionId) {
+    this.props.appActions.getConstruction(constructionId)
+  }
+
+
 
 
   render() {
@@ -166,20 +160,20 @@ class ConstructionDetail extends Component {
           </div>
           {this.state.errorMsg && <div className="errorMsg-right">{this.state.errorMsg}</div>}
           <div className="action-container">
-            <ui className="action-customer-detail">
+            <ul className="action-customer-detail">
               {status == ConstructionStatus.WAITING_APPROVAL && !construction.label &&
-                <li><Link onClick={() => { this.setState({ isAreYouSureModal: true }) }} className="add-butn">Cập nhật</Link></li>
+                <li><a onClick={() => { this.setState({ isAreYouSureModal: true }) }} className="add-butn">Cập nhật</a></li>
               }
               {status == ConstructionStatus.WAITING_APPROVAL &&
                 <div>
-                  <li><Link onClick={() => this._approval(true)} style={{ backgroundColor: '#2196F3' }} className="add-butn">Chấp nhận</Link></li>
-                  <li><Link onClick={() => this._approval(false)} style={{ backgroundColor: '#9E9E9E' }} className="add-butn">Không chấp nhận</Link></li>
+                  <li><a onClick={() => this._approval(true)} style={{ backgroundColor: '#2196F3' }} className="add-butn">Chấp nhận</a></li>
+                  <li><a onClick={() => this._approval(false)} style={{ backgroundColor: '#9E9E9E' }} className="add-butn">Không chấp nhận</a></li>
                 </div>
               }
               {construction && construction.status == ConstructionStatus.APPROVED.getStatus() &&
-                <li><Link onClick={this._onClickOpenFormSendingGift} className="add-butn">Gửi quà</Link></li>
+                <li><a onClick={() => {this.giftModalRef.open()}} className="add-butn">Gửi quà</a></li>
               }
-            </ui>
+            </ul>
           </div>
 
           {construction &&
@@ -195,12 +189,13 @@ class ConstructionDetail extends Component {
               onClose={() => { this.setState({ isOpenRejectModal: false }) }} />
           }
           {construction &&
-            <SendGiftModal {...this.props} 
+            <GiftModal
+              ref={e => this.giftModalRef = e}
               constructionId={construction.id}
               promotionId={construction.promotionId}
               customerId={construction.user.customerId}
-              isOpen={this.state.isSendingGift}
-              onClose={() => { this.setState({ isSendingGift: false }) }} />
+              callback={() => { this.getConstruction(construction.id) }}
+            />
           }
           <AreYouSureModal isOpen={this.state.isAreYouSureModal}
             onOK={this.updateConstruction}

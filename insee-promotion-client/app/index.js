@@ -25,12 +25,14 @@ import PredictFootbalPromotion from './redux/containers/promotion/PredictFootbal
 const UploadBillPromotion = React.lazy(() => import('./redux/containers/promotion/UploadBillPromotion'));
 const Register = React.lazy(() => import('../app/redux/containers/register/index'));
 const IntroConstructionPromotion = React.lazy(() => import('./redux/containers/promotion/IntroConstructionPromotion'));
+const StepOneHotline = React.lazy(() => import('./redux/containers/hotline/StepOneHotline'));
 
 import './resources/css/mobile/bootstrap.min.css';
 import './resources/css/mobile/main.css';
 import './resources/css/mobile/me.css';
 import Gift from './redux/containers/gift'
 import Loyalty from './redux/containers/webapp/Loyalty';
+import Share from './redux/containers/webapp/Share';
 
 const store = configureStore()
 
@@ -85,6 +87,11 @@ function APP() {
           <Loyalty />
         </Suspense>
       </Route>
+      <Route path="/khuyen-mai/:promotionId/gioi-thieu-thanh-vien">
+        <Suspense fallback={<ModuleLoading />}>
+          <Share />
+        </Suspense>
+      </Route>
       <Route path="/khuyen-mai/:promotionId/up-hoa-don-nha-qua">
         <Suspense fallback={<ModuleLoading />}>
           <UploadBillPromotion />
@@ -95,6 +102,11 @@ function APP() {
       </Route>
       <Route path="/khuyen-mai" >
         <Promotion />
+      </Route>
+      <Route path="/hotline">
+        <Suspense fallback={<ModuleLoading />}>
+          <StepOneHotline />
+        </Suspense>
       </Route>
       <Route path="/chuc-mung/:giftId">
         <Gift />

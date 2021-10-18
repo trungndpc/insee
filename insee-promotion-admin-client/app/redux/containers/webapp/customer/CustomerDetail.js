@@ -11,6 +11,7 @@ import DateTimeUtil from '../../../../utils/DateTimeUtil'
 import AreYouSureModal from '../../../../components/modal/AreYouSureModal'
 import { TypeCustomer, CONTRUCTOR, RETAILER } from '../../../../components/enum/TypeCustomer'
 import LoyaltyModel from '../../../../model/LoyaltyModel';
+import GiftModal from '../../../../components/modal/gift/GiftModal';
 
 class CustomerDetail extends Component {
 
@@ -22,8 +23,9 @@ class CustomerDetail extends Component {
       isDeleteUserModal: false,
       isEditing: false,
       loyalty: null,
-      tab: location.hash.substr(1) ? location.hash.substr(1) : 1
+      tab: location.hash.substr(1) ? location.hash.substr(1) : 1,
     }
+    this.giftLoyaltyModalRef = null;
     this._onClickOpenApprovalModal = this._onClickOpenApprovalModal.bind(this)
     this._onCloseApprovalModal = this._onCloseApprovalModal.bind(this)
     this._onClickOpenRejectModal = this._onClickOpenRejectModal.bind(this)
@@ -33,10 +35,15 @@ class CustomerDetail extends Component {
     this.deleteCustomer = this.deleteCustomer.bind(this)
     this.onClickSave = this.onClickSave.bind(this)
     this.getLoyalty = this.getLoyalty.bind(this)
+    this._openGiftModalForLoyalty = this._openGiftModalForLoyalty.bind(this)
   }
 
   _onClickOpenApprovalModal() {
     this.setState({ isOpenApprovalModal: true })
+  }
+
+  _openGiftModalForLoyalty() {
+    this.giftLoyaltyModalRef && this.giftLoyaltyModalRef.open()
   }
 
   _onClickOpenRejectModal() {
@@ -94,6 +101,7 @@ class CustomerDetail extends Component {
     }
     const status = customer && CustomerStatusEnum.findByStatus(customer.status);
     const type = customer && TypeCustomer.findByType(customer.user.roleId)
+    const loyalty = this.state.loyalty && this.state.loyalty[0];
     return (
       <div className="loadMore">
         <div className="m-content">
@@ -140,31 +148,31 @@ class CustomerDetail extends Component {
                         </td>
                       }
                     </tr>
-                    {this.state.loyalty && this.state.loyalty[0] &&
+                    {loyalty &&
                       <tr>
                         <th>Tích lũy</th>
-                        <td>{this.state.loyalty[0].ton / 1000} (tấn)</td>
+                        <td>{loyalty.ton / 1000} (tấn)</td>
                       </tr>
                     }
-
                   </tbody>
                 </table>
               }
             </div>
           </div>
           <div className="action-container">
-            <ui className="action-customer-detail">
-              {status && status.getStatus() == NEED_REVIEW.getStatus() && <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Chấp nhận</Link></li>}
-              {status && status.getStatus() == NEED_REVIEW.getStatus() && <li><Link onClick={this._onClickOpenRejectModal} className="add-butn" data-ripple>Từ chối</Link></li>}
-              <li><Link onClick={this._onClickOpenDeleteModal} style={{ backgroundColor: '#9E9E9E' }} className="add-butn" data-ripple>Delete</Link></li>
-            </ui>
+            <ul className="action-customer-detail">
+              {status && status.getStatus() != NEED_REVIEW.getStatus() && loyalty && loyalty.moneyCanSend >= 20000 && <li><a onClick={this._openGiftModalForLoyalty} className="add-butn" >Gửi quà tặng</a></li>}
+              {status && status.getStatus() == NEED_REVIEW.getStatus() && <li><a onClick={this._onClickOpenApprovalModal} className="add-butn" >Chấp nhận</a></li>}
+              {status && status.getStatus() == NEED_REVIEW.getStatus() && <li><a onClick={this._onClickOpenRejectModal} className="add-butn" >Từ chối</a></li>}
+              <li><a onClick={this._onClickOpenDeleteModal} style={{ backgroundColor: '#9E9E9E' }} className="add-butn" >Xóa</a></li>
+            </ul>
           </div>
 
           {status && status.getStatus() == REJECTED.getStatus() &&
             <div className="action-container">
-              <ui className="action-customer-detail">
-                <li><Link onClick={this._onClickOpenApprovalModal} className="add-butn" data-ripple>Chấp nhận</Link></li>
-              </ui>
+              <ul className="action-customer-detail">
+                <li><a onClick={this._onClickOpenApprovalModal} className="add-butn" >Chấp nhận</a></li>
+              </ul>
             </div>
           }
 
@@ -173,22 +181,20 @@ class CustomerDetail extends Component {
               <div className="about">
                 <div className="personal">
                   <ul className="tab-construction">
-                    <li onClick={() => { this.setState({ tab: 1 }) }} className={this.state.tab == 1 && 'active'}>Công trình</li>
-                    <li onClick={() => { this.setState({ tab: 2 }) }} className={this.state.tab == 2 && 'active'}>Loyalty</li>
+                    <li onClick={() => { this.setState({ tab: 1 }) }} className={this.state.tab == 1 ? 'active' : ''}>Công trình</li>
+                    <li onClick={() => { this.setState({ tab: 2 }) }} className={this.state.tab == 2 ? 'active' : ''}>Loyalty</li>
                   </ul>
                 </div>
                 <div className="col-lg-12 col-sm-12 pading0">
                   <table className="table">
                     <thead className=" insee-color">
                       <tr className="insee-color">
-                        <th scope="col">STT</th>
-                        <th scope="col">Công trình</th>
-                        {this.state.tab == 2 &&
-                          <th scope="col">Số bao</th>
-                        }
-                        <th scope="col">Tình trạng</th>
-                        <th scope="col">Thời gian</th>
-                        <td></td>
+                        <th >STT</th>
+                        <th >Công trình</th>
+                        {this.state.tab == 2 &&<th style={{width: '80px'}}>Số bao</th>}
+                        <th style={{width: '110px'}}>Tình trạng</th>
+                        <th style={{width: '120px'}}>Thời gian</th>
+                        <th style={{width: '100px'}}></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -198,14 +204,10 @@ class CustomerDetail extends Component {
                           <tr key={index}>
                             <th scope="row">{index + 1}</th>
                             <td>{item.address}</td>
-                            {this.state.tab == 2 &&
-                              <td>{item.quantity}</td>
-                            }
+                            {this.state.tab == 2 &&<td>{item.quantity}</td>}
                             <td>{status}</td>
                             <td>{DateTimeUtil.diffTime(item.updatedTime)}</td>
-                            <td>
-                              <Link to={`/construction/${item.id}`} className="add-butn" data-ripple>Chi tiết</Link>
-                            </td>
+                            <td><Link to={`/construction/${item.id}`} className="add-butn" >Chi tiết</Link></td>
                           </tr>
                         )
                       })}
@@ -224,6 +226,14 @@ class CustomerDetail extends Component {
             <RejectCustomerModal {...this.props} id={customer.id} isOpen={this.state.isOpenRejectModal} onClose={this._onCloseRejectModal} />
           }
           <AreYouSureModal isOpen={this.state.isDeleteUserModal} onOK={this.deleteCustomer} onClose={this._onCloseDeleteModal} />
+          {loyalty && <GiftModal
+            ref={e => this.giftLoyaltyModalRef = e}
+            customerId={this.props.customerId}
+            promotionId={loyalty.promotionId}
+            loyaltyId={loyalty.id}
+            maxValue={loyalty.moneyCanSend / 1000}
+            callback={this.getLoyalty}/>
+          }
 
         </div>
       </div>

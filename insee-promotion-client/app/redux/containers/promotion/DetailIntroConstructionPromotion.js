@@ -10,7 +10,7 @@ class DetailIntroConstructionPromotion extends React.Component {
 
     render() {
         return (
-            <FormLayout {...this.props}>
+            <FormLayout className="whitepg" {...this.props}>
                 <span className="contact100-form-title">
                     Hoàn tất
                     <div className="line-bt" />

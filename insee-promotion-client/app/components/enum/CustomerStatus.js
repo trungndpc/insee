@@ -23,7 +23,7 @@ export class CustomerStatus{
         switch(this.status) {
             case 1 : return '#b71c1c';
             case 3 : return '#778899';
-            case 2 : return '#088dcd';
+            case 2 : return '#28a745';
             default: return null;
         }
     }

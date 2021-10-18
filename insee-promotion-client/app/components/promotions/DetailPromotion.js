@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { withRouter } from "react-router";
-import {
-    Link,
-} from "react-router-dom";
-import { TypePromotion } from '../../components/enum/TypePromotion'
-import { UserRole, CONTRUCTOR } from '../../components/enum/UserRole'
-
+import { LOYALTY, SHARE_LINK_REGISTRY, TypePromotion } from '../../components/enum/TypePromotion'
+import { CONTRUCTOR } from '../../components/enum/UserRole'
+import WebUtil from '../../utils/WebUtil'
+import PromotionModel from '../../model/PromotionModel'
 
 class DetailPromotion extends Component {
     constructor(props) {
@@ -14,7 +12,9 @@ class DetailPromotion extends Component {
             showPopupModal: false
         }
         this.toggleModal = this.toggleModal.bind(this)
-        this.click2Form = this.click2Form.bind(this)
+        this.viewDetail = this.viewDetail.bind(this)
+        this.onClickDetail = this.onClickDetail.bind(this)
+        this.openZaloFormShare = this.openZaloFormShare.bind(this)
     }
 
     componentDidMount() {
@@ -22,20 +22,18 @@ class DetailPromotion extends Component {
         this.props.appActions.getPromotionById(postId);
     }
 
-
-
     toggleModal() {
         this.setState({
             showPopupModal: !this.state.showPopupModal
         })
     }
 
-    click2Form() {
+    viewDetail() {
         const user = this.props.app.user;
         if (user.roleId == CONTRUCTOR.getRoleId()) {
             const promotion = this.props.app.promotion;
             const one = promotion && promotion.one;
-            let url = TypePromotion.getLink2Form(one.typePromotion, one.id)
+            let url = TypePromotion.getLink2Detail(one.typePromotion, one.id)
             this.props.history.push(url)
         } else {
             this.setState({
@@ -44,10 +42,38 @@ class DetailPromotion extends Component {
         }
     }
 
+    onClickDetail() {
+        const promotion = this.props.app.promotion;
+        const one = promotion && promotion.one;
+        if (one.typePromotion == LOYALTY.type) {
+            PromotionModel.startZaloBot(one.id)
+            .then(resp => {
+                if (resp.error == 0 && resp.data) {
+                    window.location.href = "https://zalo.me/" + resp.data;
+                }else {
+                    this.viewDetail()
+                }
+            })
+        }else {
+            this.viewDetail()
+        }
+    }
+
+    openZaloFormShare() {
+        const user = this.props.app.user;
+        let url = process.env.DOMAIN + '/vung-xay-cuoc-song?typeInapp=1&code=' + user.referralCode;
+        let urlEncoded = encodeURIComponent(url)
+        if (WebUtil.isOSDevice()) {
+            window.location.href = "zaloshareext://shareext?url=" + urlEncoded + "&type=8&version=1"
+        } else {
+            window.location.href = "intent://zaloapp.com/#Intent;action=android.intent.action.SEND;type=text/plain;S.android.intent.extra.SUBJECT=;S.android.intent.extra.TEXT=" + urlEncoded + ";B.hidePostFeed=false;B.backToSource=true;end"
+        }
+    }
 
     render() {
         const promotion = this.props.app.promotion;
         const one = promotion && promotion.one;
+        const type = one && one.typePromotion;
         return (
             <div className="loadMore">
                 {this.state.showPopupModal && <InformModal outClick={this.toggleModal} />}
@@ -56,16 +82,31 @@ class DetailPromotion extends Component {
                         <div className="friend-info">
                             <div className="post-meta">
                                 <img src={one && one.cover} alt="" />
-                                <div className="description cke-content">
-                                    <div dangerouslySetInnerHTML={{ __html: `${one && one.content}` }}>
+                                {one &&
+                                    <div className="description cke-content">
+                                        <div dangerouslySetInnerHTML={{ __html: `${one.content}` }}>
+                                        </div>
                                     </div>
-                                </div>
-                                <div style={{ textAlign: 'center' }}>
-                                    {one && <Link onClick={this.click2Form} >
-                                        <button className="btn-insee btn-insee-bg post-btn">Tham gia ngay</button>
-                                    </Link>
-                                    }
-                                </div>
+                                }
+                                {type && type != SHARE_LINK_REGISTRY.type &&
+                                    <div style={{ textAlign: 'center' }}>
+                                        {one && <a onClick={this.onClickDetail} >
+                                            <button className="btn-insee btn-insee-bg post-btn">Tham gia ngay</button>
+                                        </a>
+                                        }
+                                    </div>
+                                }
+                                {type && type == SHARE_LINK_REGISTRY.type &&
+                                    <div style={{ textAlign: 'center' }}>
+                                        {one &&
+                                            <div className="btn-share">
+                                                <a onClick={this.openZaloFormShare}>
+                                                    <button className="btn-insee btn-insee-bg post-btn">Giới thiệu thầu</button>
+                                                </a>
+                                            </div>
+                                        }
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>

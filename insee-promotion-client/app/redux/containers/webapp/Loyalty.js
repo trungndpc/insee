@@ -43,8 +43,9 @@ class Loyalty extends React.Component {
                                                     <div className="central-meta">
                                                         <div className="about">
                                                             <div className="personal">
-                                                                <h5 className="f-title" style={{paddingBottom: '0px'}}>CHƯƠNG TRÌNH TÍCH LŨY</h5>
-                                                                <div className="line-bt" />
+                                                                {/* <h5 className="f-title" style={{paddingBottom: '0px'}}>CHƯƠNG TRÌNH TÍCH LŨY</h5> */}
+                                                                {/* <div className="line-bt" /> */}
+                                                                {!loyalty && <div className="empty-loyalty-construction-container"><h4>Anh chưa có công trình tham gia</h4></div>}
                                                                 {loyalty && <LoyaltyBoard loyalty={loyalty} /> }
 
                                                                 <div className="desc">

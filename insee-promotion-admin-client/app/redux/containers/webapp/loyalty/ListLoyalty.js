@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import { GiftStatus, WAITING_RECEIVE, RECEIVED, ROLLED, WAITING_SENT } from '../../../../components/enum/GiftStatus'
 import LoyaltyModel from '../../../../model/LoyaltyModel';
-import DateTimeUtil from '../../../../utils/DateTimeUtil'
 import { Pagination } from 'antd';
 import {
   Link,
@@ -19,15 +17,15 @@ class ListLoyalty extends Component {
       page_loyalty: null
     }
     this.getList = this.getList.bind(this)
-
+    this._onChangePage = this._onChangePage.bind(this)
   }
 
   componentDidMount() {
-    this.getList(this.state.page - 1, this.state.pageSize)
+    this.getList(this.state.page, this.state.pageSize)
   }
 
   getList(page, pageSize) {
-    LoyaltyModel.getList(page, pageSize)
+    LoyaltyModel.getList(page - 1, pageSize)
       .then(resp => {
         if (resp.error == 0) {
           this.setState({
@@ -36,6 +34,13 @@ class ListLoyalty extends Component {
         }
       })
   }
+
+  _onChangePage(pageNumber, pageSize) {
+    this.getList(pageNumber, this.state.pageSize)
+    this.setState({ page: pageNumber })
+  }
+
+
 
 
   render() {
@@ -50,11 +55,12 @@ class ListLoyalty extends Component {
                   <table className="table">
                     <thead className=" insee-color">
                       <tr className="insee-color">
-                        <th scope="col">STT</th>
-                        <th scope="col">Thầu</th>
-                        <th scope="col">Tỉnh</th>
-                        <th scope="col">Tích lũy (tấn)</th>
-                        <th scope="col"></th>
+                        <th >STT</th>
+                        <th >Thầu</th>
+                        <th >Tỉnh</th>
+                        <th >Tích lũy (tấn)</th>
+                        <th >Trạng Thái</th>
+                        <th ></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -65,6 +71,7 @@ class ListLoyalty extends Component {
                             <td>{item.customer.fullName}</td>
                             <td>{City.getName(item.customer.mainAreaId)}</td>
                             <td>{item.ton / 1000}</td>
+                            <td >{item.moneyCanSend >= 20000 ? <span style={{color: '#b71c1c'}}>Có thể gửi quà</span> : 'Chưa thể gửi quà'}</td>
                             <td><Link to={`/customer/${item.customer.id}`} className="add-butn" data-ripple>Chi tiết</Link></td>
                           </tr>
                         )

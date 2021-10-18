@@ -19,11 +19,7 @@
     #people-list figure {
         width: 14.7%;
     }
-    .photos > li {
-        min-width: 211px;
-        width: 211px;
-    }
-    
+
     .page-infos > span {
         font-weight: 600;
     }
@@ -43,10 +39,7 @@
         bottom: -17px;
     }
     .videobg-meta{left: 400px;}
-    .photos > li {
-        min-width: 177px;
-        width: 177px;
-    }
+    
     .sidebar .widget ul.recent-photos li {
         width: 31.9%;
     }
@@ -80,10 +73,7 @@
 }
 
 @media screen and (max-width: 1281px) and (min-width: 1024px) {
-    .photos > li {
-        min-width: 32.2%;
-        width: 32.2%;
-    }
+    
     .timeline-info {
         line-height: 51px;
     }
@@ -215,10 +205,7 @@
         min-width: 48.8%;
         max-width: 48.8%;
     }
-    .photos > li {
-        min-width: 210px;
-        width: 210px;
-    }
+    
     .inbox-sec {
         margin-left: 0;
     }
@@ -251,10 +238,7 @@
         top: auto;
         left: 0 !important;
     }
-    .photos > li {
-        min-width: 31.9%;
-        width: 31.9%;
-    }
+ 
     .edit-phto {
         left: 218px !important;
     }
@@ -438,10 +422,7 @@
         min-width: 32.5%;
         max-width: 32.5%;
     }
-    .photos > li {
-        min-width: 24%;
-        width: 24%;
-    }
+   
     .inbox-sec {
         margin-left: 0;
         margin-bottom: 50px;

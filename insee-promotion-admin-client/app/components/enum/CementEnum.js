@@ -27,6 +27,9 @@ export function findById(id) {
         case 14: return TILE_GROUT_ULTRA;
         case 15: return TILEFIX_PLUS_25KG;
         case 16: return TILEFIX_PLUS_5KG;
+        case 17: return FLEX_SHIELD_5KG;
+        case 18: return FLEX_SHIELD_18KG;
+        case 19: return TILEGROUT_NANO;
     }
 }
 
@@ -34,7 +37,7 @@ export function getList() {
     return [POWERS, WALL_PRO, LAVILLA_EXTRA_CC40, EXTRA_DURABLE_HOUSING, 
         POWER_FAST, QUICK_CAST, STABLE_SOIL, COMPACT_ROCK, EXTRA_DURABLE, 
         MASS_POUR, EASY_FLOW, POWER_CAST, PITU_FILL,TILE_GROUT_ULTRA,
-        TILEFIX_PLUS_25KG, TILEFIX_PLUS_5KG]
+        TILEFIX_PLUS_25KG, TILEFIX_PLUS_5KG, FLEX_SHIELD_5KG, FLEX_SHIELD_18KG, TILEGROUT_NANO]
 }
 
 export function getOption() {
@@ -60,3 +63,8 @@ export const PITU_FILL = new CementEnum(13, "INSEE Pitu Fill ", 2);
 export const TILE_GROUT_ULTRA = new CementEnum(14, "INSEE TileGrout Ultra+",2);
 export const TILEFIX_PLUS_25KG = new CementEnum(15, "INSEE TileFix Plus 25kg", 2);
 export const TILEFIX_PLUS_5KG = new CementEnum(16, "INSEE TileFix Plus 5kg", 2)
+
+export const FLEX_SHIELD_5KG = new CementEnum(17, "INSEE Flex Shield 5kg", 2)
+export const FLEX_SHIELD_18KG = new CementEnum(18, "INSEE Flex Shield 18kg", 2)
+export const TILEGROUT_NANO = new CementEnum(19, "INSEE TileGrout NANO", 2)
+

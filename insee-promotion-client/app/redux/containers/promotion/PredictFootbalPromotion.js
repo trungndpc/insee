@@ -77,7 +77,7 @@ class PredictFootbalPromotion extends React.Component {
         let isKg = window.location.pathname.includes('/du-doan-ket-qua-bong-da/kq');
         return (
             <div>
-                <WebAppLayout {...this.props}>
+                <WebAppLayout className="whitepg" {...this.props}>
                     <section>
                         <div className="gap gray-bg">
                             <div className="container">

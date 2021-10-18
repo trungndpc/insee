@@ -2,17 +2,15 @@ import React, { Component } from 'react'
 import {
   Link,
 } from "react-router-dom";
-import { match } from 'sinon';
 import MatchModel from '../../../../model/MatchModel'
 import PredictModel from '../../../../model/PredictModel'
 import { MatchStatus, PROCESSING, DONE } from '../../../../components/enum/MatchStatus'
 import DateTimeUtil from '../../../../utils/DateTimeUtil';
 import { PredictStatus, SUCCESS } from '../../../../components/enum/PredictStatus';
 import AreYouSureModal from '../../../../components/modal/AreYouSureModal'
-import SendGiftModal from '../../../../components/modal/SendGiftModal'
+import GiftModal from '../../../../components/modal/gift/GiftModal'
 import AlertUtils from '../../../../utils/AlertUtils';
 import { Pagination } from 'antd';
-import PromotionModel from '../../../../model/PromotionModel';
 
 class MatchDetail extends Component {
 
@@ -24,8 +22,6 @@ class MatchDetail extends Component {
       page_predict: null,
       isUpdateResultModal: false,
       msg: null,
-      predict_to_send_gift: null,
-      isSendingGift: false,
       page: 1,
       pageSize: 10
     }
@@ -51,6 +47,14 @@ class MatchDetail extends Component {
       })
   }
 
+  onClickSendGift(predict) {
+    this.giftModalRef && this.giftModalRef.open({
+      promotionId: predict.seasonId,
+      predictId: predict.id,
+      customerId: predict.customer.id
+    });
+  }
+
   getListPredict(id, page, pageSize) {
     PredictModel.find(id, page - 1, pageSize)
       .then(resp => {
@@ -73,10 +77,6 @@ class MatchDetail extends Component {
     }
 
     this.setState({ isUpdateResultModal: true })
-  }
-
-  onClickSendGift(predict) {
-    this.setState({predict_to_send_gift: predict, isSendingGift: true})
   }
 
   updateResult() {
@@ -146,26 +146,25 @@ class MatchDetail extends Component {
             {this.state.msg && <p style={{ color: 'red' }}>{this.state.msg}</p>}
           </div>
           <div className="action-container">
-            <ui className="action-customer-detail">
+            <ul className="action-customer-detail">
               {status && status.id == PROCESSING.id && <li><Link onClick={this.onClickUpdateResultModal} className="add-butn">Cập nhật kết quả</Link></li>}
-            </ui>
+            </ul>
           </div>
           <div className="central-meta">
             <div className="about">
               <div className="personal">
-                <h5 className="f-title">Danh sách các nhà thầu đã tham gia</h5>
+                <h5 className="f-title">Danh sách dự đoán</h5>
               </div>
               <div className="col-lg-12 col-sm-12 pading0">
                 <table className="table">
                   <thead className=" insee-color">
                     <tr className="insee-color">
-                      <th scope="col">ID</th>
-                      <th scope="col">Nhà thầu</th>
-                      <th scope="col">Dự đoán</th>
-                      <th scope="col">Kết quả</th>
-                      <th scope="col">Thời gian</th>
-                      <th scope="col"></th>
-
+                      <th>ID</th>
+                      <th>Nhà thầu</th>
+                      <th>Dự đoán</th>
+                      <th>Kết quả</th>
+                      <th>Thời gian</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -178,7 +177,7 @@ class MatchDetail extends Component {
                           <td>{`${item.teamOneScore} - ${item.teamTwoScore}`}</td>
                           <td>{predictStatus.name}</td>
                           <td>{DateTimeUtil.diffTime(item.updatedTime)}</td>
-                          <td>{predictStatus == SUCCESS && <Link onClick={() => {this.onClickSendGift(item)}} className="add-butn">Gửi quà</Link>}</td>
+                          <td>{predictStatus == SUCCESS && <a onClick={() => { this.onClickSendGift(item) }} className="add-butn">Gửi quà</a>}</td>
                         </tr>
                       )
                     }.bind(this))}
@@ -186,27 +185,22 @@ class MatchDetail extends Component {
                 </table>
               </div>
             </div>
-            {page_predict && 
-            <div className="paging-container">
-              <Pagination defaultCurrent={1} current={this.state.page} total={page_predict.totalPage * page_predict.pageSize} onChange={this.onChangePage} />
-            </div>
+            {page_predict &&
+              <div className="paging-container">
+                <Pagination defaultCurrent={1} current={this.state.page} total={page_predict.totalPage * page_predict.pageSize} onChange={this.onChangePage} />
+              </div>
             }
           </div>
           <AreYouSureModal isOpen={this.state.isUpdateResultModal}
             onOK={this.updateResult}
             onClose={() => this.setState({ isUpdateResultModal: false })} />
 
-          {this.state.predict_to_send_gift && 
-          <SendGiftModal {...this.props} 
-              promotionId={this.state.predict_to_send_gift.seasonId}
-              predictId={this.state.predict_to_send_gift.id}
-              customerId={this.state.predict_to_send_gift.customer.id}
-              isOpen={this.state.isSendingGift}
-              onClose={() => { 
-                this.getListPredict(this.props.matchId, this.state.page, this.state.pageSize)
-                this.setState({ isSendingGift: false }) 
-              }} />
-          }
+          <GiftModal
+            ref={e => this.giftModalRef = e}
+            callback={() => {
+              this.getListPredict(this.props.matchId, this.state.page, this.state.pageSize)
+            }}
+            />
         </div>
       </div>
     )

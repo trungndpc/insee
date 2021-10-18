@@ -51,7 +51,7 @@ class ReferralCodeStep extends Component {
 
     render() {
         return (
-            <FormLayout {...this.props} copyright={true}>
+            <FormLayout {...this.props} className="whitepg" copyright={true}>
                 <span className="contact100-form-title">Mã giới thiệu<div className="line-bt" /> </span>
                 <div style={{ marginTop: '40%' }}>
                     <div className="form-container form-referral">

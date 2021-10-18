@@ -3341,9 +3341,7 @@ nav.breadcrumb {
 
 .photos > li {
     display: inline-block;
-    min-width: 32.2%;
-    width: 32.2%;
-    margin: 0 1.3px;
+    margin-right: 10px;
 }
 
 .photos > li:hover a img {
@@ -3353,11 +3351,6 @@ nav.breadcrumb {
 .photos > li a {
     display: inline-block;
     overflow: hidden;
-    width: 100%;
-}
-
-.photos > li a img {
-    width: 100%;
 }
 
 .strip {
@@ -3770,15 +3763,15 @@ a.add-butn.more-action {
 }
 
 .f-title {
-    font-size: 17.5px;
+    font-size: 1.1em;
     font-weight: 500;
     text-transform: capitalize;
     color: #424242;
-    margin-bottom: 20px;
     padding-bottom: 20px;
     position: relative;
     display: inline-block;
-	width: 100%
+    width: 100%;
+    margin: 0;
 }
 
 .f-title::before {

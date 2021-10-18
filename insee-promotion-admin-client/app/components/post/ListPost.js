@@ -5,7 +5,6 @@ import {
 import { StatusPost } from '../enum/StatusPost'
 import DateTimeUtil from '../../utils/DateTimeUtil'
 import { City } from '../../data/Location'
-import { Pagination } from 'antd';
 import AreYouSureModal from '../modal/AreYouSureModal'
 
 class ListPost extends React.PureComponent {
@@ -62,16 +61,16 @@ class ListPost extends React.PureComponent {
                                                     </ul>
                                                     <ul>
                                                         <span style={{marginRight: '5px'}} className="fas fa-map-marker-alt"></span>
-                                                        {item.location.map(function(id) {
+                                                        {item.location.map(function(id, k) {
                                                             return (
-                                                                <li>{City.getName(id)}</li>
+                                                                <li key={k}>{City.getName(id)}</li>
                                                             )  
                                                         })}
                                                     </ul>
                                                 </div>
                                                 <div className="col-md-2 action">
                                                     <Link to={`/post/${item.id}`} className="add-butn post-btn">Chi tiết</Link>
-                                                    <Link onClick={() => {this.clickDelete(item.id)}} style={{backgroundColor: '#d9d9d9'}} className="add-butn post-btn" >Xóa</Link>
+                                                    <a onClick={() => {this.clickDelete(item.id)}} style={{backgroundColor: '#d9d9d9'}} className="add-butn post-btn" >Xóa</a>
                                                 </div>
 
                                             </div>

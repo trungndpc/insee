@@ -109,14 +109,14 @@ class GiftDetail extends Component {
           </div>
 
           <div className="action-container">
-            <ui className="action-customer-detail">
-              {gift && gift.status == WAITING_SENT.getStatus() &&
+            <ul className="action-customer-detail">
+              {/* {gift && gift.status == WAITING_SENT.getStatus() &&
                 <li><Link onClick={() => { this.setState({ isAreYouSureModal: true }) }} className="add-butn">Xác nhận đã chuyển quà</Link></li>
-              }
-              {gift && gift.status == WAITING_RECEIVE.getStatus() &&
+              } */}
+              {/* {gift && gift.status == WAITING_RECEIVE.getStatus() &&
                 <li><Link onClick={() => { this.setState({ isConfirmReceivedModal: true }) }} className="add-butn">Xác nhận đã nhận</Link></li>
-              }
-            </ui>
+              } */}
+            </ul>
           </div>
           <AreYouSureModal isOpen={this.state.isAreYouSureModal} onOK={this.send} onClose={() => { this.setState({ isAreYouSureModal: false }) }} />
           <AreYouSureModal isOpen={this.state.isConfirmReceivedModal} onOK={this.received} onClose={() => { this.setState({ isConfirmReceivedModal: false }) }} />

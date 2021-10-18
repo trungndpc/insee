@@ -35,48 +35,34 @@ class WebAppLayout extends Component {
 
   render() {
     const account = this.props.app.user;
-    const contractor = account && account.customer;
-    const certificate = contractor && contractor.volumeCiment > 700
     return (
-      <div className="theme-layout">
+      <div className="layout-container">
         <section style={{ zIndex: 50 }}>
           <div className="feature-photo">
-            <figure><img className="responsive" style={{ objectFit: 'cover' }} src={require('../../resources/images/banner.jpg')} alt="" /></figure>
+            <img className="responsive" style={{ objectFit: 'cover' }} src={require('../../resources/images/banner.jpg')} />
             <div className="container-fluid">
-              <div className="row merged">
-                <div className="col-avatar">
-                  <div className="user-avatar">
-                    <figure>
-                      <img src={account && account.avatar} alt="" />
-                    </figure>
-                  </div>
-                </div>
-                <div className="col-name">
-                  <div className="timeline-info">
-                    <ul>
-                      <li className="admin-name">
-                        <h5>{account && account.name}</h5>
-                        {contractor && <span>{City.getName(contractor.mainAreaId)}</span>}
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div className="col-menu">
-                  <i onClick={this._toggleMenuBar} className="fa fa-bars icon-bar " aria-hidden="true"></i>
-                </div>
+              <div className="user-avatar">
+                <img src={account && account.avatar} />
+              </div>
+              <div className="timeline-info">
+                <p className="name">{account && account.fullName}</p>
+                {account && <p className="loca"><i className="fa fa-map-marker"></i>{`${City.getName(account.mainAreaId)}`}</p>}
+              </div>
+              <div className="col-menu">
+                <i onClick={this._toggleMenuBar} className="fa fa-bars icon-bar " aria-hidden="true"></i>
               </div>
             </div>
             <div>
             </div>
           </div>
         </section>
-        {contractor && contractor.status == 2 &&
+        {account && account.status == 2 &&
           <div id="main-menu" className={`topnav  ${this.state.isShowMobileBar ? 'showmenu' : ''}`}>
             <ContentSideBar onClickToLink={this._onClickToLink} />
           </div>
         }
-        {contractor && contractor.status != 2 && <div style={{ textAlign: 'center', marginTop: '250px' }}>Vui lòng chờ xác nhận</div>}
-        {contractor && contractor.status == 2 && this.props.children}
+        {account && account.status != 2 && <div style={{ textAlign: 'center', marginTop: '200px' }}>Vui lòng chờ xác nhận</div>}
+        {account && account.status == 2 && this.props.children}
       </div>
     )
   }

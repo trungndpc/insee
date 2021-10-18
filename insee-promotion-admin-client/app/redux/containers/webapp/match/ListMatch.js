@@ -66,6 +66,7 @@ class ListMatch extends Component {
                 <select onChange={this._onChangeSeason} className="form-control">
                   <option value={1}>Vòng Loại Wordcup</option>
                   <option value={2}>EURO 2021</option>
+                  <option value={3}>VÒNG LOẠI WC 3</option>
                 </select>
               </li>
               <li>
@@ -74,7 +75,7 @@ class ListMatch extends Component {
                   <option value={-1}>Tất cả</option>
                   {MatchStatus.getList().map((item, index) => {
                     return (
-                      <option value={item.id}>{item.name}</option>
+                      <option key={index} value={item.id}>{item.name}</option>
                     )
                   })}
                 </select>
@@ -89,7 +90,7 @@ class ListMatch extends Component {
               {page_match && page_match.list && page_match.list.map(function (item, key) {
                 let matchStatus = MatchStatus.findById(item.status);
                 return (
-                  <li style={{ cursor: 'pointer' }}>
+                  <li key={key} style={{ cursor: 'pointer' }}>
                     <Link to={`/match/${item.id}`}>
                       <div className="nearly-pepls">
                         <div className="pepl-info row">

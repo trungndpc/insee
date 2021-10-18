@@ -65,7 +65,6 @@ class ListConstruction extends Component {
   }
 
   load(type, status, page, pageSize) {
-    console.log(type)
     let wrapperType = type != null && WraperTypeConstruction.findById(parseInt(type));
     this.props.appActions.getListConstruction(wrapperType ? wrapperType.typeConstructions : null
       , wrapperType ? wrapperType.typeGifts : null
@@ -85,18 +84,18 @@ class ListConstruction extends Component {
             <ul>
               <li style={{width: '230px'}}>
                 <label>Loại khuyến mãi</label>
-                <select onChange={this.onChangeType} value={this.state.type} class="form-control">
+                <select onChange={this.onChangeType} value={this.state.type} className="form-control">
                   <option value={0}>Tất cả</option>
                   {WraperTypeConstruction.getList().map((item, key) => {
                     return (
-                      <option value={item.id}>{item.name}</option>
+                      <option key={key} value={item.id}>{item.name}</option>
                     )
                   })}
                 </select>
               </li>
               <li>
                 <label>Trạng thái</label>
-                <select onChange={this.onChangeStatus.bind(this)} value={this.state.status} class="form-control">
+                <select onChange={this.onChangeStatus.bind(this)} value={this.state.status} className="form-control">
                   <option value={0}>Tất cả</option>
                   <option value={WAITING_APPROVAL.getStatus()}>Chờ duyệt</option>
                   <option value={APPROVED.getStatus()}>Đã duyệt</option>
@@ -112,7 +111,7 @@ class ListConstruction extends Component {
                 <label>Tìm kiếm</label>
                 <div className="search-field">
                   <div className="search-field__input">
-                    <input onChange={this.onChangePhone} value={this.state.phone} className="js-term search-field__input-field" type="search" placeholder="Phone" />
+                    <input onChange={this.onChangePhone} value={this.state.phone ? this.state.phone : ''} className="js-term search-field__input-field" type="search" placeholder="Phone" />
                   </div>
                 </div>
               </li>
@@ -145,7 +144,7 @@ class ListConstruction extends Component {
                           </ul>
                         </div>
                         <div className="col-md-4 action">
-                          <Link to={`/construction/${item.id}`} className="add-butn" data-ripple>Chi tiết</Link>
+                          <Link to={`/construction/${item.id}`} className="add-butn" >Chi tiết</Link>
                         </div>
 
                       </div>

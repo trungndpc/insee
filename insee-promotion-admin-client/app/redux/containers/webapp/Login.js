@@ -44,7 +44,6 @@ class Login extends React.Component {
     }
 
     render() {
-        console.log(this.props.app.errorMsg)
         return (
             <div className="theme-layout">
                 <div className="container-fluid pdng0">

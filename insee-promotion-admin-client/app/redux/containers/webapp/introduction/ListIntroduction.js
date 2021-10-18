@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Pagination } from 'antd';
 import CustomerModel from '../../../../model/CustomerModel';
 import { City } from '../../../../data/Location';
-import SendGiftModal from '../../../../components/modal/SendGiftModal'
+import GiftModal from '../../../../components/modal/gift/GiftModal'
 import {
     Link,
 } from "react-router-dom";
@@ -56,7 +56,6 @@ class ListIntroduction extends Component {
     }
 
     openGiftModal(exchange) {
-        console.log("xxxxxxx")
         this.setState({ exchange: exchange, isSendingGift: true })
     }
 
@@ -78,7 +77,7 @@ class ListIntroduction extends Component {
                         <ul>
                             <li>
                                 <label>Loại tài khoản</label>
-                                <select onChange={this.onChangeRole} value={this.state.roleId} class="form-control">
+                                <select onChange={this.onChangeRole} value={this.state.roleId} className="form-control">
                                     <option value={-1}>Tất cả</option>
                                     <option value={2}>Nhà thầu</option>
                                     <option value={3}>Cửa hàng</option>
@@ -115,7 +114,6 @@ class ListIntroduction extends Component {
                                     </thead>
                                     <tbody>
                                         {page_customers && page_customers.list && page_customers.list.map(function (item, key) {
-                                            console.log(item)
                                             return (
                                                 <tr key={key}>
                                                     <th scope="row">{key + 1}</th>
@@ -141,7 +139,7 @@ class ListIntroduction extends Component {
                     </div>
                 </div>
                 {this.state.exchange &&
-                    <SendGiftModal {...this.props}
+                    <GiftModal {...this.props}
                         typeGift={VOUCHER.getType()}
                         customerId={this.state.exchange.customerId}
                         amountPoint={this.state.exchange.amountPoint}

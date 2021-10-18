@@ -9,28 +9,13 @@ class FormLayout extends Component {
         this.state = {
             pBottom: 0
         }
-        if (this.props.copyright) {
-            this.minHeight = window.innerHeight - 100;
-        }else{
-            this.minHeight = window.innerHeight - 50;
-        }
         this.contenRef = React.createRef();
     }
 
-    componentDidMount() {
-        setTimeout(function() {
-            let contentH = this.contenRef.offsetHeight;
-            if (Math.abs(this.minHeight - contentH) <= 50 || contentH >= this.minHeight) {
-                this.setState({pBottom : 50})
-            }
-        }.bind(this), 500)
-    }
-
-
     render() {
         return (
-            <div className="container-contact100 login-page">
-                <div style={{height: '100%'}} className="wrap-contact100">
+            <div className={`container-contact100 login-page ${this.props.className ? this.props.className : ''}`}>
+                <div style={{height: '100%'}} className="wrap-contact100-form">
                     <div style={{ minHeight: this.minHeight + 'px', paddingBottom: this.state.pBottom + 'px'}} className="contact100-form validate-form form insee-wrap">
                         <div style={{height: '100%'}} ref={e => this.contenRef = e}>
                          {this.props.children}
@@ -38,12 +23,12 @@ class FormLayout extends Component {
                     </div>
                     <div className="bg-desktop contact100-more flex-col-c-m"></div>
                 </div>
-                {this.props.copyright && 
+                {/* {this.props.copyright && 
                     <div className="footer-desc">
                         <p>Nền tảng chính thức của nhà thầu INSEE Việt Nam</p>
                         <p style={{lineHeight: '10px'}} >Copyright Siam City Cerment (Vietnam) Ltd.</p>
                     </div>
-                }
+                } */}
                 <Footer />
             </div>
         )

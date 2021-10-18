@@ -8,6 +8,7 @@ import S3Util from '../../utils/S3Util'
 import CementMultiSelect from '../post/CementMultiSelect'
 import LocationMultiSelect from '../post/LocationMultiSelect'
 import { TypeGift, CARD_PHONE } from '../enum/TypeGift'
+import UploadFileUtil from '../../utils/UploadFileUtil'
 const FOLDER_COVER_S3 = 'static/images/cover';
 
 
@@ -120,7 +121,6 @@ class CreatePromotion extends Component {
             timeStart: new Date(timeStart).getTime() / 1000,
             timeEnd: new Date(timeEnd).getTime() / 1000,
         }
-
         if (this.state.typePromotion == NOW_CONSTRUCTION) {
             let ruleQuantily = this.ruleQuantilyInputRef.value;
             let ruleAcceptedCement = this.cementRef.getValue();
@@ -151,8 +151,8 @@ class CreatePromotion extends Component {
 
         let fileList = this.coverRef.getValue();
         if (fileList) {
-            let listImg = await this.uploadCover(fileList)
-            data.cover = listImg[0]
+            let resp = await UploadFileUtil.uploadImg(fileList[0]);
+            data.cover = resp.data;
         }
         if (this.props.postId) {
             data.postId = this.props.postId
@@ -160,17 +160,17 @@ class CreatePromotion extends Component {
         this.props.appActions.createPromotion(data);
     }
 
-    uploadCover(fileList) {
-        return new Promise((resolve, reject) => {
-            let name = new Date().getTime();
-            let promoise = S3Util.addPhotos(FOLDER_COVER_S3, fileList, name);
-            promoise.then(values => {
-                resolve(values.map(value => value.Location))
-            }).catch(e => {
-                reject('Đã có lỗi xảy ra trong quá trình upload hình ảnh');
-            })
-        });
-    }
+    // uploadCover(file) {
+    //     return new Promise((resolve, reject) => {
+    //         let name = new Date().getTime();
+    //         let promoise = S3Util.addPhotos(FOLDER_COVER_S3, fileList, name);
+    //         promoise.then(values => {
+    //             resolve(values.map(value => value.Location))
+    //         }).catch(e => {
+    //             reject('Đã có lỗi xảy ra trong quá trình upload hình ảnh');
+    //         })
+    //     });
+    // }
 
     render() {
         const postId = this.props.postId;
@@ -264,7 +264,7 @@ class CreatePromotion extends Component {
                                 {this.state.errorMsg && <div style={{ textAlign: 'right', paddingRight: '45px' }} className="errorMsg"><p>{this.state.errorMsg}</p></div>}
                                 <ul>
                                     {promotion && promotion.status == 1 && <li onClick={this._onClickPublic}><span className="mbtn">Public</span></li>}
-                                    <li onClick={this._onClickSave}><span className="mbtn">Save</span></li>
+                                    <li style={{marginRight: '30px'}} onClick={this._onClickSave}><span className="mbtn">Save</span></li>
                                 </ul>
                             </div>
                         </div>

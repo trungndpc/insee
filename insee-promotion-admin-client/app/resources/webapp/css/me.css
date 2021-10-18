@@ -40,6 +40,7 @@
 
  .table-info-contractor th{
      border: none;
+     width: 26%;
  }
 
  .table-info-contractor td{
@@ -281,7 +282,7 @@
     top: 0;
     left: 0;
     text-align: center;
-    padding-top: 22%;
+    padding-top: 65%;
     color: #fff;
     font-weight: 600;
 }
@@ -438,8 +439,6 @@
 
 .label{ 
     color: #007bff;
-    font-style: italic;
-    font-weight: 600;
 }
 
 .form button {
@@ -526,8 +525,13 @@
 }
 
 .popup {
+    padding-top: 13px;
     max-height: 70% !important;
-    overflow: scroll !important;
+    overflow-y: scroll !important;
+}
+
+.popup::-webkit-scrollbar {
+    display: none;
 }
 
 .col50 {
@@ -579,6 +583,10 @@
 .select-c:disabled {
     border: none;
     color: black;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
 }
 
 .label-select-c .css-yk16xz-control{
@@ -705,4 +713,25 @@
 
 .tab-construction li.active {
     font-weight: 600;
+}
+
+.add-butn {
+    color: #fff !important;
+}
+
+.col-70-network {
+    display: inline-block;
+    width: 67%;
+    float: left;
+}
+
+.col-30-value {
+    display: inline-block;
+    width: 30%;
+    float: right;
+}
+
+.btn-close-s {
+    margin-right: 10px !important;
+    background-color: #bfbfbf !important;
 }

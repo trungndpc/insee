@@ -88,7 +88,6 @@ function* registerCustomerAsync(action) {
 }
 
 function postRegisterCustomer(data) {
-  console.log(data)
   var body = {
     phone: data["phone"],
     birthday: data["birthday"],
@@ -171,7 +170,8 @@ function postToCreatePromotion(data) {
     timeEnd: data.timeEnd,
     ruleQuantily: data.ruleQuantily,
     ruleAcceptedCement: data.ruleAcceptedCement,
-    ruleValueBill: data.ruleValueBill
+    ruleValueBill: data.ruleValueBill,
+    typeGift: data.typeGift
   }
   if (data.postId) {
     body.id = data.postId
@@ -337,7 +337,6 @@ function* getListConstructionAsync(action) {
 }
 
 function getListConstruction(types, typeGifts, status, page, pageSize) {
-  console.log(types)
   return new Promise((resolve, reject) => {
     APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/construction/list?page=${page}&pageSize=${pageSize}${types ? '&types=' + types  : ''}${typeGifts ? '&gifts=' + typeGifts : ''}${status ? '&status=' + status : ''}`, resolve, reject);
   });

@@ -56,7 +56,6 @@ class LoyaltyConstruction extends Component {
 
 
   load() {
-    console.log("callback")
     this.getSubmits(this.props.construction.id)
   }
 
@@ -143,7 +142,6 @@ class LoyaltyConstruction extends Component {
                         </select>
                       </td>
                     </tr>
-
                     <tr>
                       <th>Nhà thầu</th>
                       <td style={{ color: '#b71c1c' }}>{construction && <Link to={'/customer/' + construction.user.customerId}>{construction.user.name}</Link>}</td>
@@ -152,23 +150,17 @@ class LoyaltyConstruction extends Component {
                       <th>Loại xi măng</th>
                       <td>{construction && CementEnum.findById(construction.cement) && CementEnum.findById(construction.cement).name}</td>
                     </tr>
-                    <tr>
-                      <th>Số lượng sản phẩm: </th>
-                      <td>{construction && <input onChange={(e) => this._onChangeInput('quantity', e.target.value)} disabled type="number" className="input-c" value={this.state.construction.quantity} />}</td>
-                    </tr>
+                    {this.state.construction && this.state.construction.quantity > 0 &&
+                      <tr>
+                        <th>Số lượng sản phẩm: </th>
+                        <td>{construction && <input onChange={(e) => this._onChangeInput('quantity', e.target.value)} disabled type="number" className="input-c" value={this.state.construction.quantity} />}</td>
+                      </tr>
+                    }
                     <tr>
                       <th>Trạng thái</th>
                       <td>{status && status.getName()}</td>
                     </tr>
-                    <tr>
-                      <th>Label</th>
-                      <td className="label">
-                        {construction.label && (`#${construction.label.name}`)}
-                        {!construction.label &&
-                          <ReactSelect className="label-select-c" placeholder="Gắn nhãn công trình giúp hệ thống phục vụ bản tốt hơn" options={labelOptions} ref={e => this.labelRef = e} />
-                        }
-                      </td>
-                    </tr>
+
                     {construction && construction.createdTime &&
                       <tr>
                         <th>Thời gian tạo</th>
@@ -187,6 +179,15 @@ class LoyaltyConstruction extends Component {
                         <td>*** {construction.extra.agree && ClientNote[construction.extra.agree]}</td>
                       </tr>
                     }
+                    <tr>
+                      <th>Label</th>
+                      <td className="label">
+                        {construction.label && (`#${construction.label.name}`)}
+                        {!construction.label &&
+                          <ReactSelect className="label-select-c" placeholder="Gắn nhãn công trình giúp hệ thống phục vụ bản tốt hơn" options={labelOptions} ref={e => this.labelRef = e} />
+                        }
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               }
@@ -195,7 +196,7 @@ class LoyaltyConstruction extends Component {
 
           {this.state.errorMsg && <div className="errorMsg-right">{this.state.errorMsg}</div>}
           <div className="action-container">
-            <ui className="action-customer-detail">
+            <ul className="action-customer-detail">
               {status == ConstructionStatus.WAITING_APPROVAL &&
                 <li><Link onClick={() => { this.setState({ isAreYouSureModal: true }) }} className="add-butn">Cập nhật</Link></li>
               }
@@ -205,7 +206,7 @@ class LoyaltyConstruction extends Component {
                   <li><Link onClick={() => this._approval(false)} style={{ backgroundColor: '#9E9E9E' }} className="add-butn">Không xác nhận</Link></li>
                 </div>
               }
-            </ui>
+            </ul>
           </div>
 
           <div className="central-meta">

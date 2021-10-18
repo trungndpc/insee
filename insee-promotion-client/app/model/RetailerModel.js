@@ -3,7 +3,6 @@ import APIUtils from '../utils/APIUtils'
 export default class RetailerModel {
     
     static find(city, district, cement, page, pageSize) {
-        console.log("cement: " + cement)
         let path = "/api/retailer/list?page=" + page + "&pageSize=" + pageSize;
         (city && city != 0) && (path = path + "&city=" + city);
         (district && district != 0) && (path = path + "&district=" + district);

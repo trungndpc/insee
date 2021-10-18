@@ -4,12 +4,10 @@ import { bindActionCreators } from 'redux'
 import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
 import SideBar from '../../../components/layout/SideBar'
-import MatchDetail from './match/MatchDetail'
 
 import {
     Switch,
     Route,
-    useParams,
 } from "react-router-dom";
 import ListIntroduction from './introduction/ListIntroduction'
 

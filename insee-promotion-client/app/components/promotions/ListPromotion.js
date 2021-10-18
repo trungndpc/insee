@@ -37,12 +37,12 @@ class ListPromotion extends Component {
                                         <div className="g-post-meta">
                                             <div className="post-title no-border text-center-mobile">
                                                 <h4><a href="#">{item.title}</a></h4>
-                                                <p className="summary-rules">{`Thời gian áp dụng ${DateTimeUtil.toString(new Date(item.timeStart * 1000))} - ${DateTimeUtil.toString(new Date(item.timeEnd * 1000))}`}</p>
-                                                <p className="summary-rules">{`Khu vực áp dụng: ${item.location.map(id => City.getName(id)).join(', ')}`}</p>
+                                                <p className="summary-rules"><i className="fa fa-clock-o"></i>{` ${DateTimeUtil.toString(new Date(item.timeStart * 1000))} - ${DateTimeUtil.toString(new Date(item.timeEnd * 1000))}`}</p>
+                                                <p className="summary-rules"><i className="fa fa-map-marker"></i>{` ${item.location.map(id => City.getName(id)).join(', ')}`}</p>
                                                 <p className="post-summary">{item.summary}</p>
                                                 <span className="p-date">
                                                     <Link to={'/khuyen-mai/' + item.id}>
-                                                        <button className="btn-insee btn-insee-bg post-btn">Tham gia ngay</button>
+                                                        <button className="btn-insee btn-insee-bg post-btn">Xem chi tiết</button>
                                                     </Link>
                                                 </span>
                                             </div>

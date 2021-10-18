@@ -18,7 +18,6 @@ import Loading from '../../../components/layout/Loading'
 import { NEXT_CONSTRUCTION } from '../../../components/enum/TypeConstruction'
 import { IntroConstructionForm } from '../../../common/ValidateForm'
 import ConstructionModel from '../../../model/ConstructionModel'
-import PromotionModel from '../../../model/PromotionModel'
 import * as Error from '../../../common/Error'
 
 
@@ -152,7 +151,7 @@ class Form extends React.Component {
     render() {
         return (
             <div>
-                <FormLayout {...this.props}>
+                <FormLayout className="whitepg" {...this.props}>
                     <span className="contact100-form-title">
                         Chương trình giới thiệu công trình tiếp theo của tôi
                      <div className="line-bt" />

@@ -8,7 +8,7 @@ import ImgViewer from '../../../../components/layout/ImgViewer'
 import * as ImageStatus from '../../../../components/enum/ImageStatus'
 import * as ConstructionStatus from '../../../../components/enum/StatusConstruction'
 import ReactSelect from '../../../../components/layout/ReactSelect'
-import SendGiftModal from '../../../../components/modal/SendGiftModal'
+import GiftModal from '../../../../components/modal/gift/GiftModal'
 import AreYouSureModal from '../../../../components/modal/AreYouSureModal'
 import ClientNote from '../../../../components/enum/ClientNote'
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
@@ -28,12 +28,12 @@ class NowConstruction extends Component {
       isCanApproval: true,
       errorMsg: null,
       isAreYouSureModal: false,
-      isSendingGift: false,
       construction: this.props.construction
     }
     this._onChangeInput = this._onChangeInput.bind(this)
     this._approval = this._approval.bind(this)
     this.updateConstruction = this.updateConstruction.bind(this)
+    this.getConstruction = this.getConstruction.bind(this)
     this.imgViewerRef = {};
     this.billViewerRef = {};
   }
@@ -45,10 +45,6 @@ class NowConstruction extends Component {
       return;
     }
     is_approved ? (this.setState({ isOpenApprovalModal: true })) : (this.setState({ isOpenRejectModal: true }));
-  }
-
-  _onClickOpenFormSendingGift() {
-    this.setState({ isSendingGift: true })
   }
 
   componentDidMount() {
@@ -106,6 +102,10 @@ class NowConstruction extends Component {
     this.setState({ construction: construction })
   }
 
+  getConstruction(constructionId) {
+    this.props.appActions.getConstruction(constructionId)
+  }
+
 
   render() {
     const construction = this.state.construction
@@ -146,7 +146,6 @@ class NowConstruction extends Component {
                         </select>
                       </td>
                     </tr>
-
                     <tr>
                       <th>Nhà thầu</th>
                       <td style={{ color: '#b71c1c' }}>{construction && <Link to={'/customer/' + construction.user.customerId}>{construction.user.name}</Link>}</td>
@@ -163,10 +162,12 @@ class NowConstruction extends Component {
                       <th>Loại xi măng</th>
                       <td>{construction && CementEnum.findById(construction.cement) && CementEnum.findById(construction.cement).name}</td>
                     </tr>
-                    <tr>
-                      <th>Số lượng sản phẩm: </th>
-                      <td>{construction && <input onChange={(e) => this._onChangeInput('quantity', e.target.value)} disabled={is_editing ? '' : 'disabled'} type="number" className="input-c" value={this.state.construction.quantity} />}</td>
-                    </tr>
+                    {this.state.construction && this.state.construction.quantity > 0 &&
+                      <tr>
+                        <th>Số lượng sản phẩm: </th>
+                        <td>{construction && <input onChange={(e) => this._onChangeInput('quantity', e.target.value)} disabled={is_editing ? '' : 'disabled'} type="number" className="input-c" value={this.state.construction.quantity} />}</td>
+                      </tr>
+                    }
                     <tr>
                       <th>Trạng thái</th>
                       <td>{status && status.getName()}</td>
@@ -174,15 +175,6 @@ class NowConstruction extends Component {
                     <tr>
                       <th>Đã duyệt</th>
                       <td>{construction && construction.bills && this.countApproved(construction.bills)} hóa đơn,  {construction && construction.images && this.countApproved(construction.images)} hình ảnh</td>
-                    </tr>
-                    <tr>
-                      <th>Label</th>
-                      <td className="label">
-                        {construction.label && (`#${construction.label.name}`)}
-                        {!construction.label &&
-                          <ReactSelect className="label-select-c" placeholder="Gắn nhãn công trình giúp hệ thống phục vụ bản tốt hơn" options={labelOptions} ref={e => this.labelRef = e} />
-                        }
-                      </td>
                     </tr>
                     {construction && construction.createdTime &&
                       <tr>
@@ -202,6 +194,15 @@ class NowConstruction extends Component {
                         <td>*** {construction.extra.agree && ClientNote[construction.extra.agree]}</td>
                       </tr>
                     }
+                    <tr>
+                      <th>Label</th>
+                      <td className="label">
+                        {construction.label && (`#${construction.label.name}`)}
+                        {!construction.label &&
+                          <ReactSelect className="label-select-c" placeholder="Gắn nhãn công trình giúp hệ thống phục vụ bản tốt hơn" options={labelOptions} ref={e => this.labelRef = e} />
+                        }
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               }
@@ -210,20 +211,20 @@ class NowConstruction extends Component {
 
           {this.state.errorMsg && <div className="errorMsg-right">{this.state.errorMsg}</div>}
           <div className="action-container">
-            <ui className="action-customer-detail">
+            <ul className="action-customer-detail">
               {status == ConstructionStatus.WAITING_APPROVAL &&
-                <li><Link onClick={() => { this.setState({ isAreYouSureModal: true }) }} className="add-butn">Cập nhật</Link></li>
+                <li><a onClick={() => { this.setState({ isAreYouSureModal: true }) }} className="add-butn">Cập nhật</a></li>
               }
               {status == ConstructionStatus.WAITING_APPROVAL &&
                 <div>
-                  <li><Link onClick={() => this._approval(true)} style={{ backgroundColor: '#2196F3' }} className="add-butn">Chấp nhận</Link></li>
-                  <li><Link onClick={() => this._approval(false)} style={{ backgroundColor: '#9E9E9E' }} className="add-butn">Không chấp nhận</Link></li>
+                  <li><a onClick={() => this._approval(true)} style={{ backgroundColor: '#2196F3' }} className="add-butn">Chấp nhận</a></li>
+                  <li><a onClick={() => this._approval(false)} style={{ backgroundColor: '#9E9E9E' }} className="add-butn">Không chấp nhận</a></li>
                 </div>
               }
               {status == ConstructionStatus.APPROVED &&
-                <li><Link onClick={() => this.setState({isSendingGift: true})} className="add-butn">Gửi quà</Link></li>
+                <li><a onClick={() => { this.giftModalRef.open() }} className="add-butn">Gửi quà</a></li>
               }
-            </ui>
+            </ul>
           </div>
 
           <div className="central-meta">
@@ -259,9 +260,6 @@ class NowConstruction extends Component {
               }
             </ul>
           </div>
-
-
-
           {construction &&
             <ApprovalConstructionModal {...this.props}
               id={construction.id}
@@ -275,12 +273,13 @@ class NowConstruction extends Component {
               onClose={() => { this.setState({ isOpenRejectModal: false }) }} />
           }
           {construction &&
-            <SendGiftModal {...this.props} 
+            <GiftModal
+              ref={e => this.giftModalRef = e}
               promotionId={construction.promotionId}
               constructionId={construction.id}
               customerId={construction.user.customerId}
-              isOpen={this.state.isSendingGift}
-              onClose={() => { this.setState({ isSendingGift: false }) }} />
+              callback={() => { this.getConstruction(construction.id) }}
+            />
           }
           <AreYouSureModal isOpen={this.state.isAreYouSureModal}
             onOK={this.updateConstruction}

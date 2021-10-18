@@ -8,7 +8,7 @@ import LocationInput from '../../../components/promotions/LocationInput'
 import RetailerModel from '../../../model/RetailerModel'
 import { City, District } from '../../../data/Location'
 import * as CementEnum from '../../../components/enum/CementEnum'
-import GeoModel from '../../../model/GeoModel'
+import PhoneUtil from '../../../utils/PhoneUtil'
 
 class Retailers extends React.Component {
 
@@ -198,7 +198,7 @@ class Retailers extends React.Component {
                                                                             <option value={0}>Tất cả xi măng</option>
                                                                             {CementEnum.getListForRetailer().map((item, index) => {
                                                                                 return (
-                                                                                    <option value={item.id}>{item.name}</option>
+                                                                                    <option key={index} value={item.id}>{item.name}</option>
                                                                                 )
                                                                             })}
                                                                         </select>
@@ -223,17 +223,17 @@ class Retailers extends React.Component {
                                                                 item.district && (address = address + " - " + District.getName(item.district + ''))
                                                                 item.city && (address = address + " - " + City.getName(item.city))
                                                                 return (
-                                                                    <li key={index}>
+                                                                    <li key={item.id}>
                                                                         <div className="nearly-pepls">
                                                                             <div className="pepl-info">
                                                                                 <h5 className="name-retailer">{item.name && item.name.trim()}</h5>
-                                                                                <p className="phone"><span className="icon fa fa-phone"></span>{item.homePhone && ("0" + item.homePhone.trim())}</p>
-                                                                                <p><span className="icon fa fa-map-marker"></span>{address}</p>
-                                                                                {item.products && <p>Sản phẩm: </p>}
+                                                                                {item.mobilePhone && <p className="phone"><span className="icon fa fa-phone"></span>{PhoneUtil.format(item.mobilePhone.trim())}</p>}
+                                                                                <p className="address"><span className="icon fa fa-map-marker"></span>{address}</p>
+                                                                                {item.products && <p className="lb-products">Sản phẩm: </p>}
                                                                                 <ul>
                                                                                     {item.products && item.products.map((product, pindex) => {
                                                                                         return (
-                                                                                            <li style={{color: CementEnum.findById(product).color, fontWeight: 'bold'}}>{CementEnum.findById(product).name}</li>
+                                                                                            <li key={pindex} style={{ color: CementEnum.findById(product).color, fontWeight: 'bold' }}>{CementEnum.findById(product).name}</li>
                                                                                         )
                                                                                     })}
                                                                                 </ul>

@@ -57,7 +57,7 @@ class DetailUploadBillPromotion extends React.Component {
         const tree = this.state.tree > 0 && this.state.tree
         return (
             <div>
-                <FormLayout {...this.props}>
+                <FormLayout className="whitepg" {...this.props}>
                     <span className="contact100-form-title">
                         Hoàn tất
                     <div className="line-bt" />

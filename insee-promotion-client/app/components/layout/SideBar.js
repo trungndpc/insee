@@ -17,22 +17,22 @@ export class ContentSideBar extends Component {
 
     render() {
         let pathname = window.location.pathname;
-        return <ul>
+        return (
             <ul className="naves">
                 <li>
-                    <Link style={{ color: pathname == '/khach-hang' && '#b71c1c' }} onClick={this._onClickToLink} to={"/khach-hang"}>Thông tin tài khoản</Link>
+                    <Link className={pathname.startsWith('/khach-hang') ? 'active' : ''} onClick={this._onClickToLink} to={"/khach-hang"}>Thông tin tài khoản</Link>
                 </li>
                 <li>
-                    <Link style={{ color: pathname == '/ds-cua-hang' && '#b71c1c' }} onClick={this._onClickToLink} to={"/ds-cua-hang"}>Cửa hàng gần bạn</Link>
+                    <Link className={pathname.startsWith('/ds-cua-hang') ? 'active' : ''} onClick={this._onClickToLink} to={"/ds-cua-hang"}>Cửa hàng gần bạn</Link>
                 </li>
                 <li>
-                    <Link style={{ color: pathname == '/khuyen-mai' && '#b71c1c' }} onClick={this._onClickToLink} to={"/khuyen-mai"}>Chương trình khuyến mãi độc quyền</Link>
+                    <Link className={pathname.startsWith('/khuyen-mai') ? 'active' : ''} onClick={this._onClickToLink} to={"/khuyen-mai"}>Chương trình khuyến mãi độc quyền</Link>
                 </li>
                 <li>
-                    <Link style={{ color: pathname == '/lich-su' && '#b71c1c' }} onClick={this._onClickToLink} to={"/lich-su"}>Lịch sử nhận quà</Link>
+                    <Link className={pathname.startsWith('/lich-su') ? 'active' : ''} onClick={this._onClickToLink} to={"/lich-su"}>Lịch sử nhận quà</Link>
                 </li>
             </ul>
-        </ul>
+        )
     }
 
 }

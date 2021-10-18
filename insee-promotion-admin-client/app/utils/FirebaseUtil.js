@@ -34,7 +34,6 @@ export default class FirebaseUtil {
             success(result);
         }).catch(function (error) {
             faild(error)
-            console.log("[firebase_confirm] error: " + error);
         });
     }
 
