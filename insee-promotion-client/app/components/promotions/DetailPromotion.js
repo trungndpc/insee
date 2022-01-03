@@ -4,22 +4,37 @@ import { LOYALTY, SHARE_LINK_REGISTRY, TypePromotion } from '../../components/en
 import { CONTRUCTOR } from '../../components/enum/UserRole'
 import WebUtil from '../../utils/WebUtil'
 import PromotionModel from '../../model/PromotionModel'
+import LeaderBoard from '../../components/promotions/LeaderBoard'
+import { renderToString } from 'react-dom/server'
+import CustomerModel from '../../model/CustomerModel';
+import { City } from '../../data/Location';
 
 class DetailPromotion extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            showPopupModal: false
+            showPopupModal: false,
+            tops: null
         }
         this.toggleModal = this.toggleModal.bind(this)
         this.viewDetail = this.viewDetail.bind(this)
         this.onClickDetail = this.onClickDetail.bind(this)
         this.openZaloFormShare = this.openZaloFormShare.bind(this)
+        this.viewListPromotion = this.viewListPromotion.bind(this)
     }
 
     componentDidMount() {
         let postId = this.props.postId;
         this.props.appActions.getPromotionById(postId);
+        if (postId == 1037) {
+            const account = this.props.app.user && this.props.app.user.customer;
+            CustomerModel.leaderBoard(account.mainAreaId)
+                .then(resp => {
+                    if (resp.error == 0) {
+                        this.setState({ tops: resp.data })
+                    }
+                })
+        }
     }
 
     toggleModal() {
@@ -42,19 +57,23 @@ class DetailPromotion extends Component {
         }
     }
 
+    viewListPromotion() {
+        this.props.history.push("/khuyen-mai")
+    }
+
     onClickDetail() {
         const promotion = this.props.app.promotion;
         const one = promotion && promotion.one;
         if (one.typePromotion == LOYALTY.type) {
             PromotionModel.startZaloBot(one.id)
-            .then(resp => {
-                if (resp.error == 0 && resp.data) {
-                    window.location.href = "https://zalo.me/" + resp.data;
-                }else {
-                    this.viewDetail()
-                }
-            })
-        }else {
+                .then(resp => {
+                    if (resp.error == 0 && resp.data) {
+                        window.location.href = "https://zalo.me/" + resp.data;
+                    } else {
+                        this.viewDetail()
+                    }
+                })
+        } else {
             this.viewDetail()
         }
     }
@@ -71,9 +90,17 @@ class DetailPromotion extends Component {
     }
 
     render() {
+        const account = this.props.app.user && this.props.app.user.customer;
         const promotion = this.props.app.promotion;
         const one = promotion && promotion.one;
         const type = one && one.typePromotion;
+        var content;
+        if (one) {
+            content = one.content;
+            if (one.id == 1037) {
+                content = content.replace("{{LEADER_BOARD}}", renderToString(<LeaderBoard location={City.getName(account.mainAreaId)} tops={this.state.tops} />))
+            }
+        }
         return (
             <div className="loadMore">
                 {this.state.showPopupModal && <InformModal outClick={this.toggleModal} />}
@@ -84,7 +111,7 @@ class DetailPromotion extends Component {
                                 <img src={one && one.cover} alt="" />
                                 {one &&
                                     <div className="description cke-content">
-                                        <div dangerouslySetInnerHTML={{ __html: `${one.content}` }}>
+                                        <div dangerouslySetInnerHTML={{ __html: `${content}` }}>
                                         </div>
                                     </div>
                                 }
@@ -96,12 +123,24 @@ class DetailPromotion extends Component {
                                         }
                                     </div>
                                 }
-                                {type && type == SHARE_LINK_REGISTRY.type &&
+                                {type && type == SHARE_LINK_REGISTRY.type && one.id != 1037 &&
                                     <div style={{ textAlign: 'center' }}>
                                         {one &&
                                             <div className="btn-share">
                                                 <a onClick={this.openZaloFormShare}>
                                                     <button className="btn-insee btn-insee-bg post-btn">Giới thiệu thầu</button>
+                                                </a>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+
+                                {one && one.id == 1037 &&
+                                    <div style={{ textAlign: 'center' }}>
+                                        {one &&
+                                            <div className="btn-share">
+                                                <a onClick={this.viewListPromotion}>
+                                                    <button className="btn-insee btn-insee-bg post-btn">Tham gia ngay</button>
                                                 </a>
                                             </div>
                                         }

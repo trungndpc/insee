@@ -34,7 +34,8 @@ class WebAppLayout extends Component {
 
 
   render() {
-    const account = this.props.app.user;
+    const account = this.props.app.user && this.props.app.user.customer;
+    const avatar = this.props.app.user && this.props.app.user.avatar;
     return (
       <div className="layout-container">
         <section style={{ zIndex: 50 }}>
@@ -42,7 +43,7 @@ class WebAppLayout extends Component {
             <img className="responsive" style={{ objectFit: 'cover' }} src={require('../../resources/images/banner.jpg')} />
             <div className="container-fluid">
               <div className="user-avatar">
-                <img src={account && account.avatar} />
+                <img src={account && avatar} />
               </div>
               <div className="timeline-info">
                 <p className="name">{account && account.fullName}</p>

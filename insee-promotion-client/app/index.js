@@ -32,6 +32,7 @@ import './resources/css/mobile/main.css';
 import './resources/css/mobile/me.css';
 import Gift from './redux/containers/gift'
 import Loyalty from './redux/containers/webapp/Loyalty';
+import TopConstructor from './redux/containers/webapp/TopConstructor';
 import Share from './redux/containers/webapp/Share';
 
 const store = configureStore()
@@ -85,6 +86,11 @@ function APP() {
       <Route path="/khuyen-mai/:promotionId/loyalty">
         <Suspense fallback={<ModuleLoading />}>
           <Loyalty />
+        </Suspense>
+      </Route>
+      <Route path="/khuyen-mai/top-nha-thau">
+        <Suspense fallback={<ModuleLoading />}>
+          <TopConstructor />
         </Suspense>
       </Route>
       <Route path="/khuyen-mai/:promotionId/gioi-thieu-thanh-vien">

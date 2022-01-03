@@ -23,6 +23,7 @@ import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import Alert from 'react-s-alert';
 import Introduction from './redux/containers/webapp/Introduction';
 import Loyalty from './redux/containers/webapp/Loyalty';
+import LeaderBoard from './redux/containers/webapp/LeaderBoard';
 
 
 
@@ -47,6 +48,7 @@ render(
         <Route path="/customer" component={Customer} />
         <Route path="/match" component={Match} />
         <Route path="/introduction" component={Introduction} />
+        <Route path="/leaderboad" component={LeaderBoard} />
         <Route exact path="/" component={Contractor} />
         <Route path="/login" component={Login} />
         <Route path="/dashboard" component={Dashboard} />

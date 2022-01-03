@@ -31,17 +31,11 @@ class GiftHistory extends React.Component {
                                         {gifts && gifts.length == 0 && <div className="empty-container"><p>Bạn chưa tham gia chương trình nào</p></div>}
                                         <div style={{ padding: 0 }} className="col-lg-9">
                                             {gifts && gifts.map((item, index) => {
-                                                let nameConstruction = item.construction.address + ' - ' + City.getName(item.construction.city)
                                                 return (
                                                     <div key={index} className="history-promotion">
-                                                        <h4 className="title">{item.promotion.title}</h4>
                                                         <div className="content">
                                                             <table>
                                                                 <tbody>
-                                                                    <tr>
-                                                                        <th>Công trình</th>
-                                                                        <td>{nameConstruction}</td>
-                                                                    </tr>
                                                                     <tr>
                                                                         <th>Quà tặng</th>
                                                                         <td>{item.name}</td>

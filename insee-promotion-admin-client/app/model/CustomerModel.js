@@ -16,4 +16,12 @@ export default class CustomerModel {
             APIUtils.getJSONWithCredentials(url, resolve, reject);
         });
     }
+
+    static getLeaderBoard(location, page, pageSize) {
+        let url = process.env.DOMAIN + `/api/admin/statistical/leader-board?&page=${page}&pageSize=${pageSize}`;
+        location != -1 && (url += `&location=${location}`)
+        return new Promise((resolve, reject) => {
+            APIUtils.getJSONWithCredentials(url, resolve, reject);
+        });
+    }
 }
