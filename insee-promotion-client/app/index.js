@@ -34,6 +34,7 @@ import Gift from './redux/containers/gift'
 import Loyalty from './redux/containers/webapp/Loyalty';
 import TopConstructor from './redux/containers/webapp/TopConstructor';
 import Share from './redux/containers/webapp/Share';
+import RetailerInfo from './redux/containers/webapp/RetailerInfo';
 
 const store = configureStore()
 
@@ -121,6 +122,9 @@ function APP() {
       <Route path="/ma-gioi-thieu" component={ReferralCodeStep} />
       <Route path="/ds-cua-hang">
         <Retailers />
+      </Route>
+      <Route path="/cua-hang">
+        <RetailerInfo />
       </Route>
       <Route path="/" >
         <ContractorInfo />

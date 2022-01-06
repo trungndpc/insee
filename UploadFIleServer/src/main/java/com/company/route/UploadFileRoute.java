@@ -5,6 +5,8 @@ import akka.actor.typed.Scheduler;
 import akka.actor.typed.javadsl.ActorContext;
 import akka.actor.typed.javadsl.AskPattern;
 import akka.http.javadsl.marshallers.jackson.Jackson;
+import akka.http.javadsl.model.HttpMethod;
+import akka.http.javadsl.model.HttpMethods;
 import akka.http.javadsl.model.Multipart;
 import akka.http.javadsl.model.StatusCodes;
 import akka.http.javadsl.server.RequestContext;
@@ -12,8 +14,9 @@ import akka.http.javadsl.server.Route;
 import akka.http.javadsl.unmarshalling.Unmarshaller;
 import com.company.common.HttpResponse;
 import com.company.registry.UploadFileRegistry;
-
+import akka.http.javadsl.model.headers.*;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.concurrent.CompletionStage;
 
 import static akka.http.javadsl.server.Directives.*;
@@ -29,16 +32,21 @@ public class UploadFileRoute {
         this.actorRef = context.spawn(UploadFileRegistry.create(), "registry");
     }
 
+    final HttpOrigin validOriginHeader = HttpOrigin.parse("http://localhost:3000");
+    HttpOriginRange httpOriginRange = HttpOriginRange.create(validOriginHeader);
+    AccessControlAllowOrigin accessControlAllowOrigin = AccessControlAllowOrigin.create(httpOriginRange);
+    AccessControlAllowMethods accessControlAllowMethods = AccessControlAllowMethods.create(HttpMethods.GET, HttpMethods.POST);
+
     public Route route() {
-        return extractRequestContext(context -> pathPrefix("image", () ->
-                entity(Unmarshaller.entityToMultipartFormData(), formData -> {
+        return extractRequestContext(context -> pathPrefix("image", () -> {
+                return  entity(Unmarshaller.entityToMultipartFormData(), formData -> {
             return onSuccess(ask(formData, context), response -> {
                 HttpResponse httpResponse = new HttpResponse();
                 httpResponse.setData(response.link);
                 httpResponse.setError(response.status.intValue());
-                return complete(StatusCodes.OK, httpResponse, Jackson.<HttpResponse>marshaller());
+                return complete(StatusCodes.OK, Arrays.asList(accessControlAllowOrigin, accessControlAllowMethods), httpResponse, Jackson.<HttpResponse>marshaller());
             });
-        })));
+        });}));
     }
 
 
