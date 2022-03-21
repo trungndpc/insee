@@ -24,6 +24,7 @@ import Alert from 'react-s-alert';
 import Introduction from './redux/containers/webapp/Introduction';
 import Loyalty from './redux/containers/webapp/Loyalty';
 import LeaderBoard from './redux/containers/webapp/LeaderBoard';
+import RedeemPoint from './redux/containers/webapp/RedeemPoint';
 
 
 
@@ -53,6 +54,7 @@ render(
         <Route path="/login" component={Login} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/loyalty" component={Loyalty} />
+        <Route path="/redeem-point" component={RedeemPoint} />
       </Switch>
       <RouteApp />
     </Router>

@@ -62,10 +62,13 @@ class NowConstruction extends Component {
     if (arr && arr.length > 0) {
       return false;
     }
-    arr = images.filter(e => e.status == ImageStatus.WAITING_APPROVAL.getStatus());
-    if (arr && arr.length > 0) {
-      return false;
+    if (images) {
+      arr = images.filter(e => e.status == ImageStatus.WAITING_APPROVAL.getStatus());
+      if (arr && arr.length > 0) {
+        return false;
+      }
     }
+
     return true;
   }
 
@@ -228,7 +231,7 @@ class NowConstruction extends Component {
           </div>
 
           <div className="central-meta">
-            <h5 className="f-title bill">HÓA ĐƠN ({construction && construction.bills && construction.bills.length})</h5>
+            <h5 className="f-title bill">HÌNH ẢNH({construction && construction.bills && construction.bills.length})</h5>
             <ul className="photos">
               {construction && construction.bills && construction.bills.map((item, index) => {
                 return (
@@ -244,7 +247,7 @@ class NowConstruction extends Component {
               }
 
             </ul>
-            <h5 className="f-title bill">HÌNH ẢNH CÓ XI MĂNG INSEE ({construction && construction.images && construction.images.length})</h5>
+            {/* <h5 className="f-title bill">HÌNH ẢNH CÓ XI MĂNG INSEE ({construction && construction.images && construction.images.length})</h5> */}
             <ul className="photos">
               {construction && construction.images && construction.images.map((item, index) => {
                 return (

@@ -13,9 +13,9 @@ class SideBar extends Component {
                 <div className="widget">
                     <h4 className="widget-title">Menu</h4>
                     <ul className="naves">
-                        <li>
+                        {/* <li>
                             <Link style={{color: pathname == '/' && '#b71c1c'}} to={"/"}>Thông tin tài khoản</Link>
-                        </li>
+                        </li> */}
                         <li>
                             <Link style={{color: pathname == '/dashboard' && '#b71c1c'}} to={"/dashboard"}>Bảng Điều Khiển</Link>
                         </li>
@@ -26,19 +26,25 @@ class SideBar extends Component {
                             <Link style={{color: pathname == '/match' && '#b71c1c'}} to={"/match"}>Bóng đá</Link>
                         </li>
                         <li>
-                            <Link style={{color: pathname == '/loyalty' && '#b71c1c'}} to={"/loyalty"}>Loyalty</Link>
+                            <Link style={{color: pathname == '/loyalty' && '#b71c1c'}} to={"/loyalty"}>BXH Loyalty</Link>
                         </li>
                         <li>
-                            <Link style={{color: pathname == '/introduction' && '#b71c1c'}} to={"/introduction"}>Giới thiệu thành viên</Link>
+                            <Link style={{color: pathname == '/earn-points' && '#b71c1c'}} to={"/earn-points"}>BXH Tích Điểm</Link>
+                        </li>
+                        <li>
+                            <Link style={{color: pathname == '/introduction' && '#b71c1c'}} to={"/introduction"}>BXH Giới thiệu thầu</Link>
                         </li>
                         <li>
                             <Link style={{color: pathname == '/customer' && '#b71c1c'}} to={"/customer"}>Nhà thầu</Link>
                         </li>
-                        <li>
+                        {/* <li>
                             <Link style={{color: pathname == '/leaderboad' && '#b71c1c'}} to={"/leaderboad"}>Bảng xếp hạng</Link>
-                        </li>
+                        </li> */}
                         <li>
                             <Link style={{color: pathname == '/construction' && '#b71c1c'}} to={"/construction"}>Khuyến mãi</Link>
+                        </li>
+                        <li>
+                            <Link style={{color: pathname == '/redeem-point' && '#b71c1c'}} to={"/redeem-point"}>Đổi điểm</Link>
                         </li>
                         <li>
                             <Link style={{color: pathname == '/gift' && '#b71c1c'}} to={"/gift"} >Quà tặng</Link>
