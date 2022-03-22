@@ -2,29 +2,44 @@ import React, { Component } from 'react'
 import {
     Link,
 } from "react-router-dom";
-import { StatusPost } from '../enum/StatusPost'
+import { INIT, PUBLISHED, StatusPost } from '../enum/StatusPost'
 import DateTimeUtil from '../../utils/DateTimeUtil'
 import { City } from '../../data/Location'
 import AreYouSureModal from '../modal/AreYouSureModal'
+import { Pagination } from 'antd';
+import PostModel from '../../model/PostModel'
 
 class ListPost extends React.PureComponent {
-
     constructor(props) {
         super(props)
         this.state = {
-            isShowDeleteModal : false
+            page: 1,
+            pageSize: 10,
+            status: PUBLISHED.getStatus(),
+            isShowDeleteModal: false,
+            page_post: null
         }
         this.delete = this.delete.bind(this)
         this.clickDelete = this.clickDelete.bind(this)
+        this._onChangeStatus = this._onChangeStatus.bind(this)
+        this._onChangePage = this._onChangePage.bind(this)
     }
 
     componentDidMount() {
-        this.props.appActions.getListPromotion();
+        this.getList(this.state.status, this.state.page, this.state.pageSize)
+    }
+
+
+    getList(status, page, pageSize) {
+        PostModel.getList(status, page - 1, pageSize)
+            .then(resp => {
+                this.setState({ page_post: resp.data })
+            })
     }
 
     clickDelete(id) {
         this.delete_id = id;
-        this.setState({isShowDeleteModal: true})
+        this.setState({ isShowDeleteModal: true })
     }
 
     delete() {
@@ -32,13 +47,40 @@ class ListPost extends React.PureComponent {
         if (id) {
             this.props.appActions.deletePromotion(id);
         }
-        this.setState({isShowDeleteModal: false})
+        this.setState({ isShowDeleteModal: false })
+    }
+
+    _onChangeStatus(event) {
+        let status = event.target.value;
+        this.setState({ status: status })
+        this.getList(status, this.state.page, this.state.pageSize)
+    }
+
+    _onChangePage(pageNumber, pageSize) {
+        this.getList(this.state.status, pageNumber, this.state.pageSize)
+        this.setState({ page: pageNumber })
     }
 
     render() {
-        let promotions = this.props.app.promotions;
+        let promotions = this.state.page_post;
         return (
             <div className="frnds">
+                <div className="inbox-lists">
+                    <div className="inbox-action">
+                        <ul>
+                            <li>
+                                <label>Trạng thái:</label>
+                                <select onChange={this._onChangeStatus} value={this.state.status} className="form-control">
+                                    <option value={-1}>Tất cả</option>
+                                    <option value={INIT.getStatus()}>{INIT.getName()}</option>
+                                    <option value={PUBLISHED.getStatus()}>{PUBLISHED.getName()}</option>
+                                </select>
+                            </li>
+                            <li style={{float: 'right', paddingTop: '14px', textAlign: 'center', margin: '0'}}><a className="add-butn post-btn" href="/post/create"><span style={{color : '#fff !important'}} className="mbtn">Thêm</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+
                 <div className="tab-content">
                     <div className="tab-pane active fade show" id="frends">
                         <ul className="nearby-contct posts">
@@ -60,17 +102,17 @@ class ListPost extends React.PureComponent {
                                                         <li>{DateTimeUtil.diffTime(item.updatedTime)}</li>
                                                     </ul>
                                                     <ul>
-                                                        <span style={{marginRight: '5px'}} className="fas fa-map-marker-alt"></span>
-                                                        {item.location.map(function(id, k) {
+                                                        <span style={{ marginRight: '5px' }} className="fas fa-map-marker-alt"></span>
+                                                        {item.location.map(function (id, k) {
                                                             return (
                                                                 <li key={k}>{City.getName(id)}</li>
-                                                            )  
+                                                            )
                                                         })}
                                                     </ul>
                                                 </div>
                                                 <div className="col-md-2 action">
                                                     <Link to={`/post/${item.id}`} className="add-butn post-btn">Chi tiết</Link>
-                                                    <a onClick={() => {this.clickDelete(item.id)}} style={{backgroundColor: '#d9d9d9'}} className="add-butn post-btn" >Xóa</a>
+                                                    <a onClick={() => { this.clickDelete(item.id) }} style={{ backgroundColor: '#d9d9d9' }} className="add-butn post-btn" >Xóa</a>
                                                 </div>
 
                                             </div>
@@ -82,14 +124,14 @@ class ListPost extends React.PureComponent {
 
                         </ul>
                         <div className="paging-container">
-                            {/* {promotions && <Pagination defaultCurrent={1} current={this.state.page + 1} onChange={this.onChangePage} total={promotions.totalPage * promotions.pageSize} />} */}
+                            {promotions && <Pagination defaultCurrent={1} current={this.state.page} onChange={this._onChangePage} total={promotions.totalPage * promotions.pageSize} />}
                         </div>
                     </div>
                 </div>
                 <AreYouSureModal isOpen={this.state.isShowDeleteModal} onClose={() => {
                     this.delete_id = null;
-                    this.setState({isShowDeleteModal: false})
-                }} onOK={this.delete}/>
+                    this.setState({ isShowDeleteModal: false })
+                }} onOK={this.delete} />
             </div>
         )
     }

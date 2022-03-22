@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { INIT, APPROVED, SENT_GIFT, RedeemPointStatus } from '../../../../components/enum/RedeemPointStatus'
 import { TypeGiftRedeemPoint } from '../../../../components/enum/TypeGiftRedeemPoint'
-
-import GiftModel from '../../../../model/GiftModel';
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
 import { Pagination } from 'antd';
 import {
@@ -97,7 +95,7 @@ class ListRedeemPoint extends Component {
                     <div className="nearly-pepls">
                       <div className="pepl-info row">
                         <div className="col-md-9">
-                          <h5>{`#${TypeGiftRedeemPoint.findById(item.typeGiftId).getName()} - ${item.amount} điểm `}</h5>
+                          <h5>{`${TypeGiftRedeemPoint.findById(item.typeGiftId).getName()} - ${item.amount} điểm `}</h5>
                           <ul>
                             <li>{item.customer.fullName}</li>
                             <li>{item.customer.phone}</li>

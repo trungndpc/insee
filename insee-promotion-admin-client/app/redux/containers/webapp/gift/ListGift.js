@@ -61,14 +61,6 @@ class ListGirt extends Component {
         <div className="inbox-lists">
           <div className="inbox-action">
             <ul>
-              {/* <li>
-                <label>Khuyến mãi:</label>
-                <select className="form-control">
-                  <option >Tất cả</option>
-                  <option >Keo dán tường </option>
-                  <option >Xi măng</option>
-                </select>
-              </li> */}
               <li>
                 <label>Loại quà:</label>
                 <select onChange={this._onChangeType} className="form-control">
@@ -101,7 +93,7 @@ class ListGirt extends Component {
                     <div className="nearly-pepls">
                       <div className="pepl-info row">
                         <div className="col-md-9">
-                          <h5>{`#${item.id}  ${item.name}`}</h5>
+                          <h5>{`${item.name}`}</h5>
                           <ul>
                             <li>{item.customer.fullName}</li>
                             <li>{item.customer.phone}</li>

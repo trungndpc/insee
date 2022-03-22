@@ -29,7 +29,7 @@ class SideBar extends Component {
                             <Link style={{color: pathname == '/loyalty' && '#b71c1c'}} to={"/loyalty"}>BXH Loyalty</Link>
                         </li>
                         <li>
-                            <Link style={{color: pathname == '/earn-points' && '#b71c1c'}} to={"/earn-points"}>BXH Tích Điểm</Link>
+                            <Link style={{color: pathname == '/accumulation-point' && '#b71c1c'}} to={"/accumulation-point"}>BXH Tích Điểm</Link>
                         </li>
                         <li>
                             <Link style={{color: pathname == '/introduction' && '#b71c1c'}} to={"/introduction"}>BXH Giới thiệu thầu</Link>

@@ -3,9 +3,20 @@ import {
     Link,
 } from "react-router-dom";
 import DateTimeUtil from '../../utils/DateTimeUtil'
-import {City} from '../../data/Location'
+import { City } from '../../data/Location'
 import * as StatusConstruction from '../enum/StatusConstruction'
+import { Pagination } from 'antd';
 class ListParticipationPost extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+          page: 1,
+          pageSize: 10,
+          status: -1,
+        }
+      }
+
 
     componentDidMount() {
         this.props.appActions.getPromotionById(this.props.postId);
@@ -13,7 +24,7 @@ class ListParticipationPost extends Component {
     }
 
     render() {
-        const participations = this.props.app.pageParticipationPromotion;
+        const page_participation = this.props.app.pageParticipationPromotion;
         const promotion = this.props.app.promotion;
         return (
             <div className="loadMore">
@@ -24,7 +35,7 @@ class ListParticipationPost extends Component {
                         </div>
                         <div className="tab-pane active fade show" id="frends">
                             <ul className="nearby-contct post">
-                                {participations && participations.list && participations.list.map(function (item, key) {
+                                {page_participation && page_participation.list && page_participation.list.map(function (item, key) {
                                     return (
                                         <li key={key}>
                                             <div className="nearly-pepls">
@@ -52,9 +63,11 @@ class ListParticipationPost extends Component {
                                         </li>
                                     )
                                 })}
-                                {participations && participations.list.length == 0 && <div style={{ textAlign: 'center' }}>Không có công trình nào ở đây</div>}
-
+                                {page_participation && page_participation.list.length == 0 && <div style={{ textAlign: 'center' }}>Không có công trình nào ở đây</div>}
                             </ul>
+                            <div className="paging-container">
+                                <Pagination defaultCurrent={1} current={this.state.page} total={page_participation.totalPage * page_participation.pageSize} />
+                            </div>
                         </div>
                     </div>
                 </div>

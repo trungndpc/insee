@@ -5,9 +5,9 @@ import {
   Link,
 } from "react-router-dom";
 import { City } from '../../../../data/Location';
-import { ACCUMULATION_BAG } from '../../../../components/enum/TypeLoyalty';
+import {ACCUMULATION_POINT } from '../../../../components/enum/TypeLoyalty';
 
-class ListLoyalty extends Component {
+class ListAccumulationPoint extends Component {
 
   constructor(props) {
     super(props)
@@ -25,7 +25,7 @@ class ListLoyalty extends Component {
   }
 
   getList(page, pageSize) {
-    LoyaltyModel.getList(ACCUMULATION_BAG.getType(), page - 1, pageSize)
+    LoyaltyModel.getList(ACCUMULATION_POINT.getType(), page - 1, pageSize)
       .then(resp => {
         if (resp.error == 0) {
           this.setState({
@@ -58,8 +58,7 @@ class ListLoyalty extends Component {
                         <th >STT</th>
                         <th >Thầu</th>
                         <th >Tỉnh</th>
-                        <th >Tích lũy (tấn)</th>
-                        <th >Trạng Thái</th>
+                        <th >Tích lũy (điểm)</th>
                         <th ></th>
                       </tr>
                     </thead>
@@ -70,8 +69,7 @@ class ListLoyalty extends Component {
                             <th scope="row">{index + 1}</th>
                             <td>{item.customer.fullName}</td>
                             <td>{City.getName(item.customer.mainAreaId)}</td>
-                            <td>{item.ton / 1000}</td>
-                            <td >{item.moneyCanSend >= 20000 ? <span style={{color: '#b71c1c'}}>Có thể gửi quà</span> : 'Chưa thể gửi quà'}</td>
+                            <td>{item.point}</td>
                             <td><Link to={`/customer/${item.customer.id}`} className="add-butn" data-ripple>Chi tiết</Link></td>
                           </tr>
                         )
@@ -92,4 +90,4 @@ class ListLoyalty extends Component {
   }
 }
 
-export default ListLoyalty
+export default ListAccumulationPoint

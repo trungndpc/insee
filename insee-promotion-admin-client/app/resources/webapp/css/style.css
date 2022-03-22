@@ -5172,7 +5172,7 @@ canvas {
 
 .inbox-action > ul > li > label,
 .inbox-action > ul > li > a {
-    color: #959595 !important;
+    color: #959595;
     float: left;
     font-size: 13px;
     font-weight: 500;

@@ -25,6 +25,7 @@ import Introduction from './redux/containers/webapp/Introduction';
 import Loyalty from './redux/containers/webapp/Loyalty';
 import LeaderBoard from './redux/containers/webapp/LeaderBoard';
 import RedeemPoint from './redux/containers/webapp/RedeemPoint';
+import AccumulationPoint from './redux/containers/webapp/AccumulationPoint';
 
 
 
@@ -50,11 +51,12 @@ render(
         <Route path="/match" component={Match} />
         <Route path="/introduction" component={Introduction} />
         <Route path="/leaderboad" component={LeaderBoard} />
-        <Route exact path="/" component={Contractor} />
         <Route path="/login" component={Login} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/loyalty" component={Loyalty} />
+        <Route path="/accumulation-point" component={AccumulationPoint} />
         <Route path="/redeem-point" component={RedeemPoint} />
+        <Route path="/" exact component={Contractor} />
       </Switch>
       <RouteApp />
     </Router>

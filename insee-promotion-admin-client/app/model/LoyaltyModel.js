@@ -2,9 +2,9 @@ import APIUtils from '../utils/APIUtils'
 
 export default class LoyaltyModel {
 
-    static getList(page, pageSize) {
+    static getList(type, page, pageSize) {
         return new Promise((resolve, reject) => {
-            APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/loyalty/list?&page=${page}&pageSize=${pageSize}`, resolve, reject);
+            APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/loyalty/list?type=${type}&page=${page}&pageSize=${pageSize}`, resolve, reject);
         });
     }
 
