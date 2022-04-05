@@ -1,29 +1,31 @@
 
 
-export class TypeConstruction{
+export class TypeConstruction {
 
     constructor(type) {
         this.type = type;
     }
 
     static findByType(type) {
-        switch(type) {
-            case 1 : return NEXT_CONSTRUCTION;
-            case 2 : return NOW_CONSTRUCTION;
-            case 3 : return NOW_CONSTRUCTION_V2;
-            case 4 : return LOYALTY;
-            case 5 : return COLLECT_POINT;
+        switch (type) {
+            case 1: return NEXT_CONSTRUCTION;
+            case 2: return NOW_CONSTRUCTION;
+            case 3: return NOW_CONSTRUCTION_V2;
+            case 4: return LOYALTY;
+            case 5: return COLLECT_POINT;
+            case 6: return PHEN_MAN;
             default: return null;
         }
     }
 
     getName() {
-        switch(this.type) {
+        switch (this.type) {
             case 1: return "Công trình tiếp theo";
             case 2: return "Upload hóa đơn nhận quà";
             case 3: return "Upload hóa đơn nhận quà v2";
             case 4: return "Loyalty"
             case 5: return "Tích điểm đổi quà"
+            case 6: return "Phèn mặn"
         }
     }
 
@@ -32,7 +34,7 @@ export class TypeConstruction{
     }
 
     static getList() {
-        return [NEXT_CONSTRUCTION, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2, LOYALTY, COLLECT_POINT]
+        return [NEXT_CONSTRUCTION, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2, LOYALTY, COLLECT_POINT, PHEN_MAN]
     }
 
 }
@@ -44,3 +46,4 @@ export const NOW_CONSTRUCTION = new TypeConstruction(2);
 export const NOW_CONSTRUCTION_V2 = new TypeConstruction(3);
 export const LOYALTY = new TypeConstruction(4);
 export const COLLECT_POINT = new TypeConstruction(5);
+export const PHEN_MAN = new TypeConstruction(6);

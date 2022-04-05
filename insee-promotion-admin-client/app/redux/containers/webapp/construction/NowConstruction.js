@@ -167,7 +167,7 @@ class NowConstruction extends Component {
                     </tr>
                     {this.state.construction && this.state.construction.quantity > 0 &&
                       <tr>
-                        <th>Số lượng sản phẩm: </th>
+                        <th>Số lượng: </th>
                         <td>{construction && <input onChange={(e) => this._onChangeInput('quantity', e.target.value)} disabled={is_editing ? '' : 'disabled'} type="number" className="input-c" value={this.state.construction.quantity} />}</td>
                       </tr>
                     }

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {withRouter} from 'react-router-dom';
 import NowConstruction from './NowConstruction'
 import NextConstruction from './NextConstruction'
-import {TypeConstruction,  NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2, NEXT_CONSTRUCTION, LOYALTY, COLLECT_POINT} from '../../../../components/enum/TypeConstruction'
+import {TypeConstruction,  NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2, NEXT_CONSTRUCTION, LOYALTY, COLLECT_POINT, PHEN_MAN} from '../../../../components/enum/TypeConstruction'
 import LoyaltyConstruction from './LoyaltyConstruction';
 class DetailConstruction extends Component {
 
@@ -28,7 +28,7 @@ class DetailConstruction extends Component {
                 {construction &&  type == NOW_CONSTRUCTION_V2 && <NowConstruction construction={construction} {...this.props} />}
                 {construction &&  type == LOYALTY && <LoyaltyConstruction construction={construction} {...this.props} />}
                 {construction &&  type == COLLECT_POINT && <NowConstruction construction={construction} {...this.props} />}
-
+                {construction &&  type == PHEN_MAN && <NowConstruction construction={construction} {...this.props} />}
             </div>
         )
     }
