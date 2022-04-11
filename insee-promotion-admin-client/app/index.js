@@ -26,6 +26,7 @@ import Loyalty from './redux/containers/webapp/Loyalty';
 import LeaderBoard from './redux/containers/webapp/LeaderBoard';
 import RedeemPoint from './redux/containers/webapp/RedeemPoint';
 import AccumulationPoint from './redux/containers/webapp/AccumulationPoint';
+import PhenMan from './redux/containers/webapp/PhenMan';
 
 
 
@@ -55,6 +56,7 @@ render(
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/loyalty" component={Loyalty} />
         <Route path="/accumulation-point" component={AccumulationPoint} />
+        <Route path="/phen-man" component={PhenMan} />
         <Route path="/redeem-point" component={RedeemPoint} />
         <Route path="/" exact component={Contractor} />
       </Switch>

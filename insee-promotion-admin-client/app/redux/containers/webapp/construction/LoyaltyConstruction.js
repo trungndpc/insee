@@ -212,7 +212,7 @@ class LoyaltyConstruction extends Component {
           <div className="central-meta">
             <div className="about">
               <div className="personal">
-                <h5 className="f-title">Danh sách lần cập nhật hóa đơn mua hàng</h5>
+                <h5 className="f-title">Hóa đơn</h5>
               </div>
               <div className="col-lg-12 col-sm-12 pading0">
                 <table className="table">
@@ -245,8 +245,8 @@ class LoyaltyConstruction extends Component {
                           </td>
                           <td>{subStatus.getName()}</td>
                           <td>
-                            {status == ConstructionStatus.NEED_APPROVAL_AGAIN && subStatus == WAITING && <Link onClick={() => { this.approvedSubmitModalRef.open(item.id) }} ><i style={{ color: '#2196F3' }} className="btn-check fas fa-check"></i></Link>}
-                            {status == ConstructionStatus.NEED_APPROVAL_AGAIN && subStatus == WAITING && <Link onClick={() => { this.rejectedSubmitModalRef.open(item.id) }}><i style={{ color: '#9E9E9E' }} className="btn-reject fas fa-eject"></i></Link>}
+                            {(status == ConstructionStatus.NEED_APPROVAL_AGAIN || status == ConstructionStatus.APPROVED) && subStatus == WAITING && <Link onClick={() => { this.approvedSubmitModalRef.open(item.id) }} ><i style={{ color: '#2196F3' }} className="btn-check fas fa-check"></i></Link>}
+                            {(status == ConstructionStatus.NEED_APPROVAL_AGAIN || status == ConstructionStatus.APPROVED) && subStatus == WAITING && <Link onClick={() => { this.rejectedSubmitModalRef.open(item.id) }}><i style={{ color: '#9E9E9E' }} className="btn-reject fas fa-eject"></i></Link>}
                           </td>
                         </tr>
                       )

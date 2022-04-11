@@ -28,7 +28,7 @@ class DetailConstruction extends Component {
                 {construction &&  type == NOW_CONSTRUCTION_V2 && <NowConstruction construction={construction} {...this.props} />}
                 {construction &&  type == LOYALTY && <LoyaltyConstruction construction={construction} {...this.props} />}
                 {construction &&  type == COLLECT_POINT && <NowConstruction construction={construction} {...this.props} />}
-                {construction &&  type == PHEN_MAN && <NowConstruction construction={construction} {...this.props} />}
+                {construction &&  type == PHEN_MAN && <LoyaltyConstruction construction={construction} {...this.props} />}
             </div>
         )
     }
