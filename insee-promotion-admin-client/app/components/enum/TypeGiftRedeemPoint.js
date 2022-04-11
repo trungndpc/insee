@@ -5,10 +5,9 @@ export class TypeGiftRedeemPoint {
 
     static findById(id) {
         switch (id) {
-            case 20: return CARD_PHONE;
-            case 200: return VOUCHER;
-            case 1000: return MICROWAVE;
-            case 5000: return MOTORCYCLE;
+            case 50: return VOUCHER_DMX_50K;
+            case 100: return VOUCHER_DMX_200K;
+            case 250: return VOUCHER_DMX_200K_SAC_DU_PHONG;
         }
     }
 
@@ -19,21 +18,18 @@ export class TypeGiftRedeemPoint {
 
     getName() {
         switch (this.type) {
-            case 20: return "Thẻ điện thoại"
-            case 200: return "Phiếu giảm giá"
-            case 1000: return "Lò vi sóng"
-            case 5000: return "Xe máy"
-
+            case 50: return "Voucher ĐMX 50.000 VND"
+            case 100: return "Voucher ĐMX 200.000 VND"
+            case 250: return "Voucher ĐMX 200.000 + Sạc dự phòng"
         }
     }
 
     static getList() {
-        return [CARD_PHONE, VOUCHER, MICROWAVE, MOTORCYCLE]
+        return [VOUCHER_DMX_50K, VOUCHER_DMX_200K, VOUCHER_DMX_200K_SAC_DU_PHONG]
     }
 
 }
 
-export const CARD_PHONE = new TypeGiftRedeemPoint(20);
-export const VOUCHER = new TypeGiftRedeemPoint(200);
-export const MICROWAVE = new TypeGiftRedeemPoint(1000);
-export const MOTORCYCLE = new TypeGiftRedeemPoint(5000);
+export const VOUCHER_DMX_50K = new TypeGiftRedeemPoint(50);
+export const VOUCHER_DMX_200K = new TypeGiftRedeemPoint(100);
+export const VOUCHER_DMX_200K_SAC_DU_PHONG = new TypeGiftRedeemPoint(250);

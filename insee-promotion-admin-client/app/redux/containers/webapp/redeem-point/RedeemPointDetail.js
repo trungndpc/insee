@@ -8,8 +8,7 @@ import AreYouSureModal from '../../../../components/modal/AreYouSureModal'
 import DateTimeUtil from '../../../../utils/DateTimeUtil';
 import PointModel from '../../../../model/PointModel';
 import { INIT, APPROVED, RedeemPointStatus } from '../../../../components/enum/RedeemPointStatus';
-import { TypeGiftRedeemPoint, CARD_PHONE } from '../../../../components/enum/TypeGiftRedeemPoint';
-import PhoneCardGiftRedeemPointModal from './gift/PhoneCardGiftRedeemPointModal';
+import { TypeGiftRedeemPoint } from '../../../../components/enum/TypeGiftRedeemPoint';
 import VoucherGiftRedeemPointModal from './gift/VoucherGiftRedeemPointModal';
 
 class RedeemPointDetail extends Component {
@@ -126,14 +125,7 @@ class RedeemPointDetail extends Component {
           </div>
           <AreYouSureModal isOpen={this.state.isAreYouSureModal} onOK={this.approval}
             onClose={() => { this.setState({ isAreYouSureModal: false }) }} />
-          {redeemPoint && redeemPoint.typeGiftId === CARD_PHONE.getType() && this.state.isSendGiftModal && <PhoneCardGiftRedeemPointModal isOpen={true}
-            pointId={redeemPoint.id}
-            maxValue={redeemPoint.amount}
-            customerId={redeemPoint.customer.id}
-            callback={() => {
-              this.load()
-            }} />}
-          {redeemPoint && redeemPoint.typeGiftId !== CARD_PHONE.getType() && this.state.isSendGiftModal && <VoucherGiftRedeemPointModal
+          {redeemPoint && redeemPoint.typeGiftId !== 0 && this.state.isSendGiftModal && <VoucherGiftRedeemPointModal
             isOpen={true}
             pointId={redeemPoint.id}
             typeGiftId={redeemPoint.typeGiftId}

@@ -21,11 +21,11 @@ class ContractorInfo extends React.Component {
             loyalty: null
         }
         this.toggleQRCode = this.toggleQRCode.bind(this)
-        this.loadLoyalty = this.loadLoyalty.bind(this)
+        // this.loadLoyalty = this.loadLoyalty.bind(this)
     }
 
     componentDidMount() {
-        this.loadLoyalty()
+        // this.loadLoyalty()
     }
 
     toggleQRCode() {
@@ -34,14 +34,14 @@ class ContractorInfo extends React.Component {
         })
     }
 
-    loadLoyalty() {
-        LoyaltyModel.me()
-            .then(resp => {
-                if (resp.error == 0 && resp.data.length > 0) {
-                    this.setState({ loyalty: resp.data[0] })
-                }
-            })
-    }
+    // loadLoyalty() {
+    //     LoyaltyModel.me()
+    //         .then(resp => {
+    //             if (resp.error == 0 && resp.data.length > 0) {
+    //                 this.setState({ loyalty: resp.data[0] })
+    //             }
+    //         })
+    // }
 
 
 
@@ -79,7 +79,7 @@ class ContractorInfo extends React.Component {
                                                             </div>
                                                         }
 
-                                                        {loyalty &&
+                                                        {/* {loyalty &&
                                                             <div className="about loyalty-main">
                                                                 <div className="personal">
                                                                     <div className="central-meta">
@@ -91,7 +91,7 @@ class ContractorInfo extends React.Component {
                                                                 </div>
 
                                                             </div>
-                                                        }
+                                                        } */}
                                                         {contractor && <div className="central-meta">
                                                             <div className="about">
                                                                 <div className="personal">

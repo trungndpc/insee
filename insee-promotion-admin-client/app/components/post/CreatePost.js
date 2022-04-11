@@ -237,7 +237,10 @@ class CreatePromotion extends Component {
                                             }
                                         </div>
                                     }
-                                    {(this.state.typePromotion == NOW_CONSTRUCTION || this.state.typePromotion == LOYALTY || this.state.typePromotion == NOW_CONSTRUCTION_V2) &&
+                                    {(this.state.typePromotion == NOW_CONSTRUCTION
+                                        || this.state.typePromotion == LOYALTY
+                                        || this.state.typePromotion == NOW_CONSTRUCTION_V2
+                                        || this.state.typePromotion == COLLECT_POINT) &&
                                         <div className="ctk-row">
                                             <label className="ctk-editor-lable">Loại xi măng </label>
                                             {isRender && <div className="ctk-editor-input c1"> <CementMultiSelect defaultValue={promotion && promotion.ruleAcceptedCement} ref={e => this.cementRef = e} /> </div>}
@@ -264,7 +267,7 @@ class CreatePromotion extends Component {
                                 {this.state.errorMsg && <div style={{ textAlign: 'right', paddingRight: '45px' }} className="errorMsg"><p>{this.state.errorMsg}</p></div>}
                                 <ul>
                                     {promotion && promotion.status == 1 && <li onClick={this._onClickPublic}><span className="mbtn">Public</span></li>}
-                                    <li style={{marginRight: '30px'}} onClick={this._onClickSave}><span className="mbtn">Save</span></li>
+                                    <li style={{ marginRight: '30px' }} onClick={this._onClickSave}><span className="mbtn">Save</span></li>
                                 </ul>
                             </div>
                         </div>

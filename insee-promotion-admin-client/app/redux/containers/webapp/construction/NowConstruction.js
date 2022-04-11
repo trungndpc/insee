@@ -17,6 +17,7 @@ import { City, District } from '../../../../data/Location'
 import CommonUtil from '../../../../utils/CommonUtil';
 import ConstructionModel from '../../../../model/ConstructionModel';
 import AlertUtils from '../../../../utils/AlertUtils'
+import { COLLECT_POINT } from '../../../../components/enum/TypeConstruction';
 
 class NowConstruction extends Component {
 
@@ -224,7 +225,7 @@ class NowConstruction extends Component {
                   <li><a onClick={() => this._approval(false)} style={{ backgroundColor: '#9E9E9E' }} className="add-butn">Không chấp nhận</a></li>
                 </div>
               }
-              {status == ConstructionStatus.APPROVED &&
+              {status == ConstructionStatus.APPROVED && construction.type != COLLECT_POINT.getType() && 
                 <li><a onClick={() => { this.giftModalRef.open() }} className="add-butn">Gửi quà</a></li>
               }
             </ul>
