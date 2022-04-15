@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TypePromotion, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2, LOYALTY, COLLECT_POINT } from '../enum/TypePromotion'
+import { TypePromotion, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2, LOYALTY, COLLECT_POINT, PHEN_MAN } from '../enum/TypePromotion'
 import INSEEEditor from './INSEEEditor'
 import DateTimeUtil from '../../utils/DateTimeUtil'
 import AreYouSureModal from '../../components/modal/AreYouSureModal'
@@ -226,7 +226,8 @@ class CreatePromotion extends Component {
                                         </select>
                                         }
                                     </div>
-                                    {this.state.typePromotion != LOYALTY && this.state.typePromotion != COLLECT_POINT &&
+                                    {this.state.typePromotion != LOYALTY && this.state.typePromotion != COLLECT_POINT
+                                        && this.state.typePromotion != PHEN_MAN &&
                                         <div className="ctk-row">
                                             <label className="ctk-editor-lable">Loại Quà tặng: </label>
                                             {isRender && <select disabled={isUpdate} onChange={this._onChangeTypeGift} defaultValue={promotion ? promotion.typeGift : this.state.typeGift.getType()} className="ctk-editor-input" ref={e => this.typeGiftRef = e} type="text" placeholder="Chương trình khuyến mãi siêu cấp">
