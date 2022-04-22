@@ -3,34 +3,18 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as appActions from '../../actions/app'
 import WebAppLayout from '../../../components/layout/WebAppLayout'
-import ListPost  from '../../../components/post/ListPost'
+import SideBar from '../../../components/layout/SideBar'
+
 import {
     Switch,
     Route,
-    Link,
-    useParams
 } from "react-router-dom";
-import CreatePost from '../../../components/post/CreatePost'
-import SideBar from '../../../components/layout/SideBar'
-import ListParticipationPost from '../../../components/post/ListParticipationPost'
+import ListBroadcast from './broadcast/ListBroadcast'
+import CreateBroadcast from './broadcast/CreateBroadcast'
 
 
-function DetailPostRoute(props) {
-    let { postId } = useParams();
-    return <CreatePost postId={postId} {...props} />
-}
 
-function ListParticipationPostRoute(props) {
-    let { postId } = useParams();
-    return <ListParticipationPost postId={postId} {...props} />
-}
-
-
-class Post extends React.Component {
-
-
-    componentDidMount() {
-    }
+class Broadcast extends React.Component {
 
     render() {
         return (
@@ -45,19 +29,12 @@ class Post extends React.Component {
                                             <SideBar />
                                         </div>
                                         <div className="col-lg-9">
-
                                             <Switch>
-                                                <Route exact path="/post/create">
-                                                    <CreatePost {...this.props} />
+                                                <Route path="/broadcast/create">
+                                                    <CreateBroadcast {...this.props} />
                                                 </Route>
-                                                <Route path="/post/:postId/participation">
-                                                    <ListParticipationPostRoute {...this.props} />
-                                                </Route>
-                                                <Route path="/post/:postId">
-                                                    <DetailPostRoute {...this.props} />
-                                                </Route>
-                                                <Route path="/post">
-                                                    <ListPost {...this.props} />
+                                                <Route path="/broadcast">
+                                                    <ListBroadcast {...this.props} />
                                                 </Route>
                                             </Switch>
                                         </div>
@@ -87,4 +64,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Post)
+)(Broadcast)

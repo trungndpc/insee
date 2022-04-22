@@ -160,18 +160,6 @@ class CreatePromotion extends Component {
         this.props.appActions.createPromotion(data);
     }
 
-    // uploadCover(file) {
-    //     return new Promise((resolve, reject) => {
-    //         let name = new Date().getTime();
-    //         let promoise = S3Util.addPhotos(FOLDER_COVER_S3, fileList, name);
-    //         promoise.then(values => {
-    //             resolve(values.map(value => value.Location))
-    //         }).catch(e => {
-    //             reject('Đã có lỗi xảy ra trong quá trình upload hình ảnh');
-    //         })
-    //     });
-    // }
-
     render() {
         const postId = this.props.postId;
         let isRender = true;

@@ -27,6 +27,7 @@ import LeaderBoard from './redux/containers/webapp/LeaderBoard';
 import RedeemPoint from './redux/containers/webapp/RedeemPoint';
 import AccumulationPoint from './redux/containers/webapp/AccumulationPoint';
 import PhenMan from './redux/containers/webapp/PhenMan';
+import Broadcast from './redux/containers/webapp/Broadcast';
 
 
 
@@ -54,6 +55,7 @@ render(
         <Route path="/leaderboad" component={LeaderBoard} />
         <Route path="/login" component={Login} />
         <Route path="/dashboard" component={Dashboard} />
+        <Route path="/broadcast" component={Broadcast} />
         <Route path="/loyalty" component={Loyalty} />
         <Route path="/accumulation-point" component={AccumulationPoint} />
         <Route path="/phen-man" component={PhenMan} />
