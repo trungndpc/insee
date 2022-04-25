@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import LoyaltyModel from '../../../../model/LoyaltyModel';
+import BroadcastModel from '../../../../model/BroadcastModel';
 import { Pagination } from 'antd';
 import { City } from '../../../../data/Location';
-import { PHEN_MAM } from '../../../../components/enum/TypeLoyalty';
 import AreYouSureModal from '../../../../components/modal/AreYouSureModal'
+import { StatusBroadcast, APPROVED, INIT } from '../../../../components/enum/StatusBroadcast'
+import moment from 'moment'
+import AlertUtils from '../../../../utils/AlertUtils'
 
 
 class ListBroadcast extends Component {
@@ -13,12 +15,14 @@ class ListBroadcast extends Component {
     this.state = {
       page: 1,
       pageSize: 10,
-      page_loyalty: null,
+      page_broadcast: null,
       isAreYouSureModal: false,
+      idApproval: null
     }
     this.getList = this.getList.bind(this)
     this._onChangePage = this._onChangePage.bind(this)
     this._onClickApproval = this._onClickApproval.bind(this)
+    this.approval = this.approval.bind(this)
   }
 
   componentDidMount() {
@@ -26,11 +30,11 @@ class ListBroadcast extends Component {
   }
 
   getList(page, pageSize) {
-    LoyaltyModel.getList(PHEN_MAM.getType(), page - 1, pageSize)
+    BroadcastModel.getList(page - 1, pageSize)
       .then(resp => {
         if (resp.error == 0) {
           this.setState({
-            page_loyalty: resp.data
+            page_broadcast: resp.data
           })
         }
       })
@@ -42,12 +46,24 @@ class ListBroadcast extends Component {
   }
 
   _onClickApproval(id) {
-    this.setState({ isAreYouSureModal: true })
+    this.setState({ isAreYouSureModal: true, idApproval: id })
   }
 
+  approval() {
+    let id = this.state.idApproval;
+    BroadcastModel.updateStatus(id, APPROVED.getStatus())
+      .then(resp => {
+        if (resp.error == 0) {
+          this.getList(this.state.page, this.state.pageSize)
+          AlertUtils.showSuccess('Thành công!')
+        } else {
+          AlertUtils.showError(resp.msg)
+        }
+      })
+  }
 
   render() {
-    const page_loyalty = this.state.page_loyalty;
+    const page_broadcast = this.state.page_broadcast;
     return (
       <div className="frnds">
         <div className="inbox-lists">
@@ -78,15 +94,15 @@ class ListBroadcast extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {page_loyalty && page_loyalty.list && page_loyalty.list.map((item, index) => {
+                      {page_broadcast && page_broadcast.list && page_broadcast.list.map((item, index) => {
                         return (
                           <tr key={index}>
                             <th scope="row">{index + 1}</th>
-                            <td>{item.customer.fullName}</td>
-                            <td>{City.getName(item.customer.mainAreaId)}</td>
-                            <td>{item.bags}</td>
-                            <td>Chờ duyệt</td>
-                            <td><a onClick={() => { this._onClickApproval(item.id) }} className="add-butn">Duyệt</a></td>
+                            <td>{item.name}</td>
+                            <td>{moment(new Date(item.timeStart)).format("kk:mm YYYY-MM-DD ")}</td>
+                            <td>{!item.cityIds ? 'ALL' : item.cityIds.map(id => City.getName(id)).join(",")}</td>
+                            <td>{StatusBroadcast.findBySatus(item.status).getName()}</td>
+                            <td>{item.status == INIT.getStatus() && <a onClick={() => { this._onClickApproval(item.id) }} className="add-butn">Duyệt</a>}</td>
                           </tr>
                         )
                       })}
@@ -97,11 +113,11 @@ class ListBroadcast extends Component {
             </div>
 
             <div className="paging-container">
-              {page_loyalty && <Pagination defaultCurrent={1} current={this.state.page}
-                onChange={this._onChangePage} total={page_loyalty.totalPage * page_loyalty.pageSize} />}
+              {page_broadcast && <Pagination defaultCurrent={1} current={this.state.page}
+                onChange={this._onChangePage} total={page_broadcast.totalPage * page_broadcast.pageSize} />}
             </div>
           </div>
-          <AreYouSureModal isOpen={this.state.isAreYouSureModal} onOK={() => { }}
+          <AreYouSureModal isOpen={this.state.isAreYouSureModal} onOK={() => { this.approval() }}
             onClose={() => { this.setState({ isAreYouSureModal: false }) }} />
         </div>
       </div>

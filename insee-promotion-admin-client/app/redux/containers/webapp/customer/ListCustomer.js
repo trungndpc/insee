@@ -61,8 +61,21 @@ class ListCustomer extends Component {
 
   onChangePhone(event) {
     let phone = event.target.value;
-    this.setState({ status: 0, location: 0, page: 0 });
+    this.setState({ status: 0, location: 0, page: 0, phone: phone });
     this.load(0, 0, phone);
+  }
+
+  export = () => {
+    var url = new URL(`${process.env.DOMAIN}/api/admin/customer/export-excel`);
+    let status = this.state.status;
+    let location = this.state.location;
+    if (status && status != 0) {
+      url.searchParams.append('status', status + '');
+    }
+    if (location && location != 0) {
+      url.searchParams.append('location', location + '');
+    }
+    window.open(url.toString(), '_blank')
   }
 
   render() {
@@ -95,9 +108,17 @@ class ListCustomer extends Component {
                 <label>Tìm kiếm</label>
                 <div className="search-field">
                   <div className="search-field__input">
-                    <input onChange={this.onChangePhone} value={this.state.phone ? this.state.phone : ''}  className="js-term search-field__input-field" type="search" placeholder="Phone" />
+                    <input onChange={this.onChangePhone} value={this.state.phone}
+                      className="js-term search-field__input-field" type="search" placeholder="Phone" />
                   </div>
                 </div>
+              </li>
+              <li style={{ float: 'right', paddingTop: '22px', textAlign: 'center', margin: '0' }}>
+                <a className="add-butn post-btn" href="#" onClick={() => {
+                  this.export()
+                }}>
+                  <span style={{ color: '#fff !important' }} className="mbtn">Export</span>
+                </a>
               </li>
             </ul>
           </div>
