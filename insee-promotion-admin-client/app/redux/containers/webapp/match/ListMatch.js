@@ -16,7 +16,7 @@ class ListMatch extends Component {
       page: 1,
       pageSize: 10,
       status: -1,
-      season: 1,
+      season: 4,
       page_match: null
     }
     this.getList = this.getList.bind(this)
@@ -63,10 +63,11 @@ class ListMatch extends Component {
             <ul>
               <li>
                 <label>Giải đấu:</label>
-                <select onChange={this._onChangeSeason} className="form-control">
+                <select value={this.state.season} onChange={this._onChangeSeason} className="form-control">
                   <option value={1}>Vòng Loại Wordcup</option>
                   <option value={2}>EURO 2021</option>
                   <option value={3}>VÒNG LOẠI WC 3</option>
+                  <option value={4}>Seagame 2022</option>
                 </select>
               </li>
               <li>

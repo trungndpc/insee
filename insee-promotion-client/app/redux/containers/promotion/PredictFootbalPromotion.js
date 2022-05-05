@@ -137,13 +137,12 @@ class PredictFootbalPromotion extends React.Component {
                                                                         let teamTwoScore = predict.teamTwoScore;
                                                                         let str = 'Anh đã dự đoán '
                                                                         if (teamOneScore > teamTwoScore) {
-                                                                            str = str + item.teamOne.name + ' thắng với tỉ số '
+                                                                            str = str + item.teamOne.name + ' thắng'
                                                                         } else if (teamOneScore == teamTwoScore) {
-                                                                            str = str + item.teamOne.name + ' hòa với tỉ số '
+                                                                            str = str + ' hai đội hòa'
                                                                         } else {
-                                                                            str = str + item.teamOne.name + ' thua với tỉ số '
+                                                                            str = str + item.teamOne.name + ' thua'
                                                                         }
-                                                                        str = str + teamOneScore + ' - ' + teamTwoScore;
                                                                         strPredict = str;
                                                                     }
                                                                     return (

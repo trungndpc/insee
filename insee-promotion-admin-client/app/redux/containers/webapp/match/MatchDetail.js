@@ -97,6 +97,18 @@ class MatchDetail extends Component {
     this.getListPredict(this.props.matchId, pageNumber, this.state.pageSize)
   }
 
+  getTextPredict(match, teamWin) {
+    if (teamWin == 0) {
+      return 'Hòa'
+    } else {
+      if (match.teamOne.id == teamWin) {
+        return match.teamOne.name + ' thắng'
+      } else {
+        return match.teamTwo.name + ' thắng'
+      }
+    }
+  }
+
 
   render() {
     const match = this.state.match
@@ -150,47 +162,49 @@ class MatchDetail extends Component {
               {status && status.id == PROCESSING.id && <li><Link onClick={this.onClickUpdateResultModal} className="add-butn">Cập nhật kết quả</Link></li>}
             </ul>
           </div>
-          <div className="central-meta">
-            <div className="about">
-              <div className="personal">
-                <h5 className="f-title">Danh sách dự đoán</h5>
+          {match &&
+            <div className="central-meta">
+              <div className="about">
+                <div className="personal">
+                  <h5 className="f-title">Danh sách dự đoán</h5>
+                </div>
+                <div className="col-lg-12 col-sm-12 pading0">
+                  <table className="table">
+                    <thead className=" insee-color">
+                      <tr className="insee-color">
+                        <th>ID</th>
+                        <th>Nhà thầu</th>
+                        <th>Dự đoán</th>
+                        <th>Kết quả</th>
+                        <th>Thời gian</th>
+                        {/* <th></th> */}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {page_predict && page_predict.list && page_predict.list.map(function (item, key) {
+                        let predictStatus = PredictStatus.findById(item.status);
+                        return (
+                          <tr key={key}>
+                            <th scope="row">{item.id}</th>
+                            <td>{item.customer.fullName}</td>
+                            <td>{this.getTextPredict(match, item.teamWin)}</td>
+                            <td>{predictStatus.name}</td>
+                            <td>{DateTimeUtil.diffTime(item.updatedTime)}</td>
+                            {/* <td>{predictStatus == SUCCESS && <a onClick={() => { this.onClickSendGift(item) }} className="add-butn">Gửi quà</a>}</td> */}
+                          </tr>
+                        )
+                      }.bind(this))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-              <div className="col-lg-12 col-sm-12 pading0">
-                <table className="table">
-                  <thead className=" insee-color">
-                    <tr className="insee-color">
-                      <th>ID</th>
-                      <th>Nhà thầu</th>
-                      <th>Dự đoán</th>
-                      <th>Kết quả</th>
-                      <th>Thời gian</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {page_predict && page_predict.list && page_predict.list.map(function (item, key) {
-                      let predictStatus = PredictStatus.findById(item.status);
-                      return (
-                        <tr key={key}>
-                          <th scope="row">{item.id}</th>
-                          <td>{item.customer.fullName}</td>
-                          <td>{`${item.teamOneScore} - ${item.teamTwoScore}`}</td>
-                          <td>{predictStatus.name}</td>
-                          <td>{DateTimeUtil.diffTime(item.updatedTime)}</td>
-                          <td>{predictStatus == SUCCESS && <a onClick={() => { this.onClickSendGift(item) }} className="add-butn">Gửi quà</a>}</td>
-                        </tr>
-                      )
-                    }.bind(this))}
-                  </tbody>
-                </table>
-              </div>
+              {page_predict &&
+                <div className="paging-container">
+                  <Pagination defaultCurrent={1} current={this.state.page} total={page_predict.totalPage * page_predict.pageSize} onChange={this.onChangePage} />
+                </div>
+              }
             </div>
-            {page_predict &&
-              <div className="paging-container">
-                <Pagination defaultCurrent={1} current={this.state.page} total={page_predict.totalPage * page_predict.pageSize} onChange={this.onChangePage} />
-              </div>
-            }
-          </div>
+          }
           <AreYouSureModal isOpen={this.state.isUpdateResultModal}
             onOK={this.updateResult}
             onClose={() => this.setState({ isUpdateResultModal: false })} />
@@ -200,7 +214,7 @@ class MatchDetail extends Component {
             callback={() => {
               this.getListPredict(this.props.matchId, this.state.page, this.state.pageSize)
             }}
-            />
+          />
         </div>
       </div>
     )

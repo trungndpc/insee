@@ -22,6 +22,6 @@ export class PredictStatus {
 
 export const INIT = new PredictStatus(1, 'Mới khởi tạo');
 export const LOCKED = new PredictStatus(2, 'Đã khóa')
-export const FAILED = new PredictStatus(3, 'Thất bại');
-export const SUCCESS = new PredictStatus(4, 'Thành công');
+export const FAILED = new PredictStatus(3, 'Không chính xác');
+export const SUCCESS = new PredictStatus(4, 'Chính xác');
 export const SEND_GIFT = new PredictStatus(5, 'Đã gửi quà')
