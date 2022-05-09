@@ -57,7 +57,6 @@ class ListCustomerBag extends Component {
 
     render() {
         const page_customers = this.state.page_customers;
-        console.log(page_customers)
         return (
 
             <div className="frnds">

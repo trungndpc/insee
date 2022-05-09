@@ -7,6 +7,8 @@ import {
 import { City } from '../../../../data/Location';
 import { PHEN_MAM } from '../../../../components/enum/TypeLoyalty';
 
+const BAGS_SORT = "bags";
+const PHEN_MAM_PROMOTION_ID = 11;
 class ListPhenMan extends Component {
 
   constructor(props) {
@@ -25,7 +27,7 @@ class ListPhenMan extends Component {
   }
 
   getList(page, pageSize) {
-    LoyaltyModel.getList(PHEN_MAM.getType(), page - 1, pageSize)
+    LoyaltyModel.getList(PHEN_MAM_PROMOTION_ID, page - 1, pageSize, BAGS_SORT)
       .then(resp => {
         if (resp.error == 0) {
           this.setState({
