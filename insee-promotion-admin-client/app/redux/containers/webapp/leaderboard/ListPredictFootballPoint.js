@@ -21,7 +21,7 @@ class ListPredictFootballPoint extends Component {
     }
 
     getList(page, pageSize) {
-        LoyaltyModel.getList(this.props.promotionId, page - 1, pageSize, POINT_SORT)
+        LoyaltyModel.getList(this.props.promotionId, POINT_SORT, page - 1, pageSize)
             .then(resp => {
                 if (resp.error == 0) {
                     this.setState({

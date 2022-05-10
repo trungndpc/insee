@@ -7,8 +7,8 @@ import {
 import MatchModel from '../../../../model/MatchModel';
 import { MatchStatus, DONE } from '../../../../components/enum/MatchStatus'
 
+const PREDICT_FOOTBALL_PROMOTION_ID = 1071
 class ListMatch extends Component {
-
 
   constructor(props) {
     super(props)
@@ -81,6 +81,11 @@ class ListMatch extends Component {
                   })}
                 </select>
               </li>
+              <li style={{ float: 'right', paddingTop: '22px', textAlign: 'center', margin: '0' }}>
+                <Link className="add-butn post-btn" style={{width: '120px', padding: '8px 10px'}} to={"/leaderboad/football/" + PREDICT_FOOTBALL_PROMOTION_ID}>
+                  <span style={{ color: '#fff !important' }} >Bảng Xếp Hạng</span>
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -118,7 +123,7 @@ class ListMatch extends Component {
                                 <li>{item.totalFailedPredict} người dự đoán sai</li>
                               }
                               {matchStatus.id == DONE.id &&
-                                <li style={{color: 'red'}}>{item.totalSuccessPredict} người dự đoán trúng</li>
+                                <li style={{ color: 'red' }}>{item.totalSuccessPredict} người dự đoán trúng</li>
                               }
                             </ul>
                           </div>

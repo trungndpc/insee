@@ -7,6 +7,8 @@ import {
 import { City } from '../../../../data/Location';
 import {ACCUMULATION_POINT } from '../../../../components/enum/TypeLoyalty';
 
+const ACCUMULATION_POINT_PROMOTION_ID = 1064;
+const POINT_SORT = "point";
 class ListAccumulationPoint extends Component {
 
   constructor(props) {
@@ -25,7 +27,7 @@ class ListAccumulationPoint extends Component {
   }
 
   getList(page, pageSize) {
-    LoyaltyModel.getList(ACCUMULATION_POINT.getType(), page - 1, pageSize)
+    LoyaltyModel.getList(ACCUMULATION_POINT_PROMOTION_ID, POINT_SORT, page - 1, pageSize)
       .then(resp => {
         if (resp.error == 0) {
           this.setState({
