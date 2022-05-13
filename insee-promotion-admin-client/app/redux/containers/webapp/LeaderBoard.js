@@ -8,8 +8,15 @@ import SideBar from '../../../components/layout/SideBar'
 import {
     Switch,
     Route,
+    useParams
 } from "react-router-dom";
 import ListCustomerBag from './leaderboard/ListCustomerBag'
+import ListPredictFootballPoint from './leaderboard/ListPredictFootballPoint'
+
+function ListPredictFootballPointRoute(props) {
+    let { promotionId } = useParams();
+    return <ListPredictFootballPoint promotionId={promotionId} {...props} />
+}
 
 
 class LeaderBoard extends React.Component {
@@ -28,9 +35,12 @@ class LeaderBoard extends React.Component {
                                         </div>
                                         <div className="col-lg-9">
                                             <Switch>
-                                                <Route path="/leaderboad">
-                                                    <ListCustomerBag {...this.props} />
+                                                <Route path="/leaderboad/football/:promotionId">
+                                                    <ListPredictFootballPointRoute {...this.props} />
                                                 </Route>
+                                                {/* <Route path="/leaderboad">
+                                                    <ListCustomerBag {...this.props} />
+                                                </Route> */}
                                             </Switch>
                                         </div>
                                     </div>

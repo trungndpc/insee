@@ -15,7 +15,7 @@ class ListPost extends React.PureComponent {
         this.state = {
             page: 1,
             pageSize: 10,
-            status: PUBLISHED.getStatus(),
+            status: -1,
             isShowDeleteModal: false,
             page_post: null
         }
