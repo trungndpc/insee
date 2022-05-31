@@ -10,11 +10,12 @@ class RejectedSubmitConstructionModal extends Component {
         super(props)
         this.state = {
             isOpen: false,
-            submitId: null
+            submitId: null,
         }
         this._onClose = this._onClose.bind(this)
         this._onClickOK = this._onClickOK.bind(this)
         this.open = this.open.bind(this)
+        this.isDisable = false
     }
 
     open(id) {
@@ -23,17 +24,21 @@ class RejectedSubmitConstructionModal extends Component {
     }
 
     _onClose() {
+        this.isDisable = false;
         AppUtils.toggleModal(false)
         this.setState({ isOpen: false, submitId: null })
     }
 
     _onClickOK() {
-        this.state.submitId &&
+        if (!this.isDisable && this.state.submitId) {
+            this.isDisable = true;
             SubmitConstructionModel.updateStatus(this.state.submitId, REJECTED)
                 .then(resp => {
                     AlertUtils.showSuccess('Rejeceted')
                     this.props.appActions.getConstruction(this.props.constructionId)
+                    this.isDisable = false;
                 })
+        }
         this._onClose();
     }
 

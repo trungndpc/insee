@@ -10,11 +10,12 @@ class ApprovedSubmitConstructionModal extends Component {
         super(props)
         this.state = {
             isOpen: false,
-            submitId: null
+            submitId: null,
         }
         this._onClose = this._onClose.bind(this)
         this._onClickOK = this._onClickOK.bind(this)
         this.open = this.open.bind(this)
+        this.isDisableClick = false;
     }
 
     open(id) {
@@ -24,18 +25,23 @@ class ApprovedSubmitConstructionModal extends Component {
 
     _onClose() {
         AppUtils.toggleModal(false)
+        this.isDisableClick = false;
         this.setState({ isOpen: false, submitId: null })
         this.props.callback && this.props.callback()
     }
 
     _onClickOK() {
-        this.state.submitId &&
+        if (!this.isDisableClick && this.state.submitId) {
+            this.isDisableClick = true;
             SubmitConstructionModel.updateStatus(this.state.submitId, APPROVED)
                 .then(resp => {
                     this._onClose();
                     AlertUtils.showSuccess('Verified')
                     this.props.appActions.getConstruction(this.props.constructionId)
+                    this.isDisableClick = false;
                 })
+        }
+        this._onClose();
     }
 
     render() {
