@@ -27,4 +27,6 @@ export const NOW_CONSTRUCTION_V2 = new TypePromotion(3)
 export const PREDICT_FOOTBALL = new TypePromotion(4)
 export const LOYALTY = new TypePromotion(5)
 export const SHARE_LINK_REGISTRY = new TypePromotion(6)
+export const COLLECT_POINT = new TypePromotion(7)
+export const PHEN_MAN = new TypePromotion(8)
 

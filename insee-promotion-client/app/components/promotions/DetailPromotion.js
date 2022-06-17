@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from "react-router";
-import { LOYALTY, SHARE_LINK_REGISTRY, TypePromotion } from '../../components/enum/TypePromotion'
+import { COLLECT_POINT, LOYALTY, PHEN_MAN, SHARE_LINK_REGISTRY, TypePromotion } from '../../components/enum/TypePromotion'
 import { CONTRUCTOR } from '../../components/enum/UserRole'
 import WebUtil from '../../utils/WebUtil'
 import PromotionModel from '../../model/PromotionModel'
@@ -64,7 +64,7 @@ class DetailPromotion extends Component {
     onClickDetail() {
         const promotion = this.props.app.promotion;
         const one = promotion && promotion.one;
-        if (one.typePromotion == LOYALTY.type) {
+        if (one.typePromotion == LOYALTY.type || one.typePromotion == COLLECT_POINT.type || one.typePromotion == PHEN_MAN.type) {
             PromotionModel.startZaloBot(one.id)
                 .then(resp => {
                     if (resp.error == 0 && resp.data) {
