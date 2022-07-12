@@ -147,6 +147,14 @@ class LoyaltyConstruction extends Component {
                       <td style={{ color: '#b71c1c' }}>{construction && <Link to={'/customer/' + construction.user.customerId}>{construction.user.name}</Link>}</td>
                     </tr>
                     <tr>
+                      <th>Tên cửa hàng: </th>
+                      <td>{construction && <input onChange={(e) => this._onChangeInput('name', e.target.value)} disabled={is_editing ? '' : 'disabled'} className="input-c" value={construction.name} />}</td>
+                    </tr>
+                    <tr>
+                      <th>SDT cửa hàng: </th>
+                      <td>{construction && <input onChange={(e) => this._onChangeInput('phone', e.target.value)} disabled={is_editing ? '' : 'disabled'} className="input-c" value={construction.phone} />}</td>
+                    </tr>
+                    <tr>
                       <th>Loại xi măng</th>
                       <td>{construction && CementEnum.findById(construction.cement) && CementEnum.findById(construction.cement).name}</td>
                     </tr>
