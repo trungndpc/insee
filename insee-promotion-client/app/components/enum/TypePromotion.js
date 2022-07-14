@@ -5,28 +5,31 @@ export class TypePromotion {
     }
 
     static getLink2Detail(type, id) {
-        switch(type) {
-            case NEXT_CONSTRUCTION.type :
+        switch (type) {
+            case NEXT_CONSTRUCTION.type:
                 return '/khuyen-mai/' + id + '/cong-trinh-tiep-theo';
-            case NOW_CONSTRUCTION.type : 
-            case NOW_CONSTRUCTION_V2.type : 
+            case NOW_CONSTRUCTION.type:
+            case NOW_CONSTRUCTION_V2.type:
                 return '/khuyen-mai/' + id + '/up-hoa-don-nha-qua';
-            case PREDICT_FOOTBALL.type : 
-                return '/khuyen-mai/' + id + '/du-doan-ket-qua-bong-da'; 
-            case SHARE_LINK_REGISTRY.type : 
+            case PREDICT_FOOTBALL.type:
+                return '/khuyen-mai/' + id + '/du-doan-ket-qua-bong-da';
+            case SHARE_LINK_REGISTRY.type:
                 return '/khuyen-mai/' + id + '/gioi-thieu-thanh-vien';
-            case LOYALTY.type : 
+            case LOYALTY.type:
                 return '/khuyen-mai/' + id + '/loyalty';
+            case GREETING_NEW_FRIEND.type:
+                return '/khuyen-mai/' + id + '/chao-ban-moi';
         }
     }
 }
 
 export const NEXT_CONSTRUCTION = new TypePromotion(1)
-export const NOW_CONSTRUCTION  = new TypePromotion(2)
+export const NOW_CONSTRUCTION = new TypePromotion(2)
 export const NOW_CONSTRUCTION_V2 = new TypePromotion(3)
 export const PREDICT_FOOTBALL = new TypePromotion(4)
 export const LOYALTY = new TypePromotion(5)
 export const SHARE_LINK_REGISTRY = new TypePromotion(6)
 export const COLLECT_POINT = new TypePromotion(7)
 export const PHEN_MAN = new TypePromotion(8)
+export const GREETING_NEW_FRIEND = new TypePromotion(9)
 

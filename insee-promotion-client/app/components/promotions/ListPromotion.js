@@ -6,6 +6,7 @@ import { City } from '../../data/Location'
 import DateTimeUtil from '../../utils/DateTimeUtil'
 import MessageError from '../../components/MessageError'
 import ErrorHelper from '../../components/ErrorHelper'
+import { GREETING_NEW_FRIEND, TypePromotion } from '../enum/TypePromotion';
 class ListPromotion extends Component {
 
     componentDidMount() {
@@ -14,7 +15,7 @@ class ListPromotion extends Component {
 
 
     renderLocation(arr) {
-        return ;
+        return;
     }
 
     render() {
@@ -47,7 +48,16 @@ class ListPromotion extends Component {
                                                 </span>
                                             </div>
                                         </div>
-                                        {item.count > 0 && <span className="extra-infor-post">{`Đã tham gia ${item.count} lần`}</span>}
+                                        {item.count > 0 &&
+                                            <>
+                                                {item.typePromotion == GREETING_NEW_FRIEND.type ?
+                                                    <span className="extra-infor-post">Đủ điều kiện tham gia</span>
+                                                    :
+                                                    <span className="extra-infor-post">{`Đã tham gia ${item.count} lần`}</span>
+                                                }
+
+                                            </>
+                                        }
                                     </div>
                                 </div>
                             )

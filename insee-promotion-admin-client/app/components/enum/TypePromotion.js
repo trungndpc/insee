@@ -16,6 +16,7 @@ export class TypePromotion {
             case 6: return SHARE_LINK_TO_REGISTER;
             case 7: return COLLECT_POINT;
             case 8: return PHEN_MAN;
+            case 9: return GREETING_NEW_FRIEND;
             default: return null;
         }
     }
@@ -28,8 +29,9 @@ export class TypePromotion {
             case 4: return "Dự đoán kết quả bóng đá";
             case 5: return "Loyalty";
             case 6: return "Chia sẻ link đăng ký";
-            case 7: return "Tích điểm đổi quà"
-            case 8: return "Thách thức phèn mặn"
+            case 7: return "Tích điểm đổi quà";
+            case 8: return "Thách thức phèn mặn";
+            case 9: return "Chào bạn mới"
         }
     }
 
@@ -39,7 +41,7 @@ export class TypePromotion {
 
     static getList() {
         return [NEXT_CONSTRUCTION, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2, 
-            PREDICT_FOOTBALL, LOYALTY, SHARE_LINK_TO_REGISTER, COLLECT_POINT, PHEN_MAN]
+            PREDICT_FOOTBALL, LOYALTY, SHARE_LINK_TO_REGISTER, COLLECT_POINT, PHEN_MAN, GREETING_NEW_FRIEND]
     }
 
 }
@@ -53,4 +55,5 @@ export const PREDICT_FOOTBALL = new TypePromotion(4);
 export const LOYALTY = new TypePromotion(5);
 export const SHARE_LINK_TO_REGISTER = new TypePromotion(6);
 export const COLLECT_POINT = new TypePromotion(7);
-export const PHEN_MAN = new TypePromotion(8)
+export const PHEN_MAN = new TypePromotion(8);
+export const GREETING_NEW_FRIEND = new TypePromotion(9);

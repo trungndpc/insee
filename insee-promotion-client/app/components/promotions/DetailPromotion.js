@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from "react-router";
-import { COLLECT_POINT, LOYALTY, PHEN_MAN, SHARE_LINK_REGISTRY, TypePromotion } from '../../components/enum/TypePromotion'
+import { COLLECT_POINT, LOYALTY, PHEN_MAN, SHARE_LINK_REGISTRY, GREETING_NEW_FRIEND, TypePromotion } from '../../components/enum/TypePromotion'
 import { CONTRUCTOR } from '../../components/enum/UserRole'
 import WebUtil from '../../utils/WebUtil'
 import PromotionModel from '../../model/PromotionModel'
@@ -49,7 +49,11 @@ class DetailPromotion extends Component {
             const promotion = this.props.app.promotion;
             const one = promotion && promotion.one;
             let url = TypePromotion.getLink2Detail(one.typePromotion, one.id)
-            this.props.history.push(url)
+            if (promotion.one.typePromotion == GREETING_NEW_FRIEND.type) {
+                window.location.href = url;
+            } else {
+                this.props.history.push(url)
+            }
         } else {
             this.setState({
                 showPopupModal: true
@@ -94,6 +98,9 @@ class DetailPromotion extends Component {
         const promotion = this.props.app.promotion;
         const one = promotion && promotion.one;
         const type = one && one.typePromotion;
+        const error_promotion = promotion && promotion.error;
+        console.log(error_promotion)
+
         var content;
         if (one) {
             content = one.content;
@@ -107,46 +114,54 @@ class DetailPromotion extends Component {
                 <div className="central-meta item" style={{ display: 'inline-block' }}>
                     <div className="user-post">
                         <div className="friend-info">
-                            <div className="post-meta">
-                                <img src={one && one.cover} alt="" />
-                                {one &&
-                                    <div className="description cke-content">
-                                        <div dangerouslySetInnerHTML={{ __html: `${content}` }}>
+                            {error_promotion == 0 &&
+                                <div className="post-meta">
+                                    <img src={one && one.cover} alt="" />
+                                    {one &&
+                                        <div className="description cke-content">
+                                            <div dangerouslySetInnerHTML={{ __html: `${content}` }}>
+                                            </div>
                                         </div>
-                                    </div>
-                                }
-                                {type && type != SHARE_LINK_REGISTRY.type &&
-                                    <div style={{ textAlign: 'center' }}>
-                                        {one && <a onClick={this.onClickDetail} >
-                                            <button className="btn-insee btn-insee-bg post-btn">Tham gia ngay</button>
-                                        </a>
-                                        }
-                                    </div>
-                                }
-                                {type && type == SHARE_LINK_REGISTRY.type && one.id != 1037 &&
-                                    <div style={{ textAlign: 'center' }}>
-                                        {one &&
-                                            <div className="btn-share">
-                                                <a onClick={this.openZaloFormShare}>
-                                                    <button className="btn-insee btn-insee-bg post-btn">Giới thiệu thầu</button>
-                                                </a>
-                                            </div>
-                                        }
-                                    </div>
-                                }
+                                    }
+                                    {type && type != SHARE_LINK_REGISTRY.type &&
+                                        <div style={{ textAlign: 'center' }}>
+                                            {one && <a onClick={this.onClickDetail} >
+                                                <button className="btn-insee btn-insee-bg post-btn">Tham gia ngay</button>
+                                            </a>
+                                            }
+                                        </div>
+                                    }
+                                    {type && type == SHARE_LINK_REGISTRY.type && one.id != 1037 &&
+                                        <div style={{ textAlign: 'center' }}>
+                                            {one &&
+                                                <div className="btn-share">
+                                                    <a onClick={this.openZaloFormShare}>
+                                                        <button className="btn-insee btn-insee-bg post-btn">Giới thiệu thầu</button>
+                                                    </a>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
 
-                                {one && one.id == 1037 &&
-                                    <div style={{ textAlign: 'center' }}>
-                                        {one &&
-                                            <div className="btn-share">
-                                                <a onClick={this.viewListPromotion}>
-                                                    <button className="btn-insee btn-insee-bg post-btn">Tham gia ngay</button>
-                                                </a>
-                                            </div>
-                                        }
-                                    </div>
-                                }
-                            </div>
+                                    {one && one.id == 1037 &&
+                                        <div style={{ textAlign: 'center' }}>
+                                            {one &&
+                                                <div className="btn-share">
+                                                    <a onClick={this.viewListPromotion}>
+                                                        <button className="btn-insee btn-insee-bg post-btn">Tham gia ngay</button>
+                                                    </a>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            }
+
+                            {error_promotion == -7 &&
+                                <div className="post-meta">
+                                    Xin lỗi! Chương trình không dành cho quý anh chị
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
