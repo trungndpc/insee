@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as appActions from '../actions/app'
 
-class Home extends React.Component {
+class NotUserPage extends React.Component {
 
   render() {
     return (
-      <div>
-        HOME
+      <div style={{textAlign: 'center', padding: '30px' ,  paddingTop: '100px'}}>
+        Anh chị chưa đủ điều kiện để tham gia chương trình
       </div>
     )
   }
@@ -29,4 +29,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home)
+)(NotUserPage)

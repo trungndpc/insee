@@ -12,6 +12,7 @@ import {
 
 import Login from '../app/redux/containers/webapp/Login';
 import Contractor from './redux/containers/webapp/Contractor';
+import GreetingFriendConstruction from './redux/containers/webapp/GreetingFriendConstruction'
 import Post from './redux/containers/webapp/Post'
 import Gift from './redux/containers/webapp/Gift'
 import Customer from './redux/containers/webapp/Customer'
@@ -46,8 +47,9 @@ render(
   <Provider store={store}>
     <Router>
       <Switch>
+        <Route path="/construction/greeting-new-friend" component={GreetingFriendConstruction} />
         <Route path="/construction" component={Construction} />
-        <Route path="/gift" component={Gift}/>
+        <Route path="/gift" component={Gift} />
         <Route path="/post" component={Post} />
         <Route path="/customer" component={Customer} />
         <Route path="/match" component={Match} />

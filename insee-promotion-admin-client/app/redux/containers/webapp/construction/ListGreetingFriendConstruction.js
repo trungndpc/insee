@@ -7,8 +7,10 @@ import { WAITING_APPROVAL, APPROVED, REJECTED, SEND_GIFT, RECIEVED } from '../..
 import DateTimeUtil from '../../../../utils/DateTimeUtil'
 import { Pagination } from 'antd';
 import { WraperTypeConstruction } from '../../../../components/enum/WraperTypeConstruction'
+import { City } from '../../../../data/Location';
+import { GREETING_NEW_FRIEND, TypePromotion } from '../../../../components/enum/TypePromotion';
 
-class ListConstruction extends Component {
+class ListGreetingFriendConstruction extends Component {
 
 
   constructor(props) {
@@ -18,7 +20,7 @@ class ListConstruction extends Component {
       pageSize: 10,
       currentStatus: 10,
       status: 0,
-      type: 0,
+      type: GREETING_NEW_FRIEND,
       phone: null
     }
     this.onChangeType = this.onChangeType.bind(this)
@@ -82,17 +84,6 @@ class ListConstruction extends Component {
         <div className="inbox-lists inbox-list-construction">
           <div className="inbox-action">
             <ul>
-              <li style={{ width: '230px' }}>
-                <label>Loại khuyến mãi</label>
-                <select onChange={this.onChangeType} value={this.state.type} className="form-control">
-                  <option value={0}>Tất cả</option>
-                  {WraperTypeConstruction.getList().map((item, key) => {
-                    return (
-                      <option key={key} value={item.id}>{item.name}</option>
-                    )
-                  })}
-                </select>
-              </li>
               <li>
                 <label>Trạng thái</label>
                 <select onChange={this.onChangeStatus.bind(this)} value={this.state.status} className="form-control">
@@ -123,37 +114,41 @@ class ListConstruction extends Component {
 
         <div className="tab-content">
           <div className="tab-pane active fade show" id="frends">
-            <ul className="nearby-contct">
-              {constructions && constructions.list && constructions.list.map(function (item, key) {
-                return (
-                  <li key={key}>
-                    <div className="nearly-pepls">
-                      <div className="pepl-info row">
-                        <div className="col-md-1">
-                          <figure>
-                            <Link to={'/customer/' + item.user.customerId} ><img src={item.user.avatar} alt="" /></Link>
-                          </figure>
-                        </div>
-                        <div className="col-md-7">
-                          <h4>{item.address}</h4>
-                          <ul>
-                            {item.user && <li>{item.user.name}</li>}
-                            <li>{item.phone}</li>
-                            <li>{StatusConstruction.findByStatus(item.status).getName()}</li>
-                            <li>{DateTimeUtil.diffTime(item.updatedTime)}</li>
-                          </ul>
-                        </div>
-                        <div className="col-md-4 action">
-                          <Link to={`/construction/${item.id}`} className="add-butn" >Chi tiết</Link>
-                        </div>
-
-                      </div>
-                    </div>
-                  </li>
-                )
-              })}
-              {constructions && constructions.list.length == 0 && <div style={{ textAlign: 'center' }}>Không có công trình nào ở đây</div>}
-            </ul>
+            <div className="central-meta">
+              <div className="about">
+                <div className="col-lg-12 col-sm-12 pading0">
+                  <table className="table">
+                    <thead className=" insee-color">
+                      <tr className="insee-color">
+                        <th>STT</th>
+                        <th>Thầu</th>
+                        <th>Tỉnh</th>
+                        <th>Đăng ký</th>
+                        <th>Submit</th>
+                        <th>Trạng thái</th>
+                        <th ></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {constructions && constructions.list && constructions.list.map(function (item, index) {
+                        return (
+                          <tr key={index}>
+                            {console.log(item)}
+                            <th scope="row">{index + 1}</th>
+                            <td>{item.user.name}</td>
+                            <td>{item.customer && City.getName(item.customer.mainAreaId)}</td>
+                            <td>{DateTimeUtil.toString(new Date(item.createdTime * 1000))}</td>
+                            <td>{DateTimeUtil.toString(new Date(item.timeSubmit))}</td>
+                            <td><span style={{ backgroundColor: '' }}>{StatusConstruction.findByStatus(item.status).getName()}</span></td>
+                            <td><Link to={`/construction/${item.id}`} className="add-butn" data-ripple>Chi tiết</Link></td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
             <div className="paging-container">
               {constructions && <Pagination defaultCurrent={1} current={this.state.page} onChange={this.onChangePage} total={constructions.totalPage * constructions.pageSize} />}
             </div>
@@ -164,4 +159,4 @@ class ListConstruction extends Component {
   }
 }
 
-export default ListConstruction
+export default ListGreetingFriendConstruction

@@ -79,7 +79,7 @@ export default class DateTimeUtil {
         if (day < 10) {
             day = '0' + day;
         }
-        return [date.getFullYear(), mon, day].join('-');
+        return [day, mon, date.getFullYear()].join('/');
     }
 
     static parseDate(str) {

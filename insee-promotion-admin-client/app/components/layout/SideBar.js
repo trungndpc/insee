@@ -38,6 +38,9 @@ class SideBar extends Component {
                             <Link style={{color: pathname == '/broadcast' && '#b71c1c'}} to={"/broadcast"}>Broadcast</Link>
                         </li>
                         <li>
+                            <Link style={{ color: pathname == '/construction/greeting-new-friend' && '#b71c1c' }} to={"/construction/greeting-new-friend"}>Chào bạn mới</Link>
+                        </li>
+                        <li>
                             <Link style={{ color: pathname == '/construction' && '#b71c1c' }} to={"/construction"}>Khuyến mãi</Link>
                         </li>
                         <li>

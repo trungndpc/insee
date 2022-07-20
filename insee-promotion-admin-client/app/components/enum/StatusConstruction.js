@@ -18,6 +18,7 @@ export class StatusConstruction {
             case 6 : return 'Đã chỉnh sữa lại'
             case 7 : return 'Đã xác nhận'
             case 8 : return 'Cần duyệt thêm'
+            case 0 : return 'Chờ submit'
         }
     }
 
@@ -35,6 +36,7 @@ export function findByStatus(status) {
         case 6 : return RE_SUBMIT;
         case 7 : return VERIFIRED;
         case 8 : return NEED_APPROVAL_AGAIN;
+        case 0 : return WAITING_SUBMIT;
     }
 }
 export const WAITING_APPROVAL = new StatusConstruction(1);
@@ -45,5 +47,6 @@ export const RECIEVED = new StatusConstruction(5);
 export const RE_SUBMIT = new StatusConstruction(6);
 export const VERIFIRED = new StatusConstruction(7);
 export const NEED_APPROVAL_AGAIN = new StatusConstruction(8);
+export const WAITING_SUBMIT = new StatusConstruction(0);
 
 

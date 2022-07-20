@@ -99,8 +99,6 @@ class DetailPromotion extends Component {
         const one = promotion && promotion.one;
         const type = one && one.typePromotion;
         const error_promotion = promotion && promotion.error;
-        console.log(error_promotion)
-
         var content;
         if (one) {
             content = one.content;
@@ -111,10 +109,11 @@ class DetailPromotion extends Component {
         return (
             <div className="loadMore">
                 {this.state.showPopupModal && <InformModal outClick={this.toggleModal} />}
-                <div className="central-meta item" style={{ display: 'inline-block' }}>
-                    <div className="user-post">
-                        <div className="friend-info">
-                            {error_promotion == 0 &&
+                {error_promotion == 0 &&
+
+                    <div className="central-meta item" style={{ display: 'inline-block' }}>
+                        <div className="user-post">
+                            <div className="friend-info">
                                 <div className="post-meta">
                                     <img src={one && one.cover} alt="" />
                                     {one &&
@@ -155,16 +154,26 @@ class DetailPromotion extends Component {
                                         </div>
                                     }
                                 </div>
-                            }
 
-                            {error_promotion == -7 &&
-                                <div className="post-meta">
-                                    Xin lỗi! Chương trình không dành cho quý anh chị
-                                </div>
-                            }
+
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
+                {error_promotion == -7 &&
+                    <>
+                        <div style={{ textAlign: 'center', marginTop: '50px' }} className="post-meta">
+                            Xin lỗi! Chương trình không dành cho quý anh chị
+                            <br />
+                            <br />
+                            <a href="/khuyen-mai">
+                                <button className="btn-insee btn-insee-bg post-btn">Khuyến mãi</button>
+                            </a>
+                        </div>
+
+                    </>
+
+                }
             </div>
         )
     }

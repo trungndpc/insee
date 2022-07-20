@@ -14,6 +14,7 @@ export class TypeConstruction {
             case 4: return LOYALTY;
             case 5: return COLLECT_POINT;
             case 6: return PHEN_MAN;
+            case 7 : return GREETING_NEW_FRIEND;
             default: return null;
         }
     }
@@ -26,6 +27,7 @@ export class TypeConstruction {
             case 4: return "Loyalty"
             case 5: return "Tích điểm đổi quà"
             case 6: return "Phèn mặn"
+            case 7: return "Chào bạn mới"
         }
     }
 
@@ -34,7 +36,7 @@ export class TypeConstruction {
     }
 
     static getList() {
-        return [NEXT_CONSTRUCTION, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2, LOYALTY, COLLECT_POINT, PHEN_MAN]
+        return [NEXT_CONSTRUCTION, NOW_CONSTRUCTION, NOW_CONSTRUCTION_V2, LOYALTY, COLLECT_POINT, PHEN_MAN, GREETING_NEW_FRIEND]
     }
 
 }
@@ -47,3 +49,4 @@ export const NOW_CONSTRUCTION_V2 = new TypeConstruction(3);
 export const LOYALTY = new TypeConstruction(4);
 export const COLLECT_POINT = new TypeConstruction(5);
 export const PHEN_MAN = new TypeConstruction(6);
+export const GREETING_NEW_FRIEND = new TypeConstruction(7);

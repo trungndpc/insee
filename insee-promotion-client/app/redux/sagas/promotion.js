@@ -32,7 +32,7 @@ function* getPromotionAsync(action) {
 
 function getPromotion(id) {
     return new Promise((resolve, reject) => {
-        APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/admin/post?id=` + id, resolve, reject);
+        APIUtils.getJSONWithCredentials(process.env.DOMAIN + `/api/promotion?id=` + id, resolve, reject);
     });
 }
 
